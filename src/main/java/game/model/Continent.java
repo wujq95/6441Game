@@ -1,6 +1,12 @@
 package model;
 
+import java.util.List;
+
 public class Continent {
 
-    int value;
+    String continentName;
+
+    int controlValue;
+
+    List<Country> countries;
 }
