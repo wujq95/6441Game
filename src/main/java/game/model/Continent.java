@@ -3,6 +3,7 @@ package model;
 import java.util.List;
 
 public class Continent {
+    Integer id;
 
     String continentName;
 

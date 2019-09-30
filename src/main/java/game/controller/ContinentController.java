@@ -3,6 +3,7 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import service.CommandService;
 
 public class ContinentController {
 
@@ -17,7 +18,9 @@ public class ContinentController {
 
     @FXML
     void addContinent(ActionEvent event) {
-        continentNameAdd.setText("clicked");
+        CommandService commandService = new CommandService();
+        String output = commandService.processCommand(continentNameAdd.getText());
+        continentNameAdd.setText(output + "output");
     }
 
 }
