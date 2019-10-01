@@ -6,6 +6,8 @@ public class Country {
 
     String countryName;
 
+    Integer x, y;
+
     List<Country> neighbours;
 
     Continent parentContinent;
@@ -21,6 +23,17 @@ public class Country {
     public Country(String countryName)
     {
         this.countryName=countryName;
+    }
+
+    /**
+     * set coordinators
+     * @param x
+     * @param y
+     */
+    public void setCoordinator(Integer x, Integer y)
+    {
+        this.x=x;
+        this.y=y;
     }
 
     /**

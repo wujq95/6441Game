@@ -24,15 +24,6 @@ public class Continent {
     }
 
     /**
-     * remove continent
-     * @param continentName
-     */
-    public void removeContinent(String continentName)
-    {
-
-    }
-
-    /**
      * edit continent
      * @param continentName
      * @param armyValue
