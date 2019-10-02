@@ -2,31 +2,34 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
-public class ContinentController{
+public class ContinentController extends MapController{
 
     @FXML
-    private AnchorPane mapAnchorPane;
+    private Button addContinentButton;
 
     @FXML
-    private TextField continentNameDel;
+    private TextField addContinentName;
 
     @FXML
-    private TextField continentVal;
+    private TextField delContinentName;
 
     @FXML
-    private TextField continentNameAdd;
+    private TextField continentValue;
+
+    @FXML
+    private Button deleteContinentButton;
 
     @FXML
     void addContinent(ActionEvent event) {
-        //continentNameAdd.setText("clicked");
-        Circle testCircle = new Circle(50, 50, 20, Color.TAN);
-        mapAnchorPane.getChildren().add(testCircle);
+
+    }
+
+    @FXML
+    void deleteContinent(ActionEvent event) {
+
     }
 
 }
-
