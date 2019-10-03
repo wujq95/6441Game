@@ -12,25 +12,29 @@ public class Continent {
 
     List<Country> countries;
 
-    /**
-     * add continent
-     * @param continentName
-     * @param armyValue
-     */
-    public void addContinent(String continentName, int armyValue)
+    public Continent(){}
+
+    public Continent(String continentName, int armyValue)
     {
         this.continentName=continentName;
         this.armyValue=armyValue;
     }
 
     /**
-     * edit continent
+     * edit continent name
      * @param continentName
-     * @param armyValue
      */
-    public void editContinent(String continentName, int armyValue)
+    public void editContinentName(String continentName)
     {
         this.continentName=continentName;
+    }
+
+    /**
+     * edit continent value
+     * @param armyValue
+     */
+    public void editContinentValue(Integer armyValue)
+    {
         this.armyValue=armyValue;
     }
 
@@ -58,16 +62,6 @@ public class Continent {
             countryNo--;
             this.countries.remove(country);
         }
-    }
-
-    /**
-     * edit country
-     * @param countryName
-     * @param parentContinent
-     */
-    public void editCountry(String countryName, Continent parentContinent)
-    {
-
     }
 
     /**

@@ -8,6 +8,8 @@ public class MapGraph {
 
     Integer height, width;
 
+    List<Continent> continents;
+
     private Map<Country, List<Country>> adjacentCountries;
 
     public void setName(String name)
@@ -23,6 +25,17 @@ public class MapGraph {
     public void setWidth(Integer width)
     {
         this.width=width;
+    }
+
+    public void addContinent(String continentName, Integer armyValue)
+    {
+        Continent continent=new Continent(continentName, armyValue);
+        continents.add(continent);
+    }
+
+    public void removeContinent(Continent continent)
+    {
+        continents.remove(continent);
     }
 
     public String getName()

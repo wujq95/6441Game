@@ -16,14 +16,14 @@ public class Country {
 
     Integer armyValue;
 
-    /**
-     * initialise class member
-     * @param countryName
-     */
+    public Country(){}
+
     public Country(String countryName)
     {
         this.countryName=countryName;
     }
+
+    public void editCountryName(String countryName){ this.countryName=countryName; }
 
     /**
      * set coordinators
@@ -42,7 +42,8 @@ public class Country {
      */
     public void addNeighbor(Country country)
     {
-        this.neighbours.add(country);
+        if(!this.neighbours.contains(country))
+            this.neighbours.add(country);
     }
 
     /**
@@ -51,7 +52,8 @@ public class Country {
      */
     public void removeNeighbor(Country country)
     {
-        this.neighbours.remove(country);
+        if(this.neighbours.contains(country))
+            this.neighbours.remove(country);
     }
 
     /**
