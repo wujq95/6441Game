@@ -8,6 +8,54 @@ public class Country {
 
     String countryName;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
+    }
+
+    public List<Country> getNeighbours() {
+        return neighbours;
+    }
+
+    public void setNeighbours(List<Country> neighbours) {
+        this.neighbours = neighbours;
+    }
+
+    public Continent getParentContinent() {
+        return parentContinent;
+    }
+
+    public void setParentContinent(Continent parentContinent) {
+        this.parentContinent = parentContinent;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Integer getArmyValue() {
+        return armyValue;
+    }
+
+    public void setArmyValue(Integer armyValue) {
+        this.armyValue = armyValue;
+    }
+
     List<Country> neighbours;
 
     Continent parentContinent;
@@ -16,4 +64,9 @@ public class Country {
 
     Integer armyValue;
 
+    public Country(Integer id, String countryName, Continent parentContinent) {
+        this.id = id;
+        this.countryName = countryName;
+        this.parentContinent = parentContinent;
+    }
 }

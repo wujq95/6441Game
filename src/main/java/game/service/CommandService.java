@@ -4,10 +4,12 @@ public class CommandService {
 
     public String processCommand(String inputCommand) {
         MapEditorService mapEditorService = new MapEditorService();
+
+        String commandReturnMsg = "";
         if (inputCommand.startsWith("editmap")) {
             String[] arguments = inputCommand.split(" ");
-            mapEditorService.editMap(arguments[1]);
+            commandReturnMsg = mapEditorService.editMap(arguments[1]);
         }
-        return inputCommand;
+        return commandReturnMsg;
     }
 }
