@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -87,6 +89,23 @@ public class MapController {
     @FXML
     void saveMap(ActionEvent event) {
 
+    }
+
+    @FXML
+    void addCountry(MouseEvent event){
+
+        if (event.getButton() == MouseButton.PRIMARY){
+            Circle circle = new Circle(20);
+            circle.setTranslateX(event.getX());
+            circle.setTranslateY(event.getY());
+            mapPane.getChildren().addAll(circle);
+        }else if (event.getButton() == MouseButton.SECONDARY){
+            System.out.println("Right-Click");
+
+            // TODO: mapGraph.removeCountry()
+        }
+
+        // TODO: mapGraph.addCountry()
     }
 
     public MapController(){
