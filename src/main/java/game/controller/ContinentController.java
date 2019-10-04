@@ -2,26 +2,35 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import service.CommandService;
 
-public class ContinentController {
+public class ContinentController extends MapController {
 
     @FXML
-    private TextField continentNameDel;
+    private Button addContinentButton;
 
     @FXML
-    private TextField continentVal;
+    private TextField addContinentName;
 
     @FXML
-    private TextField continentNameAdd;
+    private TextField delContinentName;
+
+    @FXML
+    private TextField continentValue;
+
+    @FXML
+    private Button deleteContinentButton;
 
     @FXML
     void addContinent(ActionEvent event) {
-        CommandService commandService = new CommandService();
-        String output = commandService.processCommand(continentNameAdd.getText());
-        continentNameAdd.setText(output + "output");
+
+    }
+
+    @FXML
+    void deleteContinent(ActionEvent event) {
+
     }
 
 }
-
