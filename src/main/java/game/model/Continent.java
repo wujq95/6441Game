@@ -9,6 +9,10 @@ public class Continent {
 
     int controlValue;
 
+    String color;
+
+    List<Country> countries;
+
     public Integer getId() {
         return id;
     }
@@ -41,11 +45,10 @@ public class Continent {
         this.countries = countries;
     }
 
-    List<Country> countries;
-
-    public Continent(Integer id, String continentName, int controlValue) {
+    public Continent(Integer id, String continentName, int controlValue, String color) {
         this.id = id;
         this.continentName = continentName;
         this.controlValue = controlValue;
+        this.color = color;
     }
 }

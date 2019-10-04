@@ -8,6 +8,10 @@ public class Country {
 
     String countryName;
 
+    Integer positionX;
+
+    Integer positionY;
+
     public Integer getId() {
         return id;
     }
@@ -64,9 +68,11 @@ public class Country {
 
     Integer armyValue;
 
-    public Country(Integer id, String countryName, Continent parentContinent) {
+    public Country(Integer id, String countryName, Continent parentContinent, int positionX, int positionY) {
         this.id = id;
         this.countryName = countryName;
         this.parentContinent = parentContinent;
+        this.positionX = positionX;
+        this.positionY = positionY;
     }
 }

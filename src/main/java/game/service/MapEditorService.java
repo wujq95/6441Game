@@ -32,7 +32,7 @@ public class MapEditorService {
                             int continentIndex = 1;
                             String[] continentInfos = continentLine.split(" ");
                             int armyValue = Integer.parseInt(continentInfos[1]);
-                            Continent continent = new Continent(continentIndex, continentInfos[0], armyValue);
+                            Continent continent = new Continent(continentIndex, continentInfos[0], armyValue, continentInfos[2]);
                             continentMap.put(continentIndex, continent);
                         }
                     }
@@ -43,7 +43,9 @@ public class MapEditorService {
                             String[] countryInfos = countryLine.split(" ");
                             int countryId = Integer.parseInt(countryInfos[0]);
                             int parentContinentId = Integer.parseInt(countryInfos[2]);
-                            Country country = new Country(countryId, countryInfos[1], continentMap.get(parentContinentId));
+                            int positionX = Integer.parseInt(countryInfos[3]);
+                            int positionY = Integer.parseInt(countryInfos[4]);
+                            Country country = new Country(countryId, countryInfos[1], continentMap.get(parentContinentId), positionX, positionY);
                             countryHashMap.put(countryId, country);
                         }
                     }
