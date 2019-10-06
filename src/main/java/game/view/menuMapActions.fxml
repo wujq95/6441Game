@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -31,7 +32,20 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Pane fx:id="mapPane" onMouseClicked="#addCountry" prefHeight="600.0" prefWidth="1500.0" />
-       <fx:include fx:id="editContinentPane" source="editContinent.fxml" />
+      <AnchorPane fx:id="mapPane" prefHeight="600.0" prefWidth="200.0">
+         <children>
+            <Label prefHeight="20.0" prefWidth="100.0" text="Continents List" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
+         </children>
+      </AnchorPane>
+      <Pane fx:id="actionPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: F0E5DE;">
+         <children>
+            <Button fx:id="addContinentBtn" layoutX="382.0" layoutY="17.0" mnemonicParsing="false" onAction="#addContinent" prefWidth="110.0" text="Add Continent" />
+            <Button fx:id="addCountryBtn" layoutX="382.0" layoutY="87.0" mnemonicParsing="false" onAction="#addCountry" prefWidth="110.0" text="Add Country" />
+            <TextField layoutX="14.0" layoutY="17.0" promptText="Continent Name" />
+            <TextField layoutX="198.0" layoutY="17.0" promptText="Continent Value" />
+            <TextField layoutX="14.0" layoutY="87.0" promptText="Country Name" />
+            <TextField layoutX="198.0" layoutY="87.0" promptText="Continent Name" />
+         </children>
+      </Pane>
    </children>
 </VBox>

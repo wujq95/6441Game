@@ -2,21 +2,26 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.MenuBar;
+import javafx.scene.Cursor;
 import javafx.scene.control.MenuItem;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import model.MapGraph;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class MapController {
     private MapGraph mapGraph;
+    private ArrayList<Color> colorPicker;
+
+    final private int maxContinentsNum = 8;
+    private int continentsCount = 0;
 
     @FXML
     private MenuItem loadMapMenuItem;
@@ -25,7 +30,7 @@ public class MapController {
     private MenuItem saveMapMenuItem;
 
     @FXML
-    private Pane mapPane;
+    public AnchorPane mapPane;
 
     @FXML
     void loadMap(ActionEvent event) {
@@ -92,23 +97,34 @@ public class MapController {
     }
 
     @FXML
-    void addCountry(MouseEvent event){
-
-        if (event.getButton() == MouseButton.PRIMARY){
-            Circle circle = new Circle(20);
-            circle.setTranslateX(event.getX());
-            circle.setTranslateY(event.getY());
-            mapPane.getChildren().addAll(circle);
-        }else if (event.getButton() == MouseButton.SECONDARY){
-            System.out.println("Right-Click");
-
-            // TODO: mapGraph.removeCountry()
+    void addContinent(ActionEvent event) {
+        if(continentsCount < maxContinentsNum){
+            Rectangle continentRectangle = new Rectangle(60, 20, colorPicker.get(continentsCount));
+            continentsCount++;
+            continentRectangle.setX(mapPane.getLayoutBounds().getMaxX() - 100);
+            continentRectangle.setY(continentsCount * 50);
+            mapPane.getChildren().addAll(continentRectangle);
         }
-
-        // TODO: mapGraph.addCountry()
     }
+
+    @FXML
+    void addCountry(ActionEvent event) {
+        Circle circle = new Circle(100, 100, 15, Color.YELLOWGREEN);
+        circle.setCursor(Cursor.HAND);
+        circle.setOnMouseDragged((t) ->{
+            Circle c = (Circle) (t.getSource());
+            circle.setCenterX(t.getX());
+            circle.setCenterY(t.getY());
+        });
+        mapPane.getChildren().addAll(circle);
+    }
+
+    // TODO: mapGraph.removeCountry()
+    // TODO: mapGraph.addCountry()
 
     public MapController(){
-
+        ColorController colorController = new ColorController();
+        this.colorPicker = colorController.getPalette();
     }
+
 }
