@@ -23,7 +23,8 @@ public class MapEditorService {
             HashMap<Integer, Country> countryHashMap = new HashMap<>();
             Map<Country, List<Country>> adjacentCountries = new HashMap<>();
 
-            try (BufferedReader br = new BufferedReader(new FileReader(mapFile))) {
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(mapFile));
                 String line = "";
                 while ((line = br.readLine()) != null) {
                     if (line.contains("continents")) {
@@ -52,7 +53,8 @@ public class MapEditorService {
 
                     if (line.contains("borders")) {
                         String borderLine = "";
-                        while (!(borderLine = br.readLine()).equals("")) {
+                        borderLine = br.readLine();
+                        while (borderLine != null && !("".equals(borderLine))) {
                             String[] borderInfos = borderLine.split(" ");
                             int countryId = Integer.parseInt(borderInfos[0]);
                             Country country = countryHashMap.get(countryId);
@@ -64,11 +66,13 @@ public class MapEditorService {
                             }
                             country.setNeighbours(neighbourList);
                             adjacentCountries.put(country, neighbourList);
+                            borderLine = br.readLine();
                         }
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                returnMsg = e.getMessage();
+                return returnMsg;
             }
 
             mapGraph = new MapGraph(adjacentCountries);
