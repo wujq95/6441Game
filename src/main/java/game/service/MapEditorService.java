@@ -29,12 +29,13 @@ public class MapEditorService {
                 while ((line = br.readLine()) != null) {
                     if (line.contains("continents")) {
                         String continentLine = "";
+                        int continentIndex = 1;
                         while (!(continentLine = br.readLine()).equals("")) {
-                            int continentIndex = 1;
                             String[] continentInfos = continentLine.split(" ");
                             int armyValue = Integer.parseInt(continentInfos[1]);
                             Continent continent = new Continent(continentIndex, continentInfos[0], armyValue, continentInfos[2]);
                             continentMap.put(continentIndex, continent);
+                            continentIndex++;
                         }
                     }
 
@@ -88,12 +89,11 @@ public class MapEditorService {
                     returnMsg = "create new file fail!";
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                returnMsg = e.getMessage();
+                return returnMsg;
             }
         }
 
         return returnMsg;
     }
-
-
 }
