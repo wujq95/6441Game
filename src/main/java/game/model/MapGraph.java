@@ -53,6 +53,21 @@ public class MapGraph {
         return this.width;
     }
 
+    public Map<Country, List<Country>> getAdjacentCountries() {
+        return adjacentCountries;
+    }
+
+    public void setAdjacentCountries(Map<Country, List<Country>> adjacentCountries) {
+        this.adjacentCountries = adjacentCountries;
+    }
+
+    public List<Continent> getContinents() {
+        return continents;
+    }
+
+    public void setContinents(List<Continent> continents) {
+        this.continents = continents;
+    }
 
     public MapGraph(Map<Country, List<Country>> adjacentCountries) {
         this.adjacentCountries = adjacentCountries;

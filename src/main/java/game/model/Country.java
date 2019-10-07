@@ -98,8 +98,7 @@ public class Country {
      * @param country
      */
     public void removeNeighbor(Country country) {
-        if (this.neighbours.contains(country))
-            this.neighbours.remove(country);
+        this.neighbours.remove(country);
     }
 
     /**

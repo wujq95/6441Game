@@ -14,6 +14,10 @@ public class MapEditorService {
 
     private MapGraph mapGraph;
 
+    /**
+     * @param fileName
+     * @return message
+     */
     public String editMap(String fileName) {
         String returnMsg = "";
         File mapFile = new File(fileName);
@@ -21,6 +25,7 @@ public class MapEditorService {
         if (mapFile.isFile()) {
             HashMap<Integer, Continent> continentMap = new HashMap<>();
             HashMap<Integer, Country> countryHashMap = new HashMap<>();
+            List<Continent> continentList = new LinkedList<>();
             Map<Country, List<Country>> adjacentCountries = new HashMap<>();
 
             try {
@@ -35,6 +40,7 @@ public class MapEditorService {
                             int armyValue = Integer.parseInt(continentInfos[1]);
                             Continent continent = new Continent(continentIndex, continentInfos[0], armyValue, continentInfos[2]);
                             continentMap.put(continentIndex, continent);
+                            continentList.add(continent);
                             continentIndex++;
                         }
                     }
@@ -77,6 +83,84 @@ public class MapEditorService {
             }
 
             mapGraph = new MapGraph(adjacentCountries);
+            mapGraph.setContinents(continentList);
+            returnMsg = "load map from file " + mapFile + " success";
+        } else {
+            File file = new File(fileName);
+            try {
+                //create an empty file
+                boolean fileCreated = file.createNewFile();
+                if (fileCreated) {
+                    returnMsg = "create new file success";
+                } else {
+                    returnMsg = "create new file fail!";
+                }
+            } catch (IOException e) {
+                returnMsg = e.getMessage();
+                return returnMsg;
+            }
+        }
+
+        return returnMsg;
+    }
+
+    public String showMap() {
+        StringBuilder showMap = new StringBuilder();
+        showMap.append("The continents are");
+        for (Continent continent : mapGraph.getContinents()) {
+            showMap.append(" " + continent.getContinentName() + ",");
+        }
+
+        showMap.append("\ncountries include country");
+        for (Country country : mapGraph.getAdjacentCountries().keySet()) {
+            showMap.append(" " + country.getCountryName() + ",");
+
+            showMap.append("\n and " + country.getCountryName() + "'s neighbours are");
+            for (Country neighour : country.getNeighbours()) {
+                showMap.append(" " + neighour.getCountryName() + ",");
+            }
+            showMap.append(" \ncountry");
+        }
+
+        return showMap.toString();
+    }
+
+    //TODO
+    public String validateMap() {
+        //
+
+        return "";
+    }
+
+    public String saveMap(String fileName) {
+        String returnMsg = "";
+        File mapFile = new File(fileName);
+        //if the map file exists
+        if (mapFile.isFile()) {
+            HashMap<Integer, Continent> continentMap = new HashMap<>();
+            HashMap<Integer, Country> countryHashMap = new HashMap<>();
+            List<Continent> continentList = new LinkedList<>();
+            Map<Country, List<Country>> adjacentCountries = new HashMap<>();
+
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(mapFile));
+                String line = "";
+                while ((line = br.readLine()) != null) {
+                    if (line.contains("continents")) {
+                        String continentLine = "";
+
+                        while (!(continentLine = br.readLine()).equals("")) {
+                        }
+                    }
+
+                }
+            } catch (IOException e) {
+                returnMsg = e.getMessage();
+                return returnMsg;
+            }
+
+            mapGraph = new MapGraph(adjacentCountries);
+            mapGraph.setContinents(continentList);
             returnMsg = "load map from file " + mapFile + " success";
         } else {
             File file = new File(fileName);
