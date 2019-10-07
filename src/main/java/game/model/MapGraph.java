@@ -11,14 +11,14 @@ public class MapGraph {
 
     List<Continent> continents;
 
+    private Map<Country, List<Country>> adjacentCountries;
+
     //*******************************************************************************
     //************Don't Delete, Zelan's Testing Observer Pattern*********************
 
-    private Map<Country, List<Country>> adjacentCountries;
+    private List<Observer> observers = new ArrayList<>();
 
-    private List<Observer> observers = new ArrayList<Observer>();
-
-    private List<Point2D> countryLocationList = new ArrayList<Point2D>();
+    private List<Point2D> countryLocationList = new ArrayList<>();
 
     public MapGraph(){
 
@@ -74,6 +74,14 @@ public class MapGraph {
     public void removeContinent(Continent continent)
     {
         continents.remove(continent);
+    }
+
+    // TODO: add country
+    public void addCountry(Country country){
+        // TODO: add country backend code here
+
+        // Notify Observers
+        country.notifyAllObservers();
     }
 
     public String getName()

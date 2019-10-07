@@ -10,6 +10,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
+import model.Country;
 import model.MapGraph;
 import model.Observer;
 
@@ -67,11 +68,11 @@ public class MapController{
                 // TODO: mapGraph.getAllConnections();
                 // return a List of all Edges in the mapGraph
 
-                // TODO: edge.getVertices()
+                // TODO: edge.getVertices();
                 // for each Edge edge, edge.getVertices() returns a 2-element array Country [] countries
                 // representing the two countries on each end of the edge
 
-                // TODO: country.getPosition()
+                // TODO: country.getPosition();
                 // return a Point2D(x, y) position of the country
 
                 // load fake data
@@ -84,7 +85,8 @@ public class MapController{
 
     @FXML
     void saveMap(ActionEvent event) {
-
+        // TODO: mapGraph.writeToFile();
+        // save the map to file
     }
 
     @FXML
@@ -102,18 +104,11 @@ public class MapController{
 
     @FXML
     void addCountry(ActionEvent event) {
-        Circle circle = new Circle(100, 100, 15, Color.YELLOWGREEN);
-        circle.setCursor(Cursor.HAND);
-        circle.setOnMouseDragged((t) -> {
-            Circle c = (Circle) (t.getSource());
-            circle.setCenterX(t.getX());
-            circle.setCenterY(t.getY());
-
-            // TODO: mapGraph.updateCountryPosition(String countryName, double x, double y);
-        });
-
+        Country country = new Country();
+        new CountryObserver(country);
+        mapGraph.addCountry(country);
         // TODO: mapGraph.addCountry(String countryName, String continentName, double x, double y);
-        mapPane.getChildren().addAll(circle);
+        // TODO: mapGraph.updateCountryPosition(String countryName, double x, double y);
     }
 
     @FXML
@@ -141,7 +136,7 @@ public class MapController{
 
         @Override
         public void update(){
-            System.out.println("update called");
+            System.out.println("Map Updated");
             Circle c1;
             c1 = new Circle(200, 200, 20, Color.rgb(186, 222, 213));
 
@@ -168,6 +163,29 @@ public class MapController{
             mapPane.getChildren().add(line);
             c1.toFront();
             c2.toFront();
+        }
+    }
+
+    public class CountryObserver extends Observer{
+
+        public CountryObserver(Country country){
+            this.country = country;
+            this.country.attach(this);
+        }
+
+        @Override
+        public void update(){
+            System.out.println("Country Modified");
+            Circle circle;
+            circle = new Circle(400, 400, 15, Color.rgb(186, 222, 213));
+
+            circle.setCursor(Cursor.HAND);
+            circle.setOnMouseDragged((t) -> {
+                circle.setCenterX(t.getX());
+                circle.setCenterY(t.getY());
+            });
+
+            mapPane.getChildren().add(circle);
         }
     }
 }

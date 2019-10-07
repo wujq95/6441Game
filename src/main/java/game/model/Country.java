@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Country {
@@ -11,6 +12,18 @@ public class Country {
     Integer x;
 
     Integer y;
+
+    // observers list
+    private List<Observer> countryObservers = new ArrayList<>();
+
+    public void attach(Observer observer){
+        countryObservers.add(observer);
+    }
+
+    public void notifyAllObservers(){
+        for(Observer observer : countryObservers)
+            observer.update();
+    }
 
     public Integer getId() {
         return id;
