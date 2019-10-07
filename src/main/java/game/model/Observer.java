@@ -6,5 +6,7 @@ public abstract class Observer {
 
     protected MapGraph mapGraph;
 
+    protected Country country;
+
     public abstract void update();
 }

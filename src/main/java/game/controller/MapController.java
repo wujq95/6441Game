@@ -130,24 +130,7 @@ public class MapController{
         new MapGraphObserver(this.mapGraph);
     }
 
-    public void initModel(){
-        Circle c1;
-        c1 = new Circle(200, 200, 20, Color.rgb(186, 222, 213));
 
-        Circle c2;
-        c2 = new Circle(300, 200, 20, Color.rgb(222, 195, 186));
-
-        Line line = new Line();
-        line.setStartX(c1.getCenterX());
-        line.setStartY(c1.getCenterY());
-        line.setEndX(c2.getCenterX());
-        line.setEndY(c2.getCenterY());
-        line.setStroke(Color.GRAY);
-
-        mapPane.getChildren().add(line);
-        mapPane.getChildren().add(c1);
-        mapPane.getChildren().add(c2);
-    }
 
     public class MapGraphObserver extends Observer{
 
@@ -159,7 +142,32 @@ public class MapController{
         @Override
         public void update(){
             System.out.println("update called");
+            Circle c1;
+            c1 = new Circle(200, 200, 20, Color.rgb(186, 222, 213));
+
+            c1.setCursor(Cursor.HAND);
+            c1.setOnMouseDragged((t) -> {
+                Circle c = (Circle) (t.getSource());
+                c1.setCenterX(t.getX());
+                c1.setCenterY(t.getY());
+            });
+
+            Circle c2;
+            c2 = new Circle(300, 200, 20, Color.rgb(222, 195, 186));
+
+            Line line = new Line();
+            line.setStartX(c1.getCenterX());
+            line.setStartY(c1.getCenterY());
+            line.setEndX(c2.getCenterX());
+            line.setEndY(c2.getCenterY());
+            line.setStroke(Color.GRAY);
+
+
+            mapPane.getChildren().add(c1);
+            mapPane.getChildren().add(c2);
+            mapPane.getChildren().add(line);
+            c1.toFront();
+            c2.toFront();
         }
     }
-
 }

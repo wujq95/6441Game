@@ -6,7 +6,7 @@ import java.util.*;
 
 public class MapGraph {
 
-//    private Map<Country, List<Country>> adjacentCountries;
+    private Map<Country, List<Country>> adjacentCountries;
 
     private List<Observer> observers = new ArrayList<Observer>();
 
