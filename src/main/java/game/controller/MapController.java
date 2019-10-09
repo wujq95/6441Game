@@ -2,17 +2,17 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
-import model.Country;
-import model.MapGraph;
-import model.Observer;
+import model.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,6 +36,24 @@ public class MapController{
 
     @FXML
     public AnchorPane actionPane;
+
+    @FXML
+    public TextField continentNameR1;
+
+    @FXML
+    public TextField continentValueR1;
+
+    @FXML
+    public TextField countryNameR2;
+
+    @FXML
+    public TextField continentNameR2;
+
+    @FXML
+    public TextField countryNameR3;
+
+    @FXML
+    public TextField neighborCountryNameR3;
 
     @FXML
     void loadMap(ActionEvent event) {
@@ -92,40 +110,46 @@ public class MapController{
     @FXML
     void addContinent(ActionEvent event) {
         if (continentsCount < maxContinentsNum) {
-            Rectangle continentRectangle = new Rectangle(60, 20, colorPicker.get(continentsCount));
+            String continentName = continentNameR1.getText();
+            String continentValueStr = continentValueR1.getText();
+            int continentValue;
+            if(continentValueStr == null || continentValueStr.isEmpty())
+                continentValue = 100;
+            else
+                continentValue = Integer.parseInt(continentValueR1.getText());
+            Continent continent = new Continent(continentName, continentValue);
+            new ContinentObserver(continent);
+            mapGraph.addContinent(continent);
             continentsCount++;
-            continentRectangle.setX(mapPane.getLayoutBounds().getMaxX() - 100);
-            continentRectangle.setY(continentsCount * 50);
-            mapPane.getChildren().addAll(continentRectangle);
-
-            // TODO: mapGraph.addContinent(String continentName, double controlValue)
         }
     }
 
     @FXML
     void addCountry(ActionEvent event) {
-        Country country = new Country();
+        String countryName = countryNameR2.getText();
+        String continentName = continentNameR2.getText();
+        Point2D defaultLocation = new Point2D(450, 450);
+        Country country = new Country(countryName, continentName, defaultLocation);
         new CountryObserver(country);
         mapGraph.addCountry(country);
-        // TODO: mapGraph.addCountry(String countryName, String continentName, double x, double y);
-        // TODO: mapGraph.updateCountryPosition(String countryName, double x, double y);
     }
 
     @FXML
     void addConnection(ActionEvent event){
-        mapGraph.addCountryLocation(300, 300);
+        String cName1 = countryNameR3.getText();
+        String cName2 = neighborCountryNameR3.getText();
+        Connection connection = new Connection(cName1, cName2);
+        new ConnectionObserver(connection);
+        mapGraph.addConnection(connection);
     }
 
     public MapController(){
         ColorController colorController = new ColorController();
         this.colorPicker = colorController.getPalette();
 
-        // Fake Map Data here:
+        // default empty graph before loaded
         this.mapGraph = new MapGraph();
-        new MapGraphObserver(this.mapGraph);
     }
-
-
 
     public class MapGraphObserver extends Observer{
 
@@ -137,47 +161,61 @@ public class MapController{
         @Override
         public void update(){
             System.out.println("Map Updated");
-            Circle c1;
-            c1 = new Circle(200, 200, 20, Color.rgb(186, 222, 213));
-
-            c1.setCursor(Cursor.HAND);
-            c1.setOnMouseDragged((t) -> {
-                Circle c = (Circle) (t.getSource());
-                c1.setCenterX(t.getX());
-                c1.setCenterY(t.getY());
-            });
-
-            Circle c2;
-            c2 = new Circle(300, 200, 20, Color.rgb(222, 195, 186));
-
-            Line line = new Line();
-            line.setStartX(c1.getCenterX());
-            line.setStartY(c1.getCenterY());
-            line.setEndX(c2.getCenterX());
-            line.setEndY(c2.getCenterY());
-            line.setStroke(Color.GRAY);
-
-
-            mapPane.getChildren().add(c1);
-            mapPane.getChildren().add(c2);
-            mapPane.getChildren().add(line);
-            c1.toFront();
-            c2.toFront();
         }
     }
 
-    public class CountryObserver extends Observer{
+    /**
+     * ContinentObserver
+     */
+    public class ContinentObserver extends Observer{
+        /**
+         * Construct the ContinentObserver for the Continent object
+         * @param continent
+         */
+        public ContinentObserver(Continent continent){
+            this.continent = continent;
+            this.continent.attach(this);
+        }
 
+        /**
+         * Update GUI When there are changes of Continent
+         */
+        @Override
+        public void update(){
+            System.out.println("Continent Updated");
+
+            Rectangle continentRectangle = new Rectangle(60, 20, colorPicker.get(continentsCount));
+            continentRectangle.setX(mapPane.getLayoutBounds().getMaxX() - 100);
+            continentRectangle.setY(continentsCount * 50 + 50);
+
+            mapPane.getChildren().addAll(continentRectangle);
+        }
+    }
+
+    /**
+     * CountryObserver
+     */
+    public class CountryObserver extends Observer{
+        /**
+         * Construct the CountryObserver for the Country object
+         * @param country
+         */
         public CountryObserver(Country country){
             this.country = country;
             this.country.attach(this);
         }
 
+        /**
+         * Update GUI When there are changes of Country
+         */
         @Override
         public void update(){
             System.out.println("Country Modified");
-            Circle circle;
-            circle = new Circle(400, 400, 15, Color.rgb(186, 222, 213));
+
+            // TODO: Point2D center = this.country.getCoordinator();
+            // Fake center data
+            Point2D center = new Point2D(300, 500);
+            Circle circle = new Circle(center.getX(), center.getY(), 15, Color.rgb(186, 222, 213));
 
             circle.setCursor(Cursor.HAND);
             circle.setOnMouseDragged((t) -> {
@@ -188,4 +226,45 @@ public class MapController{
             mapPane.getChildren().add(circle);
         }
     }
+
+    /**
+     * ConnectionObserver
+     */
+    public class ConnectionObserver extends Observer{
+
+        /**
+         * Construct the ConnectionObserver for the Connection object
+         * @param connection
+         */
+        public ConnectionObserver(Connection connection){
+            this.connection = connection;
+            this.connection.attach(this);
+        }
+
+        /**
+         * Update GUI When there are changes of Connection
+         */
+        @Override
+        public void update(){
+            System.out.println("Connection Modified");
+
+            Country country1 = this.connection.getCountry1();
+            Country country2 = this.connection.getCountry2();
+            // TODO: Point2D pt1 = country1.getCoordinator();
+            // TODO: Point2D pt2 = country2.getCoordinator();
+            // Two Fake Point2D data here
+            Point2D pt1 = new Point2D(300, 500);
+            Point2D pt2 = new Point2D(350, 450);
+
+            // draw a connected line for the two countries
+            Line line = new Line();
+            line.setStartX(pt1.getX());
+            line.setStartY(pt1.getY());
+            line.setEndX(pt2.getX());
+            line.setEndY(pt2.getY());
+            line.setStroke(Color.GRAY);
+            mapPane.getChildren().add(line);
+        }
+    }
+
 }

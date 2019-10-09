@@ -13,42 +13,22 @@ public class MapGraph {
 
     private Map<Country, List<Country>> adjacentCountries;
 
-    //*******************************************************************************
-    //************Don't Delete, Zelan's Testing Observer Pattern*********************
+    // observers list
+    private List<Observer> mapObservers = new ArrayList<>();
 
-    private List<Observer> observers = new ArrayList<>();
+    public void attach(Observer observer){
+        mapObservers.add(observer);
+    }
 
-    private List<Point2D> countryLocationList = new ArrayList<>();
+    public void notifyAllObservers() {
+        for (Observer observer : mapObservers) {
+            observer.update();
+        }
+    }
 
     public MapGraph(){
 
     }
-
-    public List<Point2D> getCountryLocationList() {
-        return countryLocationList;
-    }
-
-    public void setCountryLocationList(List<Point2D> countryLocationList) {
-        this.countryLocationList = countryLocationList;
-        notifyAllObservers();
-    }
-
-    public void addCountryLocation(double x, double y){
-        Point2D pt = new Point2D(x, y);
-        this.countryLocationList.add(pt);
-        notifyAllObservers();
-    }
-
-    public void attach(Observer observer){
-        observers.add(observer);
-    }
-
-    public void notifyAllObservers() {
-        for (Observer observer : observers) {
-            observer.update();
-        }
-    }
-    //************************************Finish*************************************
 
     public void setName(String name)
     {
@@ -65,10 +45,41 @@ public class MapGraph {
         this.width=width;
     }
 
-    public void addContinent(String continentName, Integer armyValue)
-    {
-        Continent continent=new Continent(continentName, armyValue);
-        continents.add(continent);
+
+    /**
+     *
+     * @param continent
+     */
+    public void addContinent(Continent continent){
+        // TODO: validate the continent
+        // if not valid, do something
+        // else if valid, notify the Continent Observer
+
+        continent.notifyAllObservers();
+    }
+
+    /**
+     *
+     * @param country
+     */
+    public void addCountry(Country country){
+        // TODO: add country backend code here
+        // if not valid, do something
+        // else if valid, notify the Country Observer
+
+        country.notifyAllObservers();
+    }
+
+    /**
+     *
+     * @param connection
+     */
+    public void addConnection(Connection connection){
+        // TODO: validate the connnection
+        // if not valid, do something
+        // else if valid, notify the ConnectionObserver
+
+        connection.notifyAllObservers();
     }
 
     public void removeContinent(Continent continent)
@@ -76,13 +87,7 @@ public class MapGraph {
         continents.remove(continent);
     }
 
-    // TODO: add country
-    public void addCountry(Country country){
-        // TODO: add country backend code here
 
-        // Notify Observers
-        country.notifyAllObservers();
-    }
 
     public String getName()
     {
@@ -118,4 +123,6 @@ public class MapGraph {
     public MapGraph(Map<Country, List<Country>> adjacentCountries) {
         this.adjacentCountries = adjacentCountries;
     }
+
+
 }

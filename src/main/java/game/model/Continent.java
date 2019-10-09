@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Continent {
@@ -14,6 +15,18 @@ public class Continent {
     String color;
 
     List<Country> countries;
+
+    // observers list
+    private List<Observer> continentObservers = new ArrayList<>();
+
+    public void attach(Observer observer){
+        continentObservers.add(observer);
+    }
+
+    public void notifyAllObservers(){
+        for(Observer observer : continentObservers)
+            observer.update();
+    }
 
     public Continent() {
     }

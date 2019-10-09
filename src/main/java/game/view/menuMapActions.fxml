@@ -41,12 +41,12 @@
          <children>
             <Button fx:id="addContinentBtn" layoutX="377.0" layoutY="14.0" mnemonicParsing="false" onAction="#addContinent" prefWidth="110.0" text="Add Continent" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="15.0" />
             <Button fx:id="addCountryBtn" layoutX="377.0" layoutY="67.0" mnemonicParsing="false" onAction="#addCountry" prefWidth="110.0" text="Add Country" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="70.0" />
-            <TextField layoutX="14.0" layoutY="14.0" promptText="Continent Name" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
-            <TextField layoutX="194.0" layoutY="14.0" promptText="Continent Value" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="15.0" />
-            <TextField layoutX="14.0" layoutY="67.0" promptText="Country Name" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="70.0" />
-            <TextField layoutX="194.0" layoutY="67.0" promptText="Continent Name" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="70.0" />
-            <TextField layoutX="14.0" layoutY="123.0" promptText="Country Name" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="125.0" />
-            <TextField layoutX="194.0" layoutY="123.0" promptText="Neighbor Country Name" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="125.0" />
+            <TextField fx:id="continentNameR1" layoutX="14.0" layoutY="14.0" promptText="Continent Name" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
+            <TextField fx:id="continentValueR1" layoutX="194.0" layoutY="14.0" promptText="Continent Value" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="15.0" />
+            <TextField fx:id="countryNameR2" layoutX="14.0" layoutY="67.0" promptText="Country Name" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="70.0" />
+            <TextField fx:id="continentNameR2" layoutX="194.0" layoutY="67.0" promptText="Continent Name" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="70.0" />
+            <TextField fx:id="countryNameR3" layoutX="14.0" layoutY="123.0" promptText="Country Name" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="125.0" />
+            <TextField fx:id="neighborCountryNameR3" layoutX="194.0" layoutY="123.0" promptText="Neighbor Country Name" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="125.0" />
             <Button fx:id="addConnectionBtn" layoutX="377.0" layoutY="123.0" mnemonicParsing="false" onAction="#addConnection" prefHeight="27.0" prefWidth="110.0" text="Add Connection" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="125.0">
                <font>
                   <Font size="12.0" />

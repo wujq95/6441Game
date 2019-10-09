@@ -1,5 +1,7 @@
 package model;
 
+import javafx.geometry.Point2D;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +82,16 @@ public class Country {
         this.countryName = countryName;
     }
 
+    /**
+     * Country Constructor
+     * @param countryName
+     * @param continentName
+     * @param location
+     */
+    public Country(String countryName, String continentName, Point2D location){
+        // TODO：create a new country here
+    }
+
     public void editCountryName(String countryName) {
         this.countryName = countryName;
     }
@@ -93,6 +105,15 @@ public class Country {
     public void setCoordinator(Integer x, Integer y) {
         this.x = x;
         this.y = y;
+    }
+
+    /**
+     * return Point2D location of the country
+     *
+     * @return
+     */
+    public Point2D getCoordinator(){
+        return new Point2D(x, y);
     }
 
     /**
