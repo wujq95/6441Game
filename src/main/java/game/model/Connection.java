@@ -1,5 +1,7 @@
 package model;
 
+import controller.Observer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +26,10 @@ public class Connection {
      * Notify the ConnectionObserver object to update()
      * when there are CRUD operations on the Connection object
      */
-    public void notifyAllObservers(){
-        for(Observer observer : connectionObservers)
-            observer.update();
-    }
+//    public void notifyAllObservers(){
+//        for(Observer observer : connectionObservers)
+//            observer.update();
+//    }
 
     /**
      * TODO:
@@ -54,5 +56,14 @@ public class Connection {
 
     public void setCountry2(Country country2) {
         this.country2 = country2;
+    }
+
+    /**
+     *
+     * @param country
+     */
+    public void updateCountryInfo(Country country){
+        // TODO: setup the Country country's coordinates of this connection
+        // find
     }
 }

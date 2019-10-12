@@ -1,6 +1,6 @@
 package model;
 
-import javafx.geometry.Point2D;
+import controller.Observer;
 
 import java.util.*;
 
@@ -14,15 +14,34 @@ public class MapGraph {
     private Map<Country, List<Country>> adjacentCountries;
 
     // observers list
-    private List<Observer> mapObservers = new ArrayList<>();
+    private List<controller.Observer> mapObservers = new ArrayList<>();
 
-    public void attach(Observer observer){
+    public void attach(controller.Observer observer){
         mapObservers.add(observer);
     }
 
-    public void notifyAllObservers() {
+    public void notifyObservers(String action, Object object) {
         for (Observer observer : mapObservers) {
-            observer.update();
+            switch (action){
+                case "add continent":
+                    observer.updateContinetsList("add", (MapGraph) object);
+                    break;
+                case "delete continent":
+                    observer.updateContinetsList("delete", (MapGraph) object);
+                    break;
+                case "add country":
+                    observer.updateCountry("add", (Country) object);
+                    break;
+                case "delete country":
+                    observer.updateCountry("delete", (Country) object);
+                    break;
+                case "add connection":
+                    observer.updateConnection("add", (Connection) object);
+                    break;
+                case "delete connection":
+                    observer.updateConnection("delete", (Connection) object);
+                    break;
+            }
         }
     }
 
@@ -48,38 +67,113 @@ public class MapGraph {
 
     /**
      *
-     * @param continent
+     * @param continentName
+     * @param continentValue
      */
-    public void addContinent(Continent continent){
-        // TODO: validate the continent
-        // if not valid, do something
-        // else if valid, notify the Continent Observer
+    public void addContinent(String continentName, String continentValue){
+        /**
+         * TODO:
+         * validate the continent
+         * add it to map
+         */
 
-        continent.notifyAllObservers();
+        notifyObservers("add continent", this);
     }
 
     /**
      *
-     * @param country
+     * @param continentName
      */
-    public void addCountry(Country country){
-        // TODO: add country backend code here
-        // if not valid, do something
-        // else if valid, notify the Country Observer
+    public void deleteContinent(String continentName){
+        /**
+         * TODO:
+         * get the continent to be deleted by name
+         * delete it from map
+         */
 
-        country.notifyAllObservers();
+        // Now Fake continent
+        Continent continent = new Continent();
+        notifyObservers("delete continent", this);
     }
 
     /**
      *
-     * @param connection
+     * @param countryName
+     * @param continentName
      */
-    public void addConnection(Connection connection){
-        // TODO: validate the connnection
-        // if not valid, do something
-        // else if valid, notify the ConnectionObserver
+    public void addCountry(String countryName, String continentName){
+        /**
+         * TODO:
+         * validate the country
+         * add it to map
+         */
 
-        connection.notifyAllObservers();
+        // Now Fake country
+        Country country = new Country(countryName, continentName);
+        notifyObservers("add country", country);
+    }
+
+    /**
+     *
+     * @param countryName
+     */
+    public void deleteCountry(String countryName){
+        /**
+         * TODO:
+         * get the country to be deleted by name
+         * delete it from map
+         */
+
+        // Now fake Country
+        Country country = new Country(countryName);
+        notifyObservers("delete country", country);
+    }
+
+    /**
+     *
+     * @param countryName1
+     * @param countryName2
+     */
+    public void addConnection(String countryName1, String countryName2){
+        /**
+         * TODO:
+         * validate the connection
+         * add it to map
+         */
+
+        // Now fake Connection
+        Connection connection = new Connection(countryName1, countryName2);
+        notifyObservers("add connection", connection);
+    }
+
+    /**
+     *
+     * @param countryName1
+     * @param countryName2
+     */
+    public void deleteConnection(String countryName1, String countryName2){
+        /**
+         * TODO:
+         * get the Connection to be deleted by name
+         * delete it from map
+         */
+
+        // Now fake Connection
+        Connection connection = new Connection(countryName1, countryName2);
+        notifyObservers("delete connection", connection);
+    }
+
+    /**
+     * Get all the connections associated with the country
+     * @return a list of Connection objects
+     */
+    public List<Connection> getConnections(Country country){
+        /**
+         * TODO:
+         * Get all the connections associated with the country
+         */
+        List<Connection> connectionList = new ArrayList<>();
+        return connectionList;
     }
 
     public void removeContinent(Continent continent)

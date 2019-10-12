@@ -1,5 +1,6 @@
 package model;
 
+import controller.Observer;
 import javafx.geometry.Point2D;
 
 import java.util.ArrayList;
@@ -11,9 +12,9 @@ public class Country {
 
     String countryName;
 
-    Integer x;
+    double x;
 
-    Integer y;
+    double y;
 
     // observers list
     private List<Observer> countryObservers = new ArrayList<>();
@@ -23,8 +24,10 @@ public class Country {
     }
 
     public void notifyAllObservers(){
-        for(Observer observer : countryObservers)
-            observer.update();
+        for(Observer observer : countryObservers){
+            //observer.update();
+        }
+
     }
 
     public Integer getId() {
@@ -86,9 +89,8 @@ public class Country {
      * Country Constructor
      * @param countryName
      * @param continentName
-     * @param location
      */
-    public Country(String countryName, String continentName, Point2D location){
+    public Country(String countryName, String continentName){
         // TODO：create a new country here
     }
 
@@ -102,7 +104,7 @@ public class Country {
      * @param x
      * @param y
      */
-    public void setCoordinator(Integer x, Integer y) {
+    public void setCoordinator(double x, double y) {
         this.x = x;
         this.y = y;
     }
@@ -161,6 +163,15 @@ public class Country {
      */
     public List<Country> getNeighbours() {
         return neighbours;
+    }
+
+    /**
+     * get the continent that the country belongs to
+     * @return
+     */
+    public Continent getContinent(){
+        Continent continent = new Continent();
+        return continent;
     }
 
     public Country(Integer id, String countryName, Continent parentContinent, int positionX, int positionY) {
