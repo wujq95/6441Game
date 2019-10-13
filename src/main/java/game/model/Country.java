@@ -1,5 +1,9 @@
 package model;
 
+import controller.Observer;
+import javafx.geometry.Point2D;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Country {
@@ -8,9 +12,23 @@ public class Country {
 
     String countryName;
 
-    Integer x;
+    double x;
 
-    Integer y;
+    double y;
+
+    // observers list
+    private List<Observer> countryObservers = new ArrayList<>();
+
+    public void attach(Observer observer){
+        countryObservers.add(observer);
+    }
+
+    public void notifyAllObservers(){
+        for(Observer observer : countryObservers){
+            //observer.update();
+        }
+
+    }
 
     public Integer getId() {
         return id;
@@ -67,6 +85,15 @@ public class Country {
         this.countryName = countryName;
     }
 
+    /**
+     * Country Constructor
+     * @param countryName
+     * @param continentName
+     */
+    public Country(String countryName, String continentName){
+        // TODO：create a new country here
+    }
+
     public void editCountryName(String countryName) {
         this.countryName = countryName;
     }
@@ -77,9 +104,18 @@ public class Country {
      * @param x
      * @param y
      */
-    public void setCoordinator(Integer x, Integer y) {
+    public void setCoordinator(double x, double y) {
         this.x = x;
         this.y = y;
+    }
+
+    /**
+     * return Point2D location of the country
+     *
+     * @return
+     */
+    public Point2D getCoordinator(){
+        return new Point2D(x, y);
     }
 
     /**
@@ -127,6 +163,15 @@ public class Country {
      */
     public List<Country> getNeighbours() {
         return neighbours;
+    }
+
+    /**
+     * get the continent that the country belongs to
+     * @return
+     */
+    public Continent getContinent(){
+        Continent continent = new Continent();
+        return continent;
     }
 
     public Country(Integer id, String countryName, Continent parentContinent, int positionX, int positionY) {

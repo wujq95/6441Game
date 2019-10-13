@@ -1,5 +1,9 @@
 package model;
 
+import controller.Observer;
+import javafx.scene.paint.Color;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Continent {
@@ -14,6 +18,18 @@ public class Continent {
     String color;
 
     List<Country> countries;
+
+    // observers list
+    private List<Observer> continentObservers = new ArrayList<>();
+
+    public void attach(Observer observer){
+        continentObservers.add(observer);
+    }
+
+//    public void notifyAllObservers(){
+//        for(Observer observer : continentObservers)
+//            observer.update();
+//    }
 
     public Continent() {
     }
@@ -82,6 +98,15 @@ public class Continent {
      */
     public String getContinentName() {
         return continentName;
+    }
+
+    /**
+     * TODO: return the representing Color of the continet
+     * @return
+     */
+    public Color getColor(){
+        Color color = Color.GRAY;
+        return color;
     }
 
     /**

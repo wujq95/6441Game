@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MapController">
+   <children>
+      <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem fx:id="loadMapMenuItem" mnemonicParsing="false" onAction="#loadMap" text="Load" />
+                  <MenuItem fx:id="saveMapMenuItem" mnemonicParsing="false" onAction="#saveMap" text="Save" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <AnchorPane fx:id="mapPane" prefHeight="600.0" prefWidth="200.0">
+         <children>
+            <Label prefHeight="20.0" prefWidth="100.0" text="Continents List" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="actionPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: lightGray;">
+         <children>
+            <Button fx:id="addContinentBtn" layoutX="377.0" layoutY="14.0" mnemonicParsing="false" onAction="#addContinent" prefHeight="27.0" prefWidth="120.0" text="Add Continent" AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="15.0" />
+            <Button fx:id="addCountryBtn" layoutX="377.0" layoutY="67.0" mnemonicParsing="false" onAction="#addCountry" prefHeight="27.0" prefWidth="120.0" text="Add Country" AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="70.0" />
+            <TextField fx:id="continentNameR1" layoutX="14.0" layoutY="14.0" promptText="Continent Name" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
+            <TextField fx:id="continentValueR1" layoutX="194.0" layoutY="14.0" promptText="Continent Value" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="15.0" />
+            <TextField fx:id="countryNameR2" layoutX="14.0" layoutY="67.0" promptText="Country Name" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="70.0" />
+            <TextField fx:id="continentNameR2" layoutX="194.0" layoutY="67.0" promptText="Continent Name" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="70.0" />
+            <TextField fx:id="countryNameR3" layoutX="14.0" layoutY="123.0" promptText="Country Name" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="125.0" />
+            <TextField fx:id="neighborCountryNameR3" layoutX="194.0" layoutY="123.0" promptText="Neighbor Country Name" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="125.0" />
+            <Button fx:id="addConnectionBtn" layoutX="377.0" layoutY="123.0" mnemonicParsing="false" onAction="#addConnection" prefHeight="27.0" prefWidth="120.0" text="Add Connection" AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="125.0" />
+            <Separator layoutX="506.0" layoutY="-7.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="680.0" AnchorPane.topAnchor="0.0" />
+            <Button fx:id="deleteContinentBtn1" layoutX="506.0" layoutY="15.0" mnemonicParsing="false" onAction="#deleteContinent" prefHeight="27.0" prefWidth="140.0" text="Delete Continent" AnchorPane.leftAnchor="520.0" />
+            <Button fx:id="deleteCountryBtn1" layoutX="506.0" layoutY="70.0" mnemonicParsing="false" onAction="#deleteCountry" prefHeight="27.0" prefWidth="140.0" text="Delete Country" AnchorPane.leftAnchor="520.0" />
+            <Button fx:id="deleteConnectionBtn1" layoutX="506.0" layoutY="125.0" mnemonicParsing="false" onAction="#deleteConnection" prefHeight="27.0" prefWidth="140.0" text="Delete Connection" AnchorPane.leftAnchor="520.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

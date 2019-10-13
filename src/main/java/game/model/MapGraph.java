@@ -1,7 +1,8 @@
 package model;
 
-import java.util.List;
-import java.util.Map;
+import controller.Observer;
+
+import java.util.*;
 
 public class MapGraph {
     String name;
@@ -11,6 +12,42 @@ public class MapGraph {
     List<Continent> continents;
 
     private Map<Country, List<Country>> adjacentCountries;
+
+    // observers list
+    private List<controller.Observer> mapObservers = new ArrayList<>();
+
+    public void attach(controller.Observer observer){
+        mapObservers.add(observer);
+    }
+
+    public void notifyObservers(String action, Object object) {
+        for (Observer observer : mapObservers) {
+            switch (action){
+                case "add continent":
+                    observer.updateContinetsList("add", (MapGraph) object);
+                    break;
+                case "delete continent":
+                    observer.updateContinetsList("delete", (MapGraph) object);
+                    break;
+                case "add country":
+                    observer.updateCountry("add", (Country) object);
+                    break;
+                case "delete country":
+                    observer.updateCountry("delete", (Country) object);
+                    break;
+                case "add connection":
+                    observer.updateConnection("add", (Connection) object);
+                    break;
+                case "delete connection":
+                    observer.updateConnection("delete", (Connection) object);
+                    break;
+            }
+        }
+    }
+
+    public MapGraph(){
+
+    }
 
     public void setName(String name)
     {
@@ -27,16 +64,124 @@ public class MapGraph {
         this.width=width;
     }
 
-    public void addContinent(String continentName, Integer armyValue)
-    {
-        Continent continent=new Continent(continentName, armyValue);
-        continents.add(continent);
+
+    /**
+     *
+     * @param continentName
+     * @param continentValue
+     */
+    public void addContinent(String continentName, String continentValue){
+        /**
+         * TODO:
+         * validate the continent
+         * add it to map
+         */
+
+        notifyObservers("add continent", this);
+    }
+
+    /**
+     *
+     * @param continentName
+     */
+    public void deleteContinent(String continentName){
+        /**
+         * TODO:
+         * get the continent to be deleted by name
+         * delete it from map
+         */
+
+        // Now Fake continent
+        Continent continent = new Continent();
+        notifyObservers("delete continent", this);
+    }
+
+    /**
+     *
+     * @param countryName
+     * @param continentName
+     */
+    public void addCountry(String countryName, String continentName){
+        /**
+         * TODO:
+         * validate the country
+         * add it to map
+         */
+
+        // Now Fake country
+        Country country = new Country(countryName, continentName);
+        notifyObservers("add country", country);
+    }
+
+    /**
+     *
+     * @param countryName
+     */
+    public void deleteCountry(String countryName){
+        /**
+         * TODO:
+         * get the country to be deleted by name
+         * delete it from map
+         */
+
+        // Now fake Country
+        Country country = new Country(countryName);
+        notifyObservers("delete country", country);
+    }
+
+    /**
+     *
+     * @param countryName1
+     * @param countryName2
+     */
+    public void addConnection(String countryName1, String countryName2){
+        /**
+         * TODO:
+         * validate the connection
+         * add it to map
+         */
+
+        // Now fake Connection
+        Connection connection = new Connection(countryName1, countryName2);
+        notifyObservers("add connection", connection);
+    }
+
+    /**
+     *
+     * @param countryName1
+     * @param countryName2
+     */
+    public void deleteConnection(String countryName1, String countryName2){
+        /**
+         * TODO:
+         * get the Connection to be deleted by name
+         * delete it from map
+         */
+
+        // Now fake Connection
+        Connection connection = new Connection(countryName1, countryName2);
+        notifyObservers("delete connection", connection);
+    }
+
+    /**
+     * Get all the connections associated with the country
+     * @return a list of Connection objects
+     */
+    public List<Connection> getConnections(Country country){
+        /**
+         * TODO:
+         * Get all the connections associated with the country
+         */
+        List<Connection> connectionList = new ArrayList<>();
+        return connectionList;
     }
 
     public void removeContinent(Continent continent)
     {
         continents.remove(continent);
     }
+
+
 
     public String getName()
     {
@@ -72,4 +217,6 @@ public class MapGraph {
     public MapGraph(Map<Country, List<Country>> adjacentCountries) {
         this.adjacentCountries = adjacentCountries;
     }
+
+
 }
