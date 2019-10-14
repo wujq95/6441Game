@@ -23,7 +23,9 @@ public class MapEditorService {
             //TODO:SET CONTINENT NAMES/COUNTRY NAMES
             HashMap<Integer, Continent> continentMap = new HashMap<>();
             HashMap<Integer, Country> countryHashMap = new HashMap<>();
+
             List<Continent> continentList = new LinkedList<>();
+            List<Country> countryList = new LinkedList<>();
             LinkedHashMap<Country, List<Country>> adjacentCountries = new LinkedHashMap<>();
 
             try {
@@ -51,8 +53,9 @@ public class MapEditorService {
                             int parentContinentId = Integer.parseInt(countryInfos[2]);
                             double positionX = Double.parseDouble(countryInfos[3]);
                             double positionY = Double.parseDouble(countryInfos[4]);
-                            Country country = new Country(countryId, countryInfos[1], continentMap.get(parentContinentId), positionX, positionY);
+                            Country country = new Country(countryId, countryInfos[1], continentMap.get(parentContinentId), positionX, positionY, 0);
 
+                            countryList.add(country);
                             countryHashMap.put(countryId, country);
                         }
                     }
@@ -85,6 +88,7 @@ public class MapEditorService {
             mapGraph = new MapGraph();
             mapGraph.setAdjacentCountries(adjacentCountries);
             mapGraph.setContinentList(continentList);
+            mapGraph.setCountryList(countryList);
             returnMsg = "load map from file " + mapFile + " success";
         } else {
             File file = new File(fileName);
@@ -128,9 +132,9 @@ public class MapEditorService {
 
     public String validateMap() {
         //1. a country is not connected to other countries
-
-
-
+        if (mapGraph.getCountryList().size() != mapGraph.getAdjacentCountries().size()) {
+            return "";
+        }
 
         return "";
     }

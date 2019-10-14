@@ -73,10 +73,11 @@ public class Country {
 
     /**
      * Country Constructor
+     *
      * @param countryName
      * @param continentName
      */
-    public Country(String countryName, String continentName){
+    public Country(String countryName, String continentName) {
         // TODO：create a new country here
     }
 
@@ -100,7 +101,7 @@ public class Country {
      *
      * @return
      */
-    public Point2D getCoordinator(){
+    public Point2D getCoordinator() {
         return new Point2D(x, y);
     }
 
@@ -153,9 +154,10 @@ public class Country {
 
     /**
      * get the continent that the country belongs to
+     *
      * @return
      */
-    public Continent getContinent(){
+    public Continent getContinent() {
         Continent continent = new Continent();
         return continent;
     }
@@ -176,11 +178,12 @@ public class Country {
         this.y = y;
     }
 
-    public Country(Integer id, String countryName, Continent parentContinent, double positionX, double positionY) {
+    public Country(Integer id, String countryName, Continent parentContinent, double positionX, double positionY, int armyValue) {
         this.id = id;
         this.countryName = countryName;
         this.parentContinent = parentContinent;
         this.x = positionX;
         this.y = positionY;
+        this.armyValue = armyValue;
     }
 }
