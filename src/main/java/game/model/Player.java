@@ -14,7 +14,6 @@ public class Player {
     public Player(){
 
     }
-
     public Player(String PlayerName, Integer NumOfArmies, Integer playerId){
         this.playerName = PlayerName;
         this.numOfArmies = NumOfArmies;
@@ -89,7 +88,6 @@ public class Player {
         }
         numOfArmies=initialArmies;
         return numOfArmies;
-
     }
 
     /**
@@ -100,10 +98,10 @@ public class Player {
     public void placeArmy(String countryName, int AmountOfArmies){
         int Balance;
         Balance = this.numOfArmies - AmountOfArmies;
-        do{
+       do{
             if(players.contains(countryName)){
-                this.numOfArmies+= AmountOfArmies;
-            }} while(Balance!=0);
+            this.numOfArmies+= AmountOfArmies;
+        }} while(Balance!=0);
 
 
     }
