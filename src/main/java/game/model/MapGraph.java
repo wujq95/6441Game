@@ -1,5 +1,6 @@
 package model;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,54 +11,46 @@ public class MapGraph {
 
     List<Continent> continents;
 
-    private Map<Country, List<Country>> adjacentCountries;
+    private LinkedHashMap<Country, List<Country>> adjacentCountries;
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setHeight(Integer height)
-    {
-        this.height=height;
+    public void setHeight(Integer height) {
+        this.height = height;
     }
 
-    public void setWidth(Integer width)
-    {
-        this.width=width;
+    public void setWidth(Integer width) {
+        this.width = width;
     }
 
-    public void addContinent(String continentName, Integer armyValue)
-    {
-        Continent continent=new Continent(continentName, armyValue);
+    public void addContinent(String continentName, Integer armyValue) {
+        Continent continent = new Continent(continentName, armyValue);
         continents.add(continent);
     }
 
-    public void removeContinent(Continent continent)
-    {
+    public void removeContinent(Continent continent) {
         continents.remove(continent);
     }
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
-    public Integer getHeight()
-    {
+    public Integer getHeight() {
         return this.height;
     }
 
-    public Integer getWidth()
-    {
+    public Integer getWidth() {
         return this.width;
     }
 
-    public Map<Country, List<Country>> getAdjacentCountries() {
+    public LinkedHashMap<Country, List<Country>> getAdjacentCountries() {
         return adjacentCountries;
     }
 
-    public void setAdjacentCountries(Map<Country, List<Country>> adjacentCountries) {
+    public void setAdjacentCountries(LinkedHashMap<Country, List<Country>> adjacentCountries) {
         this.adjacentCountries = adjacentCountries;
     }
 
@@ -67,9 +60,5 @@ public class MapGraph {
 
     public void setContinents(List<Continent> continents) {
         this.continents = continents;
-    }
-
-    public MapGraph(Map<Country, List<Country>> adjacentCountries) {
-        this.adjacentCountries = adjacentCountries;
     }
 }
