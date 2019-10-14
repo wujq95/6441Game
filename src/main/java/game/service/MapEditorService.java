@@ -20,6 +20,7 @@ public class MapEditorService {
         File mapFile = new File(fileName);
         //if the map file exists
         if (mapFile.isFile()) {
+            //TODO:SET CONTINENT NAMES/COUNTRY NAMES
             HashMap<Integer, Continent> continentMap = new HashMap<>();
             HashMap<Integer, Country> countryHashMap = new HashMap<>();
             List<Continent> continentList = new LinkedList<>();
@@ -51,6 +52,7 @@ public class MapEditorService {
                             double positionX = Double.parseDouble(countryInfos[3]);
                             double positionY = Double.parseDouble(countryInfos[4]);
                             Country country = new Country(countryId, countryInfos[1], continentMap.get(parentContinentId), positionX, positionY);
+
                             countryHashMap.put(countryId, country);
                         }
                     }
@@ -124,9 +126,11 @@ public class MapEditorService {
         return showMap.toString();
     }
 
-    //TODO
     public String validateMap() {
-        //
+        //1. a country is not connected to other countries
+
+
+
 
         return "";
     }

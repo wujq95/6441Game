@@ -9,6 +9,22 @@ public class CommandService {
         if (inputCommand.startsWith("editmap")) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = mapEditorService.editMap(arguments[1]);
+        } else if (inputCommand.startsWith("showmap")) {
+            commandReturnMsg = mapEditorService.showMap();
+        } else if (inputCommand.startsWith("savemap")) {
+            String[] arguments = inputCommand.split(" ");
+            commandReturnMsg = mapEditorService.saveMap(arguments[1]);
+        } else if (inputCommand.startsWith("validatemap")) {
+            commandReturnMsg = mapEditorService.validateMap();
+        } else if (inputCommand.startsWith("editcontinent")) {
+            String[] arguments = inputCommand.split(" ");
+            commandReturnMsg = mapEditorService.editMap(arguments[1]);
+        } else if (inputCommand.startsWith("editcountry")) {
+            String[] arguments = inputCommand.split(" ");
+            commandReturnMsg = mapEditorService.editMap(arguments[1]);
+        } else if (inputCommand.startsWith("editneighbor")) {
+            String[] arguments = inputCommand.split(" ");
+            commandReturnMsg = mapEditorService.editMap(arguments[1]);
         }
         return commandReturnMsg;
     }
