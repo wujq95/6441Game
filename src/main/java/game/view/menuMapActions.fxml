@@ -52,6 +52,7 @@
             <Button fx:id="deleteContinentBtn1" layoutX="506.0" layoutY="15.0" mnemonicParsing="false" onAction="#deleteContinent" prefHeight="27.0" prefWidth="140.0" text="Delete Continent" AnchorPane.leftAnchor="520.0" />
             <Button fx:id="deleteCountryBtn1" layoutX="506.0" layoutY="70.0" mnemonicParsing="false" onAction="#deleteCountry" prefHeight="27.0" prefWidth="140.0" text="Delete Country" AnchorPane.leftAnchor="520.0" />
             <Button fx:id="deleteConnectionBtn1" layoutX="506.0" layoutY="125.0" mnemonicParsing="false" onAction="#deleteConnection" prefHeight="27.0" prefWidth="140.0" text="Delete Connection" AnchorPane.leftAnchor="520.0" />
+            <TextArea fx:id="commandLine" layoutX="696.0" layoutY="14.0" onKeyReleased="#detectEnter" prefHeight="80.0" prefWidth="200.0" promptText="Type your command here" AnchorPane.leftAnchor="700.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0" />
          </children>
       </AnchorPane>
    </children>

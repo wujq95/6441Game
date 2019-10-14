@@ -5,7 +5,10 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -51,6 +54,9 @@ public class MapController{
 
     @FXML
     public TextField neighborCountryNameR3;
+
+    @FXML
+    public TextArea commandLine;
 
     @FXML
     void loadMap(ActionEvent event) {
@@ -143,6 +149,21 @@ public class MapController{
         String cName1 = countryNameR3.getText();
         String cName2 = neighborCountryNameR3.getText();
         mapGraph.deleteConnection(cName1, cName2);
+    }
+
+    @FXML
+    void detectEnter(KeyEvent event){
+        if (event.getCode() == KeyCode.ENTER){
+            // do what is to do
+            System.out.println("Enter Key Pressed");
+            String commandStr = commandLine.getText();
+            System.out.println("Your command: " + commandStr);
+            commandLine.clear();
+            /**
+             * TODO:
+             * Send the commandStr to CommandService
+             */
+        }
     }
 
     public MapController(){
