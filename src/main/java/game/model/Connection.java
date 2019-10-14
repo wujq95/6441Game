@@ -11,26 +11,6 @@ public class Connection {
 
     private Country country2;    // Another Country on the other side
 
-    // observers list
-    private List<Observer> connectionObservers = new ArrayList<>();
-
-    /**
-     * Add the ConnectionObserver object to the connectionObservers list
-     * @param observer
-     */
-    public void attach(Observer observer){
-        connectionObservers.add(observer);
-    }
-
-    /**
-     * Notify the ConnectionObserver object to update()
-     * when there are CRUD operations on the Connection object
-     */
-//    public void notifyAllObservers(){
-//        for(Observer observer : connectionObservers)
-//            observer.update();
-//    }
-
     /**
      * TODO:
      * @param countryName1

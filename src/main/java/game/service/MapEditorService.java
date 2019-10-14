@@ -79,6 +79,7 @@ public class MapEditorService {
                 return returnMsg;
             }
 
+
             mapGraph = new MapGraph();
             mapGraph.setAdjacentCountries(adjacentCountries);
             mapGraph.setContinents(continentList);
@@ -154,6 +155,12 @@ public class MapEditorService {
                 return returnMsg;
             }
 
+            mapGraph = new MapGraph(adjacentCountries);
+            mapGraph.setContinentList(continentList);
+            returnMsg = "load map from file " + mapFile + " success";
+        } else {
+            File file = new File(fileName);
+          
             String continents = "[continents]";
             linesAfterContinents.add(continents);
 

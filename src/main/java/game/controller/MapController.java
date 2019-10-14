@@ -3,23 +3,23 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import model.*;
-
 import java.io.File;
-import java.util.ArrayList;
+import static javafx.scene.Cursor.HAND;
 
 public class MapController{
 
     private MapGraph mapGraph;
-    private ArrayList<Color> colorPicker;
-
-    final private int maxContinentsNum = 8;
-    private int continentsCount = 0;
+    private ColorController colorPicker;
 
     @FXML
     private MenuItem loadMapMenuItem;
@@ -105,21 +105,16 @@ public class MapController{
 
     @FXML
     void addContinent(ActionEvent event) {
-        if (continentsCount < maxContinentsNum) {
-            String continentName = continentNameR1.getText();
-            String continentValueStr = continentValueR1.getText();
-            mapGraph.addContinent(continentName, continentValueStr);
-            continentsCount++;
-        }
+        String continentName = continentNameR1.getText();
+        String continentValueStr = continentValueR1.getText();
+        Color color = colorPicker.pickOneColor();
+        mapGraph.addContinent(continentName, continentValueStr, color);
     }
 
     @FXML
     void deleteContinent(ActionEvent event) {
-        if (continentsCount > 0) {
-            String continentName = continentNameR1.getText();
-            mapGraph.deleteContinent(continentName);
-            continentsCount--;
-        }
+        String continentName = continentNameR1.getText();
+        mapGraph.deleteContinent(continentName);
     }
 
     @FXML
@@ -150,8 +145,7 @@ public class MapController{
     }
 
     public MapController(){
-        ColorController colorController = new ColorController();
-        this.colorPicker = colorController.getPalette();
+        colorPicker = new ColorController();
 
         // default empty graph before loaded
         this.mapGraph = new MapGraph();
@@ -169,11 +163,66 @@ public class MapController{
         }
 
         @Override
-        public void updateContinetsList(String action, MapGraph mapGraph){
+        public void updateContinentList(String action, Continent continent){
             if(action == "add"){
-                System.out.println("Continents List Add");
+                System.out.println("Continent Add");
+
+                /**
+                 * Update the GUI
+                 */
+                //create continent rectangle and text
+                Rectangle continentRectangle = new Rectangle(60, 20, continent.getColor());
+                continentRectangle.setId(continent.getContinentName());
+                Text text = new Text(continent.getContinentName() + ": " + continent.getArmyValue());
+                text.setId("continentNameText");
+
+                //set rectangle and text position
+                double x = mapPane.getLayoutBounds().getMaxX() - 100;
+                double y = mapGraph.getContinentList().size() * 50;
+                continentRectangle.setX(x);
+                continentRectangle.setY(y);
+                text.setX(x);
+                text.setY(y-5);
+
+                mapPane.getChildren().addAll(continentRectangle, text);
+
             }else if(action == "delete"){
-                System.out.println("Continents List Delete");
+                System.out.println("Continent Delete");
+
+                /**
+                 * Update the GUI
+                 */
+                //remove the deleted continent rectangle on mapPane
+                mapPane.getChildren().remove(mapPane.lookup("#" + continent.getContinentName()));
+                mapPane.getChildren().remove(mapPane.lookup("#continentNameText"));
+                //remove all the remaining continent rectangles & texts on mapPane
+                for (Continent c: mapGraph.getContinentList()) {
+                    mapPane.getChildren().remove(mapPane.lookup("#" + c.getContinentName()));
+                    mapPane.getChildren().remove(mapPane.lookup("#continentNameText"));
+                }
+
+                //reload the continent List
+                int i = 1;
+                for (Continent c: mapGraph.getContinentList()) {
+                    //create continent rectangle and text
+                    Rectangle continentRectangle = new Rectangle(60, 20, c.getColor());
+                    continentRectangle.setId(c.getContinentName());
+                    Text text = new Text(c.getContinentName() + ": " + c.getArmyValue());
+                    text.setId("continentNameText");
+
+                    //set rectangle and text position
+                    double x = mapPane.getLayoutBounds().getMaxX() - 100;
+                    double y = i * 50;
+                    continentRectangle.setX(x);
+                    continentRectangle.setY(y);
+                    text.setX(x);
+                    text.setY(y-5);
+
+                    mapPane.getChildren().addAll(continentRectangle, text);
+                    i++;
+                }
+
+
             }
 
         }
@@ -182,6 +231,37 @@ public class MapController{
         public void updateCountry(String action, Country country){
             if(action == "add"){
                 System.out.println("The Country Add");
+
+                /**
+                 * TODO: country.getContinent().getColor();
+                 */
+                Color countryColor = country.getContinent().getColor();
+                //Fake Data
+                countryColor = Color.TAN;
+                Point2D center = new Point2D(250, 250); //default position on scene
+                Circle circle = new Circle(center.getX(), center.getY(), 15, countryColor);
+                circle.setCursor(HAND);
+
+                Label label = new Label(country.getCountryName() + ":" + "Fake Player Name");
+                label.setLayoutX(250 - 20);
+                label.setLayoutY(250 - 30);
+
+                circle.setOnMouseDragged((t) -> {
+                    // update Circle View's location
+                    circle.setCenterX(t.getX());
+                    circle.setCenterY(t.getY());
+                    label.setLayoutX(t.getX() - 20);
+                    label.setLayoutY(t.getY() - 30);
+                });
+
+                circle.setOnMouseClicked((t) -> {
+                    // update the dragged country's location info
+                    System.out.println("Country's new location set.");
+                    country.setCoordinator(t.getX(), t.getY());
+                });
+
+                mapPane.getChildren().addAll(circle, label);
+
             }else if(action == "delete"){
                 System.out.println("The Country Delete");
             }
@@ -198,79 +278,6 @@ public class MapController{
         }
     }
 
-    /**
-     * ContinentObserver
-     */
-//    public class ContinentObserver extends Observer{
-//        /**
-//         * Construct the ContinentObserver for the Continent object
-//         * @param continent
-//         */
-//        public ContinentObserver(Continent continent){
-//            this.continent = continent;
-//            this.continent.attach(this);
-//        }
-//
-//        /**
-//         * Update GUI When there are changes of Continent
-//         */
-//        @Override
-//        public void update(){
-//            System.out.println("Continent Updated");
-//
-//            Rectangle continentRectangle = new Rectangle(60, 20, colorPicker.get(continentsCount));
-//            continentRectangle.setX(mapPane.getLayoutBounds().getMaxX() - 100);
-//            continentRectangle.setY(continentsCount * 50 + 50);
-//
-//            mapPane.getChildren().addAll(continentRectangle);
-//        }
-//    }
-
-    /**
-     * CountryObserver
-     */
-//    public class CountryObserver extends Observer{
-//        /**
-//         * Construct the CountryObserver for the Country object
-//         * @param country
-//         */
-//        public CountryObserver(Country country){
-//            this.country = country;
-//            this.country.attach(this);
-//        }
-//
-//        /**
-//         * Update GUI When there are changes of Country
-//         */
-//        @Override
-//        public void update(){
-//            System.out.println("Country Modified");
-//
-//            // TODO: Point2D center = this.country.getCoordinator();
-//            // Fake center data
-//            Point2D center = new Point2D(250, 250);
-//
-//            // TODO: Color countryColor = this.country.getContinent().getColor();
-//            // Fake countryColor
-//            Color countryColor = Color.TAN;
-//
-//            Circle circle = new Circle(center.getX(), center.getY(), 15, countryColor);
-//            circle.setCursor(Cursor.HAND);
-//            circle.setOnMouseDragged((t) -> {
-//                // update Circle View's location
-//                circle.setCenterX(t.getX());
-//                circle.setCenterY(t.getY());
-//            });
-//
-//            circle.setOnMouseClicked((t) -> {
-//                // update the dragged country's location info
-//                System.out.println("Country's new location set.");
-//                this.country.setCoordinator(t.getX(), t.getY());
-//
-//            });
-//            mapPane.getChildren().add(circle);
-//        }
-//    }
 
     /**
      * ConnectionObserver

@@ -16,27 +16,17 @@ public class Continent {
     int armyValue;
 
     String color;
+    Color continentColor;
 
     List<Country> countries;
-
-    // observers list
-    private List<Observer> continentObservers = new ArrayList<>();
-
-    public void attach(Observer observer){
-        continentObservers.add(observer);
-    }
-
-//    public void notifyAllObservers(){
-//        for(Observer observer : continentObservers)
-//            observer.update();
-//    }
 
     public Continent() {
     }
 
-    public Continent(String continentName, int armyValue) {
+    public Continent(String continentName, int armyValue, Color color) {
         this.continentName = continentName;
         this.armyValue = armyValue;
+        this.continentColor = color;
     }
 
     /**
@@ -106,8 +96,7 @@ public class Continent {
      * @return
      */
     public Color getColor(){
-        Color color = Color.GRAY;
-        return color;
+        return continentColor;
     }
 
     /**
