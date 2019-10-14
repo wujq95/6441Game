@@ -1,10 +1,12 @@
 package controller;
 
 import javafx.scene.paint.Color;
-import java.util.ArrayList;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class ColorController {
-    ArrayList<Color>palette = new ArrayList<>();
+    LinkedList<Color> palette = new LinkedList<>();
 
     public ColorController() {
         palette.add(Color.rgb(85,150,126));
@@ -17,11 +19,22 @@ public class ColorController {
         palette.add(Color.rgb(155,130,129));
     }
 
-    public ArrayList<Color> getPalette() {
+    public List<Color> getPalette() {
         return palette;
     }
 
-    public void setPalette(ArrayList<Color> palette) {
+    public void setPalette(LinkedList<Color> palette) {
         this.palette = palette;
+    }
+
+    public Color pickOneColor(){
+        if(!palette.isEmpty())
+            return palette.removeFirst();
+        else
+            return Color.BLACK;
+    }
+
+    public void returnOneColor(Color color){
+        palette.addLast(color);
     }
 }

@@ -1,6 +1,7 @@
 package model;
 
 import controller.Observer;
+import javafx.scene.paint.Color;
 
 import java.util.*;
 
@@ -9,25 +10,34 @@ public class MapGraph {
 
     Integer height, width;
 
-    List<Continent> continents;
+    List<Continent> continentList = new ArrayList<>();
 
     private Map<Country, List<Country>> adjacentCountries;
 
     // observers list
     private List<controller.Observer> mapObservers = new ArrayList<>();
 
+    /**
+     * attach the observer
+     * @param observer the observer to be attached
+     */
     public void attach(controller.Observer observer){
         mapObservers.add(observer);
     }
 
+    /**
+     * notify the map observer
+     * @param action via different actions, the observer will call different update
+     * @param object pass different types of object the corresponding update() method needed
+     */
     public void notifyObservers(String action, Object object) {
         for (Observer observer : mapObservers) {
             switch (action){
                 case "add continent":
-                    observer.updateContinetsList("add", (MapGraph) object);
+                    observer.updateContinentList("add", (Continent) object);
                     break;
                 case "delete continent":
-                    observer.updateContinetsList("delete", (MapGraph) object);
+                    observer.updateContinentList("delete", (Continent) object);
                     break;
                 case "add country":
                     observer.updateCountry("add", (Country) object);
@@ -69,15 +79,17 @@ public class MapGraph {
      *
      * @param continentName
      * @param continentValue
+     * @param color
      */
-    public void addContinent(String continentName, String continentValue){
+    public void addContinent(String continentName, String continentValue, Color color){
         /**
          * TODO:
          * validate the continent
          * add it to map
          */
-
-        notifyObservers("add continent", this);
+        Continent continent = new Continent(continentName, 99, color);
+        continentList.add(continent);
+        notifyObservers("add continent", continent);
     }
 
     /**
@@ -93,7 +105,7 @@ public class MapGraph {
 
         // Now Fake continent
         Continent continent = new Continent();
-        notifyObservers("delete continent", this);
+        notifyObservers("delete continent", continent);
     }
 
     /**
@@ -178,7 +190,7 @@ public class MapGraph {
 
     public void removeContinent(Continent continent)
     {
-        continents.remove(continent);
+        continentList.remove(continent);
     }
 
 
@@ -206,12 +218,12 @@ public class MapGraph {
         this.adjacentCountries = adjacentCountries;
     }
 
-    public List<Continent> getContinents() {
-        return continents;
+    public List<Continent> getContinentList() {
+        return continentList;
     }
 
-    public void setContinents(List<Continent> continents) {
-        this.continents = continents;
+    public void setContinentList(List<Continent> continentList) {
+        this.continentList = continentList;
     }
 
     public MapGraph(Map<Country, List<Country>> adjacentCountries) {

@@ -16,6 +16,7 @@ public class Continent {
     int armyValue;
 
     String color;
+    Color continentColor;
 
     List<Country> countries;
 
@@ -34,9 +35,10 @@ public class Continent {
     public Continent() {
     }
 
-    public Continent(String continentName, int armyValue) {
+    public Continent(String continentName, int armyValue, Color color) {
         this.continentName = continentName;
         this.armyValue = armyValue;
+        this.continentColor = color;
     }
 
     /**
@@ -101,12 +103,11 @@ public class Continent {
     }
 
     /**
-     * TODO: return the representing Color of the continet
+     * TODO: return the representing Color of the continent
      * @return
      */
     public Color getColor(){
-        Color color = Color.GRAY;
-        return color;
+        return continentColor;
     }
 
     /**

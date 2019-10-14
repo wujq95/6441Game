@@ -2,24 +2,23 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import model.*;
 
+import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 public class MapController{
 
     private MapGraph mapGraph;
-    private ArrayList<Color> colorPicker;
-
-    final private int maxContinentsNum = 8;
-    private int continentsCount = 0;
+    private ColorController colorPicker;
 
     @FXML
     private MenuItem loadMapMenuItem;
@@ -105,21 +104,16 @@ public class MapController{
 
     @FXML
     void addContinent(ActionEvent event) {
-        if (continentsCount < maxContinentsNum) {
-            String continentName = continentNameR1.getText();
-            String continentValueStr = continentValueR1.getText();
-            mapGraph.addContinent(continentName, continentValueStr);
-            continentsCount++;
-        }
+        String continentName = continentNameR1.getText();
+        String continentValueStr = continentValueR1.getText();
+        Color color = colorPicker.pickOneColor();
+        mapGraph.addContinent(continentName, continentValueStr, color);
     }
 
     @FXML
     void deleteContinent(ActionEvent event) {
-        if (continentsCount > 0) {
-            String continentName = continentNameR1.getText();
-            mapGraph.deleteContinent(continentName);
-            continentsCount--;
-        }
+        String continentName = continentNameR1.getText();
+        mapGraph.deleteContinent(continentName);
     }
 
     @FXML
@@ -150,8 +144,7 @@ public class MapController{
     }
 
     public MapController(){
-        ColorController colorController = new ColorController();
-        this.colorPicker = colorController.getPalette();
+        colorPicker = new ColorController();
 
         // default empty graph before loaded
         this.mapGraph = new MapGraph();
@@ -169,11 +162,66 @@ public class MapController{
         }
 
         @Override
-        public void updateContinetsList(String action, MapGraph mapGraph){
+        public void updateContinentList(String action, Continent continent){
             if(action == "add"){
-                System.out.println("Continents List Add");
+                System.out.println("Continent Add");
+
+                /**
+                 * Update the GUI
+                 */
+                //create continent rectangle and text
+                Rectangle continentRectangle = new Rectangle(60, 20, continent.getColor());
+                continentRectangle.setId(continent.getContinentName());
+                Text text = new Text(continent.getContinentName() + ": " + continent.getArmyValue());
+                text.setId("continentNameText");
+
+                //set rectangle and text position
+                double x = mapPane.getLayoutBounds().getMaxX() - 100;
+                double y = mapGraph.getContinentList().size() * 50;
+                continentRectangle.setX(x);
+                continentRectangle.setY(y);
+                text.setX(x);
+                text.setY(y-5);
+
+                mapPane.getChildren().addAll(continentRectangle, text);
+
             }else if(action == "delete"){
-                System.out.println("Continents List Delete");
+                System.out.println("Continent Delete");
+
+                /**
+                 * Update the GUI
+                 */
+                //remove the deleted continent rectangle on mapPane
+                mapPane.getChildren().remove(mapPane.lookup("#" + continent.getContinentName()));
+                mapPane.getChildren().remove(mapPane.lookup("#continentNameText"));
+                //remove all the remaining continent rectangles & texts on mapPane
+                for (Continent c: mapGraph.getContinentList()) {
+                    mapPane.getChildren().remove(mapPane.lookup("#" + c.getContinentName()));
+                    mapPane.getChildren().remove(mapPane.lookup("#continentNameText"));
+                }
+
+                //reload the continent List
+                int i = 1;
+                for (Continent c: mapGraph.getContinentList()) {
+                    //create continent rectangle and text
+                    Rectangle continentRectangle = new Rectangle(60, 20, c.getColor());
+                    continentRectangle.setId(c.getContinentName());
+                    Text text = new Text(c.getContinentName() + ": " + c.getArmyValue());
+                    text.setId("continentNameText");
+
+                    //set rectangle and text position
+                    double x = mapPane.getLayoutBounds().getMaxX() - 100;
+                    double y = i * 50;
+                    continentRectangle.setX(x);
+                    continentRectangle.setY(y);
+                    text.setX(x);
+                    text.setY(y-5);
+
+                    mapPane.getChildren().addAll(continentRectangle, text);
+                    i++;
+                }
+
+
             }
 
         }

@@ -83,7 +83,7 @@ public class MapEditorService {
             }
 
             mapGraph = new MapGraph(adjacentCountries);
-            mapGraph.setContinents(continentList);
+            mapGraph.setContinentList(continentList);
             returnMsg = "load map from file " + mapFile + " success";
         } else {
             File file = new File(fileName);
@@ -107,7 +107,7 @@ public class MapEditorService {
     public String showMap() {
         StringBuilder showMap = new StringBuilder();
         showMap.append("The continents are");
-        for (Continent continent : mapGraph.getContinents()) {
+        for (Continent continent : mapGraph.getContinentList()) {
             showMap.append(" " + continent.getContinentName() + ",");
         }
 
@@ -160,7 +160,7 @@ public class MapEditorService {
             }
 
             mapGraph = new MapGraph(adjacentCountries);
-            mapGraph.setContinents(continentList);
+            mapGraph.setContinentList(continentList);
             returnMsg = "load map from file " + mapFile + " success";
         } else {
             File file = new File(fileName);
