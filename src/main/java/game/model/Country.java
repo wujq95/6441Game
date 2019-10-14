@@ -16,20 +16,6 @@ public class Country {
 
     double y;
 
-    // observers list
-    private List<Observer> countryObservers = new ArrayList<>();
-
-    public void attach(Observer observer){
-        countryObservers.add(observer);
-    }
-
-    public void notifyAllObservers(){
-        for(Observer observer : countryObservers){
-            //observer.update();
-        }
-
-    }
-
     public Integer getId() {
         return id;
     }

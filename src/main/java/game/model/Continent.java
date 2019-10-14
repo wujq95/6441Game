@@ -20,18 +20,6 @@ public class Continent {
 
     List<Country> countries;
 
-    // observers list
-    private List<Observer> continentObservers = new ArrayList<>();
-
-    public void attach(Observer observer){
-        continentObservers.add(observer);
-    }
-
-//    public void notifyAllObservers(){
-//        for(Observer observer : continentObservers)
-//            observer.update();
-//    }
-
     public Continent() {
     }
 
