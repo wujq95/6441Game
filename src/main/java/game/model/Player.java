@@ -1,6 +1,8 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Player {
     Integer playerId=0;
@@ -52,7 +54,7 @@ public class Player {
      * @param PlayerNames
      */
     public void AddPlayer(Player PlayerNames){
-        if(this.players.contains(PlayerNames))
+        if(!this.players.contains(PlayerNames))
         { this.players.add(PlayerNames); playerId++;}}
     /**
      * Remove player
@@ -96,7 +98,7 @@ public class Player {
         Balance = this.numOfArmies - AmountOfArmies;
        do{
             if(players.contains(countryName)){
-            this.numOfArmies= AmountOfArmies;
+            this.numOfArmies+= AmountOfArmies;
         }} while(Balance!=0);
 
 
@@ -105,10 +107,32 @@ public class Player {
     /**
      * Divided all number of armies into each player
      * @param AmountOfArmies
-     * @param PlayerId
+     * @param playerId
      */
-    public void placeAll(int AmountOfArmies, int PlayerId){
+    public static void n_random(int AmountOfArmies, int playerId) {
+        Random r = new Random();
+        List<Integer> load = new ArrayList<>();
 
-}}
+        //random numbers
+        int sum = 0;
+        for (int i = 0; i < playerId; i++) {
+            int next = r.nextInt(AmountOfArmies) + 1;
+            load.add(next);
+            sum += next;
+        }
 
+        //scale to the desired target sum
+        double scale = 1d * AmountOfArmies / sum;
+        sum = 0;
+        for (int i = 0; i < playerId; i++) {
+            load.set(i, (int) (load.get(i) * scale));
+            sum += load.get(i);
+        }
 
+        //take rounding issues into account
+        while (sum++ < AmountOfArmies) {
+            int i = r.nextInt(playerId);
+            load.set(i, load.get(i) + 1);
+        }
+
+    }}
