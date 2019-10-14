@@ -1,5 +1,6 @@
 package service;
 
+import javafx.scene.paint.Color;
 import model.Continent;
 import model.Country;
 import model.MapGraph;
@@ -38,7 +39,7 @@ public class MapEditorService {
                         while (!(continentLine = br.readLine()).equals("")) {
                             String[] continentInfos = continentLine.split(" ");
                             int armyValue = Integer.parseInt(continentInfos[1]);
-                            Continent continent = new Continent(continentIndex, continentInfos[0], armyValue, continentInfos[2]);
+                            Continent continent = new Continent(continentIndex, continentInfos[0], armyValue, Color.web(continentInfos[2]));
                             continentMap.put(continentIndex, continent);
                             continentList.add(continent);
                             continentIndex++;
@@ -83,12 +84,14 @@ public class MapEditorService {
                 returnMsg = e.getMessage();
                 return returnMsg;
             }
-
-
             mapGraph = new MapGraph();
             mapGraph.setAdjacentCountries(adjacentCountries);
             mapGraph.setContinentList(continentList);
             mapGraph.setCountryList(countryList);
+            if(!validateMap()){
+                return "the map is not valid";
+            }
+
             returnMsg = "load map from file " + mapFile + " success";
         } else {
             File file = new File(fileName);
@@ -130,16 +133,68 @@ public class MapEditorService {
         return showMap.toString();
     }
 
-    public String validateMap() {
-        //1. a country is not connected to other countries
-        if (mapGraph.getCountryList().size() != mapGraph.getAdjacentCountries().size()) {
-            return "";
+    boolean validateMap() {
+        Set<String> countryNames = new HashSet<>();
+        for (Country country : mapGraph.getCountryList()) {
+            countryNames.add(country.getCountryName());
+        }
+        //2. duplicate country names
+        if (countryNames.size() < mapGraph.getCountryList().size()) {
+            //"duplicate country names"
+            return false;
+        }
+        //3. check if the graph is connected
+        if (!checkIfConnected(mapGraph.getAdjacentCountries())) {
+           // "the map graph is not connected"
+            return false;
         }
 
-        return "";
+        return true;
+    }
+
+    private boolean checkIfConnected(LinkedHashMap<Country, List<Country>> adjacentCountries) {
+        Integer start = 0;
+
+        LinkedHashMap<Integer, List<Country>> adj = new LinkedHashMap<>();
+        for (Map.Entry<Country, List<Country>> entry : adjacentCountries.entrySet()) {
+            adj.put(entry.getKey().getId(), entry.getValue());
+            start = entry.getKey().getId();
+        }
+        boolean visited[] = new boolean[adj.size()+1];
+        LinkedList<Integer> queue = new LinkedList<>();
+
+        visited[start] = true;
+        queue.add(start);
+
+        while (queue.size() != 0) {
+            start = queue.poll();
+            Iterator<Country> i = adj.get(start).iterator();
+            while (i.hasNext()) {
+                Country n = i.next();
+                Integer nId = n.getId();
+                if (!visited[nId]) {
+                    visited[nId] = true;
+                    queue.add(nId);
+                }
+            }
+        }
+
+        boolean connected = false;
+        for (Integer vertex : adj.keySet()) {
+            if (visited[vertex]) {
+                connected = true;
+            } else {
+                connected = false;
+                break;
+            }
+        }
+
+        return connected;
     }
 
     public String saveMap(String fileName) {
+        validateMap();
+
         String returnMsg = "";
         File mapFile = new File(fileName);
 

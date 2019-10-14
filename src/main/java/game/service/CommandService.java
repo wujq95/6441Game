@@ -15,7 +15,11 @@ public class CommandService {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = mapEditorService.saveMap(arguments[1]);
         } else if (inputCommand.startsWith("validatemap")) {
-            commandReturnMsg = mapEditorService.validateMap();
+            if (!mapEditorService.validateMap()) {
+                return "the map is not valid";
+            } else {
+                return "the map is valid";
+            }
         } else if (inputCommand.startsWith("editcontinent")) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = mapEditorService.editMap(arguments[1]);
