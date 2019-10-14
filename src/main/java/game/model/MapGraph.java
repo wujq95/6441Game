@@ -3,6 +3,9 @@ package model;
 import controller.Observer;
 
 import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MapGraph {
     String name;
@@ -11,18 +14,18 @@ public class MapGraph {
 
     List<Continent> continents;
 
-    private Map<Country, List<Country>> adjacentCountries;
+    private LinkedHashMap<Country, List<Country>> adjacentCountries;
 
     // observers list
     private List<controller.Observer> mapObservers = new ArrayList<>();
 
-    public void attach(controller.Observer observer){
+    public void attach(controller.Observer observer) {
         mapObservers.add(observer);
     }
 
     public void notifyObservers(String action, Object object) {
         for (Observer observer : mapObservers) {
-            switch (action){
+            switch (action) {
                 case "add continent":
                     observer.updateContinetsList("add", (MapGraph) object);
                     break;
@@ -45,32 +48,40 @@ public class MapGraph {
         }
     }
 
-    public MapGraph(){
+    public MapGraph() {
 
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setHeight(Integer height)
-    {
-        this.height=height;
+    public void setHeight(Integer height) {
+        this.height = height;
     }
 
-    public void setWidth(Integer width)
-    {
-        this.width=width;
+    public void setWidth(Integer width) {
+        this.width = width;
     }
 
+    public void addContinent(String continentName, Integer armyValue) {
+        /**
+         * TODO:
+         * validate the continent
+         * add it to map
+         */
+
+        notifyObservers("add continent", this);
+
+        Continent continent = new Continent(continentName, armyValue);
+        continents.add(continent);
+    }
 
     /**
-     *
      * @param continentName
      * @param continentValue
      */
-    public void addContinent(String continentName, String continentValue){
+    public void addContinent(String continentName, String continentValue) {
         /**
          * TODO:
          * validate the continent
@@ -81,10 +92,9 @@ public class MapGraph {
     }
 
     /**
-     *
      * @param continentName
      */
-    public void deleteContinent(String continentName){
+    public void deleteContinent(String continentName) {
         /**
          * TODO:
          * get the continent to be deleted by name
@@ -97,11 +107,10 @@ public class MapGraph {
     }
 
     /**
-     *
      * @param countryName
      * @param continentName
      */
-    public void addCountry(String countryName, String continentName){
+    public void addCountry(String countryName, String continentName) {
         /**
          * TODO:
          * validate the country
@@ -114,10 +123,9 @@ public class MapGraph {
     }
 
     /**
-     *
      * @param countryName
      */
-    public void deleteCountry(String countryName){
+    public void deleteCountry(String countryName) {
         /**
          * TODO:
          * get the country to be deleted by name
@@ -130,11 +138,10 @@ public class MapGraph {
     }
 
     /**
-     *
      * @param countryName1
      * @param countryName2
      */
-    public void addConnection(String countryName1, String countryName2){
+    public void addConnection(String countryName1, String countryName2) {
         /**
          * TODO:
          * validate the connection
@@ -147,11 +154,10 @@ public class MapGraph {
     }
 
     /**
-     *
      * @param countryName1
      * @param countryName2
      */
-    public void deleteConnection(String countryName1, String countryName2){
+    public void deleteConnection(String countryName1, String countryName2) {
         /**
          * TODO:
          * get the Connection to be deleted by name
@@ -165,9 +171,10 @@ public class MapGraph {
 
     /**
      * Get all the connections associated with the country
+     *
      * @return a list of Connection objects
      */
-    public List<Connection> getConnections(Country country){
+    public List<Connection> getConnections(Country country) {
         /**
          * TODO:
          * Get all the connections associated with the country
@@ -176,33 +183,27 @@ public class MapGraph {
         return connectionList;
     }
 
-    public void removeContinent(Continent continent)
-    {
+    public void removeContinent(Continent continent) {
         continents.remove(continent);
     }
 
-
-
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
-    public Integer getHeight()
-    {
+    public Integer getHeight() {
         return this.height;
     }
 
-    public Integer getWidth()
-    {
+    public Integer getWidth() {
         return this.width;
     }
 
-    public Map<Country, List<Country>> getAdjacentCountries() {
+    public LinkedHashMap<Country, List<Country>> getAdjacentCountries() {
         return adjacentCountries;
     }
 
-    public void setAdjacentCountries(Map<Country, List<Country>> adjacentCountries) {
+    public void setAdjacentCountries(LinkedHashMap<Country, List<Country>> adjacentCountries) {
         this.adjacentCountries = adjacentCountries;
     }
 
@@ -213,10 +214,4 @@ public class MapGraph {
     public void setContinents(List<Continent> continents) {
         this.continents = continents;
     }
-
-    public MapGraph(Map<Country, List<Country>> adjacentCountries) {
-        this.adjacentCountries = adjacentCountries;
-    }
-
-
 }

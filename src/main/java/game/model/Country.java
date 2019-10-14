@@ -174,6 +174,22 @@ public class Country {
         return continent;
     }
 
+    public double getX() {
+        return x;
+    }
+
+    public void setX(Integer x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(Integer y) {
+        this.y = y;
+    }
+
     public Country(Integer id, String countryName, Continent parentContinent, int positionX, int positionY) {
         this.id = id;
         this.countryName = countryName;

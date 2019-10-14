@@ -153,6 +153,14 @@ public class Continent {
         this.countries = countries;
     }
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     public Continent(Integer id, String continentName, int armyValue, String color) {
         this.id = id;
         this.continentName = continentName;
