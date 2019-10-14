@@ -1,11 +1,15 @@
 package Service;
 
+import model.Continent;
+import model.Country;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import service.MapEditorService;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.util.*;
 
 public class MapEditorServiceTest {
 
@@ -128,6 +132,21 @@ public class MapEditorServiceTest {
                         "country kongrolo,\n" +
                         " and kongrolo's neighbours are yazteck, czeck, china, middle_east, \n" +
                         "country");
+    }
+
+    @Test
+    public void testSaveMap() throws NoSuchFieldException {
+        String fileName = "/Applications/Domination/maps/ameroki.map";
+        mapEditorService.editMap(fileName);
+
+        LinkedHashMap<Country, List<Country>> countryMap = mapEditorService.mapGraph.getAdjacentCountries();
+        List<Map.Entry<Country, List<Country>>> entryList = new LinkedList<>();
+        entryList.addAll(countryMap.entrySet());
+        //make country#1's neighbours the same as country#2's
+        countryMap.put(entryList.get(0).getKey(),entryList.get(1).getValue());
+        mapEditorService.mapGraph.setAdjacentCountries(countryMap);
+        countryMap = mapEditorService.mapGraph.getAdjacentCountries();
+        mapEditorService.saveMap(fileName);
     }
 
 }
