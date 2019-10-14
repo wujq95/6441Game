@@ -2,18 +2,19 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import model.*;
-
-import java.awt.*;
 import java.io.File;
-import java.util.List;
+import static javafx.scene.Cursor.HAND;
 
 public class MapController{
 
@@ -230,6 +231,37 @@ public class MapController{
         public void updateCountry(String action, Country country){
             if(action == "add"){
                 System.out.println("The Country Add");
+
+                /**
+                 * TODO: country.getContinent().getColor();
+                 */
+                Color countryColor = country.getContinent().getColor();
+                //Fake Data
+                countryColor = Color.TAN;
+                Point2D center = new Point2D(250, 250); //default position on scene
+                Circle circle = new Circle(center.getX(), center.getY(), 15, countryColor);
+                circle.setCursor(HAND);
+
+                Label label = new Label(country.getCountryName() + ":" + "Fake Player Name");
+                label.setLayoutX(250 - 20);
+                label.setLayoutY(250 - 30);
+
+                circle.setOnMouseDragged((t) -> {
+                    // update Circle View's location
+                    circle.setCenterX(t.getX());
+                    circle.setCenterY(t.getY());
+                    label.setLayoutX(t.getX() - 20);
+                    label.setLayoutY(t.getY() - 30);
+                });
+
+                circle.setOnMouseClicked((t) -> {
+                    // update the dragged country's location info
+                    System.out.println("Country's new location set.");
+                    country.setCoordinator(t.getX(), t.getY());
+                });
+
+                mapPane.getChildren().addAll(circle, label);
+
             }else if(action == "delete"){
                 System.out.println("The Country Delete");
             }
@@ -246,79 +278,6 @@ public class MapController{
         }
     }
 
-    /**
-     * ContinentObserver
-     */
-//    public class ContinentObserver extends Observer{
-//        /**
-//         * Construct the ContinentObserver for the Continent object
-//         * @param continent
-//         */
-//        public ContinentObserver(Continent continent){
-//            this.continent = continent;
-//            this.continent.attach(this);
-//        }
-//
-//        /**
-//         * Update GUI When there are changes of Continent
-//         */
-//        @Override
-//        public void update(){
-//            System.out.println("Continent Updated");
-//
-//            Rectangle continentRectangle = new Rectangle(60, 20, colorPicker.get(continentsCount));
-//            continentRectangle.setX(mapPane.getLayoutBounds().getMaxX() - 100);
-//            continentRectangle.setY(continentsCount * 50 + 50);
-//
-//            mapPane.getChildren().addAll(continentRectangle);
-//        }
-//    }
-
-    /**
-     * CountryObserver
-     */
-//    public class CountryObserver extends Observer{
-//        /**
-//         * Construct the CountryObserver for the Country object
-//         * @param country
-//         */
-//        public CountryObserver(Country country){
-//            this.country = country;
-//            this.country.attach(this);
-//        }
-//
-//        /**
-//         * Update GUI When there are changes of Country
-//         */
-//        @Override
-//        public void update(){
-//            System.out.println("Country Modified");
-//
-//            // TODO: Point2D center = this.country.getCoordinator();
-//            // Fake center data
-//            Point2D center = new Point2D(250, 250);
-//
-//            // TODO: Color countryColor = this.country.getContinent().getColor();
-//            // Fake countryColor
-//            Color countryColor = Color.TAN;
-//
-//            Circle circle = new Circle(center.getX(), center.getY(), 15, countryColor);
-//            circle.setCursor(Cursor.HAND);
-//            circle.setOnMouseDragged((t) -> {
-//                // update Circle View's location
-//                circle.setCenterX(t.getX());
-//                circle.setCenterY(t.getY());
-//            });
-//
-//            circle.setOnMouseClicked((t) -> {
-//                // update the dragged country's location info
-//                System.out.println("Country's new location set.");
-//                this.country.setCoordinator(t.getX(), t.getY());
-//
-//            });
-//            mapPane.getChildren().add(circle);
-//        }
-//    }
 
     /**
      * ConnectionObserver
