@@ -17,6 +17,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import model.*;
+import service.CommandService;
+
 import java.io.File;
 import static javafx.scene.Cursor.HAND;
 
@@ -163,6 +165,8 @@ public class MapController{
              * TODO:
              * Send the commandStr to CommandService
              */
+            CommandService commandService = new CommandService();
+            commandService.processCommand(commandStr);
         }
     }
 
