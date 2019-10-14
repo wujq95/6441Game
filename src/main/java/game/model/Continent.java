@@ -102,6 +102,7 @@ public class Continent {
 
     /**
      * TODO: return the representing Color of the continet
+     * TODO:MUZIQIU ???
      * @return
      */
     public Color getColor(){
@@ -151,10 +152,6 @@ public class Continent {
 
     public void setCountries(List<Country> countries) {
         this.countries = countries;
-    }
-
-    public String getColor() {
-        return color;
     }
 
     public void setColor(String color) {
