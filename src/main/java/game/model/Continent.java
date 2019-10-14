@@ -12,7 +12,6 @@ public class Continent {
 
     int armyValue;
 
-    String color;
     Color continentColor;
 
     List<Country> countries;
@@ -144,14 +143,10 @@ public class Continent {
         this.countries = countries;
     }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public Continent(Integer id, String continentName, int armyValue, String color) {
+    public Continent(Integer id, String continentName, int armyValue, Color color) {
         this.id = id;
         this.continentName = continentName;
         this.armyValue = armyValue;
-        this.color = color;
+        this.continentColor = color;
     }
 }

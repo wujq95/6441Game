@@ -13,23 +13,27 @@ public class MapGraph {
 
     Integer height, width;
 
-    List<Continent> continentList = new ArrayList<>();
+    List<Continent> continentList;
 
-    private LinkedHashMap<Country, List<Country>> adjacentCountries;
+    LinkedHashMap<Country, List<Country>> adjacentCountries;
+
+    List<Country> countryList;
 
     // observers list
     private List<controller.Observer> mapObservers = new ArrayList<>();
 
     /**
      * attach the observer
+     *
      * @param observer the observer to be attached
      */
-    public void attach(controller.Observer observer){
+    public void attach(controller.Observer observer) {
         mapObservers.add(observer);
     }
 
     /**
      * notify the map observer
+     *
      * @param action via different actions, the observer will call different update
      * @param object pass different types of object the corresponding update() method needed
      */
@@ -91,7 +95,7 @@ public class MapGraph {
      * @param continentValue
      * @param color
      */
-    public void addContinent(String continentName, String continentValue, Color color){
+    public void addContinent(String continentName, String continentValue, Color color) {
         /**
          * TODO:
          * validate the continent
@@ -194,8 +198,7 @@ public class MapGraph {
         return connectionList;
     }
 
-    public void removeContinent(Continent continent)
-    {
+    public void removeContinent(Continent continent) {
         continentList.remove(continent);
     }
 
@@ -225,5 +228,13 @@ public class MapGraph {
 
     public void setContinentList(List<Continent> continentList) {
         this.continentList = continentList;
+    }
+
+    public List<Country> getCountryList() {
+        return countryList;
+    }
+
+    public void setCountryList(List<Country> countryList) {
+        this.countryList = countryList;
     }
 }
