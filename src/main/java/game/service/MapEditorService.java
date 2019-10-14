@@ -9,7 +9,7 @@ import java.util.*;
 
 public class MapEditorService {
 
-    public MapGraph mapGraph;
+    public static MapGraph mapGraph;
 
     /**
      * @param fileName
