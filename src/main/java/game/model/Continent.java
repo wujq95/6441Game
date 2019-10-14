@@ -92,7 +92,6 @@ public class Continent {
 
     /**
      * TODO: return the representing Color of the continet
-     * TODO:MUZIQIU ???
      * @return
      */
     public Color getColor(){
