@@ -1,9 +1,6 @@
 package model;
 
-import controller.Observer;
 import javafx.geometry.Point2D;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Country {

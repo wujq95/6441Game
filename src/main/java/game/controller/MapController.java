@@ -5,10 +5,14 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -50,6 +54,9 @@ public class MapController{
 
     @FXML
     public TextField neighborCountryNameR3;
+
+    @FXML
+    public TextArea commandLine;
 
     @FXML
     void loadMap(ActionEvent event) {
@@ -142,6 +149,21 @@ public class MapController{
         String cName1 = countryNameR3.getText();
         String cName2 = neighborCountryNameR3.getText();
         mapGraph.deleteConnection(cName1, cName2);
+    }
+
+    @FXML
+    void detectEnter(KeyEvent event){
+        if (event.getCode() == KeyCode.ENTER){
+            // do what is to do
+            System.out.println("Enter Key Pressed");
+            String commandStr = commandLine.getText();
+            System.out.println("Your command: " + commandStr);
+            commandLine.clear();
+            /**
+             * TODO:
+             * Send the commandStr to CommandService
+             */
+        }
     }
 
     public MapController(){
@@ -240,9 +262,14 @@ public class MapController{
                 countryColor = Color.TAN;
                 Point2D center = new Point2D(250, 250); //default position on scene
                 Circle circle = new Circle(center.getX(), center.getY(), 15, countryColor);
+                // TODO: circle.setId(country.getCountryName());
+                //Now Fake
+                circle.setId("FakeId");
                 circle.setCursor(HAND);
 
                 Label label = new Label(country.getCountryName() + ":" + "Fake Player Name");
+                // TODO: label.setId(country.getCountryName() + "Text");
+                label.setId("FakeId" + "Text");
                 label.setLayoutX(250 - 20);
                 label.setLayoutY(250 - 30);
 
@@ -264,6 +291,8 @@ public class MapController{
 
             }else if(action == "delete"){
                 System.out.println("The Country Delete");
+                mapPane.getChildren().remove(mapPane.lookup("#FakeId"));
+                mapPane.getChildren().remove(mapPane.lookup("#FakeId" + "Text"));
             }
         }
 
@@ -271,52 +300,46 @@ public class MapController{
         public void updateConnection(String action, Connection connection) {
             if(action == "add"){
                 System.out.println("The Connection Add");
+                /**
+                 * TODO:
+                 * Country country1 = connection.getCountry1();
+                 * Country country2 = connection.getCountry2();
+                 * Point2D pt1 = country1.getCoordinator();
+                 * Point2D pt2 = country2.getCoordinator();
+                 * String lineId = country1.getCountryName() + country2.getCountryName();
+                 */
+
+                // Two Fake Point2D data here
+                Point2D pt1 = new Point2D(300, 500);
+                Point2D pt2 = new Point2D(350, 450);
+                // Fake lineId
+                String lineId = "FakeLineId";
+
+                Line line = new Line();
+                line.setId(lineId);
+                line.setStartX(pt1.getX());
+                line.setStartY(pt1.getY());
+                line.setEndX(pt2.getX());
+                line.setEndY(pt2.getY());
+                line.setStroke(Color.rgb(95,103,105));
+                line.toBack();
+
+                mapPane.getChildren().add(line);
+
             } else if(action == "delete"){
                 System.out.println("The Connection Delete");
+
+                /**
+                 * TODO:
+                 * Country country1 = connection.getCountry1();
+                 * Country country2 = connection.getCountry2();
+                 * String lineId = country1.getCountryName() +  country2.getCountryName();
+                 */
+
+                // Now remove the connection by a fake Id
+                mapPane.getChildren().remove(mapPane.lookup("#FakeLineId"));
             }
 
         }
     }
-
-
-    /**
-     * ConnectionObserver
-     */
-//    public class ConnectionObserver extends Observer{
-//
-//        /**
-//         * Construct the ConnectionObserver for the Connection object
-//         * @param connection
-//         */
-//        public ConnectionObserver(Connection connection){
-//            this.connection = connection;
-//            this.connection.attach(this);
-//        }
-//
-//        /**
-//         * Update GUI When there are changes of Connection
-//         */
-//        @Override
-//        public void update(){
-//            System.out.println("Connection Modified");
-//
-//            Country country1 = this.connection.getCountry1();
-//            Country country2 = this.connection.getCountry2();
-//            // TODO: Point2D pt1 = country1.getCoordinator();
-//            // TODO: Point2D pt2 = country2.getCoordinator();
-//            // Two Fake Point2D data here
-//            Point2D pt1 = new Point2D(300, 500);
-//            Point2D pt2 = new Point2D(350, 450);
-//
-//            // draw a connected line for the two countries
-//            Line line = new Line();
-//            line.setStartX(pt1.getX());
-//            line.setStartY(pt1.getY());
-//            line.setEndX(pt2.getX());
-//            line.setEndY(pt2.getY());
-//            line.setStroke(Color.GRAY);
-//            line.toBack();
-//            mapPane.getChildren().add(line);
-//        }
-//    }
 }

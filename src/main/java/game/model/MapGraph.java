@@ -74,17 +74,16 @@ public class MapGraph {
         this.width = width;
     }
 
-    public void addContinent(String continentName, Integer armyValue) {
+    public void addContinent(String continentName, Integer armyValue, Color color) {
         /**
          * TODO:
          * validate the continent
          * add it to map
          */
 
-        notifyObservers("add continent", this);
-
-        Continent continent = new Continent(continentName, armyValue);
+        Continent continent = new Continent(continentName, armyValue, color);
         continentList.add(continent);
+        notifyObservers("add continent", this);
     }
 
     /**
