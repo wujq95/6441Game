@@ -138,8 +138,9 @@ public class MapEditorServiceTest {
     public void testSaveMap() throws NoSuchFieldException {
 
         String fileName = "/Applications/Domination/maps/ameroki.map";
-        mapEditorService.editMap(fileName);
+        String returnMsg = mapEditorService.editMap(fileName);
 
+        Assert.assertEquals(returnMsg,"");
         LinkedHashMap<Country, List<Country>> countryMap = MapEditorService.mapGraph.getAdjacentCountries();
         List<Map.Entry<Country, List<Country>>> entryList = new LinkedList<>();
         entryList.addAll(countryMap.entrySet());

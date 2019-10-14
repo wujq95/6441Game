@@ -84,11 +84,14 @@ public class MapEditorService {
                 returnMsg = e.getMessage();
                 return returnMsg;
             }
-
-            validateMap();
+            mapGraph = new MapGraph();
             mapGraph.setAdjacentCountries(adjacentCountries);
             mapGraph.setContinentList(continentList);
             mapGraph.setCountryList(countryList);
+            if(!validateMap()){
+                return "the map is not valid";
+            }
+
             returnMsg = "load map from file " + mapFile + " success";
         } else {
             File file = new File(fileName);
@@ -130,57 +133,55 @@ public class MapEditorService {
         return showMap.toString();
     }
 
-    String validateMap() {
+    boolean validateMap() {
         Set<String> countryNames = new HashSet<>();
-        //1. a country is not connected to other countries
-        if (mapGraph.getCountryList().size() != mapGraph.getAdjacentCountries().size()) {
-            return "there are some countries that don't have neighbours";
-        }
         for (Country country : mapGraph.getCountryList()) {
             countryNames.add(country.getCountryName());
-            if (country.getNeighbours() == null) {
-                return "there are some countries that don't have neighbours";
-            }
         }
         //2. duplicate country names
         if (countryNames.size() < mapGraph.getCountryList().size()) {
-            return "duplicate country names";
+            //"duplicate country names"
+            return false;
         }
-
         //3. check if the graph is connected
         if (!checkIfConnected(mapGraph.getAdjacentCountries())) {
-            return "the map graph is not connected";
+           // "the map graph is not connected"
+            return false;
         }
 
-        return "the map is validated";
+        return true;
     }
 
-    public boolean checkIfConnected(LinkedHashMap<Country, List<Country>> adjacentCountries) {
-        Country start = new Country();
-        for (Map.Entry<Country, List<Country>> entry : adjacentCountries.entrySet()) {
-            start = entry.getKey();
-        }
-        HashMap<Country, Boolean> visited = new HashMap<>();
-        LinkedList<Country> queue = new LinkedList<Country>();
+    private boolean checkIfConnected(LinkedHashMap<Country, List<Country>> adjacentCountries) {
+        Integer start = 0;
 
-        visited.put(start, true);
+        LinkedHashMap<Integer, List<Country>> adj = new LinkedHashMap<>();
+        for (Map.Entry<Country, List<Country>> entry : adjacentCountries.entrySet()) {
+            adj.put(entry.getKey().getId(), entry.getValue());
+            start = entry.getKey().getId();
+        }
+        boolean visited[] = new boolean[adj.size()+1];
+        LinkedList<Integer> queue = new LinkedList<>();
+
+        visited[start] = true;
         queue.add(start);
 
         while (queue.size() != 0) {
             start = queue.poll();
-            Iterator<Country> i = adjacentCountries.get(start).iterator();
+            Iterator<Country> i = adj.get(start).iterator();
             while (i.hasNext()) {
                 Country n = i.next();
-                if (!visited.get(n)) {
-                    visited.put(n, true);
-                    queue.add(n);
+                Integer nId = n.getId();
+                if (!visited[nId]) {
+                    visited[nId] = true;
+                    queue.add(nId);
                 }
             }
         }
 
         boolean connected = false;
-        for (Country vertex : adjacentCountries.keySet()) {
-            if (visited.get(vertex)) {
+        for (Integer vertex : adj.keySet()) {
+            if (visited[vertex]) {
                 connected = true;
             } else {
                 connected = false;
