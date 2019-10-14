@@ -17,6 +17,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import model.*;
+import service.CommandService;
+
 import java.io.File;
 import static javafx.scene.Cursor.HAND;
 
@@ -54,6 +56,24 @@ public class MapController{
 
     @FXML
     public TextField neighborCountryNameR3;
+
+    @FXML
+    public TextField playerNameInput;
+
+    @FXML
+    public TextField reinforceCountryName;
+
+    @FXML
+    public TextField reinforceNum;
+
+    @FXML
+    public TextField fortifyFrom;
+
+    @FXML
+    public TextField fortifyTo;
+
+    @FXML
+    public TextField fortifyNum;
 
     @FXML
     public TextArea commandLine;
@@ -152,6 +172,91 @@ public class MapController{
     }
 
     @FXML
+    void addPlayer(ActionEvent event){
+        String playerName = playerNameInput.getText();
+        System.out.println(playerName + " add called.");
+        /**
+         * TODO: add player to game
+         * return the player added.
+         * Player player = game.addPlayer(String playerName);
+         */
+    }
+
+    @FXML
+    void deletePlayer(ActionEvent event){
+        String playerName = playerNameInput.getText();
+        System.out.println(playerName + " delete called.");
+        /**
+         * TODO: delete player to game
+         * return the player deleted.
+         * Player player = game.deletePlayer(String playerName);
+         */
+    }
+
+    @FXML
+    void populateCountries(ActionEvent event){
+        System.out.println("Populate countries called");
+        /**
+         * TODO: assign the countries in mapGraph to different players
+         * update the mapGraph
+         * game.populateCountries(MapGraph mapGraph);
+         */
+    }
+
+    @FXML
+    void placeArmy(ActionEvent event){
+        System.out.println("Place Army called");
+
+        /**
+         * TODO: round_robin
+         * Player player = game.getCurrentPlayer();
+         * player.placeArmy(String countryName);
+         */
+    }
+
+    @FXML
+    void placeAll(ActionEvent event){
+        System.out.println("Place All called");
+
+        /**
+         * TODO: round_robin
+         * game.getAllCountries
+         * Player player = game.getCurrentPlayer();
+         * player.placeArmy(String countryName);
+         */
+    }
+
+    @FXML
+    void reinforce(ActionEvent event){
+        System.out.println("reinforce called");
+        String countryName = reinforceCountryName.getText();
+        String num = reinforceNum.getText();
+        /**
+         * TODO:
+         */
+    }
+
+    @FXML
+    void fortify(ActionEvent event){
+        System.out.println("fortify called");
+        String fromCountryName = fortifyFrom.getText();
+        String toCountryName = fortifyTo.getText();
+        String num = fortifyNum.getText();
+        /**
+         * TODO:
+         */
+    }
+
+    @FXML
+    void fortifyNone(ActionEvent event){
+        System.out.println("fortifyNone called");
+
+        /**
+         * TODO:
+         */
+    }
+
+    @FXML
     void detectEnter(KeyEvent event){
         if (event.getCode() == KeyCode.ENTER){
             // do what is to do
@@ -163,6 +268,8 @@ public class MapController{
              * TODO:
              * Send the commandStr to CommandService
              */
+            CommandService commandService = new CommandService();
+            commandService.processCommand(commandStr);
         }
     }
 
@@ -243,10 +350,7 @@ public class MapController{
                     mapPane.getChildren().addAll(continentRectangle, text);
                     i++;
                 }
-
-
             }
-
         }
 
         @Override
@@ -267,18 +371,19 @@ public class MapController{
                 circle.setId("FakeId");
                 circle.setCursor(HAND);
 
-                Label label = new Label(country.getCountryName() + ":" + "Fake Player Name");
+                // TODO: Label label = new Label(country.getCountryName() + ":" + "Fake Player Name");
+                Label label = new Label("Country Name\n" + "Player Name\n" + "Army #");
                 // TODO: label.setId(country.getCountryName() + "Text");
                 label.setId("FakeId" + "Text");
                 label.setLayoutX(250 - 20);
-                label.setLayoutY(250 - 30);
+                label.setLayoutY(250 - 60);
 
                 circle.setOnMouseDragged((t) -> {
                     // update Circle View's location
                     circle.setCenterX(t.getX());
                     circle.setCenterY(t.getY());
                     label.setLayoutX(t.getX() - 20);
-                    label.setLayoutY(t.getY() - 30);
+                    label.setLayoutY(t.getY() - 60);
                 });
 
                 circle.setOnMouseClicked((t) -> {
@@ -339,7 +444,6 @@ public class MapController{
                 // Now remove the connection by a fake Id
                 mapPane.getChildren().remove(mapPane.lookup("#FakeLineId"));
             }
-
         }
     }
 }
