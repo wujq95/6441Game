@@ -240,9 +240,14 @@ public class MapController{
                 countryColor = Color.TAN;
                 Point2D center = new Point2D(250, 250); //default position on scene
                 Circle circle = new Circle(center.getX(), center.getY(), 15, countryColor);
+                //TODO: circle.setId(country.getCountryName());
+                //Now Fake
+                circle.setId("FakeId");
                 circle.setCursor(HAND);
 
                 Label label = new Label(country.getCountryName() + ":" + "Fake Player Name");
+                //TODO: label.setId(country.getCountryName() + "Text");
+                label.setId("FakeId" + "Text");
                 label.setLayoutX(250 - 20);
                 label.setLayoutY(250 - 30);
 
@@ -264,6 +269,8 @@ public class MapController{
 
             }else if(action == "delete"){
                 System.out.println("The Country Delete");
+                mapPane.getChildren().remove(mapPane.lookup("#FakeId"));
+                mapPane.getChildren().remove(mapPane.lookup("#FakeId" + "Text"));
             }
         }
 
