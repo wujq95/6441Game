@@ -48,8 +48,8 @@ public class MapEditorService {
                             String[] countryInfos = countryLine.split(" ");
                             int countryId = Integer.parseInt(countryInfos[0]);
                             int parentContinentId = Integer.parseInt(countryInfos[2]);
-                            int positionX = Integer.parseInt(countryInfos[3]);
-                            int positionY = Integer.parseInt(countryInfos[4]);
+                            double positionX = Double.parseDouble(countryInfos[3]);
+                            double positionY = Double.parseDouble(countryInfos[4]);
                             Country country = new Country(countryId, countryInfos[1], continentMap.get(parentContinentId), positionX, positionY);
                             countryHashMap.put(countryId, country);
                         }
@@ -82,7 +82,7 @@ public class MapEditorService {
 
             mapGraph = new MapGraph();
             mapGraph.setAdjacentCountries(adjacentCountries);
-            mapGraph.setContinents(continentList);
+            mapGraph.setContinentList(continentList);
             returnMsg = "load map from file " + mapFile + " success";
         } else {
             File file = new File(fileName);
@@ -106,7 +106,7 @@ public class MapEditorService {
     public String showMap() {
         StringBuilder showMap = new StringBuilder();
         showMap.append("The continents are");
-        for (Continent continent : mapGraph.getContinents()) {
+        for (Continent continent : mapGraph.getContinentList()) {
             showMap.append(" ").append(continent.getContinentName()).append(",");
         }
 
@@ -155,16 +155,10 @@ public class MapEditorService {
                 return returnMsg;
             }
 
-            mapGraph = new MapGraph(adjacentCountries);
-            mapGraph.setContinentList(continentList);
-            returnMsg = "load map from file " + mapFile + " success";
-        } else {
-            File file = new File(fileName);
-          
             String continents = "[continents]";
             linesAfterContinents.add(continents);
 
-            for (Continent continent : mapGraph.getContinents()) {
+            for (Continent continent : mapGraph.getContinentList()) {
                 String continentDesc = continent.getContinentName() + " " + continent.getArmyValue() + " " + continent.getColor();
                 linesAfterContinents.add(continentDesc);
             }
@@ -210,4 +204,5 @@ public class MapEditorService {
 
         return returnMsg;
     }
+
 }

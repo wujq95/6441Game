@@ -29,6 +29,11 @@ public class Continent {
         this.continentColor = color;
     }
 
+    public Continent(String continentName, int armyValue) {
+        this.continentName = continentName;
+        this.armyValue = armyValue;
+    }
+
     /**
      * edit continent name
      *

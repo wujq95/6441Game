@@ -84,7 +84,7 @@ public class MapGraph {
         notifyObservers("add continent", this);
 
         Continent continent = new Continent(continentName, armyValue);
-        continents.add(continent);
+        continentList.add(continent);
     }
 
     /**
