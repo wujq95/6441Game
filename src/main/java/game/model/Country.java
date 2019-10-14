@@ -173,7 +173,7 @@ public class Country {
         this.y = y;
     }
 
-    public Country(Integer id, String countryName, Continent parentContinent, int positionX, int positionY) {
+    public Country(Integer id, String countryName, Continent parentContinent, double positionX, double positionY) {
         this.id = id;
         this.countryName = countryName;
         this.parentContinent = parentContinent;

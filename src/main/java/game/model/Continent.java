@@ -26,6 +26,11 @@ public class Continent {
         this.continentColor = color;
     }
 
+    public Continent(String continentName, int armyValue) {
+        this.continentName = continentName;
+        this.armyValue = armyValue;
+    }
+
     /**
      * edit continent name
      *
@@ -89,7 +94,6 @@ public class Continent {
 
     /**
      * TODO: return the representing Color of the continet
-     * TODO:MUZIQIU ???
      * @return
      */
     public Color getColor(){
