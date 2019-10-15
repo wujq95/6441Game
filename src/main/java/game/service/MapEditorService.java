@@ -222,7 +222,7 @@ public class MapEditorService {
             continentNames.add(continent.getContinentName());
 
             //2. check if one continent has at least one country
-            if(continent.getCountries()==null||continent.getCountries().size()==0){
+            if (continent.getCountries() == null || continent.getCountries().size() == 0) {
                 return false;
             }
         }
@@ -287,59 +287,64 @@ public class MapEditorService {
         }
 
         String returnMsg = "";
+
+        List<String> lines = new LinkedList<>();
+
+        String[] filepaths = fileName.split("/");
+        String mapName = "name " + filepaths[filepaths.length - 1] + " Map";
+        lines.add(mapName);
+
+        String continents = "\n[continents]";
+        lines.add(continents);
+
+        for (Continent continent : mapGraph.getContinentList()) {
+            String continentDesc = continent.getContinentName() + " " + continent.getArmyValue() + " " + continent.getColor();
+            lines.add(continentDesc);
+        }
+
+        lines.add("\n[countries]");
+        for (Country country : mapGraph.getAdjacentCountries().keySet()) {
+            String countryDesc = country.getId() + " " + country.getCountryName() + " "
+                    + country.getParentContinent().getId() + " " + country.getX() + " " + country.getY();
+            lines.add(countryDesc);
+        }
+
+        lines.add("\n[borders]");
+        for (Map.Entry<Country, List<Country>> entry : mapGraph.getAdjacentCountries().entrySet()) {
+            StringBuilder borderDesc = new StringBuilder();
+            borderDesc.append(entry.getKey().getId());
+
+            for (Country neighbour : entry.getValue()) {
+                borderDesc.append(" ").append(neighbour.getId());
+            }
+
+            lines.add(borderDesc.toString());
+        }
+
         File mapFile = new File(fileName);
 
         if (mapFile.isFile()) {
-            List<String> linesBeforeContinents = new LinkedList<>();
-            List<String> linesAfterContinents = new LinkedList<>();
-            List<String> allLines = new LinkedList<>();
-            try {
-                BufferedReader br = new BufferedReader(new FileReader(mapFile));
-                String line = "";
-                while ((line = br.readLine()) != null && !line.contains("continents")) {
-                    linesBeforeContinents.add(line);
-                }
-            } catch (IOException e) {
-                returnMsg = e.getMessage();
-                return returnMsg;
-            }
-
-            String continents = "[continents]";
-            linesAfterContinents.add(continents);
-
-            for (Continent continent : mapGraph.getContinentList()) {
-                String continentDesc = continent.getContinentName() + " " + continent.getArmyValue() + " " + continent.getColor();
-                linesAfterContinents.add(continentDesc);
-            }
-
-            linesAfterContinents.add("\n[countries]");
-            for (Country country : mapGraph.getAdjacentCountries().keySet()) {
-                String countryDesc = country.getId() + " " + country.getCountryName() + " "
-                        + country.getParentContinent().getId() + " " + country.getX() + " " + country.getY();
-                linesAfterContinents.add(countryDesc);
-            }
-
-            linesAfterContinents.add("\n[borders]");
-            for (Map.Entry<Country, List<Country>> entry : mapGraph.getAdjacentCountries().entrySet()) {
-                StringBuilder borderDesc = new StringBuilder();
-                borderDesc.append(entry.getKey().getId());
-
-                for (Country neighbour : entry.getValue()) {
-                    borderDesc.append(" ").append(neighbour.getId());
-                }
-
-                linesAfterContinents.add(borderDesc.toString());
-            }
-
-            allLines.addAll(linesBeforeContinents);
-            allLines.addAll(linesAfterContinents);
-
             mapFile.delete();
             File newFile = new File(fileName);
 
             try {
                 FileWriter fileWriter = new FileWriter(newFile, false);
-                for (String str : allLines) {
+                for (String str : lines) {
+                    fileWriter.write(str + System.lineSeparator());
+                }
+                fileWriter.close();
+
+                returnMsg = "saveMap success";
+            } catch (IOException e) {
+                returnMsg = "saveMap failed";
+                return returnMsg;
+            }
+        } else {
+            File newFile = new File(fileName);
+
+            try {
+                FileWriter fileWriter = new FileWriter(newFile, false);
+                for (String str : lines) {
                     fileWriter.write(str + System.lineSeparator());
                 }
                 fileWriter.close();
