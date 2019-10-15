@@ -215,20 +215,25 @@ public class MapEditorService {
             countryNames.add(country.getCountryName());
         }
         if (countryNames.size() < mapGraph.getCountryList().size()) {
-            //"duplicate country names"
             return false;
         }
-        //2. duplicate continent names
         Set<String> continentNames = new HashSet<>();
         for (Continent continent : mapGraph.getContinentList()) {
             continentNames.add(continent.getContinentName());
+
+            //2. check if one continent has at least one country
+            if(continent.getCountries()==null||continent.getCountries().size()==0){
+                return false;
+            }
         }
+
+        //3. duplicate continent names
         if (continentNames.size() < mapGraph.getContinentList().size()) {
             return false;
         }
+
         //3. check if the graph is connected
         if (!checkIfConnected(mapGraph.getAdjacentCountries())) {
-            // "the map graph is not connected"
             return false;
         }
 
