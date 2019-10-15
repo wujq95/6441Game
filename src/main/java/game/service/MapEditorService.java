@@ -180,7 +180,7 @@ public class MapEditorService {
         return showMap.toString();
     }
 
-    boolean validateMap() {
+    public boolean validateMap() {
         //1. duplicate country names
         Set<String> countryNames = new HashSet<>();
         for (Country country : mapGraph.getCountryList()) {
@@ -207,7 +207,7 @@ public class MapEditorService {
         return true;
     }
 
-    private boolean checkIfConnected(LinkedHashMap<Country, List<Country>> adjacentCountries) {
+    public boolean checkIfConnected(LinkedHashMap<Country, List<Country>> adjacentCountries) {
         Integer start = 0;
 
         LinkedHashMap<Integer, List<Country>> adj = new LinkedHashMap<>();
