@@ -13,6 +13,14 @@ public class Country {
 
     double y;
 
+    List<Country> neighbours;
+
+    Continent parentContinent;
+
+    GamePlayer player;
+
+    Integer armyValue;
+
     public Integer getId() {
         return id;
     }
@@ -53,14 +61,6 @@ public class Country {
         this.armyValue = armyValue;
     }
 
-    List<Country> neighbours;
-
-    Continent parentContinent;
-
-    GamePlayer player;
-
-    Integer armyValue;
-
     public Country() {
     }
 
@@ -76,6 +76,7 @@ public class Country {
      */
     public Country(String countryName, String continentName) {
         // TODO：create a new country here
+
     }
 
     public void editCountryName(String countryName) {
