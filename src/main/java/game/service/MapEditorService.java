@@ -158,7 +158,7 @@ public class MapEditorService {
                 return returnMsg;
             }
             mapGraph = new MapGraph();
-            mapGraph.setContinentList(new LinkedList<Continent>(continentMap.values()));
+            mapGraph.setContinentList(new LinkedList<>(continentMap.values()));
             mapGraph.setCountryList(countryList);
             mapGraph.setConnectionList(connectionList);
             mapGraph.setAdjacentCountries(adjacentCountries);
