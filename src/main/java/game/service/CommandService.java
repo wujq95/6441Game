@@ -51,11 +51,11 @@ public class CommandService {
         } else if (inputCommand.startsWith("placeall")) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = gamePlayerService.placeAll();
-        } else if (inputCommand.startsWith("startaaaaaaaaaa")) {
+        } else if (inputCommand.startsWith("start")) {
             gamePlayerService.CalReinArmyNum();
         } else if (inputCommand.startsWith("reinforce")) {
             String[] arguments = inputCommand.split(" ");
-            commandReturnMsg = reinforceService.reinforce(arguments[2], arguments[3]);
+            commandReturnMsg = reinforceService.reinforce(arguments[1], arguments[2]);
         } else if (inputCommand.startsWith("fortify")) {
             String[] arguments = inputCommand.split(" ");
             if (arguments[1].startsWith("none")) {

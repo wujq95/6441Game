@@ -129,7 +129,7 @@ public class GamePlayerService {
         int flag = 0;
         for(int i=0;i<playerList.size();i++){
             for (int j=0;j<playerList.get(i).getCountryList().size();j++){
-                if (playerList.get(i).getCountryList().get(j).equals(countryName)){
+                if (countryName.equals(playerList.get(i).getCountryList().get(j).getCountryName())){
                     flag=1;
                     Integer PlayerArmyValue  = playerList.get(i).getArmyValue();
                     if(PlayerArmyValue==0){
@@ -168,13 +168,13 @@ public class GamePlayerService {
 
         for (GamePlayer player:playerList){
             Integer remainPlayerArmyValue = player.getArmyValue();
-            List<Country> countryList = player.getCountryList();
+            List<Country> countryList = MapEditorService.mapGraph.getCountryList();
             for(int i=0;i<remainPlayerArmyValue;i++){
                 Integer index = (int)(Math.random()*countryList.size());
                 Integer newCountryArmyValue = countryList.get(index).getArmyValue()+1;
-                player.getCountryList().get(i).setArmyValue(newCountryArmyValue);
+                MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(newCountryArmyValue);
+                player.setArmyValue(player.getArmyValue()-1);
             }
-            player.setArmyValue(0);
         }
         return "place all success!";
     }
@@ -189,7 +189,7 @@ public class GamePlayerService {
             List<Country> countryList = player.getCountryList();
             Integer CountryNum = Math.round(countryList.size()/3);
 
-            List<Continent> continentList =  MapEditorService.mapGraph.getContinentList();
+            /*List<Continent> continentList =  MapEditorService.mapGraph.getContinentList();
             Integer continentNum = 0;
             for(Continent continent:continentList){
                 boolean flag = true;
@@ -201,9 +201,9 @@ public class GamePlayerService {
                 if(flag){
                     continentNum++;
                 }
-            }
+            }*/
 
-            Integer newPlayerArmyValue = player.getArmyValue()+continentNum+CountryNum+3;
+            Integer newPlayerArmyValue = player.getArmyValue()+CountryNum+3;
             player.setArmyValue(newPlayerArmyValue);
         }
 
