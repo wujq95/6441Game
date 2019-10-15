@@ -21,7 +21,7 @@ public class MapEditorService {
         for (int i = 1; i < continentName.length; i++) {
             if (continentName[i] == "-add") {
                 Color continentColor = colorPicker.pickOneColor();
-                int continentValue = Integer.valueOf(continentName[i + 2]).intValue();
+                int continentValue = Integer.parseInt(continentName[i + 2]);
                 mapGraph.addContinent(continentName[i + 1], continentValue, continentColor);
             }
             if (continentName[i] == "-remove") {
@@ -181,13 +181,21 @@ public class MapEditorService {
     }
 
     boolean validateMap() {
+        //1. duplicate country names
         Set<String> countryNames = new HashSet<>();
         for (Country country : mapGraph.getCountryList()) {
             countryNames.add(country.getCountryName());
         }
-        //2. duplicate country names
         if (countryNames.size() < mapGraph.getCountryList().size()) {
             //"duplicate country names"
+            return false;
+        }
+        //2. duplicate continent names
+        Set <String> continentNames = new HashSet<>();
+        for(Continent continent: mapGraph.getContinentList()){
+            continentNames.add(continent.getContinentName());
+        }
+        if (continentNames.size() < mapGraph.getContinentList().size()) {
             return false;
         }
         //3. check if the graph is connected
