@@ -189,7 +189,7 @@ public class MapGraph {
      *
      * @return a list of Connection objects
      */
-    public List<Connection> getConnections(Country country) {
+    public List<Connection> getConnections() {
         /**
          * TODO:
          * Get all the connections associated with the country

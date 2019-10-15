@@ -38,12 +38,4 @@ public class Connection {
         this.country2 = country2;
     }
 
-    /**
-     *
-     * @param country
-     */
-    public void updateCountryInfo(Country country){
-        // TODO: setup the Country country's coordinates of this connection
-        // find
-    }
 }
