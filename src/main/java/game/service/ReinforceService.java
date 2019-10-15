@@ -1,46 +1,55 @@
 package service;
 
 import model.Country;
-import model.Player;
+import model.GamePlayer;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ReinforceService {
 
     /**
      * Reinforce Phase Action
-     * @param player
      * @param countryName
      * @param num
      * @return
      */
-    public String reinforce(Player player,String countryName, String num) {
+    public String reinforce(String countryName, String num) {
 
-        Integer reinArmyVlaue = Integer.parseInt(num);
-        Integer countryArmyValue = player.getNumOfArmies();
+        int flag = 0;
 
-        //check the army value of the player is enough to reinforce
-        if (countryArmyValue < reinArmyVlaue) {
-            return "the army value of the player is not enough!";
-        } else {
-            List<Country> countryList = MapEditorService.mapGraph.getCountryList();
-            boolean flag = false;
-            for (int i = 0; i < countryList.size(); i++) {
-                if (countryList.get(i).equals(countryName)) {
-                    Integer newCountryArmyValue = countryList.get(i).getArmyValue()+reinArmyVlaue;
-                    MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(newCountryArmyValue);
-                    player.setNumOfArmies(countryArmyValue - reinArmyVlaue);
-                    flag = true;
+        for(int i=0;i<GamePlayerService.playerList.size();i++){
+            for(int j=0;j<GamePlayerService.playerList.get(i).getCountryList().size();j++){
+                if(GamePlayerService.playerList.get(i).getCountryList().get(j).equals(countryName)){
+                    flag =1;
+                    Integer reinArmyValue = Integer.parseInt(num);
+                    Integer playerArmyValue = GamePlayerService.playerList.get(i).getArmyValue();
+                    if (playerArmyValue < reinArmyValue) {
+                        flag =2;
+                    }else{
+                        for(Country country:MapEditorService.mapGraph.getCountryList()){
+                            if(country.getCountryName().equals(countryName)){
+                                Integer newCountryArmyValue = country.getArmyValue()+reinArmyValue;
+                                country.setArmyValue(newCountryArmyValue);
+                            }
+                        }
+
+                        Integer newPlayerArmyValue = playerArmyValue-reinArmyValue;
+                        GamePlayerService.playerList.get(i).setArmyValue(newPlayerArmyValue);
+                        //Integer newCountryArmyValue = GamePlayerService.playerList.get(i).getCountryList().get(j).getArmyValue()+reinArmyValue;
+                        //GamePlayerService.playerList.get(i).getCountryList().get(j).setArmyValue(newCountryArmyValue);
+                    }
                 }
             }
-            if (flag) {
-                return "reinforce success";
-            } else {
-                return "country name can not be found";
-            }
         }
+
+        if(flag==0){
+            return "country name can not be found";
+        }else if(flag==2){
+            return "the army value of the player is not enough";
+        }else{
+            return "reinforce success";
+        }
+
     }
 }
 

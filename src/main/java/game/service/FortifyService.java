@@ -48,4 +48,8 @@ public class FortifyService {
             return "fortify success";
         }
     }
+
+    public String fortifyNone(){
+        return "fortify none success";
+    }
 }
