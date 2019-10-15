@@ -2,6 +2,7 @@ package service;
 
 import controller.ColorController;
 import javafx.scene.paint.Color;
+import model.Connection;
 import model.Continent;
 import model.Country;
 import model.MapGraph;
@@ -88,6 +89,7 @@ public class MapEditorService {
 
             List<Country> countryList = new LinkedList<>();
             LinkedHashMap<Country, List<Country>> adjacentCountries = new LinkedHashMap<>();
+            List<Connection> connectionList = new LinkedList<>();
 
             try {
                 BufferedReader br = new BufferedReader(new FileReader(mapFile));
@@ -115,7 +117,6 @@ public class MapEditorService {
                             double positionY = Double.parseDouble(countryInfos[4]);
                             Country country = new Country(countryId, countryInfos[1], continentMap.get(parentContinentId), positionX, positionY, 0);
 
-                            //TODO:continent.setcountries
                             Continent parent = continentMap.get(parentContinentId);
                             List<Country> continentCountries = parent.getCountries();
                             continentCountries.add(country);
@@ -138,10 +139,15 @@ public class MapEditorService {
                             List<Country> neighbourList = new LinkedList<>();
                             for (int i = 1; i < borderInfos.length; i++) {
                                 Integer neighbourId = Integer.valueOf(borderInfos[i]);
+
+                                Connection connection = new Connection(country.getCountryName(), countryHashMap.get(neighbourId).getCountryName());
+                                connectionList.add(connection);
+
                                 neighbourList.add(countryHashMap.get(neighbourId));
                             }
                             country.setNeighbours(neighbourList);
                             adjacentCountries.put(country, neighbourList);
+
                             borderLine = br.readLine();
                         }
                     }
@@ -153,6 +159,7 @@ public class MapEditorService {
             mapGraph = new MapGraph();
             mapGraph.setContinentList(new LinkedList<Continent>(continentMap.values()));
             mapGraph.setCountryList(countryList);
+            mapGraph.setConnectionList(connectionList);
             mapGraph.setAdjacentCountries(adjacentCountries);
 
             if (!validateMap()) {

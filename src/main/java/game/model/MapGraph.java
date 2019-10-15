@@ -19,6 +19,8 @@ public class MapGraph {
 
     List<Country> countryList;
 
+    List<Connection> connectionList;
+
     // observers list
     private List<controller.Observer> mapObservers = new ArrayList<>();
 
@@ -236,5 +238,13 @@ public class MapGraph {
 
     public void setCountryList(List<Country> countryList) {
         this.countryList = countryList;
+    }
+
+    public List<Connection> getConnectionList() {
+        return connectionList;
+    }
+
+    public void setConnectionList(List<Connection> connectionList) {
+        this.connectionList = connectionList;
     }
 }
