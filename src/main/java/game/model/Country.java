@@ -72,12 +72,11 @@ public class Country {
      * Country Constructor
      *
      * @param countryName
-     * @param continent
+     * @param continentName
      */
-    public Country(String countryName, Continent continent) {
+    public Country(String countryName, String continentName) {
         // TODO：create a new country here
-        this.countryName = countryName;
-        this.parentContinent=continent;
+
     }
 
     public void editCountryName(String countryName) {
