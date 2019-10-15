@@ -27,10 +27,22 @@ public class GamePlayerService {
      * @return
      */
     public String addPlayer(String playerName){
-        GamePlayer player = new GamePlayer();
-        player.setPlayerName(playerName);
-        playerList.add(player);
-        return "add player success";
+
+        boolean flag = false;
+        for(GamePlayer player:playerList){
+            if(playerName.equals(player.getPlayerName())){
+                flag = true;
+            }
+        }
+
+        if(flag){
+            return "player name duplicate";
+        }else{
+            GamePlayer player = new GamePlayer();
+            player.setPlayerName(playerName);
+            playerList.add(player);
+            return "add player success";
+        }
     }
 
     /**
@@ -189,7 +201,7 @@ public class GamePlayerService {
             List<Country> countryList = player.getCountryList();
             Integer CountryNum = Math.round(countryList.size()/3);
 
-            /*List<Continent> continentList =  MapEditorService.mapGraph.getContinentList();
+            List<Continent> continentList =  MapEditorService.mapGraph.getContinentList();
             Integer continentNum = 0;
             for(Continent continent:continentList){
                 boolean flag = true;
@@ -201,7 +213,7 @@ public class GamePlayerService {
                 if(flag){
                     continentNum++;
                 }
-            }*/
+            }
 
             Integer newPlayerArmyValue = player.getArmyValue()+CountryNum+3;
             player.setArmyValue(newPlayerArmyValue);
