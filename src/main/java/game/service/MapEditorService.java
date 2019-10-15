@@ -2,6 +2,7 @@ package service;
 
 import controller.ColorController;
 import javafx.scene.paint.Color;
+import model.Connection;
 import model.Continent;
 import model.Country;
 import model.MapGraph;
@@ -135,6 +136,7 @@ public class MapEditorService {
                             int countryId = Integer.parseInt(borderInfos[0]);
                             Country country = countryHashMap.get(countryId);
 
+                            //List<Connection> connectionList=new LinkedList<>();
                             List<Country> neighbourList = new LinkedList<>();
                             for (int i = 1; i < borderInfos.length; i++) {
                                 Integer neighbourId = Integer.valueOf(borderInfos[i]);

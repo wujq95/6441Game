@@ -76,6 +76,7 @@ public class Country {
      */
     public Country(String countryName, String continentName) {
         // TODO：create a new country here
+        this.countryName=countryName;
 
     }
 
