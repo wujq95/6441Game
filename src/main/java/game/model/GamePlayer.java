@@ -19,7 +19,7 @@ public class GamePlayer {
     }
 
     public void setPlayerName(String playerName) {
-        playerName = playerName;
+        this.playerName = playerName;
     }
 
     public Integer getArmyValue() {

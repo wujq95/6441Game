@@ -10,65 +10,60 @@ import java.io.*;
 import java.util.*;
 
 public class MapEditorService {
-    public MapEditorService(){
+    public MapEditorService() {
         this.colorPicker = new ColorController();
     }
 
     public static ColorController colorPicker;
     public static MapGraph mapGraph;
 
-    public String editContinent(String[] continentName){
-        for(int i=1;i<continentName.length;i++)
-        {
-            if(continentName[i]== "-add")
-            {
+    public String editContinent(String[] continentName) {
+        for (int i = 1; i < continentName.length; i++) {
+            if (continentName[i] == "-add") {
                 Color continentColor = colorPicker.pickOneColor();
-                int continentValue=Integer.valueOf(continentName[i+2]).intValue();
-                mapGraph.addContinent(continentName[i+1],continentValue,continentColor);
+                int continentValue = Integer.valueOf(continentName[i + 2]).intValue();
+                mapGraph.addContinent(continentName[i + 1], continentValue, continentColor);
             }
-            if(continentName[i]== "-remove")
-            {
-                mapGraph.deleteContinent(continentName[i+1]);
-            }
-        }
-        return "";
-    }
-
-
-    public String editCountry(String[] countryName){
-        for(int i=1;i<countryName.length;i++)
-        {
-            if(countryName[i]== "-add")
-            {
-                mapGraph.addCountry(countryName[i+1],countryName[i+2]);
-            }
-            if(countryName[i]== "-remove")
-            {
-                mapGraph.deleteCountry(countryName[i+1]);
+            if (continentName[i] == "-remove") {
+                mapGraph.deleteContinent(continentName[i + 1]);
             }
         }
         return "";
     }
 
-    public String editNeighbor(String[] countryName){
-        for(int i=1;i<countryName.length;i++)
-        {
-            if(countryName[i]== "-add")
-            {
-                mapGraph.addConnection(countryName[i+1],countryName[i+2]);
+
+    public String editCountry(String[] countryName) {
+        for (int i = 1; i < countryName.length; i++) {
+            if (countryName[i] == "-add") {
+                mapGraph.addCountry(countryName[i + 1], countryName[i + 2]);
             }
-            if(countryName[i]== "-remove")
-            {
-                mapGraph.deleteConnection(countryName[i+1],countryName[i+2]);
+            if (countryName[i] == "-remove") {
+                mapGraph.deleteCountry(countryName[i + 1]);
             }
         }
         return "";
     }
+
+    public String editNeighbor(String[] countryName) {
+        for (int i = 1; i < countryName.length; i++) {
+            if (countryName[i] == "-add") {
+                mapGraph.addConnection(countryName[i + 1], countryName[i + 2]);
+            }
+            if (countryName[i] == "-remove") {
+                mapGraph.deleteConnection(countryName[i + 1], countryName[i + 2]);
+            }
+        }
+        return "";
+    }
+
     /**
      * @param fileName
      * @return message
      */
     public String editMap(String fileName) {
+        if (fileName.endsWith("\n")) {
+            fileName = fileName.trim();
+        }
         String returnMsg = "";
         File mapFile = new File(fileName);
         //if the map file exists
@@ -140,7 +135,7 @@ public class MapEditorService {
             mapGraph.setAdjacentCountries(adjacentCountries);
             mapGraph.setContinentList(continentList);
             mapGraph.setCountryList(countryList);
-            if(!validateMap()){
+            if (!validateMap()) {
                 return "the map is not valid";
             }
 
@@ -197,7 +192,7 @@ public class MapEditorService {
         }
         //3. check if the graph is connected
         if (!checkIfConnected(mapGraph.getAdjacentCountries())) {
-           // "the map graph is not connected"
+            // "the map graph is not connected"
             return false;
         }
 
@@ -212,7 +207,7 @@ public class MapEditorService {
             adj.put(entry.getKey().getId(), entry.getValue());
             start = entry.getKey().getId();
         }
-        boolean visited[] = new boolean[adj.size()+1];
+        boolean visited[] = new boolean[adj.size() + 1];
         LinkedList<Integer> queue = new LinkedList<>();
 
         visited[start] = true;
@@ -245,7 +240,10 @@ public class MapEditorService {
     }
 
     public String saveMap(String fileName) {
-        validateMap();
+        fileName = fileName.trim();
+        if (!validateMap()) {
+            return "the map is not valid";
+        }
 
         String returnMsg = "";
         File mapFile = new File(fileName);
