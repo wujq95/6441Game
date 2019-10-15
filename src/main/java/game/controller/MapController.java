@@ -18,14 +18,21 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import model.*;
 import service.CommandService;
+import service.MapEditorService;
 
+import java.awt.*;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import static javafx.scene.Cursor.HAND;
 
 public class MapController{
 
     private MapGraph mapGraph;
+    private MapGraphObserver mapGraphObserver;
     private ColorController colorPicker;
+    private static MapEditorService mapEditorService;
 
     @FXML
     private MenuItem loadMapMenuItem;
@@ -35,6 +42,9 @@ public class MapController{
 
     @FXML
     public AnchorPane mapPane;
+
+    @FXML
+    public Label continentListLabel;
 
     @FXML
     public AnchorPane actionPane;
@@ -86,34 +96,58 @@ public class MapController{
             try {
                 // rendering the map here
 
-                // TODO: readMapFile(File file);
-                // read map.txt file, return a MapGraph mapGraph
-                // this.mapGraph = mapGraph;
-                this.mapGraph = new MapGraph();
+                String fileName = file.getName();
+                mapEditorService.editMap(fileName);
+                this.mapGraph = MapEditorService.mapGraph;
+                //add observer
+                MapGraphObserver MapEditorMapGraphObserver = new MapGraphObserver(MapEditorService.mapGraph);
 
-                // TODO: mapGraph.getAllContinents();
-                // return a List of Continents
+                // Load all continents
+                List<Continent> continentList = mapGraph.getContinentList();
+                int i = 0;
+                for (Continent continent:continentList) {
+                    Rectangle continentRectangle = new Rectangle(60, 20, continent.getColor());
+                    continentRectangle.setId("Continent" + continent.getContinentName());
+                    Text text = new Text(continent.getContinentName() + ": " + continent.getArmyValue());
+                    text.setId("ContinentLabel" + continent.getContinentName());
 
-                // TODO: continent.getColor();
-                // return the color representing the continent
+                    //set rectangle and text position
+                    double x = mapPane.lookup("#continentListLabel").getLayoutX();
+                    double y = i * 50 + 50;
+                    continentRectangle.setX(x);
+                    continentRectangle.setY(y);
+                    text.setX(x);
+                    text.setY(y - 5);
+
+                    mapPane.getChildren().addAll(continentRectangle, text);
+                    i++;
+                }
 
                 // TODO: mapGraph.getAllCountries();
                 // return a List of Countries
+                List<Country> countryList = mapGraph.getCountryList();
+                for (Country country: countryList) {
+                    double x = country.getX();
+                    double y = country.getY();
+                    // TODO: Color countryColor = country.getContinent().getColor();
+                    // System.out.println(country.getContinent().getContinentName());
+                    Color fakeColor = Color.TAN;
+                    Circle circle = new Circle(x, y, 15, fakeColor);
+                    mapPane.getChildren().add(circle);
+                }
 
-                // TODO: country.getOwner();
-                // return the country's owner player, if not assigned, return null
 
-                // TODO: player.getId();
-                // return the Id representing the player
+                mapGraph.getConnections();
 
                 // TODO: mapGraph.getAllConnections();
                 // return a List of all Edges in the mapGraph
 
-                // TODO: edge.getVertices();
+                // TODO: connection.getCountry1();
+                // TODO: connection.getCountry2();
                 // for each Edge edge, edge.getVertices() returns a 2-element array Country [] countries
                 // representing the two countries on each end of the edge
 
-                // TODO: country.getPosition();
+                // TODO: country.getCoordinates();
                 // return a Point2D(x, y) position of the country
 
                 // load fake data
@@ -126,8 +160,16 @@ public class MapController{
 
     @FXML
     void saveMap(ActionEvent event) {
-        // TODO: mapGraph.writeToFile();
-        // save the map to file
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showSaveDialog(saveMapMenuItem.getParentPopup());
+        if(file != null){
+            MapEditorService.mapGraph = this.mapGraph;
+            System.out.println(file.getName());
+            //mapEditorService.saveMap("ameroki_save.map");
+            //TODO: saveMap only works for saving to an existing file
+            //TODO: save to a new file not work
+            mapEditorService.saveMap(file.getName());
+        }
     }
 
     @FXML
@@ -177,8 +219,9 @@ public class MapController{
         System.out.println(playerName + " add called.");
         /**
          * TODO: add player to game
-         * return the player added.
          * Player player = game.addPlayer(String playerName);
+         * return the player added.
+         * I need game.getPlayerList.size()
          */
         Text playerNameText = new Text(playerName);
         double x = mapPane.getLayoutBounds().getMaxX() - 200;
@@ -197,6 +240,7 @@ public class MapController{
          * TODO: delete player to game
          * return the player deleted.
          * Player player = game.deletePlayer(String playerName);
+         * I need game.getPlayerList.size()
          */
         mapPane.getChildren().remove(mapPane.lookup("#" + playerName + "Player"));
     }
@@ -206,8 +250,9 @@ public class MapController{
         System.out.println("Populate countries called");
         /**
          * TODO: assign the countries in mapGraph to different players
-         * update the mapGraph
          * game.populateCountries(MapGraph mapGraph);
+         * game.getPopulatedCountriesList();
+         * All the countries in the getPopulatedCountriesList already have player assigned
          */
     }
 
@@ -228,9 +273,6 @@ public class MapController{
 
         /**
          * TODO: round_robin
-         * game.getAllCountries
-         * Player player = game.getCurrentPlayer();
-         * player.placeArmy(String countryName);
          */
     }
 
@@ -283,10 +325,10 @@ public class MapController{
 
     public MapController(){
         colorPicker = new ColorController();
-
+        mapEditorService = new MapEditorService();
         // default empty graph before loaded
         this.mapGraph = new MapGraph();
-        MapGraphObserver mapGraphObserver = new MapGraphObserver(mapGraph);
+        this.mapGraphObserver = new MapGraphObserver(mapGraph);
     }
 
     /**
@@ -314,7 +356,7 @@ public class MapController{
                 text.setId("continentNameText");
 
                 //set rectangle and text position
-                double x = mapPane.getLayoutBounds().getMaxX() - 100;
+                double x = mapPane.lookup("#continentListLabel").getLayoutX();
                 double y = mapGraph.getContinentList().size() * 50;
                 continentRectangle.setX(x);
                 continentRectangle.setY(y);

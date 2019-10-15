@@ -94,7 +94,7 @@ public class Country {
     }
 
     /**
-     * return Point2D location of the country
+     * TODO: return Point2D location of the country
      *
      * @return
      */
@@ -103,7 +103,7 @@ public class Country {
     }
 
     /**
-     * add neighbor
+     * TODO: add neighbor
      *
      * @param country
      */
@@ -113,7 +113,7 @@ public class Country {
     }
 
     /**
-     * remove neighbor
+     * TODO: remove neighbor
      *
      * @param country
      */
@@ -122,7 +122,7 @@ public class Country {
     }
 
     /**
-     * check if countries are connected
+     * TODO: check if countries are connected
      *
      * @param country
      * @return
@@ -132,7 +132,7 @@ public class Country {
     }
 
     /**
-     * get country name
+     * TODO: get country name
      *
      * @return
      */
@@ -141,7 +141,7 @@ public class Country {
     }
 
     /**
-     * get all neighbours of a country
+     * TODO: get all neighbours of a country
      *
      * @return
      */
@@ -150,7 +150,7 @@ public class Country {
     }
 
     /**
-     * get the continent that the country belongs to
+     * TODO: get the continent that the country belongs to
      *
      * @return
      */
