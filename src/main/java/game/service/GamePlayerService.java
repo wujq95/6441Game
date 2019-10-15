@@ -101,9 +101,7 @@ public class GamePlayerService {
      */
     public String alloInitialArmy(){
 
-        /*if(checkPlayerNum()){
-
-        }*/
+        boolean flag = false;
 
         Integer playerNum = playerList.size();
         Integer initialArmies = 0;
@@ -117,16 +115,20 @@ public class GamePlayerService {
             initialArmies =25;
         } else if(playerNum==6){
             initialArmies=20;
+        }else{
+            initialArmies =0;
+            flag =true;
         }
+
         for(GamePlayer player:playerList){
             player.setArmyValue(initialArmies);
         }
 
-        //for(Country country:MapEditorService.mapGraph.getCountryList()){
-          //  country.getPlayer().setArmyValue(initialArmies);
-        //}
-
-        return "allocate initial army success";
+        if(flag){
+            return "player number wrong!";
+        }else{
+            return "allocate initial army success";
+        }
     }
 
     /**
