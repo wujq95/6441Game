@@ -1,5 +1,7 @@
+import model.Continent;
 import model.Country;
 import model.GamePlayer;
+import model.MapGraph;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
@@ -7,10 +9,12 @@ import service.GamePlayerService;
 import service.MapEditorService;
 import service.ReinforceService;
 
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class SampleTest {
+
 
     @Test
     public void TestMapValidate(){
@@ -19,6 +23,13 @@ public class SampleTest {
 
     public boolean MapValidation(){
         MapEditorService mapEditorService = new MapEditorService();
+        /*Continent continent = new Continent();
+        MapEditorService.mapGraph = new MapGraph();
+        List<Continent> continentList = new ArrayList<>();
+        continentList.add(continent.setContinentName(Aisa));
+        Country country1 = new Country();
+        Country country2 = new Country();ß
+        MapEditorService.mapGraph.setCountryList();*/
         boolean Msg;
         Msg= mapEditorService.validateMap();
         return Msg;
