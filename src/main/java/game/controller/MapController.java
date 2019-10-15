@@ -180,6 +180,13 @@ public class MapController{
          * return the player added.
          * Player player = game.addPlayer(String playerName);
          */
+        Text playerNameText = new Text(playerName);
+        double x = mapPane.getLayoutBounds().getMaxX() - 200;
+        double y = 1 * 50;
+        playerNameText.setX(x);
+        playerNameText.setY(y);
+        playerNameText.setId(playerName + "Player");
+        mapPane.getChildren().add(playerNameText);
     }
 
     @FXML
@@ -191,6 +198,7 @@ public class MapController{
          * return the player deleted.
          * Player player = game.deletePlayer(String playerName);
          */
+        mapPane.getChildren().remove(mapPane.lookup("#" + playerName + "Player"));
     }
 
     @FXML
