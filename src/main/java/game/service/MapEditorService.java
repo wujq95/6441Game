@@ -99,7 +99,7 @@ public class MapEditorService {
                         while (!(continentLine = br.readLine()).equals("")) {
                             String[] continentInfos = continentLine.split(" ");
                             int armyValue = Integer.parseInt(continentInfos[1]);
-                            Continent continent = new Continent(continentIndex, continentInfos[0], armyValue, Color.web(continentInfos[2]));
+                            Continent continent = new Continent(continentIndex, continentInfos[0], armyValue, Color.web(continentInfos[2]), new LinkedList<Country>());
                             continentMap.put(continentIndex, continent);
                             continentIndex++;
                         }
