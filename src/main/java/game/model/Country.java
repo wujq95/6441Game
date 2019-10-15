@@ -13,6 +13,14 @@ public class Country {
 
     double y;
 
+    List<Country> neighbours;
+
+    Continent parentContinent;
+
+    GamePlayer player;
+
+    Integer armyValue;
+
     public Integer getId() {
         return id;
     }
@@ -52,14 +60,6 @@ public class Country {
     public void setArmyValue(Integer armyValue) {
         this.armyValue = armyValue;
     }
-
-    List<Country> neighbours;
-
-    Continent parentContinent;
-
-    GamePlayer player;
-
-    Integer armyValue;
 
     public Country() {
     }
