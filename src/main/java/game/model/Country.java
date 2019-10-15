@@ -37,11 +37,11 @@ public class Country {
         this.parentContinent = parentContinent;
     }
 
-    public Player getPlayer() {
+    public GamePlayer getPlayer() {
         return player;
     }
 
-    public void setPlayer(Player player) {
+    public void setPlayer(GamePlayer player) {
         this.player = player;
     }
 
@@ -57,7 +57,7 @@ public class Country {
 
     Continent parentContinent;
 
-    Player player;
+    GamePlayer player;
 
     Integer armyValue;
 
