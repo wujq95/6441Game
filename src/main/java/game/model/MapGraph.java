@@ -63,7 +63,7 @@ public class MapGraph {
     }
 
     public MapGraph() {
-
+        continentList = new LinkedList<>();
     }
 
     public void setName(String name) {

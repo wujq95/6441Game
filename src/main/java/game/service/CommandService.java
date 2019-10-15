@@ -22,13 +22,13 @@ public class CommandService {
             }
         } else if (inputCommand.startsWith("editcontinent")) {
             String[] arguments = inputCommand.split(" ");
-            commandReturnMsg = mapEditorService.editMap(arguments[1]);
+            commandReturnMsg = mapEditorService.editContinent(arguments);
         } else if (inputCommand.startsWith("editcountry")) {
             String[] arguments = inputCommand.split(" ");
-            commandReturnMsg = mapEditorService.editMap(arguments[1]);
+            commandReturnMsg = mapEditorService.editCountry(arguments);
         } else if (inputCommand.startsWith("editneighbor")) {
             String[] arguments = inputCommand.split(" ");
-            commandReturnMsg = mapEditorService.editMap(arguments[1]);
+            commandReturnMsg = mapEditorService.editNeighbor(arguments);
         }
         return commandReturnMsg;
     }

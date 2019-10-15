@@ -1,5 +1,6 @@
 package service;
 
+import controller.ColorController;
 import javafx.scene.paint.Color;
 import model.Continent;
 import model.Country;
@@ -9,9 +10,60 @@ import java.io.*;
 import java.util.*;
 
 public class MapEditorService {
+    public MapEditorService(){
+        this.colorPicker = new ColorController();
+    }
 
+    public static ColorController colorPicker;
     public static MapGraph mapGraph;
 
+    public String editContinent(String[] continentName){
+        for(int i=1;i<continentName.length;i++)
+        {
+            if(continentName[i]== "-add")
+            {
+                Color continentColor = colorPicker.pickOneColor();
+                int continentValue=Integer.valueOf(continentName[i+2]).intValue();
+                mapGraph.addContinent(continentName[i+1],continentValue,continentColor);
+            }
+            if(continentName[i]== "-remove")
+            {
+                mapGraph.deleteContinent(continentName[i+1]);
+            }
+        }
+        return "";
+    }
+
+
+    public String editCountry(String[] countryName){
+        for(int i=1;i<countryName.length;i++)
+        {
+            if(countryName[i]== "-add")
+            {
+                mapGraph.addCountry(countryName[i+1],countryName[i+2]);
+            }
+            if(countryName[i]== "-remove")
+            {
+                mapGraph.deleteCountry(countryName[i+1]);
+            }
+        }
+        return "";
+    }
+
+    public String editNeighbor(String[] countryName){
+        for(int i=1;i<countryName.length;i++)
+        {
+            if(countryName[i]== "-add")
+            {
+                mapGraph.addConnection(countryName[i+1],countryName[i+2]);
+            }
+            if(countryName[i]== "-remove")
+            {
+                mapGraph.deleteConnection(countryName[i+1],countryName[i+2]);
+            }
+        }
+        return "";
+    }
     /**
      * @param fileName
      * @return message
