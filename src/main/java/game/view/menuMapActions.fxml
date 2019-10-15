@@ -35,6 +35,7 @@
       <AnchorPane fx:id="mapPane" prefHeight="600.0" prefWidth="200.0">
          <children>
             <Label prefHeight="20.0" prefWidth="100.0" text="Continents List" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0" />
+            <Label layoutX="1261.0" layoutY="10.0" prefHeight="20.0" prefWidth="100.0" text="Players List" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="10.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="actionPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: lightGray;">
