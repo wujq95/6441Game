@@ -11,45 +11,59 @@ import java.util.*;
 
 public class MapEditorService {
     public MapEditorService() {
-        this.colorPicker = new ColorController();
+        colorPicker = new ColorController();
     }
 
-    public static ColorController colorPicker;
+    private static ColorController colorPicker;
     public static MapGraph mapGraph;
 
-    public String editContinent(String[] continentName) {
+    String editContinent(String[] continentName) {
         for (int i = 1; i < continentName.length; i++) {
-            if (continentName[i] == "-add") {
+            if (continentName[i].equals("-add")) {
                 Color continentColor = colorPicker.pickOneColor();
                 int continentValue = Integer.parseInt(continentName[i + 2]);
+
+                Continent newContinent = new Continent(continentName[i + 1], continentValue, continentColor);
                 mapGraph.addContinent(continentName[i + 1], continentValue, continentColor);
+                List<Continent> continentList = mapGraph.getContinentList();
+                continentList.add(newContinent);
+                mapGraph.setContinentList(continentList);
             }
-            if (continentName[i] == "-remove") {
+            if (continentName[i].equals("-remove")) {
                 mapGraph.deleteContinent(continentName[i + 1]);
+
+                List<Continent> continentList = mapGraph.getContinentList();
+                for (Continent continent : continentList) {
+                    if ((continent.getContinentName()).equals(continentName[i + 1])) {
+                        continentList.remove(continent);
+                    }
+                }
+                mapGraph.setContinentList(continentList);
+
             }
         }
         return "";
     }
 
 
-    public String editCountry(String[] countryName) {
+    String editCountry(String[] countryName) {
         for (int i = 1; i < countryName.length; i++) {
-            if (countryName[i] == "-add") {
+            if (countryName[i].equals("-add")) {
                 mapGraph.addCountry(countryName[i + 1], countryName[i + 2]);
             }
-            if (countryName[i] == "-remove") {
+            if (countryName[i].equals("-remove")) {
                 mapGraph.deleteCountry(countryName[i + 1]);
             }
         }
         return "";
     }
 
-    public String editNeighbor(String[] countryName) {
+    String editNeighbor(String[] countryName) {
         for (int i = 1; i < countryName.length; i++) {
-            if (countryName[i] == "-add") {
+            if (countryName[i].equals("-add")) {
                 mapGraph.addConnection(countryName[i + 1], countryName[i + 2]);
             }
-            if (countryName[i] == "-remove") {
+            if (countryName[i].equals("-remove")) {
                 mapGraph.deleteConnection(countryName[i + 1], countryName[i + 2]);
             }
         }
@@ -72,7 +86,6 @@ public class MapEditorService {
             HashMap<Integer, Continent> continentMap = new HashMap<>();
             HashMap<Integer, Country> countryHashMap = new HashMap<>();
 
-            List<Continent> continentList = new LinkedList<>();
             List<Country> countryList = new LinkedList<>();
             LinkedHashMap<Country, List<Country>> adjacentCountries = new LinkedHashMap<>();
 
@@ -88,7 +101,6 @@ public class MapEditorService {
                             int armyValue = Integer.parseInt(continentInfos[1]);
                             Continent continent = new Continent(continentIndex, continentInfos[0], armyValue, Color.web(continentInfos[2]));
                             continentMap.put(continentIndex, continent);
-                            continentList.add(continent);
                             continentIndex++;
                         }
                     }
@@ -102,6 +114,13 @@ public class MapEditorService {
                             double positionX = Double.parseDouble(countryInfos[3]);
                             double positionY = Double.parseDouble(countryInfos[4]);
                             Country country = new Country(countryId, countryInfos[1], continentMap.get(parentContinentId), positionX, positionY, 0);
+
+                            //TODO:continent.setcountries
+                            Continent parent = continentMap.get(parentContinentId);
+                            List<Country> continentCountries = parent.getCountries();
+                            continentCountries.add(country);
+                            parent.setCountries(continentCountries);
+                            continentMap.put(parentContinentId, parent);
 
                             countryList.add(country);
                             countryHashMap.put(countryId, country);
@@ -132,9 +151,10 @@ public class MapEditorService {
                 return returnMsg;
             }
             mapGraph = new MapGraph();
-            mapGraph.setAdjacentCountries(adjacentCountries);
-            mapGraph.setContinentList(continentList);
+            mapGraph.setContinentList(new LinkedList<Continent>(continentMap.values()));
             mapGraph.setCountryList(countryList);
+            mapGraph.setAdjacentCountries(adjacentCountries);
+
             if (!validateMap()) {
                 return "the map is not valid";
             }
@@ -170,7 +190,7 @@ public class MapEditorService {
         for (Country country : mapGraph.getAdjacentCountries().keySet()) {
             showMap.append(" ").append(country.getCountryName()).append(",");
 
-            showMap.append("\n and " + country.getCountryName() + "'s neighbours are");
+            showMap.append("\n and ").append(country.getCountryName()).append("'s neighbours are");
             for (Country neighour : country.getNeighbours()) {
                 showMap.append(" ").append(neighour.getCountryName()).append(",");
             }
@@ -191,8 +211,8 @@ public class MapEditorService {
             return false;
         }
         //2. duplicate continent names
-        Set <String> continentNames = new HashSet<>();
-        for(Continent continent: mapGraph.getContinentList()){
+        Set<String> continentNames = new HashSet<>();
+        for (Continent continent : mapGraph.getContinentList()) {
             continentNames.add(continent.getContinentName());
         }
         if (continentNames.size() < mapGraph.getContinentList().size()) {
@@ -215,7 +235,7 @@ public class MapEditorService {
             adj.put(entry.getKey().getId(), entry.getValue());
             start = entry.getKey().getId();
         }
-        boolean visited[] = new boolean[adj.size() + 1];
+        boolean[] visited = new boolean[adj.size() + 1];
         LinkedList<Integer> queue = new LinkedList<>();
 
         visited[start] = true;
@@ -257,11 +277,6 @@ public class MapEditorService {
         File mapFile = new File(fileName);
 
         if (mapFile.isFile()) {
-            HashMap<Integer, Continent> continentMap = new HashMap<>();
-            HashMap<Integer, Country> countryHashMap = new HashMap<>();
-            List<Continent> continentList = new LinkedList<>();
-            Map<Country, List<Country>> adjacentCountries = new HashMap<>();
-
             List<String> linesBeforeContinents = new LinkedList<>();
             List<String> linesAfterContinents = new LinkedList<>();
             List<String> allLines = new LinkedList<>();
@@ -297,7 +312,7 @@ public class MapEditorService {
                 borderDesc.append(entry.getKey().getId());
 
                 for (Country neighbour : entry.getValue()) {
-                    borderDesc.append(" " + neighbour.getId());
+                    borderDesc.append(" ").append(neighbour.getId());
                 }
 
                 linesAfterContinents.add(borderDesc.toString());
