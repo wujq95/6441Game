@@ -19,12 +19,23 @@ public class Continent {
     public Continent() {
     }
 
+    /**
+     * Default Constructor
+     * @param continentName
+     * @param armyValue
+     * @param color
+     */
     public Continent(String continentName, int armyValue, Color color) {
         this.continentName = continentName;
         this.armyValue = armyValue;
         this.continentColor = color;
     }
 
+    /**
+     * Default Constructor
+     * @param continentName
+     * @param armyValue
+     */
     public Continent(String continentName, int armyValue) {
         this.continentName = continentName;
         this.armyValue = armyValue;
@@ -126,23 +137,46 @@ public class Continent {
         return countries;
     }
 
-
+    /**
+     * Get Id
+     * @return
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Set Id
+     * @param id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Set ContinentName
+     * @param continentName
+     */
     public void setContinentName(String continentName) {
         this.continentName = continentName;
     }
 
+    /**
+     * Set Country
+     * @param countries
+     */
     public void setCountries(List<Country> countries) {
         this.countries = countries;
     }
 
+    /**
+     * Default Constructor for Continent
+     * @param id
+     * @param continentName
+     * @param armyValue
+     * @param color
+     * @param countryList
+     */
     public Continent(Integer id, String continentName, int armyValue, Color color, List<Country> countryList) {
         this.id = id;
         this.continentName = continentName;

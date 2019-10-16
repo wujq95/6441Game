@@ -65,22 +65,43 @@ public class MapGraph {
         }
     }
 
+    /**
+     * Default Constructor
+     */
     public MapGraph() {
         continentList = new LinkedList<>();
     }
 
+    /**
+     * Set Name
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Set Height
+     * @param height
+     */
     public void setHeight(Integer height) {
         this.height = height;
     }
 
+    /**
+     * Set Width
+     * @param width
+     */
     public void setWidth(Integer width) {
         this.width = width;
     }
 
+    /**
+     * Add Continent with name value and color
+     * @param continentName
+     * @param armyValue
+     * @param color
+     */
     public void addContinent(String continentName, Integer armyValue, Color color) {
         /**
          * TODO:

@@ -15,7 +15,14 @@ import java.util.List;
 
 
 public class SampleTest {
+   /* MapEditorService mapEditorService;
+    GamePlayerService gamePlayerService;
+    @Before
+    public void setUp(){
+        mapEditorService = new MapEditorService();
+        gamePlayerService= new GamePlayerService();
 
+    }
 
     @Test
     public void TestMapValidate(){
@@ -30,7 +37,7 @@ public class SampleTest {
         continentList.add(continent.setContinentName(Asia));
         Country country1 = new Country();
         Country country2 = new Country();ß
-        MapEditorService.mapGraph.setCountryList();*/
+        MapEditorService.mapGraph.setCountryList();
         boolean Msg;
         Msg= mapEditorService.validateMap();
         return Msg;
@@ -101,7 +108,7 @@ public class SampleTest {
         boolean Msg=false;
         Msg= mapEditorService.checkIfConnected(country1,country2);
         return Msg;
-    }*/
+    }
 
     @Test
     public void TestArmiesNum(){
@@ -178,5 +185,6 @@ public class SampleTest {
        }
        return result;
     }
+    */
 }
 

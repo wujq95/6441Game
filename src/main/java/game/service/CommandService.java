@@ -1,7 +1,11 @@
 package service;
 
 public class CommandService {
-
+    /**
+     * Prompt Command into console
+     * @param inputCommand
+     * @return
+     */
     public String processCommand(String inputCommand) {
         MapEditorService mapEditorService = new MapEditorService();
         ReinforceService reinforceService = new ReinforceService();
