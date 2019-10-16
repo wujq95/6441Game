@@ -24,15 +24,16 @@ public class MapEditorService {
         for (int i = 1; i < continentNameList.length; i++) {
             if (continentNameList[i].equals("-add")) {
 
-                String  continentName= continentNameList[i+1];
+                String continentName = continentNameList[i + 1];
                 Integer continentValue = Integer.parseInt(continentNameList[i + 2]);
                 Color continentColor = colorPicker.pickOneColor();
 
                 mapGraph.addContinent(continentName, continentValue, continentColor);
-            }
-            if (continentNameList[i].equals("-remove")) {
-                String  continentName= continentNameList[i+1];
+            } else if (continentNameList[i].equals("-remove")) {
+                String continentName = continentNameList[i + 1];
                 mapGraph.deleteContinent(continentName);
+            } else {
+                return "wrong syntax";
             }
         }
         return "map edit success";
@@ -44,14 +45,16 @@ public class MapEditorService {
         for (int i = 1; i < countryName.length; i++) {
             if (countryName[i].equals("-add")) {
                 boolean flag = mapGraph.addCountry(countryName[i + 1], countryName[i + 2]);
-                if(flag){
-                    Msg =  "add success";
-                }else{
-                    Msg =  "continent name not available";
+                if (flag) {
+                    Msg = "add success";
+                } else {
+                    Msg = "continent name not available";
                 }
-            }
-            if (countryName[i].equals("-remove")) {
+            } else if (countryName[i].equals("-remove")) {
                 mapGraph.deleteCountry(countryName[i + 1]);
+                Msg = "remove country success";
+            } else {
+                return "wrong syntax";
             }
         }
         return Msg;
@@ -62,9 +65,14 @@ public class MapEditorService {
         for (int i = 1; i < countryName.length; i++) {
             if (countryName[i].equals("-add")) {
                 mapGraph.addConnection(countryName[i + 1], countryName[i + 2]);
+                Msg="edit success";
             }
             if (countryName[i].equals("-remove")) {
-                mapGraph.deleteConnection(countryName[i + 1], countryName[i + 2]);
+                boolean flag=mapGraph.deleteConnection(countryName[i + 1], countryName[i + 2]);
+                if(flag)
+                    Msg="edit success";
+                else
+                    Msg="Connection is not available";
             }
         }
         return Msg;
@@ -195,15 +203,15 @@ public class MapEditorService {
             showMap.append(" ").append(continent.getContinentName()).append(",");
         }
 
-        showMap.append("\ncountries include country");
-        for (Country country : mapGraph.getAdjacentCountries().keySet()) {
+        showMap.append("\ncountries include");
+        for (Country country : mapGraph.getCountryList()) {
+            showMap.append("\ncountry");
             showMap.append(" ").append(country.getCountryName()).append(",");
 
             showMap.append("\n and ").append(country.getCountryName()).append("'s neighbours are");
             for (Country neighour : country.getNeighbours()) {
                 showMap.append(" ").append(neighour.getCountryName()).append(",");
             }
-            showMap.append(" \ncountry");
         }
 
         return showMap.toString();
@@ -302,9 +310,18 @@ public class MapEditorService {
         }
 
         lines.add("\n[countries]");
+        int index = 0;
         for (Country country : mapGraph.getAdjacentCountries().keySet()) {
-            String countryDesc = country.getId() + " " + country.getCountryName() + " "
-                    + country.getParentContinent().getId() + " " + country.getX() + " " + country.getY();
+            index++;
+            String countryDesc = "";
+            if (country.getId() == null) {
+                countryDesc = index + " " + country.getCountryName() + " "
+                        + country.getParentContinent().getId() + " " + country.getX() + " " + country.getY();
+            } else {
+                countryDesc = country.getId() + " " + country.getCountryName() + " "
+                        + country.getParentContinent().getId() + " " + country.getX() + " " + country.getY();
+            }
+
             lines.add(countryDesc);
         }
 

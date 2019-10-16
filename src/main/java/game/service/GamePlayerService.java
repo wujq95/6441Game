@@ -3,15 +3,16 @@ package service;
 import model.Continent;
 import model.Country;
 import model.GamePlayer;
-import model.MapGraph;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * service class to deal with player
+ */
 public class GamePlayerService {
 
     static List<GamePlayer> playerList = new ArrayList<GamePlayer>();
-
 
     /**
      * check if player name is suitable for the game
@@ -34,8 +35,6 @@ public class GamePlayerService {
 
         List<String> addPlayerNameList = new ArrayList<String>();
         List<String> removePlayerNameList = new ArrayList<String>();
-
-        Integer flag = 0;
 
         for (int i=0;i<arguments.length;i++){
             if (arguments[i].startsWith("-add")){
@@ -68,7 +67,6 @@ public class GamePlayerService {
         }
     }
 
-
     /**
      * check if the playernames that are added are duplicated
      * @param playerNameList
@@ -77,7 +75,6 @@ public class GamePlayerService {
     public boolean checkDuplicatePlayerName(List<String> playerNameList){
 
         if(playerNameList.size()>0) {
-
             boolean flagAll = false;
 
             for (int i = 0; i < playerNameList.size(); i++) {
@@ -91,7 +88,6 @@ public class GamePlayerService {
                     flagAll = true;
                 }
             }
-
             return flagAll;
         }else{
             return false;
@@ -106,7 +102,6 @@ public class GamePlayerService {
     public boolean checkPlayerNameIncluded(List<String> playerNameList){
 
         if(playerNameList.size()>0) {
-
             boolean flagAll = true;
 
             for (int i = 0; i < playerNameList.size(); i++) {
@@ -173,7 +168,7 @@ public class GamePlayerService {
             playerCountryList.add(country);
             playerList.get(randomInt).setCountryList(playerCountryList);
         }*/
-        return "popilatecountries success";
+        return "popilatecountries success and ";
     }
 
     /**
@@ -204,7 +199,6 @@ public class GamePlayerService {
         for(GamePlayer player:playerList){
             player.setArmyValue(initialArmies);
         }
-
         if(flag){
             return "player number wrong!";
         }else{
@@ -260,15 +254,16 @@ public class GamePlayerService {
      * @return
      */
     public String placeAll(){
-
         for (GamePlayer player:playerList){
             Integer remainPlayerArmyValue = player.getArmyValue();
             List<Country> countryList = MapEditorService.mapGraph.getCountryList();
-            for(int i=0;i<remainPlayerArmyValue;i++){
-                Integer index = (int)(Math.random()*countryList.size());
-                Integer newCountryArmyValue = countryList.get(index).getArmyValue()+1;
-                MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(newCountryArmyValue);
-                player.setArmyValue(player.getArmyValue()-1);
+            if(remainPlayerArmyValue>0){
+                for(int i=0;i<remainPlayerArmyValue;i++){
+                    Integer index = (int)(Math.random()*countryList.size());
+                    Integer newCountryArmyValue = countryList.get(index).getArmyValue()+1;
+                    MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(newCountryArmyValue);
+                    player.setArmyValue(player.getArmyValue()-1);
+                }
             }
         }
         return "place all success!";
@@ -279,7 +274,6 @@ public class GamePlayerService {
      * @return
      */
     public String CalReinArmyNum(){
-
         for(GamePlayer player:playerList){
             List<Country> countryList = player.getCountryList();
             Integer CountryNum = Math.round(countryList.size()/3);
@@ -297,7 +291,6 @@ public class GamePlayerService {
                     continentNum++;
                 }
             }
-
             Integer newPlayerArmyValue = player.getArmyValue()+CountryNum+3;
             player.setArmyValue(newPlayerArmyValue);
         }
