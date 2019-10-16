@@ -23,6 +23,7 @@ import service.MapEditorService;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static javafx.scene.Cursor.HAND;
 
@@ -167,6 +168,65 @@ public class MapController{
     public TextArea infoTextView;
 
     /**
+     * load the mapGraph on mapPane
+     * @param mGraph
+     */
+    private void loadMapGraph(MapGraph mGraph){
+        // Load all continents
+        List<Continent> continentList = mGraph.getContinentList();
+        int i = 0;
+        for (Continent continent:continentList) {
+            Rectangle continentRectangle = new Rectangle(60, 20, continent.getColor());
+            continentRectangle.setId("continent" + continent.getContinentName());
+            Text text = new Text(continent.getContinentName() + ": " + continent.getArmyValue());
+            text.setId("continentLabel" + continent.getContinentName());
+
+            //set rectangle and text position
+            //double x = mapPane.lookup("#continentListLabel").getLayoutX();
+            double x = mapPane.getLayoutBounds().getMaxX() - 150;
+            double y = i * 50 + 50;
+            continentRectangle.setX(x);
+            continentRectangle.setY(y);
+            text.setX(x);
+            text.setY(y - 5);
+
+            mapPane.getChildren().addAll(continentRectangle, text);
+            i++;
+        }
+
+        // Load all countries
+        List<Country> countryList = mGraph.getCountryList();
+        for (Country country: countryList) {
+            double x = country.getX();
+            double y = country.getY();
+            Color countryColor = country.getParentContinent().getColor();
+            Circle circle = new Circle(x, y, 15, countryColor);
+            mapPane.getChildren().add(circle);
+        }
+
+        // Load all connections
+        List<Connection> connectionList = mGraph.getConnections();
+        for(Connection connection: connectionList){
+            Country country1 = connection.getCountry1();
+            Country country2 = connection.getCountry2();
+
+            Point2D pt1 = country1.getCoordinator();
+            Point2D pt2 = country2.getCoordinator();
+            String lineId = country1.getCountryName() + country2.getCountryName();
+
+            Line line = new Line();
+            line.setId(lineId);
+            line.setStartX(pt1.getX());
+            line.setStartY(pt1.getY());
+            line.setEndX(pt2.getX());
+            line.setEndY(pt2.getY());
+            line.setStroke(Color.rgb(95,103,105));
+            line.toBack();
+
+            mapPane.getChildren().add(line);
+        }
+    }
+    /**
      * load map the map into MapGraph mapGraph data structure
      * @param event mouse click event
      */
@@ -177,65 +237,15 @@ public class MapController{
         if (file != null) {
             try {
                 // rendering the map here
-
                 String fileName = file.getName();
                 mapEditorService.editMap(fileName);
                 this.mapGraph = MapEditorService.mapGraph;
                 //add observer
                 MapGraphObserver MapEditorMapGraphObserver = new MapGraphObserver(MapEditorService.mapGraph);
 
-                // Load all continents
-                List<Continent> continentList = mapGraph.getContinentList();
-                int i = 0;
-                for (Continent continent:continentList) {
-                    Rectangle continentRectangle = new Rectangle(60, 20, continent.getColor());
-                    continentRectangle.setId("Continent" + continent.getContinentName());
-                    Text text = new Text(continent.getContinentName() + ": " + continent.getArmyValue());
-                    text.setId("ContinentLabel" + continent.getContinentName());
+                //load map graph
+                loadMapGraph(mapGraph);
 
-                    //set rectangle and text position
-                    double x = mapPane.lookup("#continentListLabel").getLayoutX();
-                    double y = i * 50 + 50;
-                    continentRectangle.setX(x);
-                    continentRectangle.setY(y);
-                    text.setX(x);
-                    text.setY(y - 5);
-
-                    mapPane.getChildren().addAll(continentRectangle, text);
-                    i++;
-                }
-
-                // Load all countries
-                List<Country> countryList = mapGraph.getCountryList();
-                for (Country country: countryList) {
-                    double x = country.getX();
-                    double y = country.getY();
-                    Color countryColor = country.getParentContinent().getColor();
-                    Circle circle = new Circle(x, y, 15, countryColor);
-                    mapPane.getChildren().add(circle);
-                }
-
-                // Load all connections
-                List<Connection> connectionList = mapGraph.getConnections();
-                for(Connection connection: connectionList){
-                    Country country1 = connection.getCountry1();
-                    Country country2 = connection.getCountry2();
-
-                    Point2D pt1 = country1.getCoordinator();
-                    Point2D pt2 = country2.getCoordinator();
-                    String lineId = country1.getCountryName() + country2.getCountryName();
-
-                    Line line = new Line();
-                    line.setId(lineId);
-                    line.setStartX(pt1.getX());
-                    line.setStartY(pt1.getY());
-                    line.setEndX(pt2.getX());
-                    line.setEndY(pt2.getY());
-                    line.setStroke(Color.rgb(95,103,105));
-                    line.toBack();
-
-                    mapPane.getChildren().add(line);
-                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -475,65 +485,14 @@ public class MapController{
         }
 
         @Override
+        public void updateMapGraph(){
+            System.out.println("New Continent Delete");
+            mapPane.getChildren().clear();
+            loadMapGraph(MapEditorService.mapGraph);
+        }
+        @Override
         public void updateContinentList(String action, Continent continent){
-            if(action == "add"){
-                System.out.println("Continent Add");
 
-                /**
-                 * Update the GUI
-                 */
-                //create continent rectangle and text
-                Rectangle continentRectangle = new Rectangle(60, 20, continent.getColor());
-                continentRectangle.setId(continent.getContinentName());
-                Text text = new Text(continent.getContinentName() + ": " + continent.getArmyValue());
-                text.setId("continentNameText");
-
-                //set rectangle and text position
-                double x = mapPane.lookup("#continentListLabel").getLayoutX();
-                double y = mapGraph.getContinentList().size() * 50;
-                continentRectangle.setX(x);
-                continentRectangle.setY(y);
-                text.setX(x);
-                text.setY(y-5);
-
-                mapPane.getChildren().addAll(continentRectangle, text);
-
-            }else if(action == "delete"){
-                System.out.println("Continent Delete");
-
-                /**
-                 * Update the GUI
-                 */
-                //remove the deleted continent rectangle on mapPane
-                mapPane.getChildren().remove(mapPane.lookup("#Continent" + continent.getContinentName()));
-                mapPane.getChildren().remove(mapPane.lookup("#ContinentLabel" + continent.getContinentName()));
-                //remove all the remaining continent rectangles & texts on mapPane
-                for (Continent c: mapGraph.getContinentList()) {
-                    mapPane.getChildren().remove(mapPane.lookup("#Continent" + c.getContinentName()));
-                    mapPane.getChildren().remove(mapPane.lookup("#ContinentLabel" + c.getContinentName()));
-                }
-
-                //reload the continent List
-                int i = 1;
-                for (Continent c: mapGraph.getContinentList()) {
-                    //create continent rectangle and text
-                    Rectangle continentRectangle = new Rectangle(60, 20, c.getColor());
-                    continentRectangle.setId("Continent" + c.getContinentName());
-                    Text text = new Text(c.getContinentName() + ": " + c.getArmyValue());
-                    text.setId("ContinentLabel" + c.getContinentName());
-
-                    //set rectangle and text position
-                    double x = mapPane.getLayoutBounds().getMaxX() - 100;
-                    double y = i * 50;
-                    continentRectangle.setX(x);
-                    continentRectangle.setY(y);
-                    text.setX(x);
-                    text.setY(y-5);
-
-                    mapPane.getChildren().addAll(continentRectangle, text);
-                    i++;
-                }
-            }
         }
 
         @Override

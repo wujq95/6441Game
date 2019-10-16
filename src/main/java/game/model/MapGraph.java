@@ -44,10 +44,10 @@ public class MapGraph {
         for (Observer observer : mapObservers) {
             switch (action) {
                 case "add continent":
-                    observer.updateContinentList("add", (Continent) object);
+                    observer.updateMapGraph();
                     break;
                 case "delete continent":
-                    observer.updateContinentList("delete", (Continent) object);
+                    observer.updateMapGraph();
                     break;
                 case "add country":
                     observer.updateCountry("add", (Country) object);
@@ -104,9 +104,11 @@ public class MapGraph {
          * validate the continent
          * add it to map
          */
-        Continent continent = new Continent(continentName, 99, color);
+        int armyValue = Integer.parseInt(continentValue);
+        Continent continent = new Continent(continentName, armyValue, color);
         MapEditorService.mapGraph.continentList.add(continent);
-        notifyObservers("add continent", continent);
+        //notifyObservers("add continent", continent);
+        notifyObservers("add continent", MapEditorService.mapGraph);
     }
 
     /**
@@ -118,13 +120,16 @@ public class MapGraph {
          * get the continent to be deleted by name
          * delete it from map
          */
-
+        Continent removedContinent = new Continent();
         for(int i=0;i<MapEditorService.mapGraph.continentList.size();i++){
             if(continentName.equals(continentList.get(i).getContinentName())){
+                removedContinent = MapEditorService.mapGraph.continentList.get(i);
                 MapEditorService.mapGraph.continentList.remove(i);
             }
         }
-        notifyObservers("delete continent", continentName);
+        //notifyObservers("delete continent", removedContinent);
+        //notifyObservers("delete continent", MapEditorService.mapGraph);
+        notifyObservers("delete continent", MapEditorService.mapGraph);
     }
 
     /**
