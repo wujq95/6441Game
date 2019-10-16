@@ -4,6 +4,9 @@ import model.Country;
 
 import java.util.List;
 
+/**
+ * service class for fortify phase
+ */
 public class FortifyService {
 
     /**

@@ -3,11 +3,13 @@ package service;
 import model.Continent;
 import model.Country;
 import model.GamePlayer;
-import model.MapGraph;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * service class to deal with player
+ */
 public class GamePlayerService {
 
     static List<GamePlayer> playerList = new ArrayList<GamePlayer>();
