@@ -50,6 +50,7 @@ public class MapGraph {
                     observer.updateMapGraph();
                     break;
                 case "add country":
+                    //FORCE update
                     observer.updateCountry("add", (Country) object);
                     break;
                 case "delete country":
