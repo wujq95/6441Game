@@ -1,7 +1,10 @@
 package model;
 
 import javafx.geometry.Point2D;
+
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class Country {
 
@@ -12,6 +15,14 @@ public class Country {
     double x;
 
     double y;
+
+    List<Country> neighbours;
+
+    Continent parentContinent;
+
+    GamePlayer player;
+
+    Integer armyValue;
 
     public Integer getId() {
         return id;
@@ -53,14 +64,6 @@ public class Country {
         this.armyValue = armyValue;
     }
 
-    List<Country> neighbours;
-
-    Continent parentContinent;
-
-    GamePlayer player;
-
-    Integer armyValue;
-
     public Country() {
     }
 
@@ -75,7 +78,12 @@ public class Country {
      * @param continentName
      */
     public Country(String countryName, String continentName) {
-        // TODO：create a new country here
+        this.countryName = countryName;
+        this.neighbours = new LinkedList<>();
+
+        Random r = new Random();
+        this.x = 500 * r.nextDouble();
+        this.y = 500 * r.nextDouble();
     }
 
     public void editCountryName(String countryName) {
@@ -94,7 +102,7 @@ public class Country {
     }
 
     /**
-     * return Point2D location of the country
+     * TODO: return Point2D location of the country
      *
      * @return
      */
@@ -103,7 +111,7 @@ public class Country {
     }
 
     /**
-     * add neighbor
+     * TODO: add neighbor
      *
      * @param country
      */
@@ -113,7 +121,7 @@ public class Country {
     }
 
     /**
-     * remove neighbor
+     * TODO: remove neighbor
      *
      * @param country
      */
@@ -122,7 +130,7 @@ public class Country {
     }
 
     /**
-     * check if countries are connected
+     * TODO: check if countries are connected
      *
      * @param country
      * @return
@@ -132,7 +140,7 @@ public class Country {
     }
 
     /**
-     * get country name
+     * TODO: get country name
      *
      * @return
      */
@@ -141,7 +149,7 @@ public class Country {
     }
 
     /**
-     * get all neighbours of a country
+     * TODO: get all neighbours of a country
      *
      * @return
      */
@@ -150,7 +158,7 @@ public class Country {
     }
 
     /**
-     * get the continent that the country belongs to
+     * TODO: get the continent that the country belongs to
      *
      * @return
      */

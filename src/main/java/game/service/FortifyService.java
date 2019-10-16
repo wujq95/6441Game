@@ -4,6 +4,9 @@ import model.Country;
 
 import java.util.List;
 
+/**
+ * service class for fortify phase
+ */
 public class FortifyService {
 
     /**
@@ -20,10 +23,10 @@ public class FortifyService {
 
         int flag = 0;
         for(int i=0;i<countryList.size();i++){
-            if(countryList.get(i).getCountryName().equals(toCountry)) {
+            if(toCountry.equals(countryList.get(i).getCountryName())) {
                 flag = 1;
                 for (int j = 0; j < countryList.size(); j++) {
-                    if (countryList.get(j).getCountryName().equals(fromCountry)) {
+                    if (fromCountry.equals(countryList.get(j).getCountryName())) {
                         flag = 2;
                         if (countryList.get(j).getArmyValue() < fortifyArmyValue) {
                             flag = 3;
@@ -49,6 +52,10 @@ public class FortifyService {
         }
     }
 
+    /**
+     * fortify none
+     * @return
+     */
     public String fortifyNone(){
         return "fortify none success";
     }

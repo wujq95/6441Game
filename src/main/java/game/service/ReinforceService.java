@@ -1,10 +1,11 @@
 package service;
 
 import model.Country;
-import model.GamePlayer;
 
-import java.util.List;
 
+/**
+ * service class for reinforce phase
+ */
 public class ReinforceService {
 
     /**
@@ -19,7 +20,7 @@ public class ReinforceService {
 
         for(int i=0;i<GamePlayerService.playerList.size();i++){
             for(int j=0;j<GamePlayerService.playerList.get(i).getCountryList().size();j++){
-                if(GamePlayerService.playerList.get(i).getCountryList().get(j).equals(countryName)){
+                if((countryName).equals(GamePlayerService.playerList.get(i).getCountryList().get(j).getCountryName())){
                     flag =1;
                     Integer reinArmyValue = Integer.parseInt(num);
                     Integer playerArmyValue = GamePlayerService.playerList.get(i).getArmyValue();
@@ -27,12 +28,11 @@ public class ReinforceService {
                         flag =2;
                     }else{
                         for(Country country:MapEditorService.mapGraph.getCountryList()){
-                            if(country.getCountryName().equals(countryName)){
+                            if((countryName).equals(country.getCountryName())){
                                 Integer newCountryArmyValue = country.getArmyValue()+reinArmyValue;
                                 country.setArmyValue(newCountryArmyValue);
                             }
                         }
-
                         Integer newPlayerArmyValue = playerArmyValue-reinArmyValue;
                         GamePlayerService.playerList.get(i).setArmyValue(newPlayerArmyValue);
                         //Integer newCountryArmyValue = GamePlayerService.playerList.get(i).getCountryList().get(j).getArmyValue()+reinArmyValue;

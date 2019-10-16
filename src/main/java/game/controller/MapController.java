@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -18,66 +19,158 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import model.*;
 import service.CommandService;
+import service.MapEditorService;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import static javafx.scene.Cursor.HAND;
 
+/**
+ * MapController class
+ * Linking the user input with backend model data
+ */
 public class MapController{
 
+    /**
+     * data structure storing the loaded map
+     */
     private MapGraph mapGraph;
+
+    /**
+     * observer of mapGraph
+     */
+    private MapGraphObserver mapGraphObserver;
+
+    /**
+     * color palette for continents
+     */
     private ColorController colorPicker;
 
+    /**
+     * mapEditorService class contains all edit mapGraph methods
+     */
+    private static MapEditorService mapEditorService;
+
+    /**
+     * load map option on menu bar
+     */
     @FXML
     private MenuItem loadMapMenuItem;
 
+    /**
+     * save map option on menu bar
+     */
     @FXML
     private MenuItem saveMapMenuItem;
 
+    /**
+     * anchor pane displaying the map
+     */
     @FXML
     public AnchorPane mapPane;
 
+    /**
+     * continent list title label
+     */
+    @FXML
+    public Label continentListLabel;
+
+    /**
+     * anchor pane containing all user interface actions to the map graph
+     */
     @FXML
     public AnchorPane actionPane;
 
+    /**
+     * continent name textfield for add/delete continent
+     */
     @FXML
     public TextField continentNameR1;
 
+    /**
+     * continent value textfield for add continent
+     */
     @FXML
     public TextField continentValueR1;
 
+    /**
+     * country name textfield for add/delete country
+     */
     @FXML
     public TextField countryNameR2;
 
+    /**
+     * continent name textfield for add/delete country
+     */
     @FXML
     public TextField continentNameR2;
 
+    /**
+     * country name textfield for add/delete connection
+     */
     @FXML
     public TextField countryNameR3;
 
+    /**
+     * neighbour country name textfield for add/delete connection
+     */
     @FXML
     public TextField neighborCountryNameR3;
 
+    /**
+     * player name textfield for add player
+     */
     @FXML
     public TextField playerNameInput;
 
+    /**
+     * country name textfield for reinforcement
+     */
     @FXML
     public TextField reinforceCountryName;
 
+    /**
+     * reinforce number textfield
+     */
     @FXML
     public TextField reinforceNum;
 
+    /**
+     * fortify from country name textfield
+     */
     @FXML
     public TextField fortifyFrom;
 
+    /**
+     * fortify to country name textfield
+     */
     @FXML
     public TextField fortifyTo;
 
+    /**
+     * number of armies textfield to fortify
+     */
     @FXML
     public TextField fortifyNum;
 
+    /**
+     * textarea for the input command line
+     */
     @FXML
     public TextArea commandLine;
 
+    /**
+     * textarea displaying the information
+     */
+    @FXML
+    public TextArea infoTextView;
+
+    /**
+     * load map the map into MapGraph mapGraph data structure
+     * @param event mouse click event
+     */
     @FXML
     void loadMap(ActionEvent event) {
         FileChooser chooser = new FileChooser();
@@ -86,50 +179,92 @@ public class MapController{
             try {
                 // rendering the map here
 
-                // TODO: readMapFile(File file);
-                // read map.txt file, return a MapGraph mapGraph
-                // this.mapGraph = mapGraph;
-                this.mapGraph = new MapGraph();
+                String fileName = file.getName();
+                mapEditorService.editMap(fileName);
+                this.mapGraph = MapEditorService.mapGraph;
+                //add observer
+                MapGraphObserver MapEditorMapGraphObserver = new MapGraphObserver(MapEditorService.mapGraph);
 
-                // TODO: mapGraph.getAllContinents();
-                // return a List of Continents
+                // Load all continents
+                List<Continent> continentList = mapGraph.getContinentList();
+                int i = 0;
+                for (Continent continent:continentList) {
+                    Rectangle continentRectangle = new Rectangle(60, 20, continent.getColor());
+                    continentRectangle.setId("Continent" + continent.getContinentName());
+                    Text text = new Text(continent.getContinentName() + ": " + continent.getArmyValue());
+                    text.setId("ContinentLabel" + continent.getContinentName());
 
-                // TODO: continent.getColor();
-                // return the color representing the continent
+                    //set rectangle and text position
+                    double x = mapPane.lookup("#continentListLabel").getLayoutX();
+                    double y = i * 50 + 50;
+                    continentRectangle.setX(x);
+                    continentRectangle.setY(y);
+                    text.setX(x);
+                    text.setY(y - 5);
 
-                // TODO: mapGraph.getAllCountries();
-                // return a List of Countries
+                    mapPane.getChildren().addAll(continentRectangle, text);
+                    i++;
+                }
 
-                // TODO: country.getOwner();
-                // return the country's owner player, if not assigned, return null
+                // Load all countries
+                List<Country> countryList = mapGraph.getCountryList();
+                for (Country country: countryList) {
+                    double x = country.getX();
+                    double y = country.getY();
+                    Color countryColor = country.getParentContinent().getColor();
+                    Circle circle = new Circle(x, y, 15, countryColor);
+                    mapPane.getChildren().add(circle);
+                }
 
-                // TODO: player.getId();
-                // return the Id representing the player
+                // Load all connections
+                List<Connection> connectionList = mapGraph.getConnections();
+                for(Connection connection: connectionList){
+                    Country country1 = connection.getCountry1();
+                    Country country2 = connection.getCountry2();
 
-                // TODO: mapGraph.getAllConnections();
-                // return a List of all Edges in the mapGraph
+                    Point2D pt1 = country1.getCoordinator();
+                    Point2D pt2 = country2.getCoordinator();
+                    String lineId = country1.getCountryName() + country2.getCountryName();
 
-                // TODO: edge.getVertices();
-                // for each Edge edge, edge.getVertices() returns a 2-element array Country [] countries
-                // representing the two countries on each end of the edge
+                    Line line = new Line();
+                    line.setId(lineId);
+                    line.setStartX(pt1.getX());
+                    line.setStartY(pt1.getY());
+                    line.setEndX(pt2.getX());
+                    line.setEndY(pt2.getY());
+                    line.setStroke(Color.rgb(95,103,105));
+                    line.toBack();
 
-                // TODO: country.getPosition();
-                // return a Point2D(x, y) position of the country
-
-                // load fake data
-
+                    mapPane.getChildren().add(line);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
+    /**
+     * save the map to file
+     * @param event mouse click event
+     */
     @FXML
     void saveMap(ActionEvent event) {
-        // TODO: mapGraph.writeToFile();
-        // save the map to file
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showSaveDialog(saveMapMenuItem.getParentPopup());
+        if(file != null){
+            MapEditorService.mapGraph = this.mapGraph;
+            System.out.println(file.getName());
+            //mapEditorService.saveMap("ameroki_save.map");
+            //TODO: saveMap only works for saving to an existing file
+            //TODO: save to a new file not work
+            mapEditorService.saveMap(file.getName());
+        }
     }
 
+    /**
+     * add continent
+     * @param event mouse click event
+     */
     @FXML
     void addContinent(ActionEvent event) {
         String continentName = continentNameR1.getText();
@@ -138,12 +273,20 @@ public class MapController{
         mapGraph.addContinent(continentName, continentValueStr, color);
     }
 
+    /**
+     * delete continent
+     * @param event mouse click event
+     */
     @FXML
     void deleteContinent(ActionEvent event) {
         String continentName = continentNameR1.getText();
         mapGraph.deleteContinent(continentName);
     }
 
+    /**
+     * add country
+     * @param event mouse click event
+     */
     @FXML
     void addCountry(ActionEvent event) {
         String countryName = countryNameR2.getText();
@@ -151,12 +294,20 @@ public class MapController{
         mapGraph.addCountry(countryName, continentName);
     }
 
+    /**
+     * delete country
+     * @param event mouse click event
+     */
     @FXML
     void deleteCountry(ActionEvent event) {
         String countryName = countryNameR2.getText();
         mapGraph.deleteCountry(countryName);
     }
 
+    /**
+     * add connection
+     * @param event mouse click event
+     */
     @FXML
     void addConnection(ActionEvent event){
         String cName1 = countryNameR3.getText();
@@ -164,6 +315,10 @@ public class MapController{
         mapGraph.addConnection(cName1, cName2);
     }
 
+    /**
+     * delete connection
+     * @param event mouse click event
+     */
     @FXML
     void deleteConnection(ActionEvent event){
         String cName1 = countryNameR3.getText();
@@ -171,14 +326,19 @@ public class MapController{
         mapGraph.deleteConnection(cName1, cName2);
     }
 
+    /**
+     * add player
+     * @param event mouse click event
+     */
     @FXML
     void addPlayer(ActionEvent event){
         String playerName = playerNameInput.getText();
         System.out.println(playerName + " add called.");
         /**
          * TODO: add player to game
-         * return the player added.
          * Player player = game.addPlayer(String playerName);
+         * return the player added.
+         * I need game.getPlayerList.size()
          */
         Text playerNameText = new Text(playerName);
         double x = mapPane.getLayoutBounds().getMaxX() - 200;
@@ -189,6 +349,10 @@ public class MapController{
         mapPane.getChildren().add(playerNameText);
     }
 
+    /**
+     * delete player
+     * @param event mouse click event
+     */
     @FXML
     void deletePlayer(ActionEvent event){
         String playerName = playerNameInput.getText();
@@ -197,20 +361,30 @@ public class MapController{
          * TODO: delete player to game
          * return the player deleted.
          * Player player = game.deletePlayer(String playerName);
+         * I need game.getPlayerList.size()
          */
         mapPane.getChildren().remove(mapPane.lookup("#" + playerName + "Player"));
     }
 
+    /**
+     * randomly assign countries to all players
+     * @param event mouse click event
+     */
     @FXML
     void populateCountries(ActionEvent event){
         System.out.println("Populate countries called");
         /**
          * TODO: assign the countries in mapGraph to different players
-         * update the mapGraph
          * game.populateCountries(MapGraph mapGraph);
+         * game.getPopulatedCountriesList();
+         * All the countries in the getPopulatedCountriesList already have player assigned
          */
     }
 
+    /**
+     * players place army to a choosen country in round-robin fashion
+     * @param event mouse click event
+     */
     @FXML
     void placeArmy(ActionEvent event){
         System.out.println("Place Army called");
@@ -222,18 +396,23 @@ public class MapController{
          */
     }
 
+    /**
+     * assign armies to all countries
+     * @param event mouse click event
+     */
     @FXML
     void placeAll(ActionEvent event){
         System.out.println("Place All called");
 
         /**
          * TODO: round_robin
-         * game.getAllCountries
-         * Player player = game.getCurrentPlayer();
-         * player.placeArmy(String countryName);
          */
     }
 
+    /**
+     * r
+     * @param event
+     */
     @FXML
     void reinforce(ActionEvent event){
         System.out.println("reinforce called");
@@ -272,21 +451,18 @@ public class MapController{
             String commandStr = commandLine.getText();
             System.out.println("Your command: " + commandStr);
             commandLine.clear();
-            /**
-             * TODO:
-             * Send the commandStr to CommandService
-             */
             CommandService commandService = new CommandService();
-            commandService.processCommand(commandStr);
+            String returnMsg = commandService.processCommand(commandStr);
+            infoTextView.setText(returnMsg);
         }
     }
 
     public MapController(){
         colorPicker = new ColorController();
-
+        mapEditorService = new MapEditorService();
         // default empty graph before loaded
         this.mapGraph = new MapGraph();
-        MapGraphObserver mapGraphObserver = new MapGraphObserver(mapGraph);
+        this.mapGraphObserver = new MapGraphObserver(mapGraph);
     }
 
     /**
@@ -314,7 +490,7 @@ public class MapController{
                 text.setId("continentNameText");
 
                 //set rectangle and text position
-                double x = mapPane.getLayoutBounds().getMaxX() - 100;
+                double x = mapPane.lookup("#continentListLabel").getLayoutX();
                 double y = mapGraph.getContinentList().size() * 50;
                 continentRectangle.setX(x);
                 continentRectangle.setY(y);
@@ -330,12 +506,12 @@ public class MapController{
                  * Update the GUI
                  */
                 //remove the deleted continent rectangle on mapPane
-                mapPane.getChildren().remove(mapPane.lookup("#" + continent.getContinentName()));
-                mapPane.getChildren().remove(mapPane.lookup("#continentNameText"));
+                mapPane.getChildren().remove(mapPane.lookup("#Continent" + continent.getContinentName()));
+                mapPane.getChildren().remove(mapPane.lookup("#ContinentLabel" + continent.getContinentName()));
                 //remove all the remaining continent rectangles & texts on mapPane
                 for (Continent c: mapGraph.getContinentList()) {
-                    mapPane.getChildren().remove(mapPane.lookup("#" + c.getContinentName()));
-                    mapPane.getChildren().remove(mapPane.lookup("#continentNameText"));
+                    mapPane.getChildren().remove(mapPane.lookup("#Continent" + c.getContinentName()));
+                    mapPane.getChildren().remove(mapPane.lookup("#ContinentLabel" + c.getContinentName()));
                 }
 
                 //reload the continent List
@@ -343,9 +519,9 @@ public class MapController{
                 for (Continent c: mapGraph.getContinentList()) {
                     //create continent rectangle and text
                     Rectangle continentRectangle = new Rectangle(60, 20, c.getColor());
-                    continentRectangle.setId(c.getContinentName());
+                    continentRectangle.setId("Continent" + c.getContinentName());
                     Text text = new Text(c.getContinentName() + ": " + c.getArmyValue());
-                    text.setId("continentNameText");
+                    text.setId("ContinentLabel" + c.getContinentName());
 
                     //set rectangle and text position
                     double x = mapPane.getLayoutBounds().getMaxX() - 100;

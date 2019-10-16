@@ -3,16 +3,21 @@ package service;
 import model.Continent;
 import model.Country;
 import model.GamePlayer;
-import model.MapGraph;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * service class to deal with player
+ */
 public class GamePlayerService {
 
     static List<GamePlayer> playerList = new ArrayList<GamePlayer>();
 
-
+    /**
+     * check if player name is suitable for the game
+     * @return
+     */
     public boolean checkPlayerNum(){
         if(playerList.size()>=2&&playerList.size()<=6){
             return true;
@@ -22,34 +27,121 @@ public class GamePlayerService {
     }
 
     /**
-     * add player in the player list
-     * @param playerName
+     * add players to the playerlist and remove players from the playerlist
+     * @param arguments
      * @return
      */
-    public String addPlayer(String playerName){
-        GamePlayer player = new GamePlayer();
-        player.setPlayerName(playerName);
-        playerList.add(player);
-        return "add player success";
+    public String gamePlayerAction(String[] arguments){
+
+        List<String> addPlayerNameList = new ArrayList<String>();
+        List<String> removePlayerNameList = new ArrayList<String>();
+
+        for (int i=0;i<arguments.length;i++){
+            if (arguments[i].startsWith("-add")){
+                addPlayerNameList.add(arguments[i+1]);
+            }
+        }
+
+        for (int i=0;i<arguments.length;i++){
+            if (arguments[i].startsWith("-remove")){
+                removePlayerNameList.add(arguments[i+1]);
+            }
+        }
+
+        boolean checkDuplicate = checkDuplicatePlayerName(addPlayerNameList);
+        boolean checkIncluded = checkPlayerNameIncluded(removePlayerNameList);
+
+        if(checkDuplicate){
+            return "player name duplicate";
+        }else if(!checkIncluded){
+            return "player name can not be found";
+        }else{
+            for(int i =0;i<arguments.length;i++){
+                if(arguments[i].startsWith("-add")){
+                    addPlayer(arguments[i+1]);
+                }else if(arguments[i].startsWith("-remove")){
+                    removePlayer(arguments[i+1]);
+                }
+            }
+            return "gameplayer action success";
+        }
     }
 
     /**
-     * remove a player from the player list
-     * @param playerName
+     * check if the playernames that are added are duplicated
+     * @param playerNameList
      * @return
      */
-    public String removePlayer(String playerName){
-        boolean flag = false;
+    public boolean checkDuplicatePlayerName(List<String> playerNameList){
+
+        if(playerNameList.size()>0) {
+            boolean flagAll = false;
+
+            for (int i = 0; i < playerNameList.size(); i++) {
+                boolean flag = false;
+                for (GamePlayer player : playerList) {
+                    if (playerNameList.get(i).equals(player.getPlayerName())) {
+                        flag = true;
+                    }
+                }
+                if (flag) {
+                    flagAll = true;
+                }
+            }
+            return flagAll;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * check playernames that are removed can be found
+     * @param playerNameList
+     * @return
+     */
+    public boolean checkPlayerNameIncluded(List<String> playerNameList){
+
+        if(playerNameList.size()>0) {
+            boolean flagAll = true;
+
+            for (int i = 0; i < playerNameList.size(); i++) {
+                boolean flag = false;
+                for (GamePlayer player : playerList) {
+                    if (playerNameList.get(i).equals(player.getPlayerName())) {
+                        flag = true;
+                    }
+                }
+                if (!flag) {
+                    flagAll = false;
+                }
+            }
+
+            return flagAll;
+        }else{
+            return true;
+        }
+    }
+
+    /**
+     * add one player to the playerlist by playername
+     * @param playerName
+     */
+    public void addPlayer(String playerName){
+            GamePlayer player = new GamePlayer();
+            player.setPlayerName(playerName);
+            playerList.add(player);
+    }
+
+
+    /**
+     * remove one player from the playerlist by name
+     * @param playerName
+     */
+    public void removePlayer(String playerName){
         for(int i=0;i<playerList.size();i++){
             if(playerList.get(i).getPlayerName().equals(playerName)){
                 playerList.remove(i);
-                flag = true;
             }
-        }
-        if(flag){
-            return "remove player success";
-        }else{
-            return "player can not be found";
         }
     }
 
@@ -58,10 +150,6 @@ public class GamePlayerService {
      * @return
      */
     public String populateCountries(){
-
-        /*if(checkPlayerNum()){
-
-        }*/
 
         List<Country> countryList =  MapEditorService.mapGraph.getCountryList();
 
@@ -80,7 +168,7 @@ public class GamePlayerService {
             playerCountryList.add(country);
             playerList.get(randomInt).setCountryList(playerCountryList);
         }*/
-        return "popilatecountries success";
+        return "popilatecountries success and ";
     }
 
     /**
@@ -89,9 +177,7 @@ public class GamePlayerService {
      */
     public String alloInitialArmy(){
 
-        /*if(checkPlayerNum()){
-
-        }*/
+        boolean flag = false;
 
         Integer playerNum = playerList.size();
         Integer initialArmies = 0;
@@ -105,16 +191,19 @@ public class GamePlayerService {
             initialArmies =25;
         } else if(playerNum==6){
             initialArmies=20;
+        }else{
+            initialArmies =0;
+            flag =true;
         }
+
         for(GamePlayer player:playerList){
             player.setArmyValue(initialArmies);
         }
-
-        //for(Country country:MapEditorService.mapGraph.getCountryList()){
-          //  country.getPlayer().setArmyValue(initialArmies);
-        //}
-
-        return "allocate initial army success";
+        if(flag){
+            return "player number wrong!";
+        }else{
+            return "allocate initial army success";
+        }
     }
 
     /**
@@ -129,7 +218,7 @@ public class GamePlayerService {
         int flag = 0;
         for(int i=0;i<playerList.size();i++){
             for (int j=0;j<playerList.get(i).getCountryList().size();j++){
-                if (playerList.get(i).getCountryList().get(j).equals(countryName)){
+                if (countryName.equals(playerList.get(i).getCountryList().get(j).getCountryName())){
                     flag=1;
                     Integer PlayerArmyValue  = playerList.get(i).getArmyValue();
                     if(PlayerArmyValue==0){
@@ -165,16 +254,17 @@ public class GamePlayerService {
      * @return
      */
     public String placeAll(){
-
         for (GamePlayer player:playerList){
             Integer remainPlayerArmyValue = player.getArmyValue();
-            List<Country> countryList = player.getCountryList();
-            for(int i=0;i<remainPlayerArmyValue;i++){
-                Integer index = (int)(Math.random()*countryList.size());
-                Integer newCountryArmyValue = countryList.get(index).getArmyValue()+1;
-                player.getCountryList().get(i).setArmyValue(newCountryArmyValue);
+            List<Country> countryList = MapEditorService.mapGraph.getCountryList();
+            if(remainPlayerArmyValue>0){
+                for(int i=0;i<remainPlayerArmyValue;i++){
+                    Integer index = (int)(Math.random()*countryList.size());
+                    Integer newCountryArmyValue = countryList.get(index).getArmyValue()+1;
+                    MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(newCountryArmyValue);
+                    player.setArmyValue(player.getArmyValue()-1);
+                }
             }
-            player.setArmyValue(0);
         }
         return "place all success!";
     }
@@ -184,7 +274,6 @@ public class GamePlayerService {
      * @return
      */
     public String CalReinArmyNum(){
-
         for(GamePlayer player:playerList){
             List<Country> countryList = player.getCountryList();
             Integer CountryNum = Math.round(countryList.size()/3);
@@ -202,8 +291,7 @@ public class GamePlayerService {
                     continentNum++;
                 }
             }
-
-            Integer newPlayerArmyValue = player.getArmyValue()+continentNum+CountryNum+3;
+            Integer newPlayerArmyValue = player.getArmyValue()+CountryNum+3;
             player.setArmyValue(newPlayerArmyValue);
         }
 
