@@ -27,7 +27,7 @@ public class SampleTest {
         /*Continent continent = new Continent();
         MapEditorService.mapGraph = new MapGraph();
         List<Continent> continentList = new ArrayList<>();
-        continentList.add(continent.setContinentName(Aisa));
+        continentList.add(continent.setContinentName(Asia));
         Country country1 = new Country();
         Country country2 = new Country();ß
         MapEditorService.mapGraph.setCountryList();*/
@@ -63,7 +63,7 @@ public class SampleTest {
         boolean result = false;
         String fileName="/Users/OngChen/IdeaProjects/6441Game(4)/src/test/Service/ameroki.map",Msg;
         Msg= mapEditorService.saveMap(fileName);
-        if (Msg.equals(fileName.startsWith("The"))){
+        if (Msg.equals(fileName.startsWith("T"))){
             result=true;
         }
 
@@ -79,7 +79,7 @@ public class SampleTest {
         boolean result = false;
         String fileName="/Users/OngChen/IdeaProjects/6441Game(4)/src/test/Service/ameroki.map",Msg;
         Msg= mapEditorService.saveMap(fileName);
-        if (Msg.equals(fileName.endsWith("The"))){
+        if (Msg.equals(fileName.endsWith("T"))){
             result=true;
         }
 
@@ -138,7 +138,7 @@ public class SampleTest {
         String CountryName="",Msg;
         CountryName = country.getCountryName();
         Msg = gamePlayerService.placeOneArmy(CountryName);
-        if (Msg.equals(CountryName.endsWith("success"))){
+        if (Msg.equals(CountryName.endsWith("s"))){
             result=true;
         }
 
@@ -153,9 +153,9 @@ public class SampleTest {
     public boolean PlaceAllValidation(){
         GamePlayerService gamePlayerService = new GamePlayerService();
         String Msg;
-        boolean result =false;
+        boolean result = false;
         Msg=gamePlayerService.placeAll();
-        if(Msg.endsWith("success")){
+        if(Msg.endsWith("s")){
             result = true;
         }
         return result;
@@ -173,7 +173,7 @@ public class SampleTest {
         countryName= country.getCountryName();
        Msg = reinforceService.reinforce(countryName,"3");
        boolean result=false;
-       if (Msg.endsWith("success")){
+       if (Msg.endsWith("s")){
            result = true;
        }
        return result;
