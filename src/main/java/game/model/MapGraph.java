@@ -44,22 +44,25 @@ public class MapGraph {
         for (Observer observer : mapObservers) {
             switch (action) {
                 case "add continent":
-                    observer.updateContinentList("add", (Continent) object);
+                    observer.updateMapGraph();
                     break;
                 case "delete continent":
-                    observer.updateContinentList("delete", (Continent) object);
+                    observer.updateMapGraph();
                     break;
                 case "add country":
                     observer.updateCountry("add", (Country) object);
                     break;
                 case "delete country":
-                    observer.updateCountry("delete", (Country) object);
+                    //observer.updateCountry("delete", (Country) object);
+                    observer.updateMapGraph();
                     break;
                 case "add connection":
-                    observer.updateConnection("add", (Connection) object);
+                    //observer.updateConnection("add", (Connection) object);
+                    observer.updateMapGraph();
                     break;
                 case "delete connection":
-                    observer.updateConnection("delete", (Connection) object);
+                    //observer.updateConnection("delete", (Connection) object);
+                    observer.updateMapGraph();
                     break;
             }
         }
@@ -106,9 +109,11 @@ public class MapGraph {
          * validate the continent
          * add it to map
          */
-        Continent continent = new Continent(continentName, 99, color);
+        int armyValue = Integer.parseInt(continentValue);
+        Continent continent = new Continent(continentName, armyValue, color);
         MapEditorService.mapGraph.continentList.add(continent);
-        notifyObservers("add continent", continent);
+        //notifyObservers("add continent", continent);
+        notifyObservers("add continent", MapEditorService.mapGraph);
     }
 
     /**
@@ -120,6 +125,7 @@ public class MapGraph {
          * get the continent to be deleted by name
          * delete it from map
          */
+
         for (int i = 0; i < MapEditorService.mapGraph.continentList.size(); i++) {
             if (continentName.equals(continentList.get(i).getContinentName())) {
                 List<Country> countryList1=continentList.get(i).getCountries();
@@ -159,7 +165,9 @@ public class MapGraph {
                 MapEditorService.mapGraph.continentList.remove(i);
             }
         }
-        notifyObservers("delete continent", continentName);
+        //notifyObservers("delete continent", removedContinent);
+        //notifyObservers("delete continent", MapEditorService.mapGraph);
+        notifyObservers("delete continent", MapEditorService.mapGraph);
     }
 
     /**
@@ -201,7 +209,6 @@ public class MapGraph {
         } else {
             return false;
         }
-
 
     }
 
@@ -247,7 +254,9 @@ public class MapGraph {
 
 
         Country country = new Country(countryName);
-        notifyObservers("delete country", country);
+        //notifyObservers("delete country", country);
+        notifyObservers("delete country", MapEditorService.mapGraph);
+
     }
 
     /**
@@ -281,8 +290,10 @@ public class MapGraph {
             if (connectionList.get(i).getCountry1().countryName == countryName1 && connectionList.get(i).getCountry2().countryName == countryName2) {
                 Connection connection = connectionList.get(i);
                 connectionList.remove(i);
-                notifyObservers("delete connection", connection);
+                //notifyObservers("delete connection", connection);
+                notifyObservers("delete connection", MapEditorService.mapGraph);
                 flag = true;
+                System.out.println("here");
             }
         }
         return flag;

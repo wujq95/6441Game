@@ -9,6 +9,8 @@ public abstract class Observer {
 
     protected MapGraph mapGraph;
 
+    public abstract void updateMapGraph();
+
     public abstract void updateContinentList(String action, Continent continent);
 
     public abstract void updateCountry(String action, Country country);
