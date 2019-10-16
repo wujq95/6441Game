@@ -18,6 +18,12 @@ public class MapEditorService {
     private static ColorController colorPicker;
     public static MapGraph mapGraph;
 
+    /**
+     * Edit Continent
+     *
+     * @param continentNameList
+     * @return
+     */
     String editContinent(String[] continentNameList) {
 
         // editcontinent -add name value -add name2 value2 -add name3 value3
@@ -39,7 +45,12 @@ public class MapEditorService {
         return "map edit success";
     }
 
-
+    /**
+     * Edit Country
+     *
+     * @param countryName
+     * @return
+     */
     String editCountry(String[] countryName) {
         String Msg = "";
         for (int i = 1; i < countryName.length; i = i + 3) {
@@ -60,6 +71,12 @@ public class MapEditorService {
         return Msg;
     }
 
+    /**
+     * Edit Neighbor
+     *
+     * @param countryName
+     * @return
+     */
     String editNeighbor(String[] countryName) {
         String Msg = "";
         for (int i = 1; i < countryName.length; i = i + 3) {
@@ -212,6 +229,11 @@ public class MapEditorService {
         return returnMsg;
     }
 
+    /**
+     * show Map
+     *
+     * @return
+     */
     public String showMap() {
         StringBuilder showMap = new StringBuilder();
         showMap.append("The continents are");
@@ -233,7 +255,12 @@ public class MapEditorService {
         return showMap.toString();
     }
 
-    boolean validateMap() {
+    /**
+     * Map Validation
+     *
+     * @return
+     */
+    public boolean validateMap() {
         //1. duplicate country names
         Set<String> countryNames = new HashSet<>();
         for (Country country : mapGraph.getCountryList()) {
@@ -278,6 +305,12 @@ public class MapEditorService {
         return true;
     }
 
+    /**
+     * Check adjacent country with each other
+     *
+     * @param adjacentCountries
+     * @return
+     */
     private boolean checkIfConnected(LinkedHashMap<Country, List<Country>> adjacentCountries) {
         Integer start = 1;
 
@@ -321,6 +354,12 @@ public class MapEditorService {
         return connected;
     }
 
+    /**
+     * Save Map
+     *
+     * @param fileName
+     * @return
+     */
     public String saveMap(String fileName) {
         fileName = fileName.trim();
         if (!validateMap()) {
@@ -344,10 +383,10 @@ public class MapEditorService {
         }
 
         lines.add("\n[countries]");
-        int index = 1;
+        int index = 0;
         for (Country country : mapGraph.getCountryList()) {
             String countryDesc = "";
-
+            index++;
             if (country.getId() == null) {
                 countryDesc = index + " " + country.getCountryName() + " "
                         + country.getParentContinent().getId() + " " + country.getX() + " " + country.getY();

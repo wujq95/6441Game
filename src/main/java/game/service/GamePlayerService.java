@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class GamePlayerService {
 
-    static List<GamePlayer> playerList = new ArrayList<GamePlayer>();
+    public static List<GamePlayer> playerList = new ArrayList<GamePlayer>();
 
     /**
      * check if player name is suitable for the game
@@ -273,7 +273,7 @@ public class GamePlayerService {
      * calculate the army number at the beginning of the reinforce phase
      * @return
      */
-    public String CalReinArmyNum(){
+    public String calReinArmyNum(){
         for(GamePlayer player:playerList){
             List<Country> countryList = player.getCountryList();
             Integer CountryNum = Math.round(countryList.size()/3);
@@ -291,7 +291,7 @@ public class GamePlayerService {
                     continentNum++;
                 }
             }
-            Integer newPlayerArmyValue = player.getArmyValue()+CountryNum+3;
+            Integer newPlayerArmyValue = player.getArmyValue()+continentNum+3;
             player.setArmyValue(newPlayerArmyValue);
         }
 
