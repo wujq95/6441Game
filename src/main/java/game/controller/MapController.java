@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -87,6 +88,9 @@ public class MapController{
 
     @FXML
     public TextArea commandLine;
+
+    @FXML
+    public TextArea infoTextView;
 
     @FXML
     void loadMap(ActionEvent event) {
@@ -320,6 +324,16 @@ public class MapController{
              */
             CommandService commandService = new CommandService();
             commandService.processCommand(commandStr);
+            // TODO: display your console info here
+            infoTextView.setText("Bulk text Bulk text Bulk text Bulk text \n" +
+                    "Bulk text Bulk text Bulk text Bulk text Bulk text Bulk text \n" +
+                    "Bulk text Bulk text Bulk text Bulk text Bulk text Bulk text \n" +
+                    "Bulk text Bulk text Bulk text Bulk text Bulk text Bulk text \n" +
+                    "Bulk text Bulk text Bulk text Bulk text Bulk text Bulk text \n" +
+                    "Bulk text Bulk text Bulk text Bulk text Bulk text Bulk text \n" +
+                    "Bulk text Bulk text Bulk text Bulk text Bulk text Bulk text \n" +
+                    "Bulk text Bulk text Bulk text Bulk text Bulk text Bulk text \n" +
+                    "Bulk text Bulk text \n");
         }
     }
 
@@ -372,12 +386,12 @@ public class MapController{
                  * Update the GUI
                  */
                 //remove the deleted continent rectangle on mapPane
-                mapPane.getChildren().remove(mapPane.lookup("#" + continent.getContinentName()));
-                mapPane.getChildren().remove(mapPane.lookup("#continentNameText"));
+                mapPane.getChildren().remove(mapPane.lookup("#Continent" + continent.getContinentName()));
+                mapPane.getChildren().remove(mapPane.lookup("#ContinentLabel" + continent.getContinentName()));
                 //remove all the remaining continent rectangles & texts on mapPane
                 for (Continent c: mapGraph.getContinentList()) {
-                    mapPane.getChildren().remove(mapPane.lookup("#" + c.getContinentName()));
-                    mapPane.getChildren().remove(mapPane.lookup("#continentNameText"));
+                    mapPane.getChildren().remove(mapPane.lookup("#Continent" + c.getContinentName()));
+                    mapPane.getChildren().remove(mapPane.lookup("#ContinentLabel" + c.getContinentName()));
                 }
 
                 //reload the continent List
@@ -385,9 +399,9 @@ public class MapController{
                 for (Continent c: mapGraph.getContinentList()) {
                     //create continent rectangle and text
                     Rectangle continentRectangle = new Rectangle(60, 20, c.getColor());
-                    continentRectangle.setId(c.getContinentName());
+                    continentRectangle.setId("Continent" + c.getContinentName());
                     Text text = new Text(c.getContinentName() + ": " + c.getArmyValue());
-                    text.setId("continentNameText");
+                    text.setId("ContinentLabel" + c.getContinentName());
 
                     //set rectangle and text position
                     double x = mapPane.getLayoutBounds().getMaxX() - 100;
