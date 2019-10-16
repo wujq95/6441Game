@@ -141,6 +141,8 @@ public class MapEditorService {
                                 Integer neighbourId = Integer.valueOf(borderInfos[i]);
 
                                 Connection connection = new Connection(country.getCountryName(), countryHashMap.get(neighbourId).getCountryName());
+                                connection.setCountry1(country);
+                                connection.setCountry2(countryHashMap.get(neighbourId));
                                 connectionList.add(connection);
 
                                 neighbourList.add(countryHashMap.get(neighbourId));
