@@ -1,6 +1,7 @@
 package model;
 
 import javafx.geometry.Point2D;
+import service.MapEditorService;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -124,8 +125,10 @@ public class Country {
      * @param countryName
      * @param continentName
      */
-    public Country(String countryName, String continentName) {
+    public Country(String countryName, String continentName, int countryId) {
+        this.id = countryId;
         this.countryName = countryName;
+        this.parentContinent = findContinentByName(continentName);
         this.neighbours = new LinkedList<>();
 
         Random r = new Random();
@@ -262,5 +265,14 @@ public class Country {
         this.x = positionX;
         this.y = positionY;
         this.armyValue = armyValue;
+    }
+
+    private Continent findContinentByName(String continentName) {
+        for (Continent continent : MapEditorService.mapGraph.getContinentList()) {
+            if (continentName.equals(continent.getContinentName())) {
+                return continent;
+            }
+        }
+        return null;
     }
 }

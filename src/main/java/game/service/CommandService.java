@@ -14,7 +14,7 @@ public class CommandService {
 
         inputCommand = inputCommand.trim();
         String commandReturnMsg = "";
-        if (inputCommand.startsWith("editmap")) {
+        if (inputCommand.startsWith("editmap") || inputCommand.startsWith("loadmap")) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = mapEditorService.editMap(arguments[1]);
         } else if (inputCommand.startsWith("showmap")) {
@@ -37,7 +37,6 @@ public class CommandService {
         } else if (inputCommand.startsWith("editneighbor")) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = mapEditorService.editNeighbor(arguments);
-            commandReturnMsg = mapEditorService.editMap(arguments[1]);
         } else if (inputCommand.startsWith("gameplayer")) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = gamePlayerService.gamePlayerAction(arguments);
