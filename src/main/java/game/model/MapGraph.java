@@ -44,26 +44,26 @@ public class MapGraph {
         for (Observer observer : mapObservers) {
             switch (action) {
                 case "add continent":
-                    observer.updateMapGraph();
+                     observer.updateMapGraph();
                     break;
                 case "delete continent":
-                    observer.updateMapGraph();
+                     observer.updateMapGraph();
                     break;
                 case "add country":
                     //FORCE update
-                    observer.updateCountry("add", (Country) object);
+                     observer.updateCountry("add", (Country) object);
                     break;
                 case "delete country":
                     //observer.updateCountry("delete", (Country) object);
-                    observer.updateMapGraph();
+                     observer.updateMapGraph();
                     break;
                 case "add connection":
                     //observer.updateConnection("add", (Connection) object);
-                    observer.updateMapGraph();
+                     observer.updateMapGraph();
                     break;
                 case "delete connection":
                     //observer.updateConnection("delete", (Connection) object);
-                    observer.updateMapGraph();
+                     observer.updateMapGraph();
                     break;
             }
         }
