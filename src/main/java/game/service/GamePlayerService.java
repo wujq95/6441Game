@@ -12,7 +12,6 @@ public class GamePlayerService {
 
     static List<GamePlayer> playerList = new ArrayList<GamePlayer>();
 
-
     /**
      * check if player name is suitable for the game
      * @return
@@ -34,8 +33,6 @@ public class GamePlayerService {
 
         List<String> addPlayerNameList = new ArrayList<String>();
         List<String> removePlayerNameList = new ArrayList<String>();
-
-        Integer flag = 0;
 
         for (int i=0;i<arguments.length;i++){
             if (arguments[i].startsWith("-add")){
@@ -68,7 +65,6 @@ public class GamePlayerService {
         }
     }
 
-
     /**
      * check if the playernames that are added are duplicated
      * @param playerNameList
@@ -77,7 +73,6 @@ public class GamePlayerService {
     public boolean checkDuplicatePlayerName(List<String> playerNameList){
 
         if(playerNameList.size()>0) {
-
             boolean flagAll = false;
 
             for (int i = 0; i < playerNameList.size(); i++) {
@@ -91,7 +86,6 @@ public class GamePlayerService {
                     flagAll = true;
                 }
             }
-
             return flagAll;
         }else{
             return false;
@@ -106,7 +100,6 @@ public class GamePlayerService {
     public boolean checkPlayerNameIncluded(List<String> playerNameList){
 
         if(playerNameList.size()>0) {
-
             boolean flagAll = true;
 
             for (int i = 0; i < playerNameList.size(); i++) {
@@ -204,7 +197,6 @@ public class GamePlayerService {
         for(GamePlayer player:playerList){
             player.setArmyValue(initialArmies);
         }
-
         if(flag){
             return "player number wrong!";
         }else{
@@ -260,7 +252,6 @@ public class GamePlayerService {
      * @return
      */
     public String placeAll(){
-
         for (GamePlayer player:playerList){
             Integer remainPlayerArmyValue = player.getArmyValue();
             List<Country> countryList = MapEditorService.mapGraph.getCountryList();
@@ -281,7 +272,6 @@ public class GamePlayerService {
      * @return
      */
     public String CalReinArmyNum(){
-
         for(GamePlayer player:playerList){
             List<Country> countryList = player.getCountryList();
             Integer CountryNum = Math.round(countryList.size()/3);
@@ -299,7 +289,6 @@ public class GamePlayerService {
                     continentNum++;
                 }
             }
-
             Integer newPlayerArmyValue = player.getArmyValue()+CountryNum+3;
             player.setArmyValue(newPlayerArmyValue);
         }

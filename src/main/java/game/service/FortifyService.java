@@ -49,6 +49,10 @@ public class FortifyService {
         }
     }
 
+    /**
+     * fortify none
+     * @return
+     */
     public String fortifyNone(){
         return "fortify none success";
     }
