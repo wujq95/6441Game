@@ -122,6 +122,16 @@ public class MapGraph {
         for(int i=0;i<MapEditorService.mapGraph.continentList.size();i++){
             if(continentName.equals(continentList.get(i).getContinentName())){
                 MapEditorService.mapGraph.continentList.remove(i);
+                List<Country> countryList1=continentList.get(i).getCountries();
+                for(int m=0;m<countryList.size();m++)
+                {
+                    for(int j=0;j<countryList1.size();j++)
+                    {
+                        if(countryList.get(m)==countryList1.get(j))
+                            countryList.remove(m);
+                    }
+
+                }
             }
         }
         notifyObservers("delete continent", continentName);
