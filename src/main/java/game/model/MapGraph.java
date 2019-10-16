@@ -221,18 +221,23 @@ public class MapGraph {
      * @param countryName1
      * @param countryName2
      */
-    public void deleteConnection(String countryName1, String countryName2) {
+    public boolean deleteConnection(String countryName1, String countryName2) {
         /**
          * TODO:
          * get the Connection to be deleted by name
          * delete it from map
          */
+        boolean flag = false;
         int i = 0;
         for (; i < connectionList.size(); i++) {
-            if (connectionList.get(i).getCountry1().countryName == countryName1 && connectionList.get(i).getCountry2().countryName == countryName2)
+            if (connectionList.get(i).getCountry1().countryName == countryName1 && connectionList.get(i).getCountry2().countryName == countryName2) {
+                Connection connection = connectionList.get(i);
                 connectionList.remove(i);
+                notifyObservers("delete connection", connection);
+                flag = true;
+            }
         }
-        notifyObservers("delete connection", connectionList.get(i));
+        return flag;
     }
 
     /**

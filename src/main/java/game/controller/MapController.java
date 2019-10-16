@@ -206,35 +206,37 @@ public class MapController{
                     i++;
                 }
 
-                // TODO: mapGraph.getAllCountries();
-                // return a List of Countries
+                // Load all countries
                 List<Country> countryList = mapGraph.getCountryList();
                 for (Country country: countryList) {
                     double x = country.getX();
                     double y = country.getY();
-                    // TODO: Color countryColor = country.getContinent().getColor();
-                    // System.out.println(country.getContinent().getContinentName());
-                    Color fakeColor = Color.TAN;
-                    Circle circle = new Circle(x, y, 15, fakeColor);
+                    Color countryColor = country.getParentContinent().getColor();
+                    Circle circle = new Circle(x, y, 15, countryColor);
                     mapPane.getChildren().add(circle);
                 }
 
+                // Load all connections
+                List<Connection> connectionList = mapGraph.getConnections();
+                for(Connection connection: connectionList){
+                    Country country1 = connection.getCountry1();
+                    Country country2 = connection.getCountry2();
 
-                mapGraph.getConnections();
+                    Point2D pt1 = country1.getCoordinator();
+                    Point2D pt2 = country2.getCoordinator();
+                    String lineId = country1.getCountryName() + country2.getCountryName();
 
-                // TODO: mapGraph.getAllConnections();
-                // return a List of all Edges in the mapGraph
+                    Line line = new Line();
+                    line.setId(lineId);
+                    line.setStartX(pt1.getX());
+                    line.setStartY(pt1.getY());
+                    line.setEndX(pt2.getX());
+                    line.setEndY(pt2.getY());
+                    line.setStroke(Color.rgb(95,103,105));
+                    line.toBack();
 
-                // TODO: connection.getCountry1();
-                // TODO: connection.getCountry2();
-                // for each Edge edge, edge.getVertices() returns a 2-element array Country [] countries
-                // representing the two countries on each end of the edge
-
-                // TODO: country.getCoordinates();
-                // return a Point2D(x, y) position of the country
-
-                // load fake data
-
+                    mapPane.getChildren().add(line);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

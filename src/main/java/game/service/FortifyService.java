@@ -4,6 +4,9 @@ import model.Country;
 
 import java.util.List;
 
+/**
+ * service class for fortify phase
+ */
 public class FortifyService {
 
     /**
@@ -49,6 +52,10 @@ public class FortifyService {
         }
     }
 
+    /**
+     * fortify none
+     * @return
+     */
     public String fortifyNone(){
         return "fortify none success";
     }

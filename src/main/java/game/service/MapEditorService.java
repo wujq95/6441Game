@@ -65,9 +65,14 @@ public class MapEditorService {
         for (int i = 1; i < countryName.length; i++) {
             if (countryName[i].equals("-add")) {
                 mapGraph.addConnection(countryName[i + 1], countryName[i + 2]);
+                Msg="edit success";
             }
             if (countryName[i].equals("-remove")) {
-                mapGraph.deleteConnection(countryName[i + 1], countryName[i + 2]);
+                boolean flag=mapGraph.deleteConnection(countryName[i + 1], countryName[i + 2]);
+                if(flag)
+                    Msg="edit success";
+                else
+                    Msg="Connection is not available";
             }
         }
         return Msg;
@@ -144,6 +149,8 @@ public class MapEditorService {
                                 Integer neighbourId = Integer.valueOf(borderInfos[i]);
 
                                 Connection connection = new Connection(country.getCountryName(), countryHashMap.get(neighbourId).getCountryName());
+                                connection.setCountry1(country);
+                                connection.setCountry2(countryHashMap.get(neighbourId));
                                 connectionList.add(connection);
 
                                 neighbourList.add(countryHashMap.get(neighbourId));
