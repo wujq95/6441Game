@@ -276,7 +276,7 @@ public class GamePlayerService {
     public String calReinArmyNum(){
         for(GamePlayer player:playerList){
             List<Country> countryList = player.getCountryList();
-            Integer CountryNum = Math.round(countryList.size()/3);
+            Integer countryNum = Math.round(countryList.size()/3);
 
             List<Continent> continentList =  MapEditorService.mapGraph.getContinentList();
             Integer continentNum = 0;
@@ -291,7 +291,7 @@ public class GamePlayerService {
                     continentNum++;
                 }
             }
-            Integer newPlayerArmyValue = player.getArmyValue()+continentNum+3;
+            Integer newPlayerArmyValue = player.getArmyValue()+countryNum+continentNum+3;
             player.setArmyValue(newPlayerArmyValue);
         }
 
