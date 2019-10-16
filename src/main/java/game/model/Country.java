@@ -24,49 +24,96 @@ public class Country {
 
     Integer armyValue = 0;
 
+    /**
+     * Get Id
+     * @return
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Set Id
+     * @param id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Set Country Name
+     * @param countryName
+     */
     public void setCountryName(String countryName) {
         this.countryName = countryName;
     }
 
+    /**
+     * Set Neighbours
+     * @param neighbours
+     */
     public void setNeighbours(List<Country> neighbours) {
         this.neighbours = neighbours;
     }
 
+    /**
+     * Get ParentContinent
+     * @return
+     */
     public Continent getParentContinent() {
         return parentContinent;
     }
 
+    /**
+     * Set ParentContinent
+     * @param parentContinent
+     */
     public void setParentContinent(Continent parentContinent) {
         this.parentContinent = parentContinent;
     }
 
+    /**
+     * Get Player
+     * @return
+     */
     public GamePlayer getPlayer() {
         return player;
     }
 
+    /**
+     * Set Player
+     * @param player
+     */
     public void setPlayer(GamePlayer player) {
         this.player = player;
     }
 
+    /**
+     * Get Army Number
+     * @return armyValue
+     */
     public Integer getArmyValue() {
         return armyValue;
     }
 
+    /**
+     * Set Army Number
+     * @param armyValue
+     */
     public void setArmyValue(Integer armyValue) {
         this.armyValue = armyValue;
     }
 
+    /**
+     * Default Constructor
+     */
     public Country() {
     }
 
+    /**
+     * Constructor
+     * @param countryName
+     */
     public Country(String countryName) {
         this.countryName = countryName;
     }
@@ -167,22 +214,47 @@ public class Country {
         return continent;
     }
 
+    /**
+     * Get Country Position X
+     * @return
+     */
     public double getX() {
         return x;
     }
 
+    /**
+     * Set Country Position X
+     * @param x
+     */
     public void setX(Integer x) {
         this.x = x;
     }
 
+    /**
+     * Get Country Position Y
+     * @return
+     */
     public double getY() {
         return y;
     }
 
+    /**
+     * Get Country Position Y
+     * @param y
+     */
     public void setY(Integer y) {
         this.y = y;
     }
 
+    /**
+     * Country Constructor
+     * @param id
+     * @param countryName
+     * @param parentContinent
+     * @param positionX
+     * @param positionY
+     * @param armyValue
+     */
     public Country(Integer id, String countryName, Continent parentContinent, double positionX, double positionY, int armyValue) {
         this.id = id;
         this.countryName = countryName;

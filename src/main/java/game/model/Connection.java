@@ -22,18 +22,34 @@ public class Connection {
 
     }
 
+    /**
+     * Get Country1
+     * @return
+     */
     public Country getCountry1() {
         return country1;
     }
 
+    /**
+     * Set Country1
+     * @param country1
+     */
     public void setCountry1(Country country1) {
         this.country1 = country1;
     }
 
+    /**
+     * Get Country2
+     * @return
+     */
     public Country getCountry2() {
         return country2;
     }
 
+    /**
+     * Set Country
+     * @param country2
+     */
     public void setCountry2(Country country2) {
         this.country2 = country2;
     }

@@ -226,6 +226,7 @@ public class MapController{
             mapPane.getChildren().add(line);
         }
     }
+
     /**
      * load map the map into MapGraph mapGraph data structure
      * @param event mouse click event
@@ -419,8 +420,8 @@ public class MapController{
     }
 
     /**
-     *
-     * @param event
+     * reinforce a number of armies to the selected country
+     * @param event mouse click event
      */
     @FXML
     void reinforce(ActionEvent event){
@@ -432,6 +433,10 @@ public class MapController{
          */
     }
 
+    /**
+     * move a number of armies from one country to another
+     * @param event mouse click event
+     */
     @FXML
     void fortify(ActionEvent event){
         System.out.println("fortify called");
@@ -443,6 +448,10 @@ public class MapController{
          */
     }
 
+    /**
+     * do not fortify, do nothing
+     * @param event mouse click event
+     */
     @FXML
     void fortifyNone(ActionEvent event){
         System.out.println("fortifyNone called");
@@ -452,6 +461,10 @@ public class MapController{
          */
     }
 
+    /**
+     * send the command line, and display the return info
+     * @param event mouse click event
+     */
     @FXML
     void detectEnter(KeyEvent event){
         if (event.getCode() == KeyCode.ENTER){
@@ -466,6 +479,9 @@ public class MapController{
         }
     }
 
+    /**
+     * MapController constructor
+     */
     public MapController(){
         colorPicker = new ColorController();
         mapEditorService = new MapEditorService();
@@ -478,12 +494,18 @@ public class MapController{
      * MapGraphObserver
      */
     public class MapGraphObserver extends Observer{
-
+        /**
+         * mapGraphObserver constructor
+         * @param mapGraph
+         */
         public MapGraphObserver(MapGraph mapGraph){
             this.mapGraph = mapGraph;
             this.mapGraph.attach(this);
         }
 
+        /**
+         * reload the mapGraph
+         */
         @Override
         public void updateMapGraph(){
             System.out.println("New Continent Delete");
@@ -491,11 +513,16 @@ public class MapController{
             loadMapGraph(MapEditorService.mapGraph);
         }
 
-        @Override
-        public void updateContinentList(String action, Continent continent){
+//        @Override
+//        public void updateContinentList(String action, Continent continent){
+//
+//        }
 
-        }
-
+        /**
+         * add the newly added country to mapPane
+         * @param action "add"
+         * @param country contains the information of the newly added country
+         */
         @Override
         public void updateCountry(String action, Country country){
             if(action == "add"){
@@ -537,53 +564,52 @@ public class MapController{
                 });
 
                 mapPane.getChildren().addAll(circle, label);
-
             }
         }
 
-        @Override
-        public void updateConnection(String action, Connection connection) {
-            if(action == "add"){
-                System.out.println("The Connection Add");
-                /**
-                 * TODO:
-                 * Country country1 = connection.getCountry1();
-                 * Country country2 = connection.getCountry2();
-                 * Point2D pt1 = country1.getCoordinator();
-                 * Point2D pt2 = country2.getCoordinator();
-                 * String lineId = country1.getCountryName() + country2.getCountryName();
-                 */
-
-                // Two Fake Point2D data here
-                Point2D pt1 = new Point2D(300, 500);
-                Point2D pt2 = new Point2D(350, 450);
-                // Fake lineId
-                String lineId = "FakeLineId";
-
-                Line line = new Line();
-                line.setId(lineId);
-                line.setStartX(pt1.getX());
-                line.setStartY(pt1.getY());
-                line.setEndX(pt2.getX());
-                line.setEndY(pt2.getY());
-                line.setStroke(Color.rgb(95,103,105));
-                line.toBack();
-
-                mapPane.getChildren().add(line);
-
-            } else if(action == "delete"){
-                System.out.println("The Connection Delete");
-
-                /**
-                 * TODO:
-                 * Country country1 = connection.getCountry1();
-                 * Country country2 = connection.getCountry2();
-                 * String lineId = country1.getCountryName() +  country2.getCountryName();
-                 */
-
-                // Now remove the connection by a fake Id
-                mapPane.getChildren().remove(mapPane.lookup("#FakeLineId"));
-            }
-        }
+//        @Override
+//        public void updateConnection(String action, Connection connection) {
+//            if(action == "add"){
+//                System.out.println("The Connection Add");
+//                /**
+//                 * TODO:
+//                 * Country country1 = connection.getCountry1();
+//                 * Country country2 = connection.getCountry2();
+//                 * Point2D pt1 = country1.getCoordinator();
+//                 * Point2D pt2 = country2.getCoordinator();
+//                 * String lineId = country1.getCountryName() + country2.getCountryName();
+//                 */
+//
+//                // Two Fake Point2D data here
+//                Point2D pt1 = new Point2D(300, 500);
+//                Point2D pt2 = new Point2D(350, 450);
+//                // Fake lineId
+//                String lineId = "FakeLineId";
+//
+//                Line line = new Line();
+//                line.setId(lineId);
+//                line.setStartX(pt1.getX());
+//                line.setStartY(pt1.getY());
+//                line.setEndX(pt2.getX());
+//                line.setEndY(pt2.getY());
+//                line.setStroke(Color.rgb(95,103,105));
+//                line.toBack();
+//
+//                mapPane.getChildren().add(line);
+//
+//            } else if(action == "delete"){
+//                System.out.println("The Connection Delete");
+//
+//                /**
+//                 * TODO:
+//                 * Country country1 = connection.getCountry1();
+//                 * Country country2 = connection.getCountry2();
+//                 * String lineId = country1.getCountryName() +  country2.getCountryName();
+//                 */
+//
+//                // Now remove the connection by a fake Id
+//                mapPane.getChildren().remove(mapPane.lookup("#FakeLineId"));
+//            }
+//        }
     }
 }
