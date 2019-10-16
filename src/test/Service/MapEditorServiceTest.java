@@ -17,7 +17,7 @@ public class MapEditorServiceTest {
     private MapEditorService mapEditorService;
 
     @Before
-    public void setuUp() {
+    public void setUp() {
         mapEditorService = new MapEditorService();
     }
 
@@ -136,15 +136,15 @@ public class MapEditorServiceTest {
 
     @Test
     public void testSaveMap() throws NoSuchFieldException {
-        String fileName = "/Applications/Domination/maps/ameroki.map";
+        String fileName = "/Applications/Domination/maps/risk.map";
         String returnMsg = mapEditorService.editMap(fileName);
 
-        Assert.assertEquals(returnMsg,"");
+        Assert.assertEquals(returnMsg, "load map from file /Applications/Domination/maps/risk.map success");
         LinkedHashMap<Country, List<Country>> countryMap = MapEditorService.mapGraph.getAdjacentCountries();
         List<Map.Entry<Country, List<Country>>> entryList = new LinkedList<>();
         entryList.addAll(countryMap.entrySet());
         //make country#1's neighbours the same as country#2's
-        countryMap.put(entryList.get(0).getKey(),entryList.get(1).getValue());
+        countryMap.put(entryList.get(0).getKey(), entryList.get(1).getValue());
         MapEditorService.mapGraph.setAdjacentCountries(countryMap);
         countryMap = MapEditorService.mapGraph.getAdjacentCountries();
         mapEditorService.saveMap(fileName);

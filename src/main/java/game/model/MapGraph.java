@@ -122,12 +122,10 @@ public class MapGraph {
         for (int i = 0; i < MapEditorService.mapGraph.continentList.size(); i++) {
             if (continentName.equals(continentList.get(i).getContinentName())) {
                 MapEditorService.mapGraph.continentList.remove(i);
-                List<Country> countryList1=continentList.get(i).getCountries();
-                for(int m=0;m<countryList.size();m++)
-                {
-                    for(int j=0;j<countryList1.size();j++)
-                    {
-                        if(countryList.get(m)==countryList1.get(j))
+                List<Country> countryList1 = continentList.get(i).getCountries();
+                for (int m = 0; m < countryList.size(); m++) {
+                    for (int j = 0; j < countryList1.size(); j++) {
+                        if (countryList.get(m) == countryList1.get(j))
                             countryList.remove(m);
                     }
 
@@ -142,12 +140,6 @@ public class MapGraph {
      * @param continentName
      */
     public boolean addCountry(String countryName, String continentName) {
-        /**
-         * TODO:
-         * validate the country
-         * add it to map
-         */
-
         List<Continent> continentList = MapEditorService.mapGraph.getContinentList();
         boolean flag = false;
         for (int i = 0; i < continentList.size(); i++) {
@@ -156,9 +148,11 @@ public class MapGraph {
             }
         }
         if (flag) {
-            Country country = new Country(countryName, continentName);
+            int size = MapEditorService.mapGraph.countryList.size();
+            Country country = new Country(countryName, continentName, size + 1);
             notifyObservers("add country", country);
             MapEditorService.mapGraph.countryList.add(country);
+            MapEditorService.mapGraph.adjacentCountries.put(country, new LinkedList<>());
             for (int i = 0; i < continentList.size(); i++) {
                 if (continentName.equals(continentList.get(i).getContinentName())) {
                     List<Country> countryList1 = MapEditorService.mapGraph.getContinentList().get(i).countries;
