@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -20,74 +21,156 @@ import model.*;
 import service.CommandService;
 import service.MapEditorService;
 
-import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import static javafx.scene.Cursor.HAND;
 
+/**
+ * MapController class
+ * Linking the user input with backend model data
+ */
 public class MapController{
 
+    /**
+     * data structure storing the loaded map
+     */
     private MapGraph mapGraph;
+
+    /**
+     * observer of mapGraph
+     */
     private MapGraphObserver mapGraphObserver;
+
+    /**
+     * color palette for continents
+     */
     private ColorController colorPicker;
+
+    /**
+     * mapEditorService class contains all edit mapGraph methods
+     */
     private static MapEditorService mapEditorService;
 
+    /**
+     * load map option on menu bar
+     */
     @FXML
     private MenuItem loadMapMenuItem;
 
+    /**
+     * save map option on menu bar
+     */
     @FXML
     private MenuItem saveMapMenuItem;
 
+    /**
+     * anchor pane displaying the map
+     */
     @FXML
     public AnchorPane mapPane;
 
+    /**
+     * continent list title label
+     */
     @FXML
     public Label continentListLabel;
 
+    /**
+     * anchor pane containing all user interface actions to the map graph
+     */
     @FXML
     public AnchorPane actionPane;
 
+    /**
+     * continent name textfield for add/delete continent
+     */
     @FXML
     public TextField continentNameR1;
 
+    /**
+     * continent value textfield for add continent
+     */
     @FXML
     public TextField continentValueR1;
 
+    /**
+     * country name textfield for add/delete country
+     */
     @FXML
     public TextField countryNameR2;
 
+    /**
+     * continent name textfield for add/delete country
+     */
     @FXML
     public TextField continentNameR2;
 
+    /**
+     * country name textfield for add/delete connection
+     */
     @FXML
     public TextField countryNameR3;
 
+    /**
+     * neighbour country name textfield for add/delete connection
+     */
     @FXML
     public TextField neighborCountryNameR3;
 
+    /**
+     * player name textfield for add player
+     */
     @FXML
     public TextField playerNameInput;
 
+    /**
+     * country name textfield for reinforcement
+     */
     @FXML
     public TextField reinforceCountryName;
 
+    /**
+     * reinforce number textfield
+     */
     @FXML
     public TextField reinforceNum;
 
+    /**
+     * fortify from country name textfield
+     */
     @FXML
     public TextField fortifyFrom;
 
+    /**
+     * fortify to country name textfield
+     */
     @FXML
     public TextField fortifyTo;
 
+    /**
+     * number of armies textfield to fortify
+     */
     @FXML
     public TextField fortifyNum;
 
+    /**
+     * textarea for the input command line
+     */
     @FXML
     public TextArea commandLine;
 
+    /**
+     * textarea displaying the information
+     */
+    @FXML
+    public TextArea infoTextView;
+
+    /**
+     * load map the map into MapGraph mapGraph data structure
+     * @param event mouse click event
+     */
     @FXML
     void loadMap(ActionEvent event) {
         FileChooser chooser = new FileChooser();
@@ -158,6 +241,10 @@ public class MapController{
         }
     }
 
+    /**
+     * save the map to file
+     * @param event mouse click event
+     */
     @FXML
     void saveMap(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -172,6 +259,10 @@ public class MapController{
         }
     }
 
+    /**
+     * add continent
+     * @param event mouse click event
+     */
     @FXML
     void addContinent(ActionEvent event) {
         String continentName = continentNameR1.getText();
@@ -180,12 +271,20 @@ public class MapController{
         mapGraph.addContinent(continentName, continentValueStr, color);
     }
 
+    /**
+     * delete continent
+     * @param event mouse click event
+     */
     @FXML
     void deleteContinent(ActionEvent event) {
         String continentName = continentNameR1.getText();
         mapGraph.deleteContinent(continentName);
     }
 
+    /**
+     * add country
+     * @param event mouse click event
+     */
     @FXML
     void addCountry(ActionEvent event) {
         String countryName = countryNameR2.getText();
@@ -193,12 +292,20 @@ public class MapController{
         mapGraph.addCountry(countryName, continentName);
     }
 
+    /**
+     * delete country
+     * @param event mouse click event
+     */
     @FXML
     void deleteCountry(ActionEvent event) {
         String countryName = countryNameR2.getText();
         mapGraph.deleteCountry(countryName);
     }
 
+    /**
+     * add connection
+     * @param event mouse click event
+     */
     @FXML
     void addConnection(ActionEvent event){
         String cName1 = countryNameR3.getText();
@@ -206,6 +313,10 @@ public class MapController{
         mapGraph.addConnection(cName1, cName2);
     }
 
+    /**
+     * delete connection
+     * @param event mouse click event
+     */
     @FXML
     void deleteConnection(ActionEvent event){
         String cName1 = countryNameR3.getText();
@@ -213,6 +324,10 @@ public class MapController{
         mapGraph.deleteConnection(cName1, cName2);
     }
 
+    /**
+     * add player
+     * @param event mouse click event
+     */
     @FXML
     void addPlayer(ActionEvent event){
         String playerName = playerNameInput.getText();
@@ -232,6 +347,10 @@ public class MapController{
         mapPane.getChildren().add(playerNameText);
     }
 
+    /**
+     * delete player
+     * @param event mouse click event
+     */
     @FXML
     void deletePlayer(ActionEvent event){
         String playerName = playerNameInput.getText();
@@ -245,6 +364,10 @@ public class MapController{
         mapPane.getChildren().remove(mapPane.lookup("#" + playerName + "Player"));
     }
 
+    /**
+     * randomly assign countries to all players
+     * @param event mouse click event
+     */
     @FXML
     void populateCountries(ActionEvent event){
         System.out.println("Populate countries called");
@@ -256,6 +379,10 @@ public class MapController{
          */
     }
 
+    /**
+     * players place army to a choosen country in round-robin fashion
+     * @param event mouse click event
+     */
     @FXML
     void placeArmy(ActionEvent event){
         System.out.println("Place Army called");
@@ -267,6 +394,10 @@ public class MapController{
          */
     }
 
+    /**
+     * assign armies to all countries
+     * @param event mouse click event
+     */
     @FXML
     void placeAll(ActionEvent event){
         System.out.println("Place All called");
@@ -276,6 +407,10 @@ public class MapController{
          */
     }
 
+    /**
+     * r
+     * @param event
+     */
     @FXML
     void reinforce(ActionEvent event){
         System.out.println("reinforce called");
@@ -314,12 +449,9 @@ public class MapController{
             String commandStr = commandLine.getText();
             System.out.println("Your command: " + commandStr);
             commandLine.clear();
-            /**
-             * TODO:
-             * Send the commandStr to CommandService
-             */
             CommandService commandService = new CommandService();
-            commandService.processCommand(commandStr);
+            String returnMsg = commandService.processCommand(commandStr);
+            infoTextView.setText(returnMsg);
         }
     }
 
@@ -372,12 +504,12 @@ public class MapController{
                  * Update the GUI
                  */
                 //remove the deleted continent rectangle on mapPane
-                mapPane.getChildren().remove(mapPane.lookup("#" + continent.getContinentName()));
-                mapPane.getChildren().remove(mapPane.lookup("#continentNameText"));
+                mapPane.getChildren().remove(mapPane.lookup("#Continent" + continent.getContinentName()));
+                mapPane.getChildren().remove(mapPane.lookup("#ContinentLabel" + continent.getContinentName()));
                 //remove all the remaining continent rectangles & texts on mapPane
                 for (Continent c: mapGraph.getContinentList()) {
-                    mapPane.getChildren().remove(mapPane.lookup("#" + c.getContinentName()));
-                    mapPane.getChildren().remove(mapPane.lookup("#continentNameText"));
+                    mapPane.getChildren().remove(mapPane.lookup("#Continent" + c.getContinentName()));
+                    mapPane.getChildren().remove(mapPane.lookup("#ContinentLabel" + c.getContinentName()));
                 }
 
                 //reload the continent List
@@ -385,9 +517,9 @@ public class MapController{
                 for (Continent c: mapGraph.getContinentList()) {
                     //create continent rectangle and text
                     Rectangle continentRectangle = new Rectangle(60, 20, c.getColor());
-                    continentRectangle.setId(c.getContinentName());
+                    continentRectangle.setId("Continent" + c.getContinentName());
                     Text text = new Text(c.getContinentName() + ": " + c.getArmyValue());
-                    text.setId("continentNameText");
+                    text.setId("ContinentLabel" + c.getContinentName());
 
                     //set rectangle and text position
                     double x = mapPane.getLayoutBounds().getMaxX() - 100;

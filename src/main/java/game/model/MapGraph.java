@@ -2,6 +2,7 @@ package model;
 
 import controller.Observer;
 import javafx.scene.paint.Color;
+import service.MapEditorService;
 
 import java.util.*;
 import java.util.LinkedHashMap;
@@ -18,6 +19,8 @@ public class MapGraph {
     LinkedHashMap<Country, List<Country>> adjacentCountries;
 
     List<Country> countryList;
+
+    List<Connection> connectionList;
 
     // observers list
     private List<controller.Observer> mapObservers = new ArrayList<>();
@@ -102,7 +105,7 @@ public class MapGraph {
          * add it to map
          */
         Continent continent = new Continent(continentName, 99, color);
-        continentList.add(continent);
+        MapEditorService.mapGraph.continentList.add(continent);
         notifyObservers("add continent", continent);
     }
 
@@ -116,26 +119,52 @@ public class MapGraph {
          * delete it from map
          */
 
-        // Now Fake continent
-        Continent continent = new Continent();
-        notifyObservers("delete continent", continent);
+        for(int i=0;i<MapEditorService.mapGraph.continentList.size();i++){
+            if(continentName.equals(continentList.get(i).getContinentName())){
+                MapEditorService.mapGraph.continentList.remove(i);
+            }
+        }
+        notifyObservers("delete continent", continentName);
     }
 
     /**
      * @param countryName
      * @param continentName
      */
-    public void addCountry(String countryName, String continentName) {
+    public boolean addCountry(String countryName, String continentName) {
         /**
          * TODO:
          * validate the country
          * add it to map
          */
 
-        // Now Fake country
-        Country country = new Country(countryName, continentName);
-        notifyObservers("add country", country);
+        List<Continent> continentList = MapEditorService.mapGraph.getContinentList();
+        boolean flag = false;
+        for (int i=0;i<continentList.size();i++){
+            if(continentName.equals(continentList.get(i).getContinentName())){
+                flag = true;
+            }
+        }
+        if(flag){
+            Country country = new Country(countryName, continentName);
+            notifyObservers("add country", country);
+            MapEditorService.mapGraph.countryList.add(country);
+            for (int i=0;i<continentList.size();i++){
+                if(continentName.equals(continentList.get(i).getContinentName())){
+                    List<Country> countryList1 = MapEditorService.mapGraph.getContinentList().get(i).countries;
+                    countryList1.add(country);
+                    MapEditorService.mapGraph.getContinentList().get(i).setCountries(countryList1);
+                }
+            }
+            return true;
+        }else{
+            return false;
+        }
+
+
+
     }
+
 
     /**
      * @param countryName
@@ -147,7 +176,23 @@ public class MapGraph {
          * delete it from map
          */
 
-        // Now fake Country
+        List<Country> countryList = MapEditorService.mapGraph.countryList;
+        for(int i=0;i<countryList.size();i++){
+            if(countryName.equals(countryList.get(i).getCountryName())){
+                MapEditorService.mapGraph.countryList.remove(i);
+                List<Continent> continentList = MapEditorService.mapGraph.getContinentList();
+                for(int j=0;j<continentList.size();j++){
+                    for(int t=0;t<continentList.get(j).getCountries().size();t++){
+                        if(countryName.equals(continentList.get(j).getCountries().get(t).getCountryName())){
+                            List<Country> countryList1 = MapEditorService.mapGraph.getContinentList().get(j).getCountries();
+                            countryList1.remove(t);
+                            MapEditorService.mapGraph.getContinentList().get(j).setCountries(countryList1);
+                        }
+                    }
+                }
+            }
+        }
+
         Country country = new Country(countryName);
         notifyObservers("delete country", country);
     }
@@ -162,9 +207,8 @@ public class MapGraph {
          * validate the connection
          * add it to map
          */
-
-        // Now fake Connection
         Connection connection = new Connection(countryName1, countryName2);
+        connectionList.add(connection);
         notifyObservers("add connection", connection);
     }
 
@@ -178,10 +222,13 @@ public class MapGraph {
          * get the Connection to be deleted by name
          * delete it from map
          */
-
-        // Now fake Connection
-        Connection connection = new Connection(countryName1, countryName2);
-        notifyObservers("delete connection", connection);
+        int i=0;
+        for(;i<connectionList.size();i++)
+        {
+            if(connectionList.get(i).getCountry1().countryName==countryName1&&connectionList.get(i).getCountry2().countryName==countryName2)
+                connectionList.remove(i);
+        }
+        notifyObservers("delete connection", connectionList.get(i));
     }
 
     /**
@@ -194,7 +241,6 @@ public class MapGraph {
          * TODO:
          * Get all the connections associated with the country
          */
-        List<Connection> connectionList = new ArrayList<>();
         return connectionList;
     }
 
@@ -236,5 +282,13 @@ public class MapGraph {
 
     public void setCountryList(List<Country> countryList) {
         this.countryList = countryList;
+    }
+
+    public List<Connection> getConnectionList() {
+        return connectionList;
+    }
+
+    public void setConnectionList(List<Connection> connectionList) {
+        this.connectionList = connectionList;
     }
 }

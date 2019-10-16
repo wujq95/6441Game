@@ -18,48 +18,47 @@ public class MapEditorService {
     private static ColorController colorPicker;
     public static MapGraph mapGraph;
 
-    String editContinent(String[] continentName) {
-        for (int i = 1; i < continentName.length; i++) {
-            if (continentName[i].equals("-add")) {
+    String editContinent(String[] continentNameList) {
+
+        // editcontinent -add name value -add name2 value2 -add name3 value3
+        for (int i = 1; i < continentNameList.length; i++) {
+            if (continentNameList[i].equals("-add")) {
+
+                String  continentName= continentNameList[i+1];
+                Integer continentValue = Integer.parseInt(continentNameList[i + 2]);
                 Color continentColor = colorPicker.pickOneColor();
-                int continentValue = Integer.parseInt(continentName[i + 2]);
 
-                Continent newContinent = new Continent(continentName[i + 1], continentValue, continentColor);
-                mapGraph.addContinent(continentName[i + 1], continentValue, continentColor);
-                List<Continent> continentList = mapGraph.getContinentList();
-                continentList.add(newContinent);
-                mapGraph.setContinentList(continentList);
+                mapGraph.addContinent(continentName, continentValue, continentColor);
             }
-            if (continentName[i].equals("-remove")) {
-                mapGraph.deleteContinent(continentName[i + 1]);
-
-                List<Continent> continentList = mapGraph.getContinentList();
-                for (Continent continent : continentList) {
-                    if ((continent.getContinentName()).equals(continentName[i + 1])) {
-                        continentList.remove(continent);
-                    }
-                }
-                mapGraph.setContinentList(continentList);
-
+            if (continentNameList[i].equals("-remove")) {
+                String  continentName= continentNameList[i+1];
+                mapGraph.deleteContinent(continentName);
             }
         }
-        return "";
+        return "map edit success";
     }
 
 
     String editCountry(String[] countryName) {
+        String Msg = "";
         for (int i = 1; i < countryName.length; i++) {
             if (countryName[i].equals("-add")) {
-                mapGraph.addCountry(countryName[i + 1], countryName[i + 2]);
+                boolean flag = mapGraph.addCountry(countryName[i + 1], countryName[i + 2]);
+                if(flag){
+                    Msg =  "add success";
+                }else{
+                    Msg =  "continent name not available";
+                }
             }
             if (countryName[i].equals("-remove")) {
                 mapGraph.deleteCountry(countryName[i + 1]);
             }
         }
-        return "";
+        return Msg;
     }
 
     String editNeighbor(String[] countryName) {
+        String Msg = "";
         for (int i = 1; i < countryName.length; i++) {
             if (countryName[i].equals("-add")) {
                 mapGraph.addConnection(countryName[i + 1], countryName[i + 2]);
@@ -68,7 +67,7 @@ public class MapEditorService {
                 mapGraph.deleteConnection(countryName[i + 1], countryName[i + 2]);
             }
         }
-        return "";
+        return Msg;
     }
 
     /**
@@ -89,6 +88,7 @@ public class MapEditorService {
 
             List<Country> countryList = new LinkedList<>();
             LinkedHashMap<Country, List<Country>> adjacentCountries = new LinkedHashMap<>();
+            List<Connection> connectionList = new LinkedList<>();
 
             try {
                 BufferedReader br = new BufferedReader(new FileReader(mapFile));
@@ -116,7 +116,6 @@ public class MapEditorService {
                             double positionY = Double.parseDouble(countryInfos[4]);
                             Country country = new Country(countryId, countryInfos[1], continentMap.get(parentContinentId), positionX, positionY, 0);
 
-                            //TODO:continent.setcountries
                             Continent parent = continentMap.get(parentContinentId);
                             List<Country> continentCountries = parent.getCountries();
                             continentCountries.add(country);
@@ -140,10 +139,15 @@ public class MapEditorService {
                             List<Country> neighbourList = new LinkedList<>();
                             for (int i = 1; i < borderInfos.length; i++) {
                                 Integer neighbourId = Integer.valueOf(borderInfos[i]);
+
+                                Connection connection = new Connection(country.getCountryName(), countryHashMap.get(neighbourId).getCountryName());
+                                connectionList.add(connection);
+
                                 neighbourList.add(countryHashMap.get(neighbourId));
                             }
                             country.setNeighbours(neighbourList);
                             adjacentCountries.put(country, neighbourList);
+
                             borderLine = br.readLine();
                         }
                     }
@@ -153,8 +157,9 @@ public class MapEditorService {
                 return returnMsg;
             }
             mapGraph = new MapGraph();
-            mapGraph.setContinentList(new LinkedList<Continent>(continentMap.values()));
+            mapGraph.setContinentList(new LinkedList<>(continentMap.values()));
             mapGraph.setCountryList(countryList);
+            mapGraph.setConnectionList(connectionList);
             mapGraph.setAdjacentCountries(adjacentCountries);
 
             if (!validateMap()) {
@@ -209,20 +214,23 @@ public class MapEditorService {
             countryNames.add(country.getCountryName());
         }
         if (countryNames.size() < mapGraph.getCountryList().size()) {
-            //"duplicate country names"
             return false;
         }
-        //2. duplicate continent names
         Set<String> continentNames = new HashSet<>();
         for (Continent continent : mapGraph.getContinentList()) {
             continentNames.add(continent.getContinentName());
+
+            //2. check if one continent has at least one country
+            if (continent.getCountries() == null || continent.getCountries().size() == 0) {
+                return false;
+            }
         }
+        //3. duplicate continent names
         if (continentNames.size() < mapGraph.getContinentList().size()) {
             return false;
         }
-        //3. check if the graph is connected
+        //4. check if the graph is connected
         if (!checkIfConnected(mapGraph.getAdjacentCountries())) {
-            // "the map graph is not connected"
             return false;
         }
 
@@ -276,59 +284,64 @@ public class MapEditorService {
         }
 
         String returnMsg = "";
+
+        List<String> lines = new LinkedList<>();
+
+        String[] filepaths = fileName.split("/");
+        String mapName = "name " + filepaths[filepaths.length - 1] + " Map";
+        lines.add(mapName);
+
+        String continents = "\n[continents]";
+        lines.add(continents);
+
+        for (Continent continent : mapGraph.getContinentList()) {
+            String continentDesc = continent.getContinentName() + " " + continent.getArmyValue() + " " + continent.getColor();
+            lines.add(continentDesc);
+        }
+
+        lines.add("\n[countries]");
+        for (Country country : mapGraph.getAdjacentCountries().keySet()) {
+            String countryDesc = country.getId() + " " + country.getCountryName() + " "
+                    + country.getParentContinent().getId() + " " + country.getX() + " " + country.getY();
+            lines.add(countryDesc);
+        }
+
+        lines.add("\n[borders]");
+        for (Map.Entry<Country, List<Country>> entry : mapGraph.getAdjacentCountries().entrySet()) {
+            StringBuilder borderDesc = new StringBuilder();
+            borderDesc.append(entry.getKey().getId());
+
+            for (Country neighbour : entry.getValue()) {
+                borderDesc.append(" ").append(neighbour.getId());
+            }
+
+            lines.add(borderDesc.toString());
+        }
+
         File mapFile = new File(fileName);
 
         if (mapFile.isFile()) {
-            List<String> linesBeforeContinents = new LinkedList<>();
-            List<String> linesAfterContinents = new LinkedList<>();
-            List<String> allLines = new LinkedList<>();
-            try {
-                BufferedReader br = new BufferedReader(new FileReader(mapFile));
-                String line = "";
-                while ((line = br.readLine()) != null && !line.contains("continents")) {
-                    linesBeforeContinents.add(line);
-                }
-            } catch (IOException e) {
-                returnMsg = e.getMessage();
-                return returnMsg;
-            }
-
-            String continents = "[continents]";
-            linesAfterContinents.add(continents);
-
-            for (Continent continent : mapGraph.getContinentList()) {
-                String continentDesc = continent.getContinentName() + " " + continent.getArmyValue() + " " + continent.getColor();
-                linesAfterContinents.add(continentDesc);
-            }
-
-            linesAfterContinents.add("\n[countries]");
-            for (Country country : mapGraph.getAdjacentCountries().keySet()) {
-                String countryDesc = country.getId() + " " + country.getCountryName() + " "
-                        + country.getParentContinent().getId() + " " + country.getX() + " " + country.getY();
-                linesAfterContinents.add(countryDesc);
-            }
-
-            linesAfterContinents.add("\n[borders]");
-            for (Map.Entry<Country, List<Country>> entry : mapGraph.getAdjacentCountries().entrySet()) {
-                StringBuilder borderDesc = new StringBuilder();
-                borderDesc.append(entry.getKey().getId());
-
-                for (Country neighbour : entry.getValue()) {
-                    borderDesc.append(" ").append(neighbour.getId());
-                }
-
-                linesAfterContinents.add(borderDesc.toString());
-            }
-
-            allLines.addAll(linesBeforeContinents);
-            allLines.addAll(linesAfterContinents);
-
             mapFile.delete();
             File newFile = new File(fileName);
 
             try {
                 FileWriter fileWriter = new FileWriter(newFile, false);
-                for (String str : allLines) {
+                for (String str : lines) {
+                    fileWriter.write(str + System.lineSeparator());
+                }
+                fileWriter.close();
+
+                returnMsg = "saveMap success";
+            } catch (IOException e) {
+                returnMsg = "saveMap failed";
+                return returnMsg;
+            }
+        } else {
+            File newFile = new File(fileName);
+
+            try {
+                FileWriter fileWriter = new FileWriter(newFile, false);
+                for (String str : lines) {
                     fileWriter.write(str + System.lineSeparator());
                 }
                 fileWriter.close();
