@@ -43,12 +43,7 @@ public class MapGraph {
     public void notifyObservers(String action, Object object) {
         for (Observer observer : mapObservers) {
             switch (action) {
-                case "add continent":
-                    observer.updateContinentList("add", (Continent) object);
-                    break;
-                case "delete continent":
-                    observer.updateContinentList("delete", (Continent) object);
-                    break;
+                //TODO: ADD CONTINENT & DELETE CONTINENT
                 case "add country":
                     //FORCE update
                     observer.updateCountry("add", (Country) object);
@@ -56,12 +51,7 @@ public class MapGraph {
                 case "delete country":
                     observer.updateCountry("delete", (Country) object);
                     break;
-                case "add connection":
-                    observer.updateConnection("add", (Connection) object);
-                    break;
-                case "delete connection":
-                    observer.updateConnection("delete", (Connection) object);
-                    break;
+                //TODO: ADD CONNECTION & DELETE CONNECTION
             }
         }
     }
