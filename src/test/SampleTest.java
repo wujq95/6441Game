@@ -16,12 +16,6 @@ import java.util.List;
 
 public class SampleTest {
 
-    @Before
-    public void startUp(){
-        String filename="";
-        MapEditorService mapEditorService = new MapEditorService();
-        mapEditorService.editMap(filename);
-    }
 
     @Test
     public void TestMapValidate(){
@@ -50,7 +44,7 @@ public class SampleTest {
     public boolean SaveMapValidation(){
         MapEditorService mapEditorService = new MapEditorService();
         boolean result=false;
-        String fileName="";//
+        String fileName = "/Users/OngChen/IdeaProjects/6441Game(4)/src/test/Service/ameroki.map";
         String Msg;
         Msg=mapEditorService.saveMap(fileName);
         if(Msg.equals("saveMap success")){
@@ -67,7 +61,7 @@ public class SampleTest {
     public boolean ShowMapValidation(){
         MapEditorService mapEditorService = new MapEditorService();
         boolean result = false;
-        String fileName="",Msg;
+        String fileName="/Users/OngChen/IdeaProjects/6441Game(4)/src/test/Service/ameroki.map",Msg;
         Msg= mapEditorService.saveMap(fileName);
         if (Msg.equals(fileName.startsWith("The"))){
             result=true;
@@ -83,7 +77,7 @@ public class SampleTest {
     public boolean EditMapValidation(){
         MapEditorService mapEditorService = new MapEditorService();
         boolean result = false;
-        String fileName="",Msg;
+        String fileName="/Users/OngChen/IdeaProjects/6441Game(4)/src/test/Service/ameroki.map",Msg;
         Msg= mapEditorService.saveMap(fileName);
         if (Msg.equals(fileName.endsWith("The"))){
             result=true;
