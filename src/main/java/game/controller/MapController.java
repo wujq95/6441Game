@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
@@ -196,7 +197,10 @@ public class MapController{
             Color countryColor = country.getParentContinent().getColor();
             Circle circle = new Circle(x, y, 15, countryColor);
 
-            Label label = new Label(country.getCountryName());
+            Label label = new Label(country.getCountryName() + "\n" + country.getArmyValue());
+            label.setFont(new Font(10));
+            label.toFront();
+            circle.toBack();
             //label.setId(country.getCountryName());
             label.setLayoutX(x - 20);
             label.setLayoutY(y - 20);
@@ -476,6 +480,7 @@ public class MapController{
             CommandService commandService = new CommandService();
             String returnMsg = commandService.processCommand(commandStr);
             infoTextView.setText(returnMsg);
+            loadMapGraph(MapEditorService.mapGraph);
         }
     }
 
@@ -508,7 +513,7 @@ public class MapController{
          */
         @Override
         public void updateMapGraph(){
-            System.out.println("New Continent Delete");
+            System.out.println("MapGraph Reloaded.");
             mapPane.getChildren().clear();
             loadMapGraph(MapEditorService.mapGraph);
         }
