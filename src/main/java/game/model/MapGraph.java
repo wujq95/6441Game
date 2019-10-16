@@ -119,7 +119,6 @@ public class MapGraph {
          * delete it from map
          */
 
-        // Now Fake continent
         for(int i=0;i<MapEditorService.mapGraph.continentList.size();i++){
             if(continentName.equals(continentList.get(i).getContinentName())){
                 MapEditorService.mapGraph.continentList.remove(i);
@@ -227,7 +226,7 @@ public class MapGraph {
         for(;i<connectionList.size();i++)
         {
             if(connectionList.get(i).getCountry1().countryName==countryName1&&connectionList.get(i).getCountry2().countryName==countryName2)
-                connectionList.remove(continentList.get(i));
+                connectionList.remove(i);
         }
         notifyObservers("delete connection", connectionList.get(i));
     }
@@ -242,7 +241,6 @@ public class MapGraph {
          * TODO:
          * Get all the connections associated with the country
          */
-        List<Connection> connectionList = new ArrayList<>();
         return connectionList;
     }
 
