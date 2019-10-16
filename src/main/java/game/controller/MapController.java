@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -17,15 +16,16 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+
 import model.*;
 import service.CommandService;
 import service.MapEditorService;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import static javafx.scene.Cursor.HAND;
+
 
 /**
  * MapController class
@@ -71,11 +71,6 @@ public class MapController{
     @FXML
     public AnchorPane mapPane;
 
-    /**
-     * continent list title label
-     */
-    @FXML
-    public Label continentListLabel;
 
     /**
      * anchor pane containing all user interface actions to the map graph
@@ -168,6 +163,71 @@ public class MapController{
     public TextArea infoTextView;
 
     /**
+     * load the mapGraph on mapPane
+     * @param mGraph
+     */
+    private void loadMapGraph(MapGraph mGraph){
+        // Load all continents
+        List<Continent> continentList = mGraph.getContinentList();
+        int i = 0;
+        for (Continent continent:continentList) {
+            Rectangle continentRectangle = new Rectangle(60, 20, continent.getColor());
+            continentRectangle.setId("continent" + continent.getContinentName());
+            Text text = new Text(continent.getContinentName() + ": " + continent.getArmyValue());
+            text.setId("continentLabel" + continent.getContinentName());
+
+            //set rectangle and text position
+            double x = mapPane.getLayoutBounds().getMaxX() - 150;
+            double y = i * 50 + 50;
+            continentRectangle.setX(x);
+            continentRectangle.setY(y);
+            text.setX(x);
+            text.setY(y - 5);
+
+            mapPane.getChildren().addAll(continentRectangle, text);
+            i++;
+        }
+
+        // Load all countries
+        List<Country> countryList = mGraph.getCountryList();
+        for (Country country: countryList) {
+            double x = country.getX();
+            double y = country.getY();
+            Color countryColor = country.getParentContinent().getColor();
+            Circle circle = new Circle(x, y, 15, countryColor);
+
+            Label label = new Label(country.getCountryName());
+            //label.setId(country.getCountryName());
+            label.setLayoutX(x - 20);
+            label.setLayoutY(y - 20);
+
+            mapPane.getChildren().addAll(circle, label);
+        }
+
+        // Load all connections
+        List<Connection> connectionList = mGraph.getConnections();
+        for(Connection connection: connectionList){
+            Country country1 = connection.getCountry1();
+            Country country2 = connection.getCountry2();
+
+            Point2D pt1 = country1.getCoordinator();
+            Point2D pt2 = country2.getCoordinator();
+            String lineId = country1.getCountryName() + country2.getCountryName();
+
+            Line line = new Line();
+            line.setId(lineId);
+            line.setStartX(pt1.getX());
+            line.setStartY(pt1.getY());
+            line.setEndX(pt2.getX());
+            line.setEndY(pt2.getY());
+            line.setStroke(Color.rgb(95,103,105));
+            line.toBack();
+
+            mapPane.getChildren().add(line);
+        }
+    }
+
+    /**
      * load map the map into MapGraph mapGraph data structure
      * @param event mouse click event
      */
@@ -178,65 +238,15 @@ public class MapController{
         if (file != null) {
             try {
                 // rendering the map here
-
                 String fileName = file.getName();
                 mapEditorService.editMap(fileName);
                 this.mapGraph = MapEditorService.mapGraph;
                 //add observer
                 MapGraphObserver MapEditorMapGraphObserver = new MapGraphObserver(MapEditorService.mapGraph);
 
-                // Load all continents
-                List<Continent> continentList = mapGraph.getContinentList();
-                int i = 0;
-                for (Continent continent:continentList) {
-                    Rectangle continentRectangle = new Rectangle(60, 20, continent.getColor());
-                    continentRectangle.setId("Continent" + continent.getContinentName());
-                    Text text = new Text(continent.getContinentName() + ": " + continent.getArmyValue());
-                    text.setId("ContinentLabel" + continent.getContinentName());
+                //load map graph
+                loadMapGraph(mapGraph);
 
-                    //set rectangle and text position
-                    double x = mapPane.lookup("#continentListLabel").getLayoutX();
-                    double y = i * 50 + 50;
-                    continentRectangle.setX(x);
-                    continentRectangle.setY(y);
-                    text.setX(x);
-                    text.setY(y - 5);
-
-                    mapPane.getChildren().addAll(continentRectangle, text);
-                    i++;
-                }
-
-                // Load all countries
-                List<Country> countryList = mapGraph.getCountryList();
-                for (Country country: countryList) {
-                    double x = country.getX();
-                    double y = country.getY();
-                    Color countryColor = country.getParentContinent().getColor();
-                    Circle circle = new Circle(x, y, 15, countryColor);
-                    mapPane.getChildren().add(circle);
-                }
-
-                // Load all connections
-                List<Connection> connectionList = mapGraph.getConnections();
-                for(Connection connection: connectionList){
-                    Country country1 = connection.getCountry1();
-                    Country country2 = connection.getCountry2();
-
-                    Point2D pt1 = country1.getCoordinator();
-                    Point2D pt2 = country2.getCoordinator();
-                    String lineId = country1.getCountryName() + country2.getCountryName();
-
-                    Line line = new Line();
-                    line.setId(lineId);
-                    line.setStartX(pt1.getX());
-                    line.setStartY(pt1.getY());
-                    line.setEndX(pt2.getX());
-                    line.setEndY(pt2.getY());
-                    line.setStroke(Color.rgb(95,103,105));
-                    line.toBack();
-
-                    mapPane.getChildren().add(line);
-                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -410,8 +420,8 @@ public class MapController{
     }
 
     /**
-     * r
-     * @param event
+     * reinforce a number of armies to the selected country
+     * @param event mouse click event
      */
     @FXML
     void reinforce(ActionEvent event){
@@ -423,6 +433,10 @@ public class MapController{
          */
     }
 
+    /**
+     * move a number of armies from one country to another
+     * @param event mouse click event
+     */
     @FXML
     void fortify(ActionEvent event){
         System.out.println("fortify called");
@@ -434,6 +448,10 @@ public class MapController{
          */
     }
 
+    /**
+     * do not fortify, do nothing
+     * @param event mouse click event
+     */
     @FXML
     void fortifyNone(ActionEvent event){
         System.out.println("fortifyNone called");
@@ -443,6 +461,10 @@ public class MapController{
          */
     }
 
+    /**
+     * send the command line, and display the return info
+     * @param event mouse click event
+     */
     @FXML
     void detectEnter(KeyEvent event){
         if (event.getCode() == KeyCode.ENTER){
@@ -457,6 +479,9 @@ public class MapController{
         }
     }
 
+    /**
+     * MapController constructor
+     */
     public MapController(){
         colorPicker = new ColorController();
         mapEditorService = new MapEditorService();
@@ -469,98 +494,59 @@ public class MapController{
      * MapGraphObserver
      */
     public class MapGraphObserver extends Observer{
-
+        /**
+         * mapGraphObserver constructor
+         * @param mapGraph
+         */
         public MapGraphObserver(MapGraph mapGraph){
             this.mapGraph = mapGraph;
             this.mapGraph.attach(this);
         }
 
+        /**
+         * reload the mapGraph
+         */
         @Override
-        public void updateContinentList(String action, Continent continent){
-            if(action == "add"){
-                System.out.println("Continent Add");
-
-                /**
-                 * Update the GUI
-                 */
-                //create continent rectangle and text
-                Rectangle continentRectangle = new Rectangle(60, 20, continent.getColor());
-                continentRectangle.setId(continent.getContinentName());
-                Text text = new Text(continent.getContinentName() + ": " + continent.getArmyValue());
-                text.setId("continentNameText");
-
-                //set rectangle and text position
-                double x = mapPane.lookup("#continentListLabel").getLayoutX();
-                double y = mapGraph.getContinentList().size() * 50;
-                continentRectangle.setX(x);
-                continentRectangle.setY(y);
-                text.setX(x);
-                text.setY(y-5);
-
-                mapPane.getChildren().addAll(continentRectangle, text);
-
-            }else if(action == "delete"){
-                System.out.println("Continent Delete");
-
-                /**
-                 * Update the GUI
-                 */
-                //remove the deleted continent rectangle on mapPane
-                mapPane.getChildren().remove(mapPane.lookup("#Continent" + continent.getContinentName()));
-                mapPane.getChildren().remove(mapPane.lookup("#ContinentLabel" + continent.getContinentName()));
-                //remove all the remaining continent rectangles & texts on mapPane
-                for (Continent c: mapGraph.getContinentList()) {
-                    mapPane.getChildren().remove(mapPane.lookup("#Continent" + c.getContinentName()));
-                    mapPane.getChildren().remove(mapPane.lookup("#ContinentLabel" + c.getContinentName()));
-                }
-
-                //reload the continent List
-                int i = 1;
-                for (Continent c: mapGraph.getContinentList()) {
-                    //create continent rectangle and text
-                    Rectangle continentRectangle = new Rectangle(60, 20, c.getColor());
-                    continentRectangle.setId("Continent" + c.getContinentName());
-                    Text text = new Text(c.getContinentName() + ": " + c.getArmyValue());
-                    text.setId("ContinentLabel" + c.getContinentName());
-
-                    //set rectangle and text position
-                    double x = mapPane.getLayoutBounds().getMaxX() - 100;
-                    double y = i * 50;
-                    continentRectangle.setX(x);
-                    continentRectangle.setY(y);
-                    text.setX(x);
-                    text.setY(y-5);
-
-                    mapPane.getChildren().addAll(continentRectangle, text);
-                    i++;
-                }
-            }
+        public void updateMapGraph(){
+            System.out.println("New Continent Delete");
+            mapPane.getChildren().clear();
+            loadMapGraph(MapEditorService.mapGraph);
         }
 
+//        @Override
+//        public void updateContinentList(String action, Continent continent){
+//
+//        }
+
+        /**
+         * add the newly added country to mapPane
+         * @param action "add"
+         * @param country contains the information of the newly added country
+         */
         @Override
         public void updateCountry(String action, Country country){
             if(action == "add"){
                 System.out.println("The Country Add");
-
                 /**
                  * TODO: country.getContinent().getColor();
                  */
-                Color countryColor = country.getContinent().getColor();
-                //Fake Data
-                countryColor = Color.TAN;
-                Point2D center = new Point2D(250, 250); //default position on scene
-                Circle circle = new Circle(center.getX(), center.getY(), 15, countryColor);
+                // Color countryColor = country.getParentContinent().getColor();
+                Color countryColor = Color.TAN;
+                double x = 500; //country default x coordinate
+                double y = 500; //country default y coordinate
+
+                //Point2D center = new Point2D(x, y); //default position on scene
+                Circle circle = new Circle(x, y, 15, countryColor);
                 // TODO: circle.setId(country.getCountryName());
                 //Now Fake
-                circle.setId("FakeId");
+                //circle.setId(country.getCountryName() + "circle");
                 circle.setCursor(HAND);
 
                 // TODO: Label label = new Label(country.getCountryName() + ":" + "Fake Player Name");
-                Label label = new Label("Country Name\n" + "Player Name\n" + "Army #");
-                // TODO: label.setId(country.getCountryName() + "Text");
-                label.setId("FakeId" + "Text");
-                label.setLayoutX(250 - 20);
-                label.setLayoutY(250 - 60);
+                Label label = new Label(country.getCountryName() + "\n" + "Player Name\n" + country.getArmyValue());
+                //label.setId(country.getCountryName());
+                label.setLayoutX(x - 20);
+                label.setLayoutY(y - 60);
 
                 circle.setOnMouseDragged((t) -> {
                     // update Circle View's location
@@ -574,60 +560,56 @@ public class MapController{
                     // update the dragged country's location info
                     System.out.println("Country's new location set.");
                     country.setCoordinator(t.getX(), t.getY());
+                    //MapEditorService.mapGraph.setCountryCoordinates(String countryName, double x, double y);
                 });
 
                 mapPane.getChildren().addAll(circle, label);
-
-            }else if(action == "delete"){
-                System.out.println("The Country Delete");
-                mapPane.getChildren().remove(mapPane.lookup("#FakeId"));
-                mapPane.getChildren().remove(mapPane.lookup("#FakeId" + "Text"));
             }
         }
 
-        @Override
-        public void updateConnection(String action, Connection connection) {
-            if(action == "add"){
-                System.out.println("The Connection Add");
-                /**
-                 * TODO:
-                 * Country country1 = connection.getCountry1();
-                 * Country country2 = connection.getCountry2();
-                 * Point2D pt1 = country1.getCoordinator();
-                 * Point2D pt2 = country2.getCoordinator();
-                 * String lineId = country1.getCountryName() + country2.getCountryName();
-                 */
-
-                // Two Fake Point2D data here
-                Point2D pt1 = new Point2D(300, 500);
-                Point2D pt2 = new Point2D(350, 450);
-                // Fake lineId
-                String lineId = "FakeLineId";
-
-                Line line = new Line();
-                line.setId(lineId);
-                line.setStartX(pt1.getX());
-                line.setStartY(pt1.getY());
-                line.setEndX(pt2.getX());
-                line.setEndY(pt2.getY());
-                line.setStroke(Color.rgb(95,103,105));
-                line.toBack();
-
-                mapPane.getChildren().add(line);
-
-            } else if(action == "delete"){
-                System.out.println("The Connection Delete");
-
-                /**
-                 * TODO:
-                 * Country country1 = connection.getCountry1();
-                 * Country country2 = connection.getCountry2();
-                 * String lineId = country1.getCountryName() +  country2.getCountryName();
-                 */
-
-                // Now remove the connection by a fake Id
-                mapPane.getChildren().remove(mapPane.lookup("#FakeLineId"));
-            }
-        }
+//        @Override
+//        public void updateConnection(String action, Connection connection) {
+//            if(action == "add"){
+//                System.out.println("The Connection Add");
+//                /**
+//                 * TODO:
+//                 * Country country1 = connection.getCountry1();
+//                 * Country country2 = connection.getCountry2();
+//                 * Point2D pt1 = country1.getCoordinator();
+//                 * Point2D pt2 = country2.getCoordinator();
+//                 * String lineId = country1.getCountryName() + country2.getCountryName();
+//                 */
+//
+//                // Two Fake Point2D data here
+//                Point2D pt1 = new Point2D(300, 500);
+//                Point2D pt2 = new Point2D(350, 450);
+//                // Fake lineId
+//                String lineId = "FakeLineId";
+//
+//                Line line = new Line();
+//                line.setId(lineId);
+//                line.setStartX(pt1.getX());
+//                line.setStartY(pt1.getY());
+//                line.setEndX(pt2.getX());
+//                line.setEndY(pt2.getY());
+//                line.setStroke(Color.rgb(95,103,105));
+//                line.toBack();
+//
+//                mapPane.getChildren().add(line);
+//
+//            } else if(action == "delete"){
+//                System.out.println("The Connection Delete");
+//
+//                /**
+//                 * TODO:
+//                 * Country country1 = connection.getCountry1();
+//                 * Country country2 = connection.getCountry2();
+//                 * String lineId = country1.getCountryName() +  country2.getCountryName();
+//                 */
+//
+//                // Now remove the connection by a fake Id
+//                mapPane.getChildren().remove(mapPane.lookup("#FakeLineId"));
+//            }
+//        }
     }
 }

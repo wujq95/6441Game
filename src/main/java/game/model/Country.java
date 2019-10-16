@@ -22,7 +22,7 @@ public class Country {
 
     GamePlayer player;
 
-    Integer armyValue;
+    Integer armyValue = 0;
 
     /**
      * Get Id
