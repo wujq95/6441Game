@@ -16,16 +16,16 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+
 import model.*;
 import service.CommandService;
 import service.MapEditorService;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static javafx.scene.Cursor.HAND;
+
 
 /**
  * MapController class
@@ -195,7 +195,13 @@ public class MapController{
             double y = country.getY();
             Color countryColor = country.getParentContinent().getColor();
             Circle circle = new Circle(x, y, 15, countryColor);
-            mapPane.getChildren().add(circle);
+
+            Label label = new Label(country.getCountryName());
+            //label.setId(country.getCountryName());
+            label.setLayoutX(x - 20);
+            label.setLayoutY(y - 20);
+
+            mapPane.getChildren().addAll(circle, label);
         }
 
         // Load all connections
@@ -413,7 +419,7 @@ public class MapController{
     }
 
     /**
-     * r
+     *
      * @param event
      */
     @FXML

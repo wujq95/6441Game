@@ -57,10 +57,12 @@ public class MapGraph {
                     observer.updateMapGraph();
                     break;
                 case "add connection":
-                    observer.updateConnection("add", (Connection) object);
+                    //observer.updateConnection("add", (Connection) object);
+                    observer.updateMapGraph();
                     break;
                 case "delete connection":
-                    observer.updateConnection("delete", (Connection) object);
+                    //observer.updateConnection("delete", (Connection) object);
+                    observer.updateMapGraph();
                     break;
             }
         }
@@ -261,8 +263,10 @@ public class MapGraph {
             if (connectionList.get(i).getCountry1().countryName == countryName1 && connectionList.get(i).getCountry2().countryName == countryName2) {
                 Connection connection = connectionList.get(i);
                 connectionList.remove(i);
-                notifyObservers("delete connection", connection);
+                //notifyObservers("delete connection", connection);
+                notifyObservers("delete connection", MapEditorService.mapGraph);
                 flag = true;
+                System.out.println("here");
             }
         }
         return flag;
