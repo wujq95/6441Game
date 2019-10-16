@@ -222,9 +222,15 @@ public class MapGraph {
          * validate the connection
          * add it to map
          */
+        int count=0;
         Connection connection = new Connection(countryName1, countryName2);
         connectionList.add(connection);
-        notifyObservers("add connection", connection);
+        count++;
+        if (connectionList.indexOf(connection) == count){
+            System.out.println("New Connection Added");
+            notifyObservers("add connection", connection);
+        }
+
     }
 
     /**
@@ -238,13 +244,16 @@ public class MapGraph {
          * delete it from map
          */
         boolean flag = false;
+        int count=connectionList.size();
         int i = 0;
         for (; i < connectionList.size(); i++) {
             if (connectionList.get(i).getCountry1().countryName == countryName1 && connectionList.get(i).getCountry2().countryName == countryName2) {
                 Connection connection = connectionList.get(i);
                 connectionList.remove(i);
+                count--;
+                if(connectionList.size()==count){
                 notifyObservers("delete connection", connection);
-                flag = true;
+                flag = true;}
             }
         }
         return flag;

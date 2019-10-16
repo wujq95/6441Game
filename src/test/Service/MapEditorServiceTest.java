@@ -17,7 +17,7 @@ public class MapEditorServiceTest {
     private MapEditorService mapEditorService;
 
     @Before
-    public void setuUp() {
+    public void setUp() {
         mapEditorService = new MapEditorService();
     }
 
