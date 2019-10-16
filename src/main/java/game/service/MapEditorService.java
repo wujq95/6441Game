@@ -226,13 +226,11 @@ public class MapEditorService {
                 return false;
             }
         }
-
         //3. duplicate continent names
         if (continentNames.size() < mapGraph.getContinentList().size()) {
             return false;
         }
-
-        //3. check if the graph is connected
+        //4. check if the graph is connected
         if (!checkIfConnected(mapGraph.getAdjacentCountries())) {
             return false;
         }

@@ -318,22 +318,9 @@ public class MapController{
             String commandStr = commandLine.getText();
             System.out.println("Your command: " + commandStr);
             commandLine.clear();
-            /**
-             * TODO:
-             * Send the commandStr to CommandService
-             */
             CommandService commandService = new CommandService();
-            commandService.processCommand(commandStr);
-            // TODO: display your console info here
-            infoTextView.setText("Bulk text Bulk text Bulk text Bulk text \n" +
-                    "Bulk text Bulk text Bulk text Bulk text Bulk text Bulk text \n" +
-                    "Bulk text Bulk text Bulk text Bulk text Bulk text Bulk text \n" +
-                    "Bulk text Bulk text Bulk text Bulk text Bulk text Bulk text \n" +
-                    "Bulk text Bulk text Bulk text Bulk text Bulk text Bulk text \n" +
-                    "Bulk text Bulk text Bulk text Bulk text Bulk text Bulk text \n" +
-                    "Bulk text Bulk text Bulk text Bulk text Bulk text Bulk text \n" +
-                    "Bulk text Bulk text Bulk text Bulk text Bulk text Bulk text \n" +
-                    "Bulk text Bulk text \n");
+            String returnMsg = commandService.processCommand(commandStr);
+            infoTextView.setText(returnMsg);
         }
     }
 
