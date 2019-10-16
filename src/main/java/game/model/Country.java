@@ -1,7 +1,10 @@
 package model;
 
 import javafx.geometry.Point2D;
+
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class Country {
 
@@ -19,7 +22,7 @@ public class Country {
 
     GamePlayer player;
 
-    Integer armyValue;
+    Integer armyValue = 0;
 
     public Integer getId() {
         return id;
@@ -75,9 +78,12 @@ public class Country {
      * @param continentName
      */
     public Country(String countryName, String continentName) {
-        // TODO：create a new country here
-        this.countryName=countryName;
+        this.countryName = countryName;
+        this.neighbours = new LinkedList<>();
 
+        Random r = new Random();
+        this.x = 500 * r.nextDouble();
+        this.y = 500 * r.nextDouble();
     }
 
     public void editCountryName(String countryName) {

@@ -44,22 +44,25 @@ public class MapGraph {
         for (Observer observer : mapObservers) {
             switch (action) {
                 case "add continent":
-                    observer.updateContinentList("add", (Continent) object);
+                    observer.updateMapGraph();
                     break;
                 case "delete continent":
-                    observer.updateContinentList("delete", (Continent) object);
+                    observer.updateMapGraph();
                     break;
                 case "add country":
                     observer.updateCountry("add", (Country) object);
                     break;
                 case "delete country":
-                    observer.updateCountry("delete", (Country) object);
+                    //observer.updateCountry("delete", (Country) object);
+                    observer.updateMapGraph();
                     break;
                 case "add connection":
-                    observer.updateConnection("add", (Connection) object);
+                    //observer.updateConnection("add", (Connection) object);
+                    observer.updateMapGraph();
                     break;
                 case "delete connection":
-                    observer.updateConnection("delete", (Connection) object);
+                    //observer.updateConnection("delete", (Connection) object);
+                    observer.updateMapGraph();
                     break;
             }
         }
@@ -80,7 +83,9 @@ public class MapGraph {
     public void setWidth(Integer width) {
         this.width = width;
     }
-
+    public void setCoordinator(String countryName){
+        //
+    }
     public void addContinent(String continentName, Integer armyValue, Color color) {
         /**
          * TODO:
@@ -104,9 +109,11 @@ public class MapGraph {
          * validate the continent
          * add it to map
          */
-        Continent continent = new Continent(continentName, 99, color);
+        int armyValue = Integer.parseInt(continentValue);
+        Continent continent = new Continent(continentName, armyValue, color);
         MapEditorService.mapGraph.continentList.add(continent);
-        notifyObservers("add continent", continent);
+        //notifyObservers("add continent", continent);
+        notifyObservers("add continent", MapEditorService.mapGraph);
     }
 
     /**
@@ -119,12 +126,48 @@ public class MapGraph {
          * delete it from map
          */
 
-        for(int i=0;i<MapEditorService.mapGraph.continentList.size();i++){
-            if(continentName.equals(continentList.get(i).getContinentName())){
+        for (int i = 0; i < MapEditorService.mapGraph.continentList.size(); i++) {
+            if (continentName.equals(continentList.get(i).getContinentName())) {
+                List<Country> countryList1=continentList.get(i).getCountries();
+                //update adjacentCountries
+                for(int m=0;m<countryList1.size();m++)
+                {
+                    if(adjacentCountries.containsKey(countryList1.get(m)))
+                        adjacentCountries.remove(countryList1.get(m));
+                }
+                for(List<Country> value: adjacentCountries.values()){
+                    for(int m=0;m<countryList1.size();m++){
+                        if(value.contains(countryList1.get(m))){
+                            value.remove(countryList1.get(m));
+                        }
+                    }
+                }
+                //update connectionList
+                for (int n=0;n<connectionList.size();n++)
+                {
+                    for(int m=0;m<countryList1.size();m++)
+                    {
+                        if(connectionList.get(n).getCountry1().equals(countryList1.get(m))||connectionList.get(n).getCountry2().equals(countryList1.get(m)))
+                            connectionList.remove(n);
+                    }
+                }
+                //update countryList
+                for(int m=0;m<countryList.size();m++)
+                {
+                    for(int j=0;j<countryList1.size();j++)
+                    {
+                        if(countryList.get(m).equals(countryList1.get(j)))
+                            countryList.remove(m);
+                    }
+
+                }
+                //remove continentList
                 MapEditorService.mapGraph.continentList.remove(i);
             }
         }
-        notifyObservers("delete continent", continentName);
+        //notifyObservers("delete continent", removedContinent);
+        //notifyObservers("delete continent", MapEditorService.mapGraph);
+        notifyObservers("delete continent", MapEditorService.mapGraph);
     }
 
     /**
@@ -140,28 +183,32 @@ public class MapGraph {
 
         List<Continent> continentList = MapEditorService.mapGraph.getContinentList();
         boolean flag = false;
-        for (int i=0;i<continentList.size();i++){
-            if(continentName.equals(continentList.get(i).getContinentName())){
+        for (int i = 0; i < continentList.size(); i++) {
+            if (continentName.equals(continentList.get(i).getContinentName())) {
                 flag = true;
             }
         }
-        if(flag){
+        if (flag) {
             Country country = new Country(countryName, continentName);
             notifyObservers("add country", country);
             MapEditorService.mapGraph.countryList.add(country);
-            for (int i=0;i<continentList.size();i++){
-                if(continentName.equals(continentList.get(i).getContinentName())){
+            for (int i = 0; i < continentList.size(); i++) {
+                if (continentName.equals(continentList.get(i).getContinentName())) {
                     List<Country> countryList1 = MapEditorService.mapGraph.getContinentList().get(i).countries;
-                    countryList1.add(country);
+                    if (countryList1 == null) {
+                        countryList1 = new LinkedList<>();
+                        countryList1.add(country);
+                    }
+                    {
+                        countryList1.add(country);
+                    }
                     MapEditorService.mapGraph.getContinentList().get(i).setCountries(countryList1);
                 }
             }
             return true;
-        }else{
+        } else {
             return false;
         }
-
-
 
     }
 
@@ -175,15 +222,27 @@ public class MapGraph {
          * get the country to be deleted by name
          * delete it from map
          */
+        //update connectionList
+        for (int n=0;n<connectionList.size();n++)
+        {
+            for(int m=0;m<countryList.size();m++)
+            {
+                if(connectionList.get(n).getCountry1().countryName.equals(countryName)||connectionList.get(n).getCountry2().countryName.equals(countryName))
+                    connectionList.remove(n);
+            }
+        }
+        //update adjacentList
 
+        //update countryList and ContinentList
         List<Country> countryList = MapEditorService.mapGraph.countryList;
-        for(int i=0;i<countryList.size();i++){
-            if(countryName.equals(countryList.get(i).getCountryName())){
+        for (int i = 0; i < countryList.size(); i++) {
+            if (countryName.equals(countryList.get(i).getCountryName())) {
+
                 MapEditorService.mapGraph.countryList.remove(i);
                 List<Continent> continentList = MapEditorService.mapGraph.getContinentList();
-                for(int j=0;j<continentList.size();j++){
-                    for(int t=0;t<continentList.get(j).getCountries().size();t++){
-                        if(countryName.equals(continentList.get(j).getCountries().get(t).getCountryName())){
+                for (int j = 0; j < continentList.size(); j++) {
+                    for (int t = 0; t < continentList.get(j).getCountries().size(); t++) {
+                        if (countryName.equals(continentList.get(j).getCountries().get(t).getCountryName())) {
                             List<Country> countryList1 = MapEditorService.mapGraph.getContinentList().get(j).getCountries();
                             countryList1.remove(t);
                             MapEditorService.mapGraph.getContinentList().get(j).setCountries(countryList1);
@@ -193,8 +252,11 @@ public class MapGraph {
             }
         }
 
+
         Country country = new Country(countryName);
-        notifyObservers("delete country", country);
+        //notifyObservers("delete country", country);
+        notifyObservers("delete country", MapEditorService.mapGraph);
+
     }
 
     /**
@@ -222,16 +284,16 @@ public class MapGraph {
          * get the Connection to be deleted by name
          * delete it from map
          */
-        boolean flag=false;
-        int i=0;
-        for(;i<connectionList.size();i++)
-        {
-            if(connectionList.get(i).getCountry1().countryName==countryName1&&connectionList.get(i).getCountry2().countryName==countryName2)
-            {
-                Connection connection=connectionList.get(i);
+        boolean flag = false;
+        int i = 0;
+        for (; i < connectionList.size(); i++) {
+            if (connectionList.get(i).getCountry1().countryName == countryName1 && connectionList.get(i).getCountry2().countryName == countryName2) {
+                Connection connection = connectionList.get(i);
                 connectionList.remove(i);
-                notifyObservers("delete connection", connection);
-                flag=true;
+                //notifyObservers("delete connection", connection);
+                notifyObservers("delete connection", MapEditorService.mapGraph);
+                flag = true;
+                System.out.println("here");
             }
         }
         return flag;

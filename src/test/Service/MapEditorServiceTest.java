@@ -136,7 +136,6 @@ public class MapEditorServiceTest {
 
     @Test
     public void testSaveMap() throws NoSuchFieldException {
-
         String fileName = "/Applications/Domination/maps/ameroki.map";
         String returnMsg = mapEditorService.editMap(fileName);
 
