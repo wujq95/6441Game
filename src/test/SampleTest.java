@@ -109,9 +109,9 @@ public class SampleTest {
     }
 
     public boolean ArmiesNumValidation(){
-        boolean ArmiesNum=false;
+        boolean ArmiesNum;
         GamePlayerService gamePlayer = new GamePlayerService();
-        ArmiesNum=gamePlayer.checkPlayerNum();
+        ArmiesNum =gamePlayer.checkPlayerNum();
         return ArmiesNum;
     }
 
@@ -155,7 +155,7 @@ public class SampleTest {
         String Msg;
         boolean result = false;
         Msg=gamePlayerService.placeAll();
-        if(Msg.endsWith("s")){
+        if(Msg.equals("place all success!")){
             result = true;
         }
         return result;
