@@ -84,7 +84,7 @@ public class MapGraph {
         this.width = width;
     }
     public void setCoordinator(String countryName){
-        //
+
     }
     public void addContinent(String continentName, Integer armyValue, Color color) {
         /**

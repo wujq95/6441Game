@@ -5,9 +5,15 @@ import javafx.scene.paint.Color;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * ColorController class
+ */
 public class ColorController {
     LinkedList<Color> palette = new LinkedList<>();
 
+    /**
+     * Constructor, add 8 default colors to palette
+     */
     public ColorController() {
         palette.add(Color.rgb(85,150,126));
         palette.add(Color.rgb(130,131,167));
@@ -19,14 +25,10 @@ public class ColorController {
         palette.add(Color.rgb(155,130,129));
     }
 
-    public List<Color> getPalette() {
-        return palette;
-    }
-
-    public void setPalette(LinkedList<Color> palette) {
-        this.palette = palette;
-    }
-
+    /**
+     * get one color from the palette
+     * @return
+     */
     public Color pickOneColor(){
         if(!palette.isEmpty())
             return palette.removeFirst();
@@ -34,6 +36,10 @@ public class ColorController {
             return Color.BLACK;
     }
 
+    /**
+     * if the continent is deleted, return the continent's color to palette
+     * @param color
+     */
     public void returnOneColor(Color color){
         palette.addLast(color);
     }
