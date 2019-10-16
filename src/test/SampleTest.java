@@ -2,6 +2,7 @@ import model.Continent;
 import model.Country;
 import model.GamePlayer;
 import model.MapGraph;
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
@@ -15,6 +16,12 @@ import java.util.List;
 
 public class SampleTest {
 
+    @Before
+    public void startUp(){
+        String filename="";
+        MapEditorService mapEditorService = new MapEditorService();
+        mapEditorService.editMap(filename);
+    }
 
     @Test
     public void TestMapValidate(){
@@ -43,7 +50,7 @@ public class SampleTest {
     public boolean SaveMapValidation(){
         MapEditorService mapEditorService = new MapEditorService();
         boolean result=false;
-        String fileName="";// 不确定！！
+        String fileName="";//
         String Msg;
         Msg=mapEditorService.saveMap(fileName);
         if(Msg.equals("saveMap success")){
