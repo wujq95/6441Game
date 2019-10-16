@@ -48,7 +48,7 @@ public class CommandService {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = gamePlayerService.placeAll();
         } else if (inputCommand.startsWith("start")) {
-            gamePlayerService.CalReinArmyNum();
+            gamePlayerService.calReinArmyNum();
         } else if (inputCommand.startsWith("reinforce")) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = reinforceService.reinforce(arguments[1], arguments[2]);
