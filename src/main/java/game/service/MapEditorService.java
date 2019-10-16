@@ -18,48 +18,47 @@ public class MapEditorService {
     private static ColorController colorPicker;
     public static MapGraph mapGraph;
 
-    String editContinent(String[] continentName) {
-        for (int i = 1; i < continentName.length; i++) {
-            if (continentName[i].equals("-add")) {
+    String editContinent(String[] continentNameList) {
+
+        // editcontinent -add name value -add name2 value2 -add name3 value3
+        for (int i = 1; i < continentNameList.length; i++) {
+            if (continentNameList[i].equals("-add")) {
+
+                String  continentName= continentNameList[i+1];
+                Integer continentValue = Integer.parseInt(continentNameList[i + 2]);
                 Color continentColor = colorPicker.pickOneColor();
-                int continentValue = Integer.parseInt(continentName[i + 2]);
 
-                Continent newContinent = new Continent(continentName[i + 1], continentValue, continentColor);
-                mapGraph.addContinent(continentName[i + 1], continentValue, continentColor);
-                List<Continent> continentList = mapGraph.getContinentList();
-                continentList.add(newContinent);
-                mapGraph.setContinentList(continentList);
+                mapGraph.addContinent(continentName, continentValue, continentColor);
             }
-            if (continentName[i].equals("-remove")) {
-                mapGraph.deleteContinent(continentName[i + 1]);
-
-                List<Continent> continentList = mapGraph.getContinentList();
-                for (Continent continent : continentList) {
-                    if ((continent.getContinentName()).equals(continentName[i + 1])) {
-                        continentList.remove(continent);
-                    }
-                }
-                mapGraph.setContinentList(continentList);
-
+            if (continentNameList[i].equals("-remove")) {
+                String  continentName= continentNameList[i+1];
+                mapGraph.deleteContinent(continentName);
             }
         }
-        return "";
+        return "map edit success";
     }
 
 
     String editCountry(String[] countryName) {
+        String Msg = "";
         for (int i = 1; i < countryName.length; i++) {
             if (countryName[i].equals("-add")) {
-                mapGraph.addCountry(countryName[i + 1], countryName[i + 2]);
+                boolean flag = mapGraph.addCountry(countryName[i + 1], countryName[i + 2]);
+                if(flag){
+                    Msg =  "add success";
+                }else{
+                    Msg =  "continent name not available";
+                }
             }
             if (countryName[i].equals("-remove")) {
                 mapGraph.deleteCountry(countryName[i + 1]);
             }
         }
-        return "";
+        return Msg;
     }
 
     String editNeighbor(String[] countryName) {
+        String Msg = "";
         for (int i = 1; i < countryName.length; i++) {
             if (countryName[i].equals("-add")) {
                 mapGraph.addConnection(countryName[i + 1], countryName[i + 2]);
@@ -68,7 +67,7 @@ public class MapEditorService {
                 mapGraph.deleteConnection(countryName[i + 1], countryName[i + 2]);
             }
         }
-        return "";
+        return Msg;
     }
 
     /**
