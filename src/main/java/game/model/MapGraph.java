@@ -53,7 +53,8 @@ public class MapGraph {
                     observer.updateCountry("add", (Country) object);
                     break;
                 case "delete country":
-                    observer.updateCountry("delete", (Country) object);
+                    //observer.updateCountry("delete", (Country) object);
+                    observer.updateMapGraph();
                     break;
                 case "add connection":
                     observer.updateConnection("add", (Connection) object);
@@ -182,7 +183,6 @@ public class MapGraph {
             return false;
         }
 
-
     }
 
 
@@ -214,7 +214,9 @@ public class MapGraph {
         }
 
         Country country = new Country(countryName);
-        notifyObservers("delete country", country);
+        //notifyObservers("delete country", country);
+        notifyObservers("delete country", MapEditorService.mapGraph);
+
     }
 
     /**

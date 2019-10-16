@@ -71,11 +71,6 @@ public class MapController{
     @FXML
     public AnchorPane mapPane;
 
-    /**
-     * continent list title label
-     */
-    @FXML
-    public Label continentListLabel;
 
     /**
      * anchor pane containing all user interface actions to the map graph
@@ -182,7 +177,6 @@ public class MapController{
             text.setId("continentLabel" + continent.getContinentName());
 
             //set rectangle and text position
-            //double x = mapPane.lookup("#continentListLabel").getLayoutX();
             double x = mapPane.getLayoutBounds().getMaxX() - 150;
             double y = i * 50 + 50;
             continentRectangle.setX(x);
@@ -490,6 +484,7 @@ public class MapController{
             mapPane.getChildren().clear();
             loadMapGraph(MapEditorService.mapGraph);
         }
+
         @Override
         public void updateContinentList(String action, Continent continent){
 
@@ -499,26 +494,26 @@ public class MapController{
         public void updateCountry(String action, Country country){
             if(action == "add"){
                 System.out.println("The Country Add");
-
                 /**
                  * TODO: country.getContinent().getColor();
                  */
-                Color countryColor = country.getContinent().getColor();
-                //Fake Data
-                countryColor = Color.TAN;
-                Point2D center = new Point2D(250, 250); //default position on scene
-                Circle circle = new Circle(center.getX(), center.getY(), 15, countryColor);
+                // Color countryColor = country.getParentContinent().getColor();
+                Color countryColor = Color.TAN;
+                double x = 500; //country default x coordinate
+                double y = 500; //country default y coordinate
+
+                //Point2D center = new Point2D(x, y); //default position on scene
+                Circle circle = new Circle(x, y, 15, countryColor);
                 // TODO: circle.setId(country.getCountryName());
                 //Now Fake
-                circle.setId("FakeId");
+                //circle.setId(country.getCountryName() + "circle");
                 circle.setCursor(HAND);
 
                 // TODO: Label label = new Label(country.getCountryName() + ":" + "Fake Player Name");
-                Label label = new Label("Country Name\n" + "Player Name\n" + "Army #");
-                // TODO: label.setId(country.getCountryName() + "Text");
-                label.setId("FakeId" + "Text");
-                label.setLayoutX(250 - 20);
-                label.setLayoutY(250 - 60);
+                Label label = new Label(country.getCountryName() + "\n" + "Player Name\n" + country.getArmyValue());
+                //label.setId(country.getCountryName());
+                label.setLayoutX(x - 20);
+                label.setLayoutY(y - 60);
 
                 circle.setOnMouseDragged((t) -> {
                     // update Circle View's location
@@ -532,14 +527,11 @@ public class MapController{
                     // update the dragged country's location info
                     System.out.println("Country's new location set.");
                     country.setCoordinator(t.getX(), t.getY());
+                    //MapEditorService.mapGraph.setCountryCoordinates(String countryName, double x, double y);
                 });
 
                 mapPane.getChildren().addAll(circle, label);
 
-            }else if(action == "delete"){
-                System.out.println("The Country Delete");
-                mapPane.getChildren().remove(mapPane.lookup("#FakeId"));
-                mapPane.getChildren().remove(mapPane.lookup("#FakeId" + "Text"));
             }
         }
 
