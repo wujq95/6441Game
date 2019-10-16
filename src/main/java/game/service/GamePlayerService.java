@@ -13,6 +13,10 @@ public class GamePlayerService {
     static List<GamePlayer> playerList = new ArrayList<GamePlayer>();
 
 
+    /**
+     * check if player name is suitable for the game
+     * @return
+     */
     public boolean checkPlayerNum(){
         if(playerList.size()>=2&&playerList.size()<=6){
             return true;
@@ -22,46 +26,127 @@ public class GamePlayerService {
     }
 
     /**
-     * add player in the player list
-     * @param playerName
+     * add players to the playerlist and remove players from the playerlist
+     * @param arguments
      * @return
      */
-    public String addPlayer(String playerName){
+    public String gamePlayerAction(String[] arguments){
 
-        boolean flag = false;
-        for(GamePlayer player:playerList){
-            if(playerName.equals(player.getPlayerName())){
-                flag = true;
+        List<String> addPlayerNameList = new ArrayList<String>();
+        List<String> removePlayerNameList = new ArrayList<String>();
+
+        Integer flag = 0;
+
+        for (int i=0;i<arguments.length;i++){
+            if (arguments[i].startsWith("-add")){
+                addPlayerNameList.add(arguments[i+1]);
             }
         }
 
-        if(flag){
+        for (int i=0;i<arguments.length;i++){
+            if (arguments[i].startsWith("-remove")){
+                removePlayerNameList.add(arguments[i+1]);
+            }
+        }
+
+        boolean checkDuplicate = checkDuplicatePlayerName(addPlayerNameList);
+        boolean checkIncluded = checkPlayerNameIncluded(removePlayerNameList);
+
+        if(checkDuplicate){
             return "player name duplicate";
+        }else if(!checkIncluded){
+            return "player name can not be found";
         }else{
-            GamePlayer player = new GamePlayer();
-            player.setPlayerName(playerName);
-            playerList.add(player);
-            return "add player success";
+            for(int i =0;i<arguments.length;i++){
+                if(arguments[i].startsWith("-add")){
+                    addPlayer(arguments[i+1]);
+                }else if(arguments[i].startsWith("-remove")){
+                    removePlayer(arguments[i+1]);
+                }
+            }
+            return "gameplayer action success";
+        }
+    }
+
+
+    /**
+     * check if the playernames that are added are duplicated
+     * @param playerNameList
+     * @return
+     */
+    public boolean checkDuplicatePlayerName(List<String> playerNameList){
+
+        if(playerNameList.size()>0) {
+
+            boolean flagAll = false;
+
+            for (int i = 0; i < playerNameList.size(); i++) {
+                boolean flag = false;
+                for (GamePlayer player : playerList) {
+                    if (playerNameList.get(i).equals(player.getPlayerName())) {
+                        flag = true;
+                    }
+                }
+                if (flag) {
+                    flagAll = true;
+                }
+            }
+
+            return flagAll;
+        }else{
+            return false;
         }
     }
 
     /**
-     * remove a player from the player list
-     * @param playerName
+     * check playernames that are removed can be found
+     * @param playerNameList
      * @return
      */
-    public String removePlayer(String playerName){
-        boolean flag = false;
+    public boolean checkPlayerNameIncluded(List<String> playerNameList){
+
+        if(playerNameList.size()>0) {
+
+            boolean flagAll = true;
+
+            for (int i = 0; i < playerNameList.size(); i++) {
+                boolean flag = false;
+                for (GamePlayer player : playerList) {
+                    if (playerNameList.get(i).equals(player.getPlayerName())) {
+                        flag = true;
+                    }
+                }
+                if (!flag) {
+                    flagAll = false;
+                }
+            }
+
+            return flagAll;
+        }else{
+            return true;
+        }
+    }
+
+    /**
+     * add one player to the playerlist by playername
+     * @param playerName
+     */
+    public void addPlayer(String playerName){
+            GamePlayer player = new GamePlayer();
+            player.setPlayerName(playerName);
+            playerList.add(player);
+    }
+
+
+    /**
+     * remove one player from the playerlist by name
+     * @param playerName
+     */
+    public void removePlayer(String playerName){
         for(int i=0;i<playerList.size();i++){
             if(playerList.get(i).getPlayerName().equals(playerName)){
                 playerList.remove(i);
-                flag = true;
             }
-        }
-        if(flag){
-            return "remove player success";
-        }else{
-            return "player can not be found";
         }
     }
 
@@ -70,10 +155,6 @@ public class GamePlayerService {
      * @return
      */
     public String populateCountries(){
-
-        /*if(checkPlayerNum()){
-
-        }*/
 
         List<Country> countryList =  MapEditorService.mapGraph.getCountryList();
 

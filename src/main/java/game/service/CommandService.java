@@ -36,11 +36,7 @@ public class CommandService {
             commandReturnMsg = mapEditorService.editMap(arguments[1]);
         } else if (inputCommand.startsWith("gameplayer")) {
             String[] arguments = inputCommand.split(" ");
-            if (arguments[1].startsWith("-add")) {
-                commandReturnMsg = gamePlayerService.addPlayer(arguments[2]);
-            } else if (arguments[1].startsWith("-remove")) {
-                commandReturnMsg = gamePlayerService.removePlayer(arguments[2]);
-            }
+            commandReturnMsg = gamePlayerService.gamePlayerAction(arguments);
         } else if (inputCommand.startsWith("populatecountries")) {
             String populateReturnMsg = gamePlayerService.populateCountries();
             String alloReturnMsg = gamePlayerService.alloInitialArmy();
