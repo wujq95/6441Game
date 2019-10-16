@@ -125,8 +125,17 @@ public class MapGraph {
 
         for (int i = 0; i < MapEditorService.mapGraph.continentList.size(); i++) {
             if (continentName.equals(continentList.get(i).getContinentName())) {
-                MapEditorService.mapGraph.continentList.remove(i);
                 List<Country> countryList1=continentList.get(i).getCountries();
+                //remove connectionList
+                for (int n=0;n<connectionList.size();n++)
+                {
+                    for(int m=0;m<countryList1.size();m++)
+                    {
+                        if(connectionList.get(n).getCountry1()==countryList1.get(m)||connectionList.get(n).getCountry2()==countryList1.get(m))
+                            connectionList.remove(n);
+                    }
+                }
+                //remove countryList
                 for(int m=0;m<countryList.size();m++)
                 {
                     for(int j=0;j<countryList1.size();j++)
@@ -136,6 +145,8 @@ public class MapGraph {
                     }
 
                 }
+                //remove continentList
+                MapEditorService.mapGraph.continentList.remove(i);
             }
         }
         //notifyObservers("delete continent", removedContinent);
