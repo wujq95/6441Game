@@ -173,7 +173,7 @@ public class GamePlayerService {
             playerCountryList.add(country);
             playerList.get(randomInt).setCountryList(playerCountryList);
         }*/
-        return "popilatecountries success";
+        return "popilatecountries success and ";
     }
 
     /**
@@ -264,11 +264,13 @@ public class GamePlayerService {
         for (GamePlayer player:playerList){
             Integer remainPlayerArmyValue = player.getArmyValue();
             List<Country> countryList = MapEditorService.mapGraph.getCountryList();
-            for(int i=0;i<remainPlayerArmyValue;i++){
-                Integer index = (int)(Math.random()*countryList.size());
-                Integer newCountryArmyValue = countryList.get(index).getArmyValue()+1;
-                MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(newCountryArmyValue);
-                player.setArmyValue(player.getArmyValue()-1);
+            if(remainPlayerArmyValue>0){
+                for(int i=0;i<remainPlayerArmyValue;i++){
+                    Integer index = (int)(Math.random()*countryList.size());
+                    Integer newCountryArmyValue = countryList.get(index).getArmyValue()+1;
+                    MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(newCountryArmyValue);
+                    player.setArmyValue(player.getArmyValue()-1);
+                }
             }
         }
         return "place all success!";
