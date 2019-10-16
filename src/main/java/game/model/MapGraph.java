@@ -119,8 +119,8 @@ public class MapGraph {
          * delete it from map
          */
 
-        for(int i=0;i<MapEditorService.mapGraph.continentList.size();i++){
-            if(continentName.equals(continentList.get(i).getContinentName())){
+        for (int i = 0; i < MapEditorService.mapGraph.continentList.size(); i++) {
+            if (continentName.equals(continentList.get(i).getContinentName())) {
                 MapEditorService.mapGraph.continentList.remove(i);
             }
         }
@@ -140,27 +140,32 @@ public class MapGraph {
 
         List<Continent> continentList = MapEditorService.mapGraph.getContinentList();
         boolean flag = false;
-        for (int i=0;i<continentList.size();i++){
-            if(continentName.equals(continentList.get(i).getContinentName())){
+        for (int i = 0; i < continentList.size(); i++) {
+            if (continentName.equals(continentList.get(i).getContinentName())) {
                 flag = true;
             }
         }
-        if(flag){
+        if (flag) {
             Country country = new Country(countryName, continentName);
             notifyObservers("add country", country);
             MapEditorService.mapGraph.countryList.add(country);
-            for (int i=0;i<continentList.size();i++){
-                if(continentName.equals(continentList.get(i).getContinentName())){
+            for (int i = 0; i < continentList.size(); i++) {
+                if (continentName.equals(continentList.get(i).getContinentName())) {
                     List<Country> countryList1 = MapEditorService.mapGraph.getContinentList().get(i).countries;
-                    countryList1.add(country);
+                    if (countryList1 == null) {
+                        countryList1 = new LinkedList<>();
+                        countryList1.add(country);
+                    }
+                    {
+                        countryList1.add(country);
+                    }
                     MapEditorService.mapGraph.getContinentList().get(i).setCountries(countryList1);
                 }
             }
             return true;
-        }else{
+        } else {
             return false;
         }
-
 
 
     }
@@ -177,13 +182,13 @@ public class MapGraph {
          */
 
         List<Country> countryList = MapEditorService.mapGraph.countryList;
-        for(int i=0;i<countryList.size();i++){
-            if(countryName.equals(countryList.get(i).getCountryName())){
+        for (int i = 0; i < countryList.size(); i++) {
+            if (countryName.equals(countryList.get(i).getCountryName())) {
                 MapEditorService.mapGraph.countryList.remove(i);
                 List<Continent> continentList = MapEditorService.mapGraph.getContinentList();
-                for(int j=0;j<continentList.size();j++){
-                    for(int t=0;t<continentList.get(j).getCountries().size();t++){
-                        if(countryName.equals(continentList.get(j).getCountries().get(t).getCountryName())){
+                for (int j = 0; j < continentList.size(); j++) {
+                    for (int t = 0; t < continentList.get(j).getCountries().size(); t++) {
+                        if (countryName.equals(continentList.get(j).getCountries().get(t).getCountryName())) {
                             List<Country> countryList1 = MapEditorService.mapGraph.getContinentList().get(j).getCountries();
                             countryList1.remove(t);
                             MapEditorService.mapGraph.getContinentList().get(j).setCountries(countryList1);
@@ -222,10 +227,9 @@ public class MapGraph {
          * get the Connection to be deleted by name
          * delete it from map
          */
-        int i=0;
-        for(;i<connectionList.size();i++)
-        {
-            if(connectionList.get(i).getCountry1().countryName==countryName1&&connectionList.get(i).getCountry2().countryName==countryName2)
+        int i = 0;
+        for (; i < connectionList.size(); i++) {
+            if (connectionList.get(i).getCountry1().countryName == countryName1 && connectionList.get(i).getCountry2().countryName == countryName2)
                 connectionList.remove(i);
         }
         notifyObservers("delete connection", connectionList.get(i));
