@@ -300,7 +300,7 @@ public class MapGraph {
 
     /**
      * Get Continent Name
-     * @return
+     * @return continent name
      */
     public String getName() {
         return this.name;
@@ -308,7 +308,7 @@ public class MapGraph {
 
     /**
      * Get Continent Height
-     * @return
+     * @return continent heigh
      */
     public Integer getHeight() {
         return this.height;
@@ -316,7 +316,7 @@ public class MapGraph {
 
     /**
      * Get Continent Width
-     * @return
+     * @return continent width
      */
     public Integer getWidth() {
         return this.width;
@@ -324,7 +324,7 @@ public class MapGraph {
 
     /**
      * Get Adjacent Countries
-     * @return
+     * @return adjacent country name
      */
     public LinkedHashMap<Country, List<Country>> getAdjacentCountries() {
         return adjacentCountries;
@@ -340,7 +340,7 @@ public class MapGraph {
 
     /**
      * Get Continent List
-     * @return
+     * @return continent list
      */
     public List<Continent> getContinentList() {
         return continentList;
@@ -356,7 +356,7 @@ public class MapGraph {
 
     /**
      * Get Country List
-     * @return
+     * @return country list
      */
     public List<Country> getCountryList() {
         return countryList;
@@ -372,7 +372,7 @@ public class MapGraph {
 
     /**
      * Get Connection List
-     * @return
+     * @return connection list
      */
     public List<Connection> getConnectionList() {
         return connectionList;
