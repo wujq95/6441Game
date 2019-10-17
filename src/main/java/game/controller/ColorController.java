@@ -27,7 +27,7 @@ public class ColorController {
 
     /**
      * get one color from the palette
-     * @return
+     * @return color
      */
     public Color pickOneColor(){
         if(!palette.isEmpty())

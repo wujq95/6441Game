@@ -1,14 +1,11 @@
 package service;
 
-/**
- * provide service for dealing with comment line
- */
 public class CommandService {
     /**
      * Prompt Command into console
      *
      * @param inputCommand
-     * @return commend result
+     * @return
      */
     public String processCommand(String inputCommand) {
         MapEditorService mapEditorService = new MapEditorService();

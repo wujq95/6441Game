@@ -14,7 +14,7 @@ public class FortifyService {
      * @param fromCountry
      * @param toCountry
      * @param num
-     * @return
+     * @return Message
      */
     public String fortify(String fromCountry, String toCountry, String num){
 
@@ -54,7 +54,7 @@ public class FortifyService {
 
     /**
      * No fortify
-     * @return
+     * @return message
      */
     public String fortifyNone(){
         return "fortify none success";

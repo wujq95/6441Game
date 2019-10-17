@@ -14,6 +14,9 @@ import java.util.*;
  * provide sservice for map editor
  */
 public class MapEditorService {
+    /**
+     * initial color Controller
+     */
     public MapEditorService() {
         colorPicker = new ColorController();
     }
@@ -28,7 +31,6 @@ public class MapEditorService {
      * @return message
      */
     String editContinent(String[] continentNameList) {
-
         // editcontinent -add name value -add name2 value2 -add name3 value3
         for (int i = 1; i < continentNameList.length; i = i++) {
             if (continentNameList[i].equals("-add")) {
@@ -41,6 +43,8 @@ public class MapEditorService {
             } else if (continentNameList[i].equals("-remove")) {
                 String continentName = continentNameList[i + 1];
                 mapGraph.deleteContinent(continentName);
+            } else {
+                return "wrong syntax";
             }
         }
         return "map edit success";
@@ -65,6 +69,8 @@ public class MapEditorService {
             } else if (countryName[i].equals("-remove")) {
                 mapGraph.deleteCountry(countryName[i + 1]);
                 Msg = "remove country success";
+            } else {
+                return "wrong syntax";
             }
         }
         return Msg;
@@ -126,6 +132,7 @@ public class MapEditorService {
 
     /**
      * edit map
+     *
      * @param fileName
      * @return message
      */
@@ -278,7 +285,7 @@ public class MapEditorService {
             }
 
             showMap.append("\ncountries include");
-            for (Map.Entry<Country,List<Country>> entry : mapGraph.getAdjacentCountries().entrySet()) {
+            for (Map.Entry<Country, List<Country>> entry : mapGraph.getAdjacentCountries().entrySet()) {
                 showMap.append("\ncountry");
                 showMap.append(" ").append(entry.getKey().getCountryName()).append(",");
 
@@ -301,7 +308,7 @@ public class MapEditorService {
         //1. duplicate country names
         Set<String> countryNames = new HashSet<>();
         for (Country country : mapGraph.getCountryList()) {
-            //7. check if the country has parent continent
+            // check if the country has parent continent
             if (country.getParentContinent() == null) {
                 return false;
             }
@@ -487,7 +494,8 @@ public class MapEditorService {
     }
 
     /**
-     * find counrty by name
+     * Find required Country by searching name
+     *
      * @param countryName
      * @return country
      */

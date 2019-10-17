@@ -75,14 +75,14 @@ public class MapGraph {
     }
 
     /**
-     * defaut constructor
+     * Initial continent List
      */
     public MapGraph() {
         continentList = new LinkedList<>();
     }
 
     /**
-     * set name
+     * Set Continent Name
      *
      * @param name
      */
@@ -91,7 +91,7 @@ public class MapGraph {
     }
 
     /**
-     * set height
+     * Set Continent Height
      *
      * @param height
      */
@@ -100,7 +100,7 @@ public class MapGraph {
     }
 
     /**
-     * set width
+     * Set Width
      *
      * @param width
      */
@@ -109,14 +109,13 @@ public class MapGraph {
     }
 
     /**
-     * validate the continent and add it to map
+     * Add new Continent
      *
      * @param continentName
      * @param armyValue
      * @param color
      */
     public void addContinent(String continentName, Integer armyValue, Color color) {
-
         Continent continent = new Continent(continentName, armyValue, color);
         continentList.add(continent);
         notifyObservers("add continent", this);
@@ -162,7 +161,7 @@ public class MapGraph {
     }
 
     /**
-     * add country
+     * Check whether add country correctly
      *
      * @param countryName
      * @param continentName
@@ -234,7 +233,7 @@ public class MapGraph {
     }
 
     /**
-     * validate the connection and add it to map
+     * Add connection between country Name 1 and country Name 2
      *
      * @param countryName1
      * @param countryName2
@@ -247,7 +246,7 @@ public class MapGraph {
     }
 
     /**
-     * get the Connection to be deleted by name and delete it from map
+     * Check whether connection has been deleted properly
      *
      * @param countryName1
      * @param countryName2
@@ -277,7 +276,7 @@ public class MapGraph {
     }
 
     /**
-     * remove continent
+     * Remove Continent
      *
      * @param continent
      */
@@ -286,43 +285,43 @@ public class MapGraph {
     }
 
     /**
-     * get name
+     * Get Continent Name
      *
-     * @return name
+     * @return
      */
     public String getName() {
         return this.name;
     }
 
     /**
-     * get height
+     * Get Continent Height
      *
-     * @return height
+     * @return
      */
     public Integer getHeight() {
         return this.height;
     }
 
     /**
-     * get width
+     * Get Continent Width
      *
-     * @return width
+     * @return
      */
     public Integer getWidth() {
         return this.width;
     }
 
     /**
-     * get adjacent countries
+     * Get Adjacent Countries
      *
-     * @return adjacent countries
+     * @return
      */
     public LinkedHashMap<Country, List<Country>> getAdjacentCountries() {
         return adjacentCountries;
     }
 
     /**
-     * set Adjacent countries
+     * Set Adjacent Countries
      *
      * @param adjacentCountries
      */
@@ -331,16 +330,16 @@ public class MapGraph {
     }
 
     /**
-     * get continent list
+     * Get Continent List
      *
-     * @return continent list
+     * @return
      */
     public List<Continent> getContinentList() {
         return continentList;
     }
 
     /**
-     * set continent list
+     * Set Continent List
      *
      * @param continentList
      */
@@ -349,16 +348,16 @@ public class MapGraph {
     }
 
     /**
-     * get country list
+     * Get Country List
      *
-     * @return country list
+     * @return
      */
     public List<Country> getCountryList() {
         return countryList;
     }
 
     /**
-     * set country list
+     * Set Country List
      *
      * @param countryList
      */
@@ -367,16 +366,16 @@ public class MapGraph {
     }
 
     /**
-     * get connnectionlist
+     * Get Connection List
      *
-     * @return connectionList
+     * @return
      */
     public List<Connection> getConnectionList() {
         return connectionList;
     }
 
     /**
-     * set connection list
+     * Set Connection List
      *
      * @param connectionList
      */

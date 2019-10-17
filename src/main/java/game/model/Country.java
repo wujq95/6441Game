@@ -7,9 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * save Country
- */
 public class Country {
 
     Integer id;
@@ -30,7 +27,7 @@ public class Country {
 
     /**
      * Get Id
-     * @return id
+     * @return
      */
     public Integer getId() {
         return id;
@@ -62,7 +59,7 @@ public class Country {
 
     /**
      * Get ParentContinent
-     * @return parentContinent
+     * @return
      */
     public Continent getParentContinent() {
         return parentContinent;
@@ -78,7 +75,7 @@ public class Country {
 
     /**
      * Get Player
-     * @return player
+     * @return
      */
     public GamePlayer getPlayer() {
         return player;
@@ -137,12 +134,10 @@ public class Country {
         Random r = new Random();
         this.x = 500 * r.nextDouble();
         this.y = 500 * r.nextDouble();
+
+        this.player = new GamePlayer();
     }
 
-    /**
-     * edit country name
-     * @param countryName
-     */
     public void editCountryName(String countryName) {
         this.countryName = countryName;
     }
@@ -159,16 +154,16 @@ public class Country {
     }
 
     /**
-     * return Point2D location of the country
+     * TODO: return Point2D location of the country
      *
-     * @return Point2D (x,y)
+     * @return
      */
     public Point2D getCoordinator() {
         return new Point2D(x, y);
     }
 
     /**
-     * add neighbor
+     * TODO: add neighbor
      *
      * @param country
      */
@@ -178,7 +173,7 @@ public class Country {
     }
 
     /**
-     * remove neighbor
+     * TODO: remove neighbor
      *
      * @param country
      */
@@ -187,37 +182,37 @@ public class Country {
     }
 
     /**
-     * check if countries are connected
+     * TODO: check if countries are connected
      *
      * @param country
-     * @return boolean
+     * @return
      */
     public boolean connected(Country country) {
         return this.neighbours.contains(country);
     }
 
     /**
-     * get country name
+     * TODO: get country name
      *
-     * @return countryName
+     * @return
      */
     public String getCountryName() {
         return countryName;
     }
 
     /**
-     * get all neighbours of a country
+     * TODO: get all neighbours of a country
      *
-     * @return neighbours
+     * @return
      */
     public List<Country> getNeighbours() {
         return neighbours;
     }
 
     /**
-     * get the continent that the country belongs to
+     * TODO: get the continent that the country belongs to
      *
-     * @return continent
+     * @return
      */
     public Continent getContinent() {
         Continent continent = new Continent();
@@ -226,7 +221,7 @@ public class Country {
 
     /**
      * Get Country Position X
-     * @return x
+     * @return
      */
     public double getX() {
         return x;
@@ -242,7 +237,7 @@ public class Country {
 
     /**
      * Get Country Position Y
-     * @return y
+     * @return
      */
     public double getY() {
         return y;
@@ -275,9 +270,9 @@ public class Country {
     }
 
     /**
-     * find continent by name
+     * According to the continent Name to find required continent
      * @param continentName
-     * @return continent
+     * @return
      */
     private Continent findContinentByName(String continentName) {
         for (Continent continent : MapEditorService.mapGraph.getContinentList()) {
