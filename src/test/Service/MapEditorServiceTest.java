@@ -134,6 +134,10 @@ public class MapEditorServiceTest {
                         "country");
     }
 
+    /**
+     * Test Save Map Function
+     * @throws NoSuchFieldException
+     */
     @Test
     public void testSaveMap() throws NoSuchFieldException {
         String fileName = "/Applications/Domination/maps/risk.map";
@@ -150,6 +154,9 @@ public class MapEditorServiceTest {
         mapEditorService.saveMap(fileName);
     }
 
+    /**
+     * Test whether Graph 1 is connected
+     */
     @Test
     public void testConnectedGraph1(){
         mapEditorService.editMap("/Applications/Domination/maps/ameroki.map");
@@ -157,6 +164,9 @@ public class MapEditorServiceTest {
         Assert.assertTrue(mapEditorService.checkIfConnected(adjacentCountries));
     }
 
+    /**
+     * Test whether Graph 2 is connected
+     */
     @Test
     public void testConnectedGraph2(){
         mapEditorService.editMap("/Applications/Domination/maps/risk2.map");
@@ -164,6 +174,9 @@ public class MapEditorServiceTest {
         Assert.assertFalse(mapEditorService.checkIfConnected(adjacentCountries));
     }
 
+    /**
+     * Test Map Validation Function
+     */
     @Test
     public void testValidMap(){
         String Result = "";
@@ -174,6 +187,10 @@ public class MapEditorServiceTest {
             Assert.assertEquals("load map from file ameroki success",Result);
         }
     }
+
+    /**
+     * Test Invalidation Function
+     */
     @Test
     public void testInvalidMap(){
         String Result = "";

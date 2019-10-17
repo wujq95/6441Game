@@ -46,7 +46,7 @@ public class GamePlayerTest {
     }
 
     /**
-     * player removement test
+     * player remove Player test
      */
     @Test
     public void removePlayerTest(){
