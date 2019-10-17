@@ -73,7 +73,6 @@ public class GamePlayerService {
      * @return
      */
     public boolean checkDuplicatePlayerName(List<String> playerNameList){
-
         if(playerNameList.size()>0) {
             boolean flagAll = false;
 

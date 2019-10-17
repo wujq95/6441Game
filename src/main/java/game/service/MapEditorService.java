@@ -10,6 +10,9 @@ import model.MapGraph;
 import java.io.*;
 import java.util.*;
 
+/**
+ * provide sservice for map editor
+ */
 public class MapEditorService {
     /**
      * initial color Controller
@@ -25,12 +28,11 @@ public class MapEditorService {
      * Edit Continent
      *
      * @param continentNameList
-     * @return
+     * @return message
      */
     String editContinent(String[] continentNameList) {
-
-        // edit continent -add name value -add name2 value2 -add name3 value3
-        for (int i = 1; i < continentNameList.length; i = i + 3) {
+        // editcontinent -add name value -add name2 value2 -add name3 value3
+        for (int i = 1; i < continentNameList.length; i = i++) {
             if (continentNameList[i].equals("-add")) {
 
                 String continentName = continentNameList[i + 1];
@@ -52,11 +54,11 @@ public class MapEditorService {
      * Edit Country
      *
      * @param countryName
-     * @return
+     * @return message
      */
     String editCountry(String[] countryName) {
         String Msg = "";
-        for (int i = 1; i < countryName.length; i = i + 3) {
+        for (int i = 1; i < countryName.length; i++) {
             if (countryName[i].equals("-add")) {
                 boolean flag = mapGraph.addCountry(countryName[i + 1], countryName[i + 2]);
                 if (flag) {
@@ -78,11 +80,11 @@ public class MapEditorService {
      * Edit Neighbor
      *
      * @param countryName
-     * @return
+     * @return message
      */
     String editNeighbor(String[] countryName) {
         String Msg = "";
-        for (int i = 1; i < countryName.length; i = i + 3) {
+        for (int i = 1; i < countryName.length; i++) {
             if (countryName[i].equals("-add")) {
                 mapGraph.addConnection(countryName[i + 1], countryName[i + 2]);
 
@@ -92,9 +94,10 @@ public class MapEditorService {
                 if (country1 == null || country2 == null) {
                     return "one of the countries doesn't exist";
                 }
-                List<Country> country1List = MapEditorService.mapGraph.getAdjacentCountries().get(country1);
                 country1.addNeighbor(country2);
                 country2.addNeighbor(country1);
+
+                List<Country> country1List = MapEditorService.mapGraph.getAdjacentCountries().get(country1);
                 country1List.add(country2);
                 MapEditorService.mapGraph.getAdjacentCountries().put(country1, country1List);
                 List<Country> country2List = MapEditorService.mapGraph.getAdjacentCountries().get(country2);
@@ -104,17 +107,32 @@ public class MapEditorService {
                 Msg = "edit success";
             }
             if (countryName[i].equals("-remove")) {
-                boolean flag = mapGraph.deleteConnection(countryName[i + 1], countryName[i + 2]);
-                if (flag)
-                    Msg = "edit success";
-                else
-                    Msg = "Connection is not available";
+                mapGraph.deleteConnection(countryName[i + 1], countryName[i + 2]);
+                Country country1 = findCountryByName(countryName[i + 1]);
+                Country country2 = findCountryByName(countryName[i + 2]);
+
+                if (country1 == null || country2 == null) {
+                    return "one of the countries doesn't exist";
+                }
+                country1.removeNeighbor(country2);
+                country2.removeNeighbor(country1);
+                List<Country> country1List = mapGraph.getAdjacentCountries().get(country1);
+                country1List.remove(country2);
+                MapEditorService.mapGraph.getAdjacentCountries().put(country1, country1List);
+
+                List<Country> country2List = mapGraph.getAdjacentCountries().get(country2);
+                country2List.remove(country1);
+                MapEditorService.mapGraph.getAdjacentCountries().put(country2, country2List);
+
+                Msg = "remove neighbor success";
             }
         }
         return Msg;
     }
 
     /**
+     * edit map
+     *
      * @param fileName
      * @return message
      */
@@ -235,7 +253,7 @@ public class MapEditorService {
     /**
      * show Map
      *
-     * @return
+     * @return message
      */
     public String showMap() {
         if (mapGraph.getCountryList().get(0).getPlayer() != null) {
@@ -267,12 +285,12 @@ public class MapEditorService {
             }
 
             showMap.append("\ncountries include");
-            for (Country country : mapGraph.getCountryList()) {
+            for (Map.Entry<Country, List<Country>> entry : mapGraph.getAdjacentCountries().entrySet()) {
                 showMap.append("\ncountry");
-                showMap.append(" ").append(country.getCountryName()).append(",");
+                showMap.append(" ").append(entry.getKey().getCountryName()).append(",");
 
-                showMap.append("\n and ").append(country.getCountryName()).append("'s neighbours are");
-                for (Country neighour : country.getNeighbours()) {
+                showMap.append("\n and ").append(entry.getKey().getCountryName()).append("'s neighbours are");
+                for (Country neighour : entry.getValue()) {
                     showMap.append(" ").append(neighour.getCountryName()).append(",");
                 }
             }
@@ -284,13 +302,13 @@ public class MapEditorService {
     /**
      * Map Validation
      *
-     * @return
+     * @return boolean
      */
     public boolean validateMap() {
         //1. duplicate country names
         Set<String> countryNames = new HashSet<>();
         for (Country country : mapGraph.getCountryList()) {
-            //7. check if the country has parent continent
+            // check if the country has parent continent
             if (country.getParentContinent() == null) {
                 return false;
             }
@@ -326,7 +344,6 @@ public class MapEditorService {
         if (!checkIfConnected(mapGraph.getAdjacentCountries())) {
             return false;
         }
-        //6. check if the continents are connected subgraph
 
         return true;
     }
@@ -335,17 +352,19 @@ public class MapEditorService {
      * Check adjacent country with each other
      *
      * @param adjacentCountries
-     * @return
+     * @return boolean
      */
     public boolean checkIfConnected(LinkedHashMap<Country, List<Country>> adjacentCountries) {
-        Integer start = 1;
+        Integer start = 0;
+        for (Country country : adjacentCountries.keySet()) {
+            start = country.getId();
+        }
 
         LinkedHashMap<Integer, List<Country>> adj = new LinkedHashMap<>();
-
         for (Map.Entry<Country, List<Country>> entry : adjacentCountries.entrySet()) {
             adj.put(entry.getKey().getId(), entry.getValue());
         }
-        boolean[] visited = new boolean[adj.size() + 1];
+        boolean[] visited = new boolean[start + 1];
         LinkedList<Integer> queue = new LinkedList<>();
 
         visited[start] = true;
@@ -384,7 +403,7 @@ public class MapEditorService {
      * Save Map
      *
      * @param fileName
-     * @return
+     * @return message
      */
     public String saveMap(String fileName) {
         fileName = fileName.trim();
@@ -476,8 +495,9 @@ public class MapEditorService {
 
     /**
      * Find required Country by searching name
+     *
      * @param countryName
-     * @return
+     * @return country
      */
     private Country findCountryByName(String countryName) {
         for (Country country : mapGraph.getCountryList()) {
