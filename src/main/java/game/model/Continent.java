@@ -3,6 +3,10 @@ package model;
 import javafx.scene.paint.Color;
 import java.util.List;
 
+/**
+ * Save continent
+ *
+ */
 public class Continent {
     Integer id;
 
@@ -16,11 +20,14 @@ public class Continent {
 
     List<Country> countries;
 
+    /**
+     * Default Dontructor
+     */
     public Continent() {
     }
 
     /**
-     * Default Constructor
+     * Constructor
      * @param continentName
      * @param armyValue
      * @param color
@@ -32,7 +39,7 @@ public class Continent {
     }
 
     /**
-     * Default Constructor
+     * Constructor
      * @param continentName
      * @param armyValue
      */
@@ -87,7 +94,7 @@ public class Continent {
      * check if a country is belong to a continent
      *
      * @param country
-     * @return
+     * @return boolean
      */
     public boolean includeCountry(Country country) {
         return this.countries.contains(country);
@@ -96,15 +103,15 @@ public class Continent {
     /**
      * get continent name
      *
-     * @return
+     * @return continentName
      */
     public String getContinentName() {
         return continentName;
     }
 
     /**
-     * TODO: return the representing Color of the continet
-     * @return
+     * return the representing Color of the continent
+     * @return continentColor
      */
     public Color getColor(){
         return continentColor;
@@ -113,7 +120,7 @@ public class Continent {
     /**
      * get army value
      *
-     * @return
+     * @return armyValue
      */
     public Integer getArmyValue() {
         return armyValue;
@@ -122,7 +129,7 @@ public class Continent {
     /**
      * get country number
      *
-     * @return
+     * @return countryNumber
      */
     public Integer getCountryNumber() {
         return countryNumber;
@@ -131,7 +138,7 @@ public class Continent {
     /**
      * get country list of a continent
      *
-     * @return
+     * @return Country List
      */
     public List<Country> getCountries() {
         return countries;
@@ -139,7 +146,7 @@ public class Continent {
 
     /**
      * Get Id
-     * @return
+     * @return id
      */
     public Integer getId() {
         return id;

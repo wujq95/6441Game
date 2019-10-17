@@ -10,6 +10,9 @@ import model.MapGraph;
 import java.io.*;
 import java.util.*;
 
+/**
+ * provide sservice for map editor
+ */
 public class MapEditorService {
     public MapEditorService() {
         colorPicker = new ColorController();
@@ -22,7 +25,7 @@ public class MapEditorService {
      * Edit Continent
      *
      * @param continentNameList
-     * @return
+     * @return message
      */
     String editContinent(String[] continentNameList) {
 
@@ -49,7 +52,7 @@ public class MapEditorService {
      * Edit Country
      *
      * @param countryName
-     * @return
+     * @return message
      */
     String editCountry(String[] countryName) {
         String Msg = "";
@@ -75,7 +78,7 @@ public class MapEditorService {
      * Edit Neighbor
      *
      * @param countryName
-     * @return
+     * @return message
      */
     String editNeighbor(String[] countryName) {
         String Msg = "";
@@ -112,6 +115,7 @@ public class MapEditorService {
     }
 
     /**
+     * edit map
      * @param fileName
      * @return message
      */
@@ -232,7 +236,7 @@ public class MapEditorService {
     /**
      * show Map
      *
-     * @return
+     * @return message
      */
     public String showMap() {
         if (mapGraph.getCountryList().get(0).getPlayer() != null) {
@@ -281,7 +285,7 @@ public class MapEditorService {
     /**
      * Map Validation
      *
-     * @return
+     * @return boolean
      */
     public boolean validateMap() {
         //1. duplicate country names
@@ -332,7 +336,7 @@ public class MapEditorService {
      * Check adjacent country with each other
      *
      * @param adjacentCountries
-     * @return
+     * @return boolean
      */
     public boolean checkIfConnected(LinkedHashMap<Country, List<Country>> adjacentCountries) {
         Integer start = 1;
@@ -381,7 +385,7 @@ public class MapEditorService {
      * Save Map
      *
      * @param fileName
-     * @return
+     * @return message
      */
     public String saveMap(String fileName) {
         fileName = fileName.trim();
@@ -471,6 +475,11 @@ public class MapEditorService {
         return returnMsg;
     }
 
+    /**
+     * find counrty by name
+     * @param countryName
+     * @return country
+     */
     private Country findCountryByName(String countryName) {
         for (Country country : mapGraph.getCountryList()) {
             if (countryName.equals(country.getCountryName())) {

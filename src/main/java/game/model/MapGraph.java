@@ -9,6 +9,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * save MapGraph
+ */
 public class MapGraph {
     String name;
 
@@ -71,28 +74,44 @@ public class MapGraph {
         }
     }
 
+    /**
+     * defaut constructor
+     */
     public MapGraph() {
         continentList = new LinkedList<>();
     }
 
+    /**
+     * set name
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * set height
+     * @param height
+     */
     public void setHeight(Integer height) {
         this.height = height;
     }
 
+    /**
+     * set width
+     * @param width
+     */
     public void setWidth(Integer width) {
         this.width = width;
     }
 
+    /**
+     * validate the continent and add it to map
+     * @param continentName
+     * @param armyValue
+     * @param color
+     */
     public void addContinent(String continentName, Integer armyValue, Color color) {
-        /**
-         * TODO:
-         * validate the continent
-         * add it to map
-         */
 
         Continent continent = new Continent(continentName, armyValue, color);
         continentList.add(continent);
@@ -100,30 +119,23 @@ public class MapGraph {
     }
 
     /**
+     * validate the continent and add it to map
      * @param continentName
      * @param continentValue
      * @param color
      */
     public void addContinent(String continentName, String continentValue, Color color) {
-        /**
-         * TODO:
-         * validate the continent
-         * add it to map
-         */
+
         Continent continent = new Continent(continentName, 99, color);
         MapEditorService.mapGraph.continentList.add(continent);
         notifyObservers("add continent", continent);
     }
 
     /**
+     * get the continent to be deleted by name and delete it from map
      * @param continentName
      */
     public void deleteContinent(String continentName) {
-        /**
-         * TODO:
-         * get the continent to be deleted by name
-         * delete it from map
-         */
 
         for (int i = 0; i < MapEditorService.mapGraph.continentList.size(); i++) {
             if (continentName.equals(continentList.get(i).getContinentName())) {
@@ -142,6 +154,7 @@ public class MapGraph {
     }
 
     /**
+     * add country
      * @param countryName
      * @param continentName
      */
@@ -182,14 +195,10 @@ public class MapGraph {
 
 
     /**
+     * get the country to be deleted by name and delete it from map
      * @param countryName
      */
     public void deleteCountry(String countryName) {
-        /**
-         * TODO:
-         * get the country to be deleted by name
-         * delete it from map
-         */
 
         List<Country> countryList = MapEditorService.mapGraph.countryList;
         for (int i = 0; i < countryList.size(); i++) {
@@ -213,15 +222,11 @@ public class MapGraph {
     }
 
     /**
+     * validate the connection and add it to map
      * @param countryName1
      * @param countryName2
      */
     public void addConnection(String countryName1, String countryName2) {
-        /**
-         * TODO:
-         * validate the connection
-         * add it to map
-         */
 
         Connection connection = new Connection(countryName1, countryName2);
         connectionList.add(connection);
@@ -229,15 +234,11 @@ public class MapGraph {
     }
 
     /**
+     * get the Connection to be deleted by name and delete it from map
      * @param countryName1
      * @param countryName2
      */
     public boolean deleteConnection(String countryName1, String countryName2) {
-        /**
-         * TODO:
-         * get the Connection to be deleted by name
-         * delete it from map
-         */
 
         boolean flag = false;
         int i = 0;
@@ -258,57 +259,101 @@ public class MapGraph {
      * @return a list of Connection objects
      */
     public List<Connection> getConnections() {
-        /**
-         * TODO:
-         * Get all the connections associated with the country
-         */
         return connectionList;
     }
 
+    /**
+     * remove continent
+     * @param continent
+     */
     public void removeContinent(Continent continent) {
         continentList.remove(continent);
     }
 
+    /**
+     * get name
+     * @return name
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * get height
+     * @return height
+     */
     public Integer getHeight() {
         return this.height;
     }
 
+    /**
+     * get width
+     * @return width
+     */
     public Integer getWidth() {
         return this.width;
     }
 
+    /**
+     * get adjacent countries
+     * @return adjacent countries
+     */
     public LinkedHashMap<Country, List<Country>> getAdjacentCountries() {
         return adjacentCountries;
     }
 
+    /**
+     * set Adjacent countries
+     * @param adjacentCountries
+     */
     public void setAdjacentCountries(LinkedHashMap<Country, List<Country>> adjacentCountries) {
         this.adjacentCountries = adjacentCountries;
     }
 
+    /**
+     * get continent list
+     * @return continent list
+     */
     public List<Continent> getContinentList() {
         return continentList;
     }
 
+    /**
+     * set continent list
+     * @param continentList
+     */
     public void setContinentList(List<Continent> continentList) {
         this.continentList = continentList;
     }
 
+    /**
+     * get country list
+     * @return country list
+     */
     public List<Country> getCountryList() {
         return countryList;
     }
 
+    /**
+     * set country list
+     * @param countryList
+     */
     public void setCountryList(List<Country> countryList) {
         this.countryList = countryList;
     }
 
+    /**
+     * get connnectionlist
+     * @return connectionList
+     */
     public List<Connection> getConnectionList() {
         return connectionList;
     }
 
+    /**
+     * set connection list
+     * @param connectionList
+     */
     public void setConnectionList(List<Connection> connectionList) {
         this.connectionList = connectionList;
     }

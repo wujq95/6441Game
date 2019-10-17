@@ -3,6 +3,9 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * save gamePlayer
+ */
 public class GamePlayer {
     /**
      * Default Constructor
@@ -24,7 +27,7 @@ public class GamePlayer {
 
     /**
      * Get PlayerName
-     * @return
+     * @return playerName
      */
     public String getPlayerName() {
         return playerName;
@@ -40,7 +43,7 @@ public class GamePlayer {
 
     /**
      * Get Number of Army
-     * @return
+     * @return armyValue
      */
     public Integer getArmyValue() {
         return armyValue;
@@ -56,7 +59,7 @@ public class GamePlayer {
 
     /**
      * Get CountryList
-     * @return
+     * @return countryList
      */
     public List<Country> getCountryList() {
         return countryList;
