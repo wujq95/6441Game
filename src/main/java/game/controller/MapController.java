@@ -197,7 +197,9 @@ public class MapController{
             Color countryColor = country.getParentContinent().getColor();
             Circle circle = new Circle(x, y, 15, countryColor);
 
-            Label label = new Label(country.getCountryName() + "\n" + country.getArmyValue() + "\n" + country.getPlayer());
+            GamePlayer player = country.getPlayer();
+            String playerName = (player == null)? "": player.getPlayerName();
+            Label label = new Label(country.getCountryName() + "\n" + country.getArmyValue() + "\n" + playerName);
             label.setFont(new Font(10));
             label.toFront();
             circle.toBack();

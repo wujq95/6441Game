@@ -14,7 +14,7 @@ public class GamePlayer {
     }
 
     /**
-     * Default Constructor
+     * Constructor with player name , Number of Armies and country list
      * @param playerName
      * @param armyValue
      * @param countryList
