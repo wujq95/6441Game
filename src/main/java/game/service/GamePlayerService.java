@@ -261,7 +261,7 @@ public class GamePlayerService {
                 for(int i=0;i<remainPlayerArmyValue;i++){
                     Integer index = (int)(Math.random()*countryList.size());
                     Integer newCountryArmyValue = countryList.get(index).getArmyValue()+1;
-                    MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(newCountryArmyValue);
+                    MapEditorService.mapGraph.getCountryList().get(index).setArmyValue(newCountryArmyValue);
                     player.setArmyValue(player.getArmyValue()-1);
                 }
             }
