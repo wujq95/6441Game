@@ -175,7 +175,7 @@ public class MapEditorServiceTest {
     }
 
     /**
-     * Test Map Validation Function
+     * check continent is connected subgraph
      */
     @Test
     public void testConnectedContinentGraph1(){
@@ -191,6 +191,9 @@ public class MapEditorServiceTest {
         Assert.assertTrue(mapEditorService.checkIfConnected(adjacentCountries));
     }
 
+    /**
+     * check continent is connected subgraph
+     */
     @Test
     public void testConnectedContinentGraph2(){
         LinkedHashMap<Country, List<Country>> adjacentCountries = new LinkedHashMap<Country, List<Country>>();
@@ -209,6 +212,9 @@ public class MapEditorServiceTest {
         Assert.assertFalse(mapEditorService.checkIfConnected(adjacentCountries));
     }
 
+    /**
+     * test valid map
+     */
     @Test
     public void testValidMap(){
         String Result = "";
@@ -221,7 +227,7 @@ public class MapEditorServiceTest {
     }
 
     /**
-     * Test Invalidation Function
+     * Test Invalid map
      */
     @Test
     public void testInvalidMap(){
