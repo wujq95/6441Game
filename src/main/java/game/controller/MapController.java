@@ -504,7 +504,7 @@ public class MapController{
     public class MapGraphObserver extends Observer{
         /**
          * mapGraphObserver constructor
-         * @param mapGraph
+         * @param mapGraph map graph
          */
         public MapGraphObserver(MapGraph mapGraph){
             this.mapGraph = mapGraph;
