@@ -53,7 +53,7 @@ public class FortifyService {
     }
 
     /**
-     * fortify none
+     * No fortify
      * @return
      */
     public String fortifyNone(){

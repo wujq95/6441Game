@@ -11,6 +11,9 @@ import java.io.*;
 import java.util.*;
 
 public class MapEditorService {
+    /**
+     * initial color Controller
+     */
     public MapEditorService() {
         colorPicker = new ColorController();
     }
@@ -26,7 +29,7 @@ public class MapEditorService {
      */
     String editContinent(String[] continentNameList) {
 
-        // editcontinent -add name value -add name2 value2 -add name3 value3
+        // edit continent -add name value -add name2 value2 -add name3 value3
         for (int i = 1; i < continentNameList.length; i = i + 3) {
             if (continentNameList[i].equals("-add")) {
 
@@ -471,6 +474,11 @@ public class MapEditorService {
         return returnMsg;
     }
 
+    /**
+     * Find required Country by searching name
+     * @param countryName
+     * @return
+     */
     private Country findCountryByName(String countryName) {
         for (Country country : mapGraph.getCountryList()) {
             if (countryName.equals(country.getCountryName())) {

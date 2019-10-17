@@ -71,22 +71,43 @@ public class MapGraph {
         }
     }
 
+    /**
+     * Initial continent List
+     */
     public MapGraph() {
         continentList = new LinkedList<>();
     }
 
+    /**
+     * Set Continent Name
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Set Continent Height
+     * @param height
+     */
     public void setHeight(Integer height) {
         this.height = height;
     }
 
+    /**
+     * Set Width
+     * @param width
+     */
     public void setWidth(Integer width) {
         this.width = width;
     }
 
+    /**
+     * Add new Continent
+     * @param continentName
+     * @param armyValue
+     * @param color
+     */
     public void addContinent(String continentName, Integer armyValue, Color color) {
         /**
          * TODO:
@@ -142,6 +163,7 @@ public class MapGraph {
     }
 
     /**
+     * Check whether add country correctly
      * @param countryName
      * @param continentName
      */
@@ -182,6 +204,7 @@ public class MapGraph {
 
 
     /**
+     * Delete Country
      * @param countryName
      */
     public void deleteCountry(String countryName) {
@@ -213,6 +236,7 @@ public class MapGraph {
     }
 
     /**
+     * Add connection between country Name 1 and country Name 2
      * @param countryName1
      * @param countryName2
      */
@@ -229,6 +253,7 @@ public class MapGraph {
     }
 
     /**
+     * Check whether connection has been deleted properly
      * @param countryName1
      * @param countryName2
      */
@@ -265,50 +290,98 @@ public class MapGraph {
         return connectionList;
     }
 
+    /**
+     * Remove Continent
+     * @param continent
+     */
     public void removeContinent(Continent continent) {
         continentList.remove(continent);
     }
 
+    /**
+     * Get Continent Name
+     * @return
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Get Continent Height
+     * @return
+     */
     public Integer getHeight() {
         return this.height;
     }
 
+    /**
+     * Get Continent Width
+     * @return
+     */
     public Integer getWidth() {
         return this.width;
     }
 
+    /**
+     * Get Adjacent Countries
+     * @return
+     */
     public LinkedHashMap<Country, List<Country>> getAdjacentCountries() {
         return adjacentCountries;
     }
 
+    /**
+     * Set Adjacent Countries
+     * @param adjacentCountries
+     */
     public void setAdjacentCountries(LinkedHashMap<Country, List<Country>> adjacentCountries) {
         this.adjacentCountries = adjacentCountries;
     }
 
+    /**
+     * Get Continent List
+     * @return
+     */
     public List<Continent> getContinentList() {
         return continentList;
     }
 
+    /**
+     * Set Continent List
+     * @param continentList
+     */
     public void setContinentList(List<Continent> continentList) {
         this.continentList = continentList;
     }
 
+    /**
+     * Get Country List
+     * @return
+     */
     public List<Country> getCountryList() {
         return countryList;
     }
 
+    /**
+     * Set Country List
+     * @param countryList
+     */
     public void setCountryList(List<Country> countryList) {
         this.countryList = countryList;
     }
 
+    /**
+     * Get Connection List
+     * @return
+     */
     public List<Connection> getConnectionList() {
         return connectionList;
     }
 
+    /**
+     * Set Connection List
+     * @param connectionList
+     */
     public void setConnectionList(List<Connection> connectionList) {
         this.connectionList = connectionList;
     }

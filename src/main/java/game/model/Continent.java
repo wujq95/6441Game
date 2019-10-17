@@ -16,11 +16,14 @@ public class Continent {
 
     List<Country> countries;
 
+    /**
+     * Default Constructor
+     */
     public Continent() {
     }
 
     /**
-     * Default Constructor
+     * Constructor with continent Name, Number of Armies and color
      * @param continentName
      * @param armyValue
      * @param color
@@ -32,7 +35,7 @@ public class Continent {
     }
 
     /**
-     * Default Constructor
+     * Constructor with Continent Name and Number of Armies only
      * @param continentName
      * @param armyValue
      */
@@ -51,7 +54,7 @@ public class Continent {
     }
 
     /**
-     * edit continent value
+     * edit continent Army value
      *
      * @param armyValue
      */
@@ -60,7 +63,7 @@ public class Continent {
     }
 
     /**
-     * add country to a continent
+     * add country to continent
      *
      * @param country
      */
@@ -73,7 +76,6 @@ public class Continent {
 
     /**
      * remove country from a continent
-     *
      * @param country
      */
     public void removeCountry(Country country) {
@@ -85,7 +87,6 @@ public class Continent {
 
     /**
      * check if a country is belong to a continent
-     *
      * @param country
      * @return
      */
@@ -95,7 +96,6 @@ public class Continent {
 
     /**
      * get continent name
-     *
      * @return
      */
     public String getContinentName() {
@@ -103,7 +103,7 @@ public class Continent {
     }
 
     /**
-     * TODO: return the representing Color of the continet
+     * TODO: return the representing Color of the continent
      * @return
      */
     public Color getColor(){
@@ -112,7 +112,6 @@ public class Continent {
 
     /**
      * get army value
-     *
      * @return
      */
     public Integer getArmyValue() {
@@ -121,7 +120,6 @@ public class Continent {
 
     /**
      * get country number
-     *
      * @return
      */
     public Integer getCountryNumber() {
@@ -130,7 +128,6 @@ public class Continent {
 
     /**
      * get country list of a continent
-     *
      * @return
      */
     public List<Country> getCountries() {

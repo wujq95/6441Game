@@ -27,7 +27,7 @@ public class ReinforceServiceTest {
     }
 
     /**
-     * reinfroce action test
+     * reinforce action test
      */
     @Test
     public void reinforceTest(){

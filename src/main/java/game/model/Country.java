@@ -269,6 +269,11 @@ public class Country {
         this.armyValue = armyValue;
     }
 
+    /**
+     * According to the continent Name to find required continent
+     * @param continentName
+     * @return
+     */
     private Continent findContinentByName(String continentName) {
         for (Continent continent : MapEditorService.mapGraph.getContinentList()) {
             if (continentName.equals(continent.getContinentName())) {

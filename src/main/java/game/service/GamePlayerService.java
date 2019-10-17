@@ -68,7 +68,7 @@ public class GamePlayerService {
     }
 
     /**
-     * check if the playernames that are added are duplicated
+     * check if the player names that are added are duplicated
      * @param playerNameList
      * @return
      */
@@ -95,7 +95,7 @@ public class GamePlayerService {
     }
 
     /**
-     * check playernames that are removed can be found
+     * check player names that are removed can be found
      * @param playerNameList
      * @return
      */
@@ -123,7 +123,7 @@ public class GamePlayerService {
     }
 
     /**
-     * add one player to the playerlist by playername
+     * add one player to the player list by player name
      * @param playerName
      */
     public void addPlayer(String playerName){
@@ -134,7 +134,7 @@ public class GamePlayerService {
 
 
     /**
-     * remove one player from the playerlist by name
+     * remove one player from the player list by name
      * @param playerName
      */
     public void removePlayer(String playerName){
@@ -250,7 +250,7 @@ public class GamePlayerService {
     }
 
     /**
-     * automically place all armies to countries
+     * automatically place all armies to countries
      * @return
      */
     public String placeAll(){

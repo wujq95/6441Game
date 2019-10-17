@@ -16,13 +16,16 @@ public class MapEditorServiceTest {
 
     private MapEditorService mapEditorService;
 
+    /**
+     * Initial map editor service
+     */
     @Before
     public void setUp() {
         mapEditorService = new MapEditorService();
     }
 
     /**
-     * test editMap()
+     * test editMap
      */
     @Test
     public void testEditMap() {
@@ -39,7 +42,7 @@ public class MapEditorServiceTest {
     }
 
     /**
-     * test showMap()
+     * test showMap
      */
     @Test
     public void testShowMap() {
@@ -192,7 +195,7 @@ public class MapEditorServiceTest {
     }
 
     /**
-     * check continent is connected subgraph
+     * check continent is connected sub graph
      */
     @Test
     public void testConnectedContinentGraph2(){
