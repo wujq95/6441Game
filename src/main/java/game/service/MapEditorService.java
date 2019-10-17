@@ -334,7 +334,7 @@ public class MapEditorService {
      * @param adjacentCountries
      * @return
      */
-    private boolean checkIfConnected(LinkedHashMap<Country, List<Country>> adjacentCountries) {
+    public boolean checkIfConnected(LinkedHashMap<Country, List<Country>> adjacentCountries) {
         Integer start = 1;
 
         LinkedHashMap<Integer, List<Country>> adj = new LinkedHashMap<>();
