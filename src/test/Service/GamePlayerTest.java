@@ -15,7 +15,7 @@ import java.util.List;
 
 public class GamePlayerTest {
 
-    MapEditorService mapEditorService;
+    private MapEditorService mapEditorService;
     private GamePlayerService gamePlayerService;
 
     /**
