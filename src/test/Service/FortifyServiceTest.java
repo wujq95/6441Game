@@ -30,7 +30,7 @@ public class FortifyServiceTest {
      * fortify action test
      */
     @Test
-    public void reinforceTest() {
+    public void fortifyTest() {
         mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
 
         GamePlayer player1 = new GamePlayer();
@@ -73,12 +73,12 @@ public class FortifyServiceTest {
         MapEditorService.mapGraph.getCountryList().get(0).setArmyValue(5);
         MapEditorService.mapGraph.getCountryList().get(1).setArmyValue(0);
 
-        Assert.assertEquals("5",MapEditorService.mapGraph.getCountryList().get(0).getArmyValue());
-        Assert.assertEquals("0",MapEditorService.mapGraph.getCountryList().get(1).getArmyValue());
+        Assert.assertEquals("5",MapEditorService.mapGraph.getCountryList().get(0).getArmyValue().toString());
+        Assert.assertEquals("0",MapEditorService.mapGraph.getCountryList().get(1).getArmyValue().toString());
 
         fortifyService.fortify(fromCountry,toCountry,"2");
-        Assert.assertEquals("3",MapEditorService.mapGraph.getCountryList().get(0).getArmyValue());
-        Assert.assertEquals("2",MapEditorService.mapGraph.getCountryList().get(1).getArmyValue());
+        Assert.assertEquals("3",MapEditorService.mapGraph.getCountryList().get(0).getArmyValue().toString());
+        Assert.assertEquals("2",MapEditorService.mapGraph.getCountryList().get(1).getArmyValue().toString());
 
     }
 }
