@@ -150,4 +150,43 @@ public class MapEditorServiceTest {
         mapEditorService.saveMap(fileName);
     }
 
+    @Test
+    public void testConnectedGraph1(){
+        mapEditorService.editMap("/Applications/Domination/maps/ameroki.map");
+        LinkedHashMap<Country, List<Country>> adjacentCountries = MapEditorService.mapGraph.getAdjacentCountries();
+        Assert.assertTrue(mapEditorService.checkIfConnected(adjacentCountries));
+    }
+
+    @Test
+    public void testConnectedGraph2(){
+        mapEditorService.editMap("/Applications/Domination/maps/risk2.map");
+        LinkedHashMap<Country, List<Country>> adjacentCountries = MapEditorService.mapGraph.getAdjacentCountries();
+        Assert.assertFalse(mapEditorService.checkIfConnected(adjacentCountries));
+    }
+
+    @Test
+    public void testValidMap(){
+        String Result = "";
+        try{
+            Result= mapEditorService.editMap("/Applications/Domination/maps/ameroki.map");
+
+        }catch (Exception e){
+            Assert.assertEquals("load map from file ameroki success",Result);
+        }
+    }
+    @Test
+    public void testInvalidMap(){
+        String Result = "";
+        try{
+             Result= mapEditorService.editMap("/Applications/Domination/maps/risk.map");
+
+        }catch (Exception e){
+            Assert.assertEquals("the map is not valid",Result);
+        }
+
+
+
+    }
+
+
 }
