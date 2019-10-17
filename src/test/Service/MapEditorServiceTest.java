@@ -134,6 +134,10 @@ public class MapEditorServiceTest {
                         "country");
     }
 
+    /**
+     * Test Save Map Function
+     * @throws NoSuchFieldException
+     */
     @Test
     public void testSaveMap() throws NoSuchFieldException {
         String fileName = "/Applications/Domination/maps/risk.map";
@@ -149,5 +153,92 @@ public class MapEditorServiceTest {
         countryMap = MapEditorService.mapGraph.getAdjacentCountries();
         mapEditorService.saveMap(fileName);
     }
+
+    /**
+     * Test whether Graph 1 is connected
+     */
+    @Test
+    public void testConnectedGraph1(){
+        mapEditorService.editMap("/Applications/Domination/maps/ameroki.map");
+        LinkedHashMap<Country, List<Country>> adjacentCountries = MapEditorService.mapGraph.getAdjacentCountries();
+        Assert.assertTrue(mapEditorService.checkIfConnected(adjacentCountries));
+    }
+
+    /**
+     * Test whether Graph 2 is connected
+     */
+    @Test
+    public void testConnectedGraph2(){
+        mapEditorService.editMap("/Applications/Domination/maps/risk2.map");
+        LinkedHashMap<Country, List<Country>> adjacentCountries = MapEditorService.mapGraph.getAdjacentCountries();
+        Assert.assertFalse(mapEditorService.checkIfConnected(adjacentCountries));
+    }
+
+    /**
+     * check continent is connected subgraph
+     */
+    @Test
+    public void testConnectedContinentGraph1(){
+        LinkedHashMap<Country, List<Country>> adjacentCountries = new LinkedHashMap<Country, List<Country>>();
+        mapEditorService.editMap("/Applications/Domination/maps/risk2t.map");
+        Continent continent = MapEditorService.mapGraph.getContinentList().get(0);
+        List<Country> countryList = continent.getCountries().get(3).getNeighbours();
+        countryList.remove(1);
+        continent.getCountries().get(3).setNeighbours(countryList);
+        for(Country country:continent.getCountries()){
+            adjacentCountries.put(country,country.getNeighbours());
+        }
+        Assert.assertTrue(mapEditorService.checkIfConnected(adjacentCountries));
+    }
+
+    /**
+     * check continent is connected subgraph
+     */
+    @Test
+    public void testConnectedContinentGraph2(){
+        LinkedHashMap<Country, List<Country>> adjacentCountries = new LinkedHashMap<Country, List<Country>>();
+        mapEditorService.editMap("/Applications/Domination/maps/risk2t.map");
+        Continent continent = MapEditorService.mapGraph.getContinentList().get(0);
+        List<Country> countryList = continent.getCountries().get(3).getNeighbours();
+        countryList.remove(1);
+        countryList.remove(0);
+        continent.getCountries().get(3).setNeighbours(countryList);
+        List<Country> countryList2 = continent.getCountries().get(2).getNeighbours();
+        countryList2.remove(1);
+        continent.getCountries().get(2).setNeighbours(countryList);
+        for(Country country:continent.getCountries()){
+            adjacentCountries.put(country,country.getNeighbours());
+        }
+        Assert.assertFalse(mapEditorService.checkIfConnected(adjacentCountries));
+    }
+
+    /**
+     * test valid map
+     */
+    @Test
+    public void testValidMap(){
+        String Result = "";
+        try{
+            Result= mapEditorService.editMap("/Applications/Domination/maps/ameroki.map");
+
+        }catch (Exception e){
+            Assert.assertEquals("load map from file ameroki success",Result);
+        }
+    }
+
+    /**
+     * Test Invalid map
+     */
+    @Test
+    public void testInvalidMap(){
+        String Result = "";
+        try{
+             Result= mapEditorService.editMap("/Applications/Domination/maps/risk.map");
+
+        }catch (Exception e){
+            Assert.assertEquals("the map is not valid",Result);
+        }
+    }
+
 
 }

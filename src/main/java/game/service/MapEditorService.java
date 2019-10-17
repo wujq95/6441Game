@@ -235,24 +235,47 @@ public class MapEditorService {
      * @return
      */
     public String showMap() {
-        StringBuilder showMap = new StringBuilder();
-        showMap.append("The continents are");
-        for (Continent continent : mapGraph.getContinentList()) {
-            showMap.append(" ").append(continent.getContinentName()).append(",");
-        }
-
-        showMap.append("\ncountries include");
-        for (Country country : mapGraph.getCountryList()) {
-            showMap.append("\ncountry");
-            showMap.append(" ").append(country.getCountryName()).append(",");
-
-            showMap.append("\n and ").append(country.getCountryName()).append("'s neighbours are");
-            for (Country neighour : country.getNeighbours()) {
-                showMap.append(" ").append(neighour.getCountryName()).append(",");
+        if (mapGraph.getCountryList().get(0).getPlayer() != null) {
+            StringBuilder showMap = new StringBuilder();
+            showMap.append("The continents are");
+            for (Continent continent : mapGraph.getContinentList()) {
+                showMap.append(" ").append(continent.getContinentName()).append(",");
             }
-        }
 
-        return showMap.toString();
+            showMap.append("\ncountries include");
+            for (Country country : mapGraph.getCountryList()) {
+                showMap.append("\ncountry");
+                showMap.append(" ").append(country.getCountryName()).append(",")
+                        .append(" the owner player of the country is ").append(country.getPlayer().getPlayerName()).append(",")
+                        .append(" the army of this country is ").append(country.getArmyValue()).append(",");
+
+                showMap.append("\n and ").append(country.getCountryName()).append("'s neighbours are");
+                for (Country neighour : country.getNeighbours()) {
+                    showMap.append(" ").append(neighour.getCountryName()).append(",");
+                }
+            }
+
+            return showMap.toString();
+        } else {
+            StringBuilder showMap = new StringBuilder();
+            showMap.append("The continents are");
+            for (Continent continent : mapGraph.getContinentList()) {
+                showMap.append(" ").append(continent.getContinentName()).append(",");
+            }
+
+            showMap.append("\ncountries include");
+            for (Country country : mapGraph.getCountryList()) {
+                showMap.append("\ncountry");
+                showMap.append(" ").append(country.getCountryName()).append(",");
+
+                showMap.append("\n and ").append(country.getCountryName()).append("'s neighbours are");
+                for (Country neighour : country.getNeighbours()) {
+                    showMap.append(" ").append(neighour.getCountryName()).append(",");
+                }
+            }
+
+            return showMap.toString();
+        }
     }
 
     /**
@@ -311,7 +334,7 @@ public class MapEditorService {
      * @param adjacentCountries
      * @return
      */
-    private boolean checkIfConnected(LinkedHashMap<Country, List<Country>> adjacentCountries) {
+    public boolean checkIfConnected(LinkedHashMap<Country, List<Country>> adjacentCountries) {
         Integer start = 1;
 
         LinkedHashMap<Integer, List<Country>> adj = new LinkedHashMap<>();
