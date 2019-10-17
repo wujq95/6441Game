@@ -134,6 +134,8 @@ public class Country {
         Random r = new Random();
         this.x = 500 * r.nextDouble();
         this.y = 500 * r.nextDouble();
+
+        this.player = new GamePlayer();
     }
 
     public void editCountryName(String countryName) {

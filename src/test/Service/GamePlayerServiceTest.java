@@ -12,7 +12,7 @@ import service.MapEditorService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GamePlayerTest {
+public class GamePlayerServiceTest {
 
     private MapEditorService mapEditorService;
     private GamePlayerService gamePlayerService;
