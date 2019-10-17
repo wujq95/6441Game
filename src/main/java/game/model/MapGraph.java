@@ -222,6 +222,7 @@ public class MapGraph {
          * validate the connection
          * add it to map
          */
+
         Connection connection = new Connection(countryName1, countryName2);
         connectionList.add(connection);
         notifyObservers("add connection", connection);
@@ -237,6 +238,7 @@ public class MapGraph {
          * get the Connection to be deleted by name
          * delete it from map
          */
+
         boolean flag = false;
         int i = 0;
         for (; i < connectionList.size(); i++) {
