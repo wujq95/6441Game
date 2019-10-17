@@ -165,7 +165,7 @@ public class MapController{
 
     /**
      * load the mapGraph on mapPane
-     * @param mGraph
+     * @param mGraph user interface loading map
      */
     private void loadMapGraph(MapGraph mGraph){
         // Load all continents

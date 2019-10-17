@@ -38,7 +38,7 @@ public class ColorController {
 
     /**
      * if the continent is deleted, return the continent's color to palette
-     * @param color
+     * @param color user selected color
      */
     public void returnOneColor(Color color){
         palette.addLast(color);

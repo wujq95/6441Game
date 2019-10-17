@@ -13,8 +13,8 @@ public class Connection {
 
     /**
      * TODO:
-     * @param countryName1
-     * @param countryName2
+     * @param countryName1 User typed country name
+     * @param countryName2 User typed country name
      *
      * @return the Connection constructed or null
      */
@@ -32,7 +32,7 @@ public class Connection {
 
     /**
      * Set Country1
-     * @param country1
+     * @param country1 User typed country name
      */
     public void setCountry1(Country country1) {
         this.country1 = country1;
@@ -40,7 +40,7 @@ public class Connection {
 
     /**
      * Get Country2
-     * @return
+     * @return User typed country name
      */
     public Country getCountry2() {
         return country2;
@@ -48,7 +48,7 @@ public class Connection {
 
     /**
      * Set Country
-     * @param country2
+     * @param country2 User typed country name
      */
     public void setCountry2(Country country2) {
         this.country2 = country2;

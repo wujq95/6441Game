@@ -253,12 +253,12 @@ public class Country {
 
     /**
      * Country Constructor
-     * @param id
-     * @param countryName
-     * @param parentContinent
-     * @param positionX
-     * @param positionY
-     * @param armyValue
+     * @param id id
+     * @param countryName country name
+     * @param parentContinent parent continent
+     * @param positionX x
+     * @param positionY y
+     * @param armyValue number of value
      */
     public Country(Integer id, String countryName, Continent parentContinent, double positionX, double positionY, int armyValue) {
         this.id = id;
@@ -271,8 +271,8 @@ public class Country {
 
     /**
      * According to the continent Name to find required continent
-     * @param continentName
-     * @return
+     * @param continentName continent name
+     * @return null
      */
     private Continent findContinentByName(String continentName) {
         for (Continent continent : MapEditorService.mapGraph.getContinentList()) {
