@@ -12,7 +12,7 @@ public class ReinforceService {
      * Reinforce Phase Action
      * @param countryName
      * @param num
-     * @return
+     * @return message
      */
     public String reinforce(String countryName, String num) {
 

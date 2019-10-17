@@ -1,11 +1,14 @@
 package service;
 
+/**
+ * provide service for dealing with comment line
+ */
 public class CommandService {
     /**
      * Prompt Command into console
      *
      * @param inputCommand
-     * @return
+     * @return commend result
      */
     public String processCommand(String inputCommand) {
         MapEditorService mapEditorService = new MapEditorService();
@@ -52,7 +55,7 @@ public class CommandService {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = gamePlayerService.placeAll();
         } else if (inputCommand.startsWith("start")) {
-            gamePlayerService.calReinArmyNum();
+            commandReturnMsg = gamePlayerService.calReinArmyNum();
         } else if (inputCommand.startsWith("reinforce")) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = reinforceService.reinforce(arguments[1], arguments[2]);

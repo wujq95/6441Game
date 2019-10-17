@@ -5,6 +5,9 @@ import controller.Observer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * save connection
+ */
 public class Connection {
 
     private Country country1;    // Country on one end of the edge
@@ -12,7 +15,7 @@ public class Connection {
     private Country country2;    // Another Country on the other side
 
     /**
-     * TODO:
+     *
      * @param countryName1
      * @param countryName2
      *
@@ -24,7 +27,7 @@ public class Connection {
 
     /**
      * Get Country1
-     * @return
+     * @return country1
      */
     public Country getCountry1() {
         return country1;
@@ -40,7 +43,7 @@ public class Connection {
 
     /**
      * Get Country2
-     * @return
+     * @return country2
      */
     public Country getCountry2() {
         return country2;
