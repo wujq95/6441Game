@@ -178,6 +178,38 @@ public class MapEditorServiceTest {
      * Test Map Validation Function
      */
     @Test
+    public void testConnectedContinentGraph1(){
+        LinkedHashMap<Country, List<Country>> adjacentCountries = new LinkedHashMap<Country, List<Country>>();
+        mapEditorService.editMap("/Applications/Domination/maps/risk2t.map");
+        Continent continent = MapEditorService.mapGraph.getContinentList().get(0);
+        List<Country> countryList = continent.getCountries().get(3).getNeighbours();
+        countryList.remove(1);
+        continent.getCountries().get(3).setNeighbours(countryList);
+        for(Country country:continent.getCountries()){
+            adjacentCountries.put(country,country.getNeighbours());
+        }
+        Assert.assertTrue(mapEditorService.checkIfConnected(adjacentCountries));
+    }
+
+    @Test
+    public void testConnectedContinentGraph2(){
+        LinkedHashMap<Country, List<Country>> adjacentCountries = new LinkedHashMap<Country, List<Country>>();
+        mapEditorService.editMap("/Applications/Domination/maps/risk2t.map");
+        Continent continent = MapEditorService.mapGraph.getContinentList().get(0);
+        List<Country> countryList = continent.getCountries().get(3).getNeighbours();
+        countryList.remove(1);
+        countryList.remove(0);
+        continent.getCountries().get(3).setNeighbours(countryList);
+        List<Country> countryList2 = continent.getCountries().get(2).getNeighbours();
+        countryList2.remove(1);
+        continent.getCountries().get(2).setNeighbours(countryList);
+        for(Country country:continent.getCountries()){
+            adjacentCountries.put(country,country.getNeighbours());
+        }
+        Assert.assertFalse(mapEditorService.checkIfConnected(adjacentCountries));
+    }
+
+    @Test
     public void testValidMap(){
         String Result = "";
         try{
@@ -200,9 +232,6 @@ public class MapEditorServiceTest {
         }catch (Exception e){
             Assert.assertEquals("the map is not valid",Result);
         }
-
-
-
     }
 
 
