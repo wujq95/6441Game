@@ -267,7 +267,7 @@ public class Country {
         this.armyValue = armyValue;
     }
 
-    private Continent findContinentByName(String continentName) {
+    private  Continent findContinentByName(String continentName) {
         for (Continent continent : MapEditorService.mapGraph.getContinentList()) {
             if (continentName.equals(continent.getContinentName())) {
                 return continent;

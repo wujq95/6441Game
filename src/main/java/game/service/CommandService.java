@@ -3,6 +3,7 @@ package service;
 public class CommandService {
     /**
      * Prompt Command into console
+     *
      * @param inputCommand
      * @return
      */
@@ -62,7 +63,10 @@ public class CommandService {
             } else {
                 commandReturnMsg = fortifyService.fortify(arguments[1], arguments[2], arguments[3]);
             }
+        } else {
+            return "wrong syntax";
         }
+
         return commandReturnMsg;
     }
 }
