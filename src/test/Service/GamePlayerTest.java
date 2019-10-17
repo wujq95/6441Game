@@ -14,9 +14,12 @@ import java.util.List;
 
 public class GamePlayerTest {
 
-    MapEditorService mapEditorService;
+    private MapEditorService mapEditorService;
     private GamePlayerService gamePlayerService;
 
+    /**
+     * test initial action method
+     */
     @Before
     public void initial(){
 
@@ -95,6 +98,9 @@ public class GamePlayerTest {
 
     }
 
+    /**
+     * place one army to a country by countryname test
+     */
     @Test
     public void placeOneTest(){
         mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
@@ -107,13 +113,39 @@ public class GamePlayerTest {
         player2.setPlayerName("player02");
         player3.setPlayerName("player03");
 
+        player1.setArmyValue(1);
+        player2.setArmyValue(0);
+        player3.setArmyValue(0);
+
         GamePlayerService.playerList.add(player1);
         GamePlayerService.playerList.add(player2);
         GamePlayerService.playerList.add(player3);
 
-        //String countryname  = MapEditorService.mapGraph.getCountryList();
+        List<Country> countryList1 = new ArrayList<Country>();
+        countryList1.add(MapEditorService.mapGraph.getCountryList().get(0));
+        countryList1.add(MapEditorService.mapGraph.getCountryList().get(1));
+        player1.setCountryList(countryList1);
 
-        //gamePlayerService.placeOneArmy(countryname);
+        List<Country> countryList2 = new ArrayList<Country>();
+        countryList2.add(MapEditorService.mapGraph.getCountryList().get(2));
+        player2.setCountryList(countryList2);
+
+        List<Country> countryList3 = new ArrayList<Country>();
+        countryList3.add(MapEditorService.mapGraph.getCountryList().get(3));
+        countryList3.add(MapEditorService.mapGraph.getCountryList().get(4));
+        player3.setCountryList(countryList3);
+
+        GamePlayerService.playerList.add(player1);
+        GamePlayerService.playerList.add(player2);
+        GamePlayerService.playerList.add(player3);
+
+        String countryName = MapEditorService.mapGraph.getCountryList().get(0).getCountryName();
+
+        Assert.assertEquals("1",GamePlayerService.playerList.get(0).getArmyValue().toString());
+        Assert.assertEquals("0",MapEditorService.mapGraph.getCountryList().get(0).getArmyValue().toString());
+        gamePlayerService.placeOneArmy(countryName);
+        Assert.assertEquals("0",GamePlayerService.playerList.get(0).getArmyValue().toString());
+        Assert.assertEquals("1",MapEditorService.mapGraph.getCountryList().get(0).getArmyValue().toString());
     }
 
     /**
