@@ -4,7 +4,7 @@ public class CommandService {
     /**
      * Prompt Command into console
      * @param inputCommand
-     * @return typed command
+     * @return
      */
     public String processCommand(String inputCommand) {
         MapEditorService mapEditorService = new MapEditorService();

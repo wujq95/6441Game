@@ -24,7 +24,7 @@ public class GamePlayer {
 
     /**
      * Get PlayerName
-     * @return player name
+     * @return
      */
     public String getPlayerName() {
         return playerName;
@@ -40,7 +40,7 @@ public class GamePlayer {
 
     /**
      * Get Number of Army
-     * @return army number
+     * @return
      */
     public Integer getArmyValue() {
         return armyValue;
@@ -56,7 +56,7 @@ public class GamePlayer {
 
     /**
      * Get CountryList
-     * @return country list
+     * @return
      */
     public List<Country> getCountryList() {
         return countryList;

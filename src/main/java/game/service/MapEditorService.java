@@ -25,7 +25,7 @@ public class MapEditorService {
      * Edit Continent
      *
      * @param continentNameList
-     * @return Message
+     * @return
      */
     String editContinent(String[] continentNameList) {
 
@@ -52,7 +52,7 @@ public class MapEditorService {
      * Edit Country
      *
      * @param countryName
-     * @return Message
+     * @return
      */
     String editCountry(String[] countryName) {
         String Msg = "";
@@ -78,7 +78,7 @@ public class MapEditorService {
      * Edit Neighbor
      *
      * @param countryName
-     * @return message
+     * @return
      */
     String editNeighbor(String[] countryName) {
         String Msg = "";
@@ -235,7 +235,7 @@ public class MapEditorService {
     /**
      * show Map
      *
-     * @return Message
+     * @return
      */
     public String showMap() {
         if (mapGraph.getCountryList().get(0).getPlayer() != null) {
@@ -284,7 +284,7 @@ public class MapEditorService {
     /**
      * Map Validation
      *
-     * @return true or false
+     * @return
      */
     public boolean validateMap() {
         //1. duplicate country names
@@ -335,7 +335,7 @@ public class MapEditorService {
      * Check adjacent country with each other
      *
      * @param adjacentCountries
-     * @return true or false
+     * @return
      */
     public boolean checkIfConnected(LinkedHashMap<Country, List<Country>> adjacentCountries) {
         Integer start = 1;
@@ -384,7 +384,7 @@ public class MapEditorService {
      * Save Map
      *
      * @param fileName
-     * @return Message
+     * @return
      */
     public String saveMap(String fileName) {
         fileName = fileName.trim();
@@ -477,7 +477,7 @@ public class MapEditorService {
     /**
      * Find required Country by searching name
      * @param countryName
-     * @return null
+     * @return
      */
     private Country findCountryByName(String countryName) {
         for (Country country : mapGraph.getCountryList()) {

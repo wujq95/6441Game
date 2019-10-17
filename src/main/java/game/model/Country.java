@@ -27,7 +27,7 @@ public class Country {
 
     /**
      * Get Id
-     * @return id
+     * @return
      */
     public Integer getId() {
         return id;
@@ -59,7 +59,7 @@ public class Country {
 
     /**
      * Get ParentContinent
-     * @return Parent Continent Name
+     * @return
      */
     public Continent getParentContinent() {
         return parentContinent;
@@ -75,7 +75,7 @@ public class Country {
 
     /**
      * Get Player
-     * @return Player
+     * @return
      */
     public GamePlayer getPlayer() {
         return player;
@@ -156,7 +156,7 @@ public class Country {
     /**
      * TODO: return Point2D location of the country
      *
-     * @return 2D location information
+     * @return
      */
     public Point2D getCoordinator() {
         return new Point2D(x, y);
@@ -185,7 +185,7 @@ public class Country {
      * TODO: check if countries are connected
      *
      * @param country
-     * @return Country
+     * @return
      */
     public boolean connected(Country country) {
         return this.neighbours.contains(country);
@@ -203,7 +203,7 @@ public class Country {
     /**
      * TODO: get all neighbours of a country
      *
-     * @return Contries neighbours
+     * @return
      */
     public List<Country> getNeighbours() {
         return neighbours;
@@ -221,7 +221,7 @@ public class Country {
 
     /**
      * Get Country Position X
-     * @return position x of country
+     * @return
      */
     public double getX() {
         return x;
@@ -237,7 +237,7 @@ public class Country {
 
     /**
      * Get Country Position Y
-     * @return position y of country
+     * @return
      */
     public double getY() {
         return y;
@@ -272,7 +272,7 @@ public class Country {
     /**
      * According to the continent Name to find required continent
      * @param continentName
-     * @return Continent Name
+     * @return
      */
     private Continent findContinentByName(String continentName) {
         for (Continent continent : MapEditorService.mapGraph.getContinentList()) {

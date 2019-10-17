@@ -24,7 +24,7 @@ public class Connection {
 
     /**
      * Get Country1
-     * @return country 1
+     * @return
      */
     public Country getCountry1() {
         return country1;
@@ -40,7 +40,7 @@ public class Connection {
 
     /**
      * Get Country2
-     * @return country 2
+     * @return
      */
     public Country getCountry2() {
         return country2;

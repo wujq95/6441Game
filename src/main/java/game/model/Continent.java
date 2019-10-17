@@ -88,7 +88,7 @@ public class Continent {
     /**
      * check if a country is belong to a continent
      * @param country
-     * @return Country
+     * @return
      */
     public boolean includeCountry(Country country) {
         return this.countries.contains(country);
@@ -96,7 +96,7 @@ public class Continent {
 
     /**
      * get continent name
-     * @return Continent Name
+     * @return
      */
     public String getContinentName() {
         return continentName;
@@ -104,7 +104,7 @@ public class Continent {
 
     /**
      * TODO: return the representing Color of the continent
-     * @return Color
+     * @return
      */
     public Color getColor(){
         return continentColor;
@@ -112,7 +112,7 @@ public class Continent {
 
     /**
      * get army value
-     * @return Number of Army
+     * @return
      */
     public Integer getArmyValue() {
         return armyValue;
@@ -120,7 +120,7 @@ public class Continent {
 
     /**
      * get country number
-     * @return Country Number
+     * @return
      */
     public Integer getCountryNumber() {
         return countryNumber;
@@ -128,7 +128,7 @@ public class Continent {
 
     /**
      * get country list of a continent
-     * @return country
+     * @return
      */
     public List<Country> getCountries() {
         return countries;
@@ -136,7 +136,7 @@ public class Continent {
 
     /**
      * Get Id
-     * @return Country id
+     * @return
      */
     public Integer getId() {
         return id;
