@@ -11,9 +11,9 @@ public class FortifyService {
 
     /**
      * Fortify Action
-     * @param fromCountry
-     * @param toCountry
-     * @param num
+     * @param fromCountry string
+     * @param toCountry string
+     * @param num string
      * @return Message
      */
     public String fortify(String fromCountry, String toCountry, String num){

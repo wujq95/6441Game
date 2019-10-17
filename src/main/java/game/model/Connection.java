@@ -24,7 +24,7 @@ public class Connection {
 
     /**
      * Get Country1
-     * @return
+     * @return country
      */
     public Country getCountry1() {
         return country1;

@@ -27,7 +27,7 @@ public class MapEditorService {
     /**
      * Edit Continent
      *
-     * @param continentNameList
+     * @param continentNameList string
      * @return message
      */
     String editContinent(String[] continentNameList) {
@@ -53,7 +53,7 @@ public class MapEditorService {
     /**
      * Edit Country
      *
-     * @param countryName
+     * @param countryName string
      * @return message
      */
     String editCountry(String[] countryName) {
@@ -79,7 +79,7 @@ public class MapEditorService {
     /**
      * Edit Neighbor
      *
-     * @param countryName
+     * @param countryName string
      * @return message
      */
     String editNeighbor(String[] countryName) {
@@ -133,7 +133,7 @@ public class MapEditorService {
     /**
      * edit map
      *
-     * @param fileName
+     * @param fileName string
      * @return message
      */
     public String editMap(String fileName) {
@@ -496,7 +496,7 @@ public class MapEditorService {
     /**
      * Find required Country by searching name
      *
-     * @param countryName
+     * @param countryName string
      * @return country
      */
     private Country findCountryByName(String countryName) {

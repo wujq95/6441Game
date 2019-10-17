@@ -27,7 +27,7 @@ public class Country {
 
     /**
      * Get Id
-     * @return
+     * @return integer
      */
     public Integer getId() {
         return id;
@@ -35,7 +35,7 @@ public class Country {
 
     /**
      * Set Id
-     * @param id
+     * @param id id
      */
     public void setId(Integer id) {
         this.id = id;
@@ -43,7 +43,7 @@ public class Country {
 
     /**
      * Set Country Name
-     * @param countryName
+     * @param countryName string
      */
     public void setCountryName(String countryName) {
         this.countryName = countryName;
@@ -51,7 +51,7 @@ public class Country {
 
     /**
      * Set Neighbours
-     * @param neighbours
+     * @param neighbours list
      */
     public void setNeighbours(List<Country> neighbours) {
         this.neighbours = neighbours;
@@ -59,7 +59,7 @@ public class Country {
 
     /**
      * Get ParentContinent
-     * @return
+     * @return list
      */
     public Continent getParentContinent() {
         return parentContinent;
@@ -67,7 +67,7 @@ public class Country {
 
     /**
      * Set ParentContinent
-     * @param parentContinent
+     * @param parentContinent list
      */
     public void setParentContinent(Continent parentContinent) {
         this.parentContinent = parentContinent;
@@ -75,7 +75,7 @@ public class Country {
 
     /**
      * Get Player
-     * @return
+     * @return list
      */
     public GamePlayer getPlayer() {
         return player;
@@ -83,7 +83,7 @@ public class Country {
 
     /**
      * Set Player
-     * @param player
+     * @param player player
      */
     public void setPlayer(GamePlayer player) {
         this.player = player;
@@ -99,7 +99,7 @@ public class Country {
 
     /**
      * Set Army Number
-     * @param armyValue
+     * @param armyValue number of army
      */
     public void setArmyValue(Integer armyValue) {
         this.armyValue = armyValue;
@@ -113,7 +113,7 @@ public class Country {
 
     /**
      * Constructor
-     * @param countryName
+     * @param countryName country name
      */
     public Country(String countryName) {
         this.countryName = countryName;
@@ -122,8 +122,8 @@ public class Country {
     /**
      * Country Constructor
      *
-     * @param countryName
-     * @param continentName
+     * @param countryName country name
+     * @param continentName continent name
      */
     public Country(String countryName, String continentName, int countryId) {
         this.id = countryId;
@@ -145,8 +145,8 @@ public class Country {
     /**
      * set coordinators
      *
-     * @param x
-     * @param y
+     * @param x x
+     * @param y y
      */
     public void setCoordinator(double x, double y) {
         this.x = x;
@@ -156,7 +156,7 @@ public class Country {
     /**
      * TODO: return Point2D location of the country
      *
-     * @return
+     * @return node position info
      */
     public Point2D getCoordinator() {
         return new Point2D(x, y);
@@ -165,7 +165,7 @@ public class Country {
     /**
      * TODO: add neighbor
      *
-     * @param country
+     * @param country country
      */
     public void addNeighbor(Country country) {
         if (!this.neighbours.contains(country))
@@ -175,7 +175,7 @@ public class Country {
     /**
      * TODO: remove neighbor
      *
-     * @param country
+     * @param country country
      */
     public void removeNeighbor(Country country) {
         this.neighbours.remove(country);
@@ -184,8 +184,8 @@ public class Country {
     /**
      * TODO: check if countries are connected
      *
-     * @param country
-     * @return
+     * @param country country
+     * @return boolean
      */
     public boolean connected(Country country) {
         return this.neighbours.contains(country);
@@ -194,7 +194,7 @@ public class Country {
     /**
      * TODO: get country name
      *
-     * @return
+     * @return string
      */
     public String getCountryName() {
         return countryName;
@@ -203,7 +203,7 @@ public class Country {
     /**
      * TODO: get all neighbours of a country
      *
-     * @return
+     * @return list
      */
     public List<Country> getNeighbours() {
         return neighbours;
@@ -221,7 +221,7 @@ public class Country {
 
     /**
      * Get Country Position X
-     * @return
+     * @return x
      */
     public double getX() {
         return x;
@@ -229,7 +229,7 @@ public class Country {
 
     /**
      * Set Country Position X
-     * @param x
+     * @param x y
      */
     public void setX(Integer x) {
         this.x = x;
@@ -237,7 +237,7 @@ public class Country {
 
     /**
      * Get Country Position Y
-     * @return
+     * @return y
      */
     public double getY() {
         return y;
@@ -245,7 +245,7 @@ public class Country {
 
     /**
      * Get Country Position Y
-     * @param y
+     * @param y y
      */
     public void setY(Integer y) {
         this.y = y;

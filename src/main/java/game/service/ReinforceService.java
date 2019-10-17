@@ -10,9 +10,9 @@ public class ReinforceService {
 
     /**
      * Reinforce Phase Action
-     * @param countryName
-     * @param num
-     * @return
+     * @param countryName string
+     * @param num string
+     * @return Message
      */
     public String reinforce(String countryName, String num) {
 
