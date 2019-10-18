@@ -31,7 +31,7 @@ public class FortifyServiceTest {
      */
     @Test
     public void fortifyTest() {
-        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
+        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
@@ -41,7 +41,7 @@ public class FortifyServiceTest {
         player2.setPlayerName("player02");
         player3.setPlayerName("player03");
 
-        player1.setArmyValue(3);
+        player1.setArmyValue(0);
         player2.setArmyValue(0);
         player3.setArmyValue(0);
 
