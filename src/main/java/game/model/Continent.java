@@ -1,6 +1,9 @@
 package model;
 
 import javafx.scene.paint.Color;
+
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Continent {
@@ -32,6 +35,7 @@ public class Continent {
         this.continentName = continentName;
         this.armyValue = armyValue;
         this.continentColor = color;
+        this.countries = new LinkedList<>();
     }
 
     /**

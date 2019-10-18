@@ -134,6 +134,7 @@ public class MapGraph {
             if (continentName.equals(continentList.get(i).getContinentName())) {
                 List<Country> continentCountries = continentList.get(i).getCountries();
                 MapEditorService.mapGraph.continentList.remove(i);
+
                 for (int m = 0; m < continentCountries.size(); m++) {
                     deleteCountryfromAdjacentCountries(continentCountries.get(m));
                     for (int j = 0; j < MapEditorService.mapGraph.countryList.size(); j++) {
