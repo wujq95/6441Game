@@ -43,8 +43,6 @@ public class MapEditorService {
             } else if (continentNameList[i].equals("-remove")) {
                 String continentName = continentNameList[i + 1];
                 mapGraph.deleteContinent(continentName);
-            } else {
-                return "wrong syntax";
             }
         }
         return "map edit success";
@@ -69,8 +67,6 @@ public class MapEditorService {
             } else if (countryName[i].equals("-remove")) {
                 mapGraph.deleteCountry(countryName[i + 1]);
                 Msg = "remove country success";
-            } else {
-                return "wrong syntax";
             }
         }
         return Msg;
