@@ -22,7 +22,7 @@ public class MapEditorService {
     }
 
     private static ColorController colorPicker;
-    public static MapGraph mapGraph;
+    public static MapGraph mapGraph = new MapGraph();
 
     /**
      * Edit Continent
@@ -139,7 +139,6 @@ public class MapEditorService {
         String returnMsg = "";
         File mapFile = new File(fileName);
 
-        mapGraph = new MapGraph();
         //if the map file exists
         if (mapFile.isFile()) {
             //TODO:SET CONTINENT NAMES/COUNTRY NAMES

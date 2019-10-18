@@ -73,6 +73,9 @@ public class MapGraph {
      */
     public MapGraph() {
         continentList = new LinkedList<>();
+        countryList = new LinkedList<>();
+        connectionList = new LinkedList<>();
+        adjacentCountries = new LinkedHashMap<>();
     }
 
     /**
