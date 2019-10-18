@@ -254,7 +254,7 @@ public class MapEditorService {
      * @return message
      */
     public String showMap() {
-        if (mapGraph.getCountryList().get(0).getPlayer() != null) {
+        if (mapGraph.getCountryList().size() == 0 && mapGraph.getCountryList().get(0).getPlayer() != null) {
             StringBuilder showMap = new StringBuilder();
             showMap.append("The continents are");
             for (Continent continent : mapGraph.getContinentList()) {

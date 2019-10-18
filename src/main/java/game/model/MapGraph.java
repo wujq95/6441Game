@@ -171,7 +171,13 @@ public class MapGraph {
         }
         if (flag) {
             List<Country> countryList = MapEditorService.mapGraph.countryList;
-            Country country = new Country(countryName, continentName, countryList.get(countryList.size() - 1).getId() + 1);
+            Country country;
+            if (countryList.size() == 0) {
+                country = new Country(countryName, continentName, 1);
+            } else {
+                country = new Country(countryName, continentName, countryList.get(countryList.size() - 1).getId() + 1);
+            }
+
             notifyObservers("add country", country);
             MapEditorService.mapGraph.countryList.add(country);
             MapEditorService.mapGraph.adjacentCountries.put(country, new HashSet<>());
