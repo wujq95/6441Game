@@ -11,15 +11,9 @@ public class Connection {
 
     private Country country2;    // Another Country on the other side
 
-    /**
-     * TODO:
-     * @param countryName1 User typed country name
-     * @param countryName2 User typed country name
-     *
-     * @return the Connection constructed or null
-     */
-    public Connection(String countryName1, String countryName2) {
-
+    public Connection(Country country1, Country country2) {
+        this.country1 = country1;
+        this.country2 = country2;
     }
 
     /**

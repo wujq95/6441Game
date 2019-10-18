@@ -138,6 +138,8 @@ public class MapEditorService {
         }
         String returnMsg = "";
         File mapFile = new File(fileName);
+
+        mapGraph = new MapGraph();
         //if the map file exists
         if (mapFile.isFile()) {
             //TODO:SET CONTINENT NAMES/COUNTRY NAMES
@@ -180,7 +182,10 @@ public class MapEditorService {
                             parent.setCountries(continentCountries);
                             continentMap.put(parentContinentId, parent);
 
+                            mapGraph.setContinentList(new LinkedList<>(continentMap.values()));
+
                             countryList.add(country);
+                            mapGraph.setCountryList(countryList);
                             countryHashMap.put(countryId, country);
                         }
                     }
@@ -198,7 +203,7 @@ public class MapEditorService {
                             for (int i = 1; i < borderInfos.length; i++) {
                                 Integer neighbourId = Integer.valueOf(borderInfos[i]);
 
-                                Connection connection = new Connection(country.getCountryName(), countryHashMap.get(neighbourId).getCountryName());
+                                Connection connection = new Connection(findCountryByName(country.getCountryName()), findCountryByName(countryHashMap.get(neighbourId).getCountryName()));
                                 connection.setCountry1(country);
                                 connection.setCountry2(countryHashMap.get(neighbourId));
                                 connectionList.add(connection);
@@ -216,9 +221,7 @@ public class MapEditorService {
                 returnMsg = e.getMessage();
                 return returnMsg;
             }
-            mapGraph = new MapGraph();
-            mapGraph.setContinentList(new LinkedList<>(continentMap.values()));
-            mapGraph.setCountryList(countryList);
+
             mapGraph.setConnectionList(connectionList);
             mapGraph.setAdjacentCountries(adjacentCountries);
 

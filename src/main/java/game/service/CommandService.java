@@ -15,7 +15,7 @@ public class CommandService {
 
         inputCommand = inputCommand.trim();
         String commandReturnMsg = "";
-        try {
+
             if (inputCommand.startsWith("editmap") || inputCommand.startsWith("loadmap")) {
                 String[] arguments = inputCommand.split(" ");
                 commandReturnMsg = mapEditorService.editMap(arguments[1]);
@@ -67,9 +67,6 @@ public class CommandService {
             } else {
                 return "wrong syntax";
             }
-        } catch (Exception e) {
-            return "an unexpected error occurred, " + e.getMessage();
-        }
 
         return commandReturnMsg;
     }
