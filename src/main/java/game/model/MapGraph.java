@@ -107,7 +107,6 @@ public class MapGraph {
      */
     public void addContinent(String continentName, Integer armyValue, Color color) {
         /**
-         * TODO:
          * validate the continent
          * add it to map
          */
@@ -124,7 +123,6 @@ public class MapGraph {
      */
     public void addContinent(String continentName, String continentValue, Color color) {
         /**
-         * TODO:
          * validate the continent
          * add it to map
          */
@@ -138,7 +136,6 @@ public class MapGraph {
      */
     public void deleteContinent(String continentName) {
         /**
-         * TODO:
          * get the continent to be deleted by name
          * delete it from map
          */
@@ -204,7 +201,6 @@ public class MapGraph {
      */
     public void deleteCountry(String countryName) {
         /**
-         * TODO:
          * get the country to be deleted by name
          * delete it from map
          */
@@ -237,7 +233,6 @@ public class MapGraph {
      */
     public void addConnection(String countryName1, String countryName2) {
         /**
-         * TODO:
          * validate the connection
          * add it to map
          */
@@ -254,7 +249,6 @@ public class MapGraph {
      */
     public boolean deleteConnection(String countryName1, String countryName2) {
         /**
-         * TODO:
          * get the Connection to be deleted by name
          * delete it from map
          */
@@ -279,7 +273,6 @@ public class MapGraph {
      */
     public List<Connection> getConnections() {
         /**
-         * TODO:
          * Get all the connections associated with the country
          */
         return connectionList;
