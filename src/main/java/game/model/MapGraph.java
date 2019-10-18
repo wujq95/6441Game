@@ -13,7 +13,7 @@ public class MapGraph {
 
     List<Continent> continentList;
 
-    LinkedHashMap<Country, List<Country>> adjacentCountries;
+    LinkedHashMap<Country, Set<Country>> adjacentCountries;
 
     List<Country> countryList;
 
@@ -166,7 +166,7 @@ public class MapGraph {
             Country country = new Country(countryName, continentName, countryList.get(countryList.size() - 1).getId() + 1);
             notifyObservers("add country", country);
             MapEditorService.mapGraph.countryList.add(country);
-            MapEditorService.mapGraph.adjacentCountries.put(country, new LinkedList<>());
+            MapEditorService.mapGraph.adjacentCountries.put(country, new HashSet<>());
             for (int i = 0; i < continentList.size(); i++) {
                 if (continentName.equals(continentList.get(i).getContinentName())) {
                     List<Country> countryList1 = MapEditorService.mapGraph.getContinentList().get(i).countries;
@@ -304,7 +304,7 @@ public class MapGraph {
      * Get Adjacent Countries
      * @return  list
      */
-    public LinkedHashMap<Country, List<Country>> getAdjacentCountries() {
+    public LinkedHashMap<Country, Set<Country>> getAdjacentCountries() {
         return adjacentCountries;
     }
 
@@ -312,7 +312,7 @@ public class MapGraph {
      * Set Adjacent Countries
      * @param adjacentCountries list
      */
-    public void setAdjacentCountries(LinkedHashMap<Country, List<Country>> adjacentCountries) {
+    public void setAdjacentCountries(LinkedHashMap<Country, Set<Country>> adjacentCountries) {
         this.adjacentCountries = adjacentCountries;
     }
 
@@ -372,9 +372,9 @@ public class MapGraph {
      */
     private void deleteCountryfromAdjacentCountries(Country country) {
         MapEditorService.mapGraph.adjacentCountries.remove(country);
-        for (Map.Entry<Country, List<Country>> entry : MapEditorService.mapGraph.adjacentCountries.entrySet()) {
+        for (Map.Entry<Country, Set<Country>> entry : MapEditorService.mapGraph.adjacentCountries.entrySet()) {
             if (entry.getValue().contains(country)) {
-                List<Country> updatedNeighborCountries = entry.getValue();
+                Set<Country> updatedNeighborCountries = entry.getValue();
                 updatedNeighborCountries.remove(country);
                 MapEditorService.mapGraph.adjacentCountries.put(entry.getKey(), updatedNeighborCountries);
 

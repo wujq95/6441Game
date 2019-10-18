@@ -3,9 +3,7 @@ package model;
 import javafx.geometry.Point2D;
 import service.MapEditorService;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Country {
 
@@ -17,7 +15,7 @@ public class Country {
 
     double y;
 
-    List<Country> neighbours;
+    Set<Country> neighbours;
 
     Continent parentContinent;
 
@@ -53,7 +51,7 @@ public class Country {
      * Set Neighbours
      * @param neighbours list
      */
-    public void setNeighbours(List<Country> neighbours) {
+    public void setNeighbours(Set<Country> neighbours) {
         this.neighbours = neighbours;
     }
 
@@ -129,7 +127,7 @@ public class Country {
         this.id = countryId;
         this.countryName = countryName;
         this.parentContinent = findContinentByName(continentName);
-        this.neighbours = new LinkedList<>();
+        this.neighbours = new HashSet<>();
 
         Random r = new Random();
         this.x = 500 * r.nextDouble();
@@ -205,7 +203,7 @@ public class Country {
      *
      * @return list
      */
-    public List<Country> getNeighbours() {
+    public Set<Country> getNeighbours() {
         return neighbours;
     }
 

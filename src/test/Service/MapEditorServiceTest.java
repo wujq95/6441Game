@@ -55,8 +55,8 @@ public class MapEditorServiceTest {
         String returnMsg = mapEditorService.editMap(fileName);
 
         Assert.assertEquals(returnMsg, "load map from file /Applications/Domination/maps/risk.map success");
-        LinkedHashMap<Country, List<Country>> countryMap = MapEditorService.mapGraph.getAdjacentCountries();
-        List<Map.Entry<Country, List<Country>>> entryList = new LinkedList<>();
+        LinkedHashMap<Country, Set<Country>> countryMap = MapEditorService.mapGraph.getAdjacentCountries();
+        List<Map.Entry<Country, Set<Country>>> entryList = new LinkedList<>();
         entryList.addAll(countryMap.entrySet());
         //make country#1's neighbours the same as country#2's
         countryMap.put(entryList.get(0).getKey(), entryList.get(1).getValue());
@@ -71,7 +71,7 @@ public class MapEditorServiceTest {
     @Test
     public void testConnectedGraph1(){
         mapEditorService.editMap("/Applications/Domination/maps/ameroki.map");
-        LinkedHashMap<Country, List<Country>> adjacentCountries = MapEditorService.mapGraph.getAdjacentCountries();
+        LinkedHashMap<Country, Set<Country>> adjacentCountries = MapEditorService.mapGraph.getAdjacentCountries();
         Assert.assertTrue(mapEditorService.checkIfConnected(adjacentCountries));
     }
 
@@ -81,7 +81,7 @@ public class MapEditorServiceTest {
     @Test
     public void testConnectedGraph2(){
         mapEditorService.editMap("/Applications/Domination/maps/risk2.map");
-        LinkedHashMap<Country, List<Country>> adjacentCountries = MapEditorService.mapGraph.getAdjacentCountries();
+        LinkedHashMap<Country, Set<Country>> adjacentCountries = MapEditorService.mapGraph.getAdjacentCountries();
         Assert.assertFalse(mapEditorService.checkIfConnected(adjacentCountries));
     }
 
@@ -90,10 +90,10 @@ public class MapEditorServiceTest {
      */
     @Test
     public void testConnectedContinentGraph1(){
-        LinkedHashMap<Country, List<Country>> adjacentCountries = new LinkedHashMap<Country, List<Country>>();
+        LinkedHashMap<Country, Set<Country>> adjacentCountries = new LinkedHashMap<Country, Set<Country>>();
         mapEditorService.editMap("/Applications/Domination/maps/risk2t.map");
         Continent continent = MapEditorService.mapGraph.getContinentList().get(0);
-        List<Country> countryList = continent.getCountries().get(3).getNeighbours();
+        Set<Country> countryList = continent.getCountries().get(3).getNeighbours();
         countryList.remove(1);
         continent.getCountries().get(3).setNeighbours(countryList);
         for(Country country:continent.getCountries()){
@@ -107,14 +107,14 @@ public class MapEditorServiceTest {
      */
     @Test
     public void testConnectedContinentGraph2(){
-        LinkedHashMap<Country, List<Country>> adjacentCountries = new LinkedHashMap<Country, List<Country>>();
+        LinkedHashMap<Country, Set<Country>> adjacentCountries = new LinkedHashMap<Country, Set<Country>>();
         mapEditorService.editMap("/Applications/Domination/maps/risk2t.map");
         Continent continent = MapEditorService.mapGraph.getContinentList().get(0);
-        List<Country> countryList = continent.getCountries().get(3).getNeighbours();
+        Set<Country> countryList = continent.getCountries().get(3).getNeighbours();
         countryList.remove(1);
         countryList.remove(0);
         continent.getCountries().get(3).setNeighbours(countryList);
-        List<Country> countryList2 = continent.getCountries().get(2).getNeighbours();
+        Set<Country> countryList2 = continent.getCountries().get(2).getNeighbours();
         countryList2.remove(1);
         continent.getCountries().get(2).setNeighbours(countryList);
         for(Country country:continent.getCountries()){

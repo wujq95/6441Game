@@ -93,10 +93,10 @@ public class MapEditorService {
                 country1.addNeighbor(country2);
                 country2.addNeighbor(country1);
 
-                List<Country> country1List = MapEditorService.mapGraph.getAdjacentCountries().get(country1);
+                Set<Country> country1List = MapEditorService.mapGraph.getAdjacentCountries().get(country1);
                 country1List.add(country2);
                 MapEditorService.mapGraph.getAdjacentCountries().put(country1, country1List);
-                List<Country> country2List = MapEditorService.mapGraph.getAdjacentCountries().get(country2);
+                Set<Country> country2List = MapEditorService.mapGraph.getAdjacentCountries().get(country2);
                 country2List.add(country1);
                 MapEditorService.mapGraph.getAdjacentCountries().put(country2, country2List);
 
@@ -112,11 +112,11 @@ public class MapEditorService {
                 }
                 country1.removeNeighbor(country2);
                 country2.removeNeighbor(country1);
-                List<Country> country1List = mapGraph.getAdjacentCountries().get(country1);
+                Set<Country> country1List = mapGraph.getAdjacentCountries().get(country1);
                 country1List.remove(country2);
                 MapEditorService.mapGraph.getAdjacentCountries().put(country1, country1List);
 
-                List<Country> country2List = mapGraph.getAdjacentCountries().get(country2);
+                Set<Country> country2List = mapGraph.getAdjacentCountries().get(country2);
                 country2List.remove(country1);
                 MapEditorService.mapGraph.getAdjacentCountries().put(country2, country2List);
 
@@ -145,7 +145,7 @@ public class MapEditorService {
             HashMap<Integer, Country> countryHashMap = new HashMap<>();
 
             List<Country> countryList = new LinkedList<>();
-            LinkedHashMap<Country, List<Country>> adjacentCountries = new LinkedHashMap<>();
+            LinkedHashMap<Country, Set<Country>> adjacentCountries = new LinkedHashMap<>();
             List<Connection> connectionList = new LinkedList<>();
 
             try {
@@ -194,7 +194,7 @@ public class MapEditorService {
                             Country country = countryHashMap.get(countryId);
 
                             //List<Connection> connectionList=new LinkedList<>();
-                            List<Country> neighbourList = new LinkedList<>();
+                            Set<Country> neighbourList = new HashSet<>();
                             for (int i = 1; i < borderInfos.length; i++) {
                                 Integer neighbourId = Integer.valueOf(borderInfos[i]);
 
@@ -281,7 +281,7 @@ public class MapEditorService {
             }
 
             showMap.append("\ncountries include");
-            for (Map.Entry<Country, List<Country>> entry : mapGraph.getAdjacentCountries().entrySet()) {
+            for (Map.Entry<Country, Set<Country>> entry : mapGraph.getAdjacentCountries().entrySet()) {
                 showMap.append("\ncountry");
                 showMap.append(" ").append(entry.getKey().getCountryName()).append(",");
 
@@ -350,14 +350,14 @@ public class MapEditorService {
      * @param adjacentCountries
      * @return boolean
      */
-    public boolean checkIfConnected(LinkedHashMap<Country, List<Country>> adjacentCountries) {
+    public boolean checkIfConnected(LinkedHashMap<Country, Set<Country>> adjacentCountries) {
         Integer start = 0;
         for (Country country : adjacentCountries.keySet()) {
             start = country.getId();
         }
 
-        LinkedHashMap<Integer, List<Country>> adj = new LinkedHashMap<>();
-        for (Map.Entry<Country, List<Country>> entry : adjacentCountries.entrySet()) {
+        LinkedHashMap<Integer, Set<Country>> adj = new LinkedHashMap<>();
+        for (Map.Entry<Country, Set<Country>> entry : adjacentCountries.entrySet()) {
             adj.put(entry.getKey().getId(), entry.getValue());
         }
         boolean[] visited = new boolean[start + 1];
@@ -440,7 +440,7 @@ public class MapEditorService {
         }
 
         lines.add("\n[borders]");
-        for (Map.Entry<Country, List<Country>> entry : mapGraph.getAdjacentCountries().entrySet()) {
+        for (Map.Entry<Country, Set<Country>> entry : mapGraph.getAdjacentCountries().entrySet()) {
             StringBuilder borderDesc = new StringBuilder();
             borderDesc.append(entry.getKey().getId());
 
