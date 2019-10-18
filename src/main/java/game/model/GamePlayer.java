@@ -12,9 +12,9 @@ public class GamePlayer {
 
     /**
      * Constructor with player name , Number of Armies and country list
-     * @param playerName
-     * @param armyValue
-     * @param countryList
+     * @param playerName 　player name
+     * @param armyValue number of army
+     * @param countryList country list
      */
     public GamePlayer(String playerName,Integer armyValue,List<Country> countryList){
         this.armyValue = armyValue;
@@ -24,7 +24,7 @@ public class GamePlayer {
 
     /**
      * Get PlayerName
-     * @return
+     * @return player name
      */
     public String getPlayerName() {
         return playerName;
@@ -32,7 +32,7 @@ public class GamePlayer {
 
     /**
      * Set PlayerName
-     * @param playerName
+     * @param playerName player name
      */
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
@@ -40,7 +40,7 @@ public class GamePlayer {
 
     /**
      * Get Number of Army
-     * @return
+     * @return number of army
      */
     public Integer getArmyValue() {
         return armyValue;
@@ -48,7 +48,7 @@ public class GamePlayer {
 
     /**
      * Set Number of Army
-     * @param armyValue
+     * @param armyValue number of army
      */
     public void setArmyValue(Integer armyValue) {
         this.armyValue = armyValue;
@@ -56,7 +56,7 @@ public class GamePlayer {
 
     /**
      * Get CountryList
-     * @return
+     * @return country list
      */
     public List<Country> getCountryList() {
         return countryList;
@@ -64,7 +64,7 @@ public class GamePlayer {
 
     /**
      * Set CountryList
-     * @param countryList
+     * @param countryList country list
      */
     public void setCountryList(List<Country> countryList) {
         this.countryList = countryList;

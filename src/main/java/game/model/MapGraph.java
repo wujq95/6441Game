@@ -6,9 +6,6 @@ import service.MapEditorService;
 
 import java.util.*;
 
-/**
- * save MapGraph
- */
 public class MapGraph {
     String name;
 
@@ -52,7 +49,7 @@ public class MapGraph {
                     break;
                 case "add country":
                     //FORCE update
-                    observer.updateCountry("add", (Country) object);
+                     observer.updateCountry("add", (Country) object);
                     break;
                 case "delete country":
                     //observer.updateCountry("delete", (Country) object);
@@ -80,8 +77,7 @@ public class MapGraph {
 
     /**
      * Set Continent Name
-     *
-     * @param name
+     * @param name string
      */
     public void setName(String name) {
         this.name = name;
@@ -89,8 +85,7 @@ public class MapGraph {
 
     /**
      * Set Continent Height
-     *
-     * @param height
+     * @param height int
      */
     public void setHeight(Integer height) {
         this.height = height;
@@ -98,8 +93,7 @@ public class MapGraph {
 
     /**
      * Set Width
-     *
-     * @param width
+     * @param width int
      */
     public void setWidth(Integer width) {
         this.width = width;
@@ -107,61 +101,68 @@ public class MapGraph {
 
     /**
      * Add new Continent
-     *
-     * @param continentName
-     * @param armyValue
-     * @param color
+     * @param continentName string
+     * @param armyValue int
+     * @param color color
      */
     public void addContinent(String continentName, Integer armyValue, Color color) {
+        /**
+         * TODO:
+         * validate the continent
+         * add it to map
+         */
+
         Continent continent = new Continent(continentName, armyValue, color);
         continentList.add(continent);
         notifyObservers("add continent", this);
     }
 
     /**
-     * validate the continent and add it to map
-     *
-     * @param continentName
-     * @param continentValue
-     * @param color
+     * @param continentName string
+     * @param continentValue string
+     * @param color color
      */
     public void addContinent(String continentName, String continentValue, Color color) {
-
+        /**
+         * TODO:
+         * validate the continent
+         * add it to map
+         */
         Continent continent = new Continent(continentName, 99, color);
         MapEditorService.mapGraph.continentList.add(continent);
         notifyObservers("add continent", continent);
     }
 
     /**
-     * get the continent to be deleted by name and delete it from map
-     *
-     * @param continentName
+     * @param continentName string
      */
     public void deleteContinent(String continentName) {
+        /**
+         * TODO:
+         * get the continent to be deleted by name
+         * delete it from map
+         */
 
         for (int i = 0; i < MapEditorService.mapGraph.continentList.size(); i++) {
             if (continentName.equals(continentList.get(i).getContinentName())) {
-                List<Country> continentCountries = continentList.get(i).getCountries();
                 MapEditorService.mapGraph.continentList.remove(i);
-                for (int m = 0; m < continentCountries.size(); m++) {
-                    deleteCountryfromAdjacentCountries(continentCountries.get(m));
-                    for (int j = 0; j < MapEditorService.mapGraph.countryList.size(); j++) {
-                        if (MapEditorService.mapGraph.countryList.get(j) == continentCountries.get(m))
-                            MapEditorService.mapGraph.countryList.remove(j);
+                List<Country> countryList1 = continentList.get(i).getCountries();
+                for (int m = 0; m < countryList.size(); m++) {
+                    for (int j = 0; j < countryList1.size(); j++) {
+                        if (countryList.get(m) == countryList1.get(j))
+                            countryList.remove(m);
                     }
 
                 }
             }
         }
-
         notifyObservers("delete continent", continentName);
     }
 
     /**
      * Check whether add country correctly
-     *
-     * @param countryName
-     * @param continentName
+     * @param countryName string
+     * @param continentName string
      */
     public boolean addCountry(String countryName, String continentName) {
         List<Continent> continentList = MapEditorService.mapGraph.getContinentList();
@@ -172,8 +173,8 @@ public class MapGraph {
             }
         }
         if (flag) {
-            List<Country> countryList = MapEditorService.mapGraph.countryList;
-            Country country = new Country(countryName, continentName, countryList.get(countryList.size() - 1).getId() + 1);
+            int size = MapEditorService.mapGraph.countryList.size();
+            Country country = new Country(countryName, continentName, size + 1);
             notifyObservers("add country", country);
             MapEditorService.mapGraph.countryList.add(country);
             MapEditorService.mapGraph.adjacentCountries.put(country, new LinkedList<>());
@@ -200,17 +201,19 @@ public class MapGraph {
 
 
     /**
-     * get the country to be deleted by name and delete it from map
-     *
-     * @param countryName
+     * Delete Country
+     * @param countryName string
      */
     public void deleteCountry(String countryName) {
+        /**
+         * TODO:
+         * get the country to be deleted by name
+         * delete it from map
+         */
 
         List<Country> countryList = MapEditorService.mapGraph.countryList;
         for (int i = 0; i < countryList.size(); i++) {
             if (countryName.equals(countryList.get(i).getCountryName())) {
-                deleteCountryfromAdjacentCountries(countryList.get(i));
-
                 MapEditorService.mapGraph.countryList.remove(i);
                 List<Continent> continentList = MapEditorService.mapGraph.getContinentList();
                 for (int j = 0; j < continentList.size(); j++) {
@@ -231,11 +234,15 @@ public class MapGraph {
 
     /**
      * Add connection between country Name 1 and country Name 2
-     *
-     * @param countryName1
-     * @param countryName2
+     * @param countryName1 string
+     * @param countryName2 string
      */
     public void addConnection(String countryName1, String countryName2) {
+        /**
+         * TODO:
+         * validate the connection
+         * add it to map
+         */
 
         Connection connection = new Connection(countryName1, countryName2);
         connectionList.add(connection);
@@ -244,11 +251,15 @@ public class MapGraph {
 
     /**
      * Check whether connection has been deleted properly
-     *
-     * @param countryName1
-     * @param countryName2
+     * @param countryName1 string
+     * @param countryName2 string
      */
     public boolean deleteConnection(String countryName1, String countryName2) {
+        /**
+         * TODO:
+         * get the Connection to be deleted by name
+         * delete it from map
+         */
 
         boolean flag = false;
         int i = 0;
@@ -269,13 +280,16 @@ public class MapGraph {
      * @return a list of Connection objects
      */
     public List<Connection> getConnections() {
+        /**
+         * TODO:
+         * Get all the connections associated with the country
+         */
         return connectionList;
     }
 
     /**
      * Remove Continent
-     *
-     * @param continent
+     * @param continent list
      */
     public void removeContinent(Continent continent) {
         continentList.remove(continent);
@@ -283,8 +297,7 @@ public class MapGraph {
 
     /**
      * Get Continent Name
-     *
-     * @return
+     * @return string
      */
     public String getName() {
         return this.name;
@@ -292,8 +305,7 @@ public class MapGraph {
 
     /**
      * Get Continent Height
-     *
-     * @return
+     * @return string
      */
     public Integer getHeight() {
         return this.height;
@@ -301,8 +313,7 @@ public class MapGraph {
 
     /**
      * Get Continent Width
-     *
-     * @return
+     * @return integer
      */
     public Integer getWidth() {
         return this.width;
@@ -310,8 +321,7 @@ public class MapGraph {
 
     /**
      * Get Adjacent Countries
-     *
-     * @return
+     * @return  list
      */
     public LinkedHashMap<Country, List<Country>> getAdjacentCountries() {
         return adjacentCountries;
@@ -319,8 +329,7 @@ public class MapGraph {
 
     /**
      * Set Adjacent Countries
-     *
-     * @param adjacentCountries
+     * @param adjacentCountries list
      */
     public void setAdjacentCountries(LinkedHashMap<Country, List<Country>> adjacentCountries) {
         this.adjacentCountries = adjacentCountries;
@@ -328,8 +337,7 @@ public class MapGraph {
 
     /**
      * Get Continent List
-     *
-     * @return
+     * @return list
      */
     public List<Continent> getContinentList() {
         return continentList;
@@ -337,8 +345,7 @@ public class MapGraph {
 
     /**
      * Set Continent List
-     *
-     * @param continentList
+     * @param continentList list
      */
     public void setContinentList(List<Continent> continentList) {
         this.continentList = continentList;
@@ -346,8 +353,7 @@ public class MapGraph {
 
     /**
      * Get Country List
-     *
-     * @return
+     * @return list
      */
     public List<Country> getCountryList() {
         return countryList;
@@ -355,8 +361,7 @@ public class MapGraph {
 
     /**
      * Set Country List
-     *
-     * @param countryList
+     * @param countryList list
      */
     public void setCountryList(List<Country> countryList) {
         this.countryList = countryList;
@@ -364,8 +369,7 @@ public class MapGraph {
 
     /**
      * Get Connection List
-     *
-     * @return
+     * @return list
      */
     public List<Connection> getConnectionList() {
         return connectionList;
@@ -373,29 +377,9 @@ public class MapGraph {
 
     /**
      * Set Connection List
-     *
-     * @param connectionList
+     * @param connectionList list
      */
     public void setConnectionList(List<Connection> connectionList) {
         this.connectionList = connectionList;
-    }
-
-
-    /**
-     * delete country from adjacentcountryList
-     *
-     * @param country
-     */
-    private void deleteCountryfromAdjacentCountries(Country country) {
-        MapEditorService.mapGraph.adjacentCountries.remove(country);
-        for (Map.Entry<Country, List<Country>> entry : MapEditorService.mapGraph.adjacentCountries.entrySet()) {
-            if (entry.getValue().contains(country)) {
-                List<Country> updatedNeighborCountries = entry.getValue();
-                updatedNeighborCountries.remove(country);
-                MapEditorService.mapGraph.adjacentCountries.put(entry.getKey(), updatedNeighborCountries);
-
-                entry.getKey().removeNeighbor(country);
-            }
-        }
     }
 }

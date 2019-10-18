@@ -165,7 +165,7 @@ public class MapController{
 
     /**
      * load the mapGraph on mapPane
-     * @param mGraph
+     * @param mGraph user interface loading map
      */
     private void loadMapGraph(MapGraph mGraph){
         // Load all continents
@@ -504,7 +504,7 @@ public class MapController{
     public class MapGraphObserver extends Observer{
         /**
          * mapGraphObserver constructor
-         * @param mapGraph
+         * @param mapGraph map graph
          */
         public MapGraphObserver(MapGraph mapGraph){
             this.mapGraph = mapGraph;

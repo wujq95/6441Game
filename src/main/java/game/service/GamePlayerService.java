@@ -28,8 +28,8 @@ public class GamePlayerService {
 
     /**
      * add players to the playerlist and remove players from the playerlist
-     * @param arguments
-     * @return
+     * @param arguments string
+     * @return Message
      */
     public String gamePlayerAction(String[] arguments){
 
@@ -69,8 +69,8 @@ public class GamePlayerService {
 
     /**
      * check if the player names that are added are duplicated
-     * @param playerNameList
-     * @return
+     * @param playerNameList list
+     * @return boolean
      */
     public boolean checkDuplicatePlayerName(List<String> playerNameList){
         if(playerNameList.size()>0) {
@@ -95,8 +95,8 @@ public class GamePlayerService {
 
     /**
      * check player names that are removed can be found
-     * @param playerNameList
-     * @return
+     * @param playerNameList list
+     * @return boolean
      */
     public boolean checkPlayerNameIncluded(List<String> playerNameList){
 
@@ -123,7 +123,7 @@ public class GamePlayerService {
 
     /**
      * add one player to the player list by player name
-     * @param playerName
+     * @param playerName string
      */
     public void addPlayer(String playerName){
             GamePlayer player = new GamePlayer();
@@ -134,7 +134,7 @@ public class GamePlayerService {
 
     /**
      * remove one player from the player list by name
-     * @param playerName
+     * @param playerName string
      */
     public void removePlayer(String playerName){
         for(int i=0;i<playerList.size();i++){
@@ -146,7 +146,7 @@ public class GamePlayerService {
 
     /**
      * populate all countries to players
-     * @return
+     * @return string
      */
     public String populateCountries(){
 
@@ -172,7 +172,7 @@ public class GamePlayerService {
 
     /**
      * allocate initial armies for all players
-     * @return
+     * @return string
      */
     public String alloInitialArmy(){
 
@@ -207,8 +207,8 @@ public class GamePlayerService {
 
     /**
      * place one army from the player to a country
-     * @param countryName
-     * @return
+     * @param countryName string
+     * @return Message
      */
     public String placeOneArmy(String countryName){
 
@@ -250,7 +250,7 @@ public class GamePlayerService {
 
     /**
      * automatically place all armies to countries
-     * @return
+     * @return Message
      */
     public String placeAll(){
         for (GamePlayer player:playerList){
@@ -270,7 +270,7 @@ public class GamePlayerService {
 
     /**
      * calculate the army number at the beginning of the reinforce phase
-     * @return
+     * @return Message
      */
     public String calReinArmyNum(){
         for(GamePlayer player:playerList){
@@ -299,7 +299,7 @@ public class GamePlayerService {
 
     /**
      * check if all armies have been put on the country
-     * @return
+     * @return boolean
      */
     public boolean checkPutAll(GamePlayer player){
         if(player.getArmyValue()==0){
