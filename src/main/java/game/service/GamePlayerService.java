@@ -128,6 +128,7 @@ public class GamePlayerService {
     public void addPlayer(String playerName){
             GamePlayer player = new GamePlayer();
             player.setPlayerName(playerName);
+            player.setArmyValue(0);
             playerList.add(player);
     }
 
@@ -301,11 +302,55 @@ public class GamePlayerService {
      * check if all armies have been put on the country
      * @return boolean
      */
-    public boolean checkPutAll(GamePlayer player){
-        if(player.getArmyValue()==0){
-            return true;
+    public boolean checkPutAll(){
+
+        boolean flag = true;
+
+        for(GamePlayer player :playerList){
+            if(player.getArmyValue()>0){
+                flag =  false;
+            }
+        }
+        return flag;
+    }
+
+    /**
+     * check the country if from which player
+     * @param countryName
+     * @return Integer
+     */
+    public Integer fromWhichPlayer(String countryName){
+
+        Integer flag = -1;
+        for(int i=0;i<playerList.size();i++){
+            for(int j=0;j<playerList.get(i).getCountryList().size();j++){
+                if(countryName.equals(playerList.get(i).getCountryList().get(j).getCountryName())){
+                    flag=i;
+                }
+            }
+        }
+
+        return flag;
+    }
+
+    /**
+     * check if fromcountry and to country are from the same player
+     * @param fromCountry
+     * @param toCountry
+     * @return Integer
+     */
+    public Integer checkSamePlayer(String fromCountry,String toCountry){
+        GamePlayerService gamePlayerService = new GamePlayerService();
+        Integer flagFrom  = gamePlayerService.fromWhichPlayer(fromCountry);
+        Integer flagTo  = gamePlayerService.fromWhichPlayer(toCountry);
+        if(flagFrom==-1||flagTo==-1){
+            return 0;
+        }else if(flagFrom.toString().equals(flagTo.toString())){
+            return 1;
         }else{
-            return false;
+            return 2;
         }
     }
+
+
 }

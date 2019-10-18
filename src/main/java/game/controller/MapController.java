@@ -207,6 +207,7 @@ public class MapController{
         // set Continent List Title
         title = new Text("Continent List");
         x = mapPane.getLayoutBounds().getMaxX() - 150;
+        y = 20;
         title.setX(x);
         title.setY(y);
         mapPane.getChildren().addAll(title);
