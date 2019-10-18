@@ -5,9 +5,6 @@ import javafx.scene.paint.Color;
 import service.MapEditorService;
 
 import java.util.*;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * save MapGraph
@@ -256,7 +253,7 @@ public class MapGraph {
         boolean flag = false;
         int i = 0;
         for (; i < connectionList.size(); i++) {
-            if (connectionList.get(i).getCountry1().countryName == countryName1 && connectionList.get(i).getCountry2().countryName == countryName2) {
+            if (connectionList.get(i).getCountry1().countryName.equals(countryName1) && connectionList.get(i).getCountry2().countryName.equals(countryName2)) {
                 Connection connection = connectionList.get(i);
                 connectionList.remove(i);
                 notifyObservers("delete connection", connection);
