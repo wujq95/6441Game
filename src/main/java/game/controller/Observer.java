@@ -17,7 +17,6 @@ public abstract class Observer {
      */
     public abstract void updateMapGraph();
 
-    //public abstract void updateContinentList(String action, Continent continent);
 
     /**
      * update the newly added country
@@ -25,6 +24,4 @@ public abstract class Observer {
      * @param country contains info of the newly added country
      */
     public abstract void updateCountry(String action, Country country);
-
-    //public abstract void updateConnection(String action, Connection connection);
 }
