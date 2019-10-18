@@ -152,7 +152,6 @@ public class MapGraph {
                         if (countryList.get(m) == countryList1.get(j))
                             countryList.remove(m);
                     }
-
                 }
             }
         }
