@@ -174,6 +174,7 @@ public class MapController{
      * @param mGraph user interface loading map
      */
     private void loadMapGraph(MapGraph mGraph){
+        mapPane.getChildren().clear();
 
         // location for game player list title and continent list title
         double x = mapPane.getLayoutBounds().getMaxX() - 300;
@@ -236,6 +237,8 @@ public class MapController{
         for (Country country: countryList) {
             x = country.getX();
             y = country.getY();
+            x = x * 1.3;
+            y = y * 1.3;
             Color countryColor = country.getParentContinent().getColor();
             Circle circle = new Circle(x, y, 15, countryColor);
 
@@ -264,10 +267,10 @@ public class MapController{
 
             Line line = new Line();
             line.setId(lineId);
-            line.setStartX(pt1.getX());
-            line.setStartY(pt1.getY());
-            line.setEndX(pt2.getX());
-            line.setEndY(pt2.getY());
+            line.setStartX(pt1.getX() * 1.3);
+            line.setStartY(pt1.getY() * 1.3);
+            line.setEndX(pt2.getX() * 1.3);
+            line.setEndY(pt2.getY() * 1.3);
             line.setStroke(Color.rgb(95,103,105));
             line.toBack();
 
@@ -524,7 +527,7 @@ public class MapController{
             CommandService commandService = new CommandService();
             String returnMsg = commandService.processCommand(commandStr);
             infoTextView.setText(returnMsg);
-            mapPane.getChildren().clear();
+            //mapPane.getChildren().clear();
             loadMapGraph(MapEditorService.mapGraph);
         }
     }
@@ -561,7 +564,7 @@ public class MapController{
         @Override
         public void updateMapGraph(){
             System.out.println("MapGraph Reloaded.");
-            mapPane.getChildren().clear();
+            //mapPane.getChildren().clear();
             loadMapGraph(MapEditorService.mapGraph);
         }
 
