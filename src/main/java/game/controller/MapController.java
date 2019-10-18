@@ -315,9 +315,6 @@ public class MapController{
         if(file != null){
             MapEditorService.mapGraph = this.mapGraph;
             System.out.println(file.getName());
-            //mapEditorService.saveMap("ameroki_save.map");
-            //TODO: saveMap only works for saving to an existing file
-            //TODO: save to a new file not work
             mapEditorService.saveMap(file.getName());
         }
     }
@@ -464,10 +461,6 @@ public class MapController{
     @FXML
     void placeAll(ActionEvent event){
         System.out.println("Place All called");
-
-        /**
-         * TODO: round_robin
-         */
     }
 
     /**
@@ -479,9 +472,6 @@ public class MapController{
         System.out.println("reinforce called");
         String countryName = reinforceCountryName.getText();
         String num = reinforceNum.getText();
-        /**
-         * TODO:
-         */
     }
 
     /**
@@ -494,9 +484,6 @@ public class MapController{
         String fromCountryName = fortifyFrom.getText();
         String toCountryName = fortifyTo.getText();
         String num = fortifyNum.getText();
-        /**
-         * TODO:
-         */
     }
 
     /**
@@ -506,10 +493,6 @@ public class MapController{
     @FXML
     void fortifyNone(ActionEvent event){
         System.out.println("fortifyNone called");
-
-        /**
-         * TODO:
-         */
     }
 
     /**
@@ -519,7 +502,6 @@ public class MapController{
     @FXML
     void detectEnter(KeyEvent event){
         if (event.getCode() == KeyCode.ENTER){
-            // do what is to do
             System.out.println("Enter Key Pressed");
             String commandStr = commandLine.getText();
             System.out.println("Your command: " + commandStr);
@@ -527,7 +509,6 @@ public class MapController{
             CommandService commandService = new CommandService();
             String returnMsg = commandService.processCommand(commandStr);
             infoTextView.setText(returnMsg);
-            //mapPane.getChildren().clear();
             loadMapGraph(MapEditorService.mapGraph);
         }
     }
@@ -568,11 +549,6 @@ public class MapController{
             loadMapGraph(MapEditorService.mapGraph);
         }
 
-//        @Override
-//        public void updateContinentList(String action, Continent continent){
-//
-//        }
-
         /**
          * add the newly added country to mapPane
          * @param action "add"
@@ -593,11 +569,8 @@ public class MapController{
                 //Point2D center = new Point2D(x, y); //default position on scene
                 Circle circle = new Circle(x, y, 15, countryColor);
                 // TODO: circle.setId(country.getCountryName());
-                //Now Fake
-                //circle.setId(country.getCountryName() + "circle");
                 circle.setCursor(HAND);
 
-                // TODO: Label label = new Label(country.getCountryName() + ":" + "Fake Player Name");
                 Label label = new Label(country.getCountryName() + "\n" + "Player Name\n" + country.getArmyValue());
                 //label.setId(country.getCountryName());
                 label.setLayoutX(x - 20);
@@ -621,50 +594,5 @@ public class MapController{
                 mapPane.getChildren().addAll(circle, label);
             }
         }
-
-//        @Override
-//        public void updateConnection(String action, Connection connection) {
-//            if(action == "add"){
-//                System.out.println("The Connection Add");
-//                /**
-//                 * TODO:
-//                 * Country country1 = connection.getCountry1();
-//                 * Country country2 = connection.getCountry2();
-//                 * Point2D pt1 = country1.getCoordinator();
-//                 * Point2D pt2 = country2.getCoordinator();
-//                 * String lineId = country1.getCountryName() + country2.getCountryName();
-//                 */
-//
-//                // Two Fake Point2D data here
-//                Point2D pt1 = new Point2D(300, 500);
-//                Point2D pt2 = new Point2D(350, 450);
-//                // Fake lineId
-//                String lineId = "FakeLineId";
-//
-//                Line line = new Line();
-//                line.setId(lineId);
-//                line.setStartX(pt1.getX());
-//                line.setStartY(pt1.getY());
-//                line.setEndX(pt2.getX());
-//                line.setEndY(pt2.getY());
-//                line.setStroke(Color.rgb(95,103,105));
-//                line.toBack();
-//
-//                mapPane.getChildren().add(line);
-//
-//            } else if(action == "delete"){
-//                System.out.println("The Connection Delete");
-//
-//                /**
-//                 * TODO:
-//                 * Country country1 = connection.getCountry1();
-//                 * Country country2 = connection.getCountry2();
-//                 * String lineId = country1.getCountryName() +  country2.getCountryName();
-//                 */
-//
-//                // Now remove the connection by a fake Id
-//                mapPane.getChildren().remove(mapPane.lookup("#FakeLineId"));
-//            }
-//        }
     }
 }

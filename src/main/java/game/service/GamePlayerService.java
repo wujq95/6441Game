@@ -102,7 +102,6 @@ public class GamePlayerService {
 
         if(playerNameList.size()>0) {
             boolean flagAll = true;
-
             for (int i = 0; i < playerNameList.size(); i++) {
                 boolean flag = false;
                 for (GamePlayer player : playerList) {
@@ -114,7 +113,6 @@ public class GamePlayerService {
                     flagAll = false;
                 }
             }
-
             return flagAll;
         }else{
             return true;
@@ -131,7 +129,6 @@ public class GamePlayerService {
             player.setArmyValue(0);
             playerList.add(player);
     }
-
 
     /**
      * remove one player from the player list by name
@@ -160,14 +157,6 @@ public class GamePlayerService {
             playerList.get(i%playerNum).setCountryList(playerCountryList);
             MapEditorService.mapGraph.getCountryList().get(i).setPlayer(playerList.get(i%playerNum));
         }
-
-        /*for(Country country:countryList){
-             Integer randomInt = (int)(Math.random()*playerList.size());
-            GamePlayer gamePlayer = playerList.get(randomInt);
-            List<Country> playerCountryList =  gamePlayer.getCountryList();
-            playerCountryList.add(country);
-            playerList.get(randomInt).setCountryList(playerCountryList);
-        }*/
         return "popilatecountries success and ";
     }
 
@@ -224,8 +213,6 @@ public class GamePlayerService {
                     if(PlayerArmyValue==0){
                         flag = 2;
                     }else{
-                        //Integer newCountryArmyValue = playerList.get(i).getCountryList().get(j).getArmyValue()+1;
-                        //playerList.get(i).getCountryList().get(j).setArmyValue(newCountryArmyValue);
                         for(Country country:MapEditorService.mapGraph.getCountryList()){
                             if(country.getCountryName().equals(countryName)){
                                 Integer newCountryArmyValue = country.getArmyValue()+1;
@@ -329,7 +316,6 @@ public class GamePlayerService {
                 }
             }
         }
-
         return flag;
     }
 
@@ -351,6 +337,4 @@ public class GamePlayerService {
             return 2;
         }
     }
-
-
 }
