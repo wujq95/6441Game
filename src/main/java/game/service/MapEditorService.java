@@ -32,7 +32,7 @@ public class MapEditorService {
      */
     String editContinent(String[] continentNameList) {
         // editcontinent -add name value -add name2 value2 -add name3 value3
-        for (int i = 1; i < continentNameList.length; i = i++) {
+        for (int i = 1; i < continentNameList.length; i++) {
             if (continentNameList[i].equals("-add")) {
 
                 String continentName = continentNameList[i + 1];
