@@ -15,9 +15,7 @@ public class ReinforceService {
      * @return Message
      */
     public String reinforce(String countryName, String num) {
-
         int flag = 0;
-
         for(int i=0;i<GamePlayerService.playerList.size();i++){
             for(int j=0;j<GamePlayerService.playerList.get(i).getCountryList().size();j++){
                 if((countryName).equals(GamePlayerService.playerList.get(i).getCountryList().get(j).getCountryName())){
@@ -35,13 +33,10 @@ public class ReinforceService {
                         }
                         Integer newPlayerArmyValue = playerArmyValue-reinArmyValue;
                         GamePlayerService.playerList.get(i).setArmyValue(newPlayerArmyValue);
-                        //Integer newCountryArmyValue = GamePlayerService.playerList.get(i).getCountryList().get(j).getArmyValue()+reinArmyValue;
-                        //GamePlayerService.playerList.get(i).getCountryList().get(j).setArmyValue(newCountryArmyValue);
                     }
                 }
             }
         }
-
         if(flag==0){
             return "country name can not be found";
         }else if(flag==2){

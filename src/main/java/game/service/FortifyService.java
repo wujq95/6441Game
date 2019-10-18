@@ -17,7 +17,6 @@ public class FortifyService {
      * @return Message
      */
     public String fortify(String fromCountry, String toCountry, String num){
-
         GamePlayerService gamePlayerService = new GamePlayerService();
         boolean flagc = gamePlayerService.checkPutAll();
         Integer flags = gamePlayerService.checkSamePlayer(fromCountry,toCountry);
