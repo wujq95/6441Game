@@ -20,6 +20,7 @@ import javafx.stage.FileChooser;
 
 import model.*;
 import service.CommandService;
+import service.GamePlayerService;
 import service.MapEditorService;
 
 import java.io.File;
@@ -53,6 +54,11 @@ public class MapController{
      * mapEditorService class contains all edit mapGraph methods
      */
     private static MapEditorService mapEditorService;
+
+    /**
+     * GamePlayerService class contains all GamePlayer related methods
+     */
+    private static GamePlayerService gamePlayerService;
 
     /**
      * load map option on menu bar
@@ -168,9 +174,44 @@ public class MapController{
      * @param mGraph user interface loading map
      */
     private void loadMapGraph(MapGraph mGraph){
+
+        // location for game player list title and continent list title
+        double x = mapPane.getLayoutBounds().getMaxX() - 300;
+        double y = 20;
+
+        // Load all game players
+        List<GamePlayer> gamePlayerList = GamePlayerService.playerList;
+
+        // set Game Player List Title
+        Text title = new Text("Game Players");
+        title.setX(x);
+        title.setY(y);
+        mapPane.getChildren().addAll(title);
+
+        // render all game players info
+        int i = 0;
+        for (GamePlayer gamePlayer : gamePlayerList) {
+            // set game player name location
+            y = i * 50 + 50;
+            Text text = new Text((gamePlayer.getPlayerName() + ": " + gamePlayer.getArmyValue()));
+            text.setX(x);
+            text.setY(y);
+
+            mapPane.getChildren().addAll(text);
+            i++;
+        }
+
         // Load all continents
         List<Continent> continentList = mGraph.getContinentList();
-        int i = 0;
+
+        // set Continent List Title
+        title = new Text("Continent List");
+        x = mapPane.getLayoutBounds().getMaxX() - 150;
+        title.setX(x);
+        title.setY(y);
+        mapPane.getChildren().addAll(title);
+
+        i = 0;
         for (Continent continent:continentList) {
             Rectangle continentRectangle = new Rectangle(60, 20, continent.getColor());
             continentRectangle.setId("continent" + continent.getContinentName());
@@ -178,8 +219,8 @@ public class MapController{
             text.setId("continentLabel" + continent.getContinentName());
 
             //set rectangle and text position
-            double x = mapPane.getLayoutBounds().getMaxX() - 150;
-            double y = i * 50 + 50;
+            x = mapPane.getLayoutBounds().getMaxX() - 150;
+            y = i * 50 + 50;
             continentRectangle.setX(x);
             continentRectangle.setY(y);
             text.setX(x);
@@ -192,8 +233,8 @@ public class MapController{
         // Load all countries
         List<Country> countryList = mGraph.getCountryList();
         for (Country country: countryList) {
-            double x = country.getX();
-            double y = country.getY();
+            x = country.getX();
+            y = country.getY();
             Color countryColor = country.getParentContinent().getColor();
             Circle circle = new Circle(x, y, 15, countryColor);
 
@@ -493,6 +534,8 @@ public class MapController{
     public MapController(){
         colorPicker = new ColorController();
         mapEditorService = new MapEditorService();
+        gamePlayerService = new GamePlayerService();
+
         // default empty graph before loaded
         this.mapGraph = new MapGraph();
         this.mapGraphObserver = new MapGraphObserver(mapGraph);
