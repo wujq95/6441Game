@@ -208,7 +208,7 @@ public class MapGraph {
      * @param countryName string
      */
     public void deleteCountry(String countryName) {
-
+        deleteCountryfromConnectionList(countryName);
         List<Country> countryList = MapEditorService.mapGraph.countryList;
         for (int i = 0; i < countryList.size(); i++) {
             if (countryName.equals(countryList.get(i).getCountryName())) {
@@ -254,12 +254,6 @@ public class MapGraph {
      * @param countryName2 string
      */
     public boolean deleteConnection(String countryName1, String countryName2) {
-        /**
-         * TODO:
-         * get the Connection to be deleted by name
-         * delete it from map
-         */
-
         boolean flag = false;
         int i = 0;
         for (; i < connectionList.size(); i++) {
@@ -396,7 +390,7 @@ public class MapGraph {
 
 
     /**
-     * delete country from adjacentcountryList
+     * delete country from adjacentcountryList and connectionlist
      *
      * @param country
      */
@@ -426,5 +420,14 @@ public class MapGraph {
             }
         }
         return null;
+    }
+
+    private void deleteCountryfromConnectionList(String countryName) {
+        for (Connection connection : MapEditorService.mapGraph.connectionList) {
+            if (connection.getCountry1().getCountryName().equals(countryName) || connection.getCountry2().getCountryName().equals(countryName)) {
+                connectionList.remove(connection);
+                notifyObservers("delete connection", connection);
+            }
+        }
     }
 }
