@@ -263,7 +263,7 @@ public class GamePlayerService {
     public String calReinArmyNum(){
         for(GamePlayer player:playerList){
             List<Country> countryList = player.getCountryList();
-            Integer countryNum = Math.round(countryList.size()/3);
+            Integer countryNum = (int)Math.floor(countryList.size()/3);
 
             List<Continent> continentList =  MapEditorService.mapGraph.getContinentList();
             Integer continentNum = 0;
@@ -282,7 +282,8 @@ public class GamePlayerService {
             player.setArmyValue(newPlayerArmyValue);
         }
 
-        return "calculate reinforce number success";
+        //TO DO:after dividing player, return message includes every part message
+        return "calculate reinforce number success:";
     }
 
     /**
