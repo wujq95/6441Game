@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class FortifyService {
 
+    static Integer playerNum = 0;
     /**
      * Fortify Action
      * @param fromCountry string
@@ -21,51 +22,42 @@ public class FortifyService {
         if(fortifyArmyValue<0){
             return "fortify num can be negative";
         }else{
-            GamePlayerService gamePlayerService = new GamePlayerService();
-            boolean flagc = gamePlayerService.checkPutAll();
-            Integer flags = gamePlayerService.checkSamePlayer(fromCountry,toCountry);
-            if(flagc){
-                List<Country> countryList = MapEditorService.mapGraph.getCountryList();
+            boolean flag1 = checkPlayer(fromCountry);
+            boolean flag2 = checkPlayer(toCountry);
 
-                int flag = 0;
-                for(int i=0;i<countryList.size();i++){
-                    if(toCountry.equals(countryList.get(i).getCountryName())) {
-                        flag = 1;
-                        for (int j = 0; j < countryList.size(); j++) {
-                            if (fromCountry.equals(countryList.get(j).getCountryName())) {
-                                flag = 2;
-                                if (countryList.get(j).getArmyValue() < fortifyArmyValue+1) {
-                                    flag = 3;
-                                } else if(flags==0){
-                                    flag =4;
-                                }else if(flags==2){
-                                    flag=5;
-                                }else{
-                                    Integer newFromCountry = countryList.get(j).getArmyValue() - fortifyArmyValue;
-                                    Integer newToCountry =countryList.get(i).getArmyValue() + fortifyArmyValue;
-                                    MapEditorService.mapGraph.getCountryList().get(j).setArmyValue(newFromCountry);
-                                    MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(newToCountry);
+            List<Country> countryList = MapEditorService.mapGraph.getCountryList();
+
+            int flag = 0;
+            if(flag1){
+                flag = 1;
+                if(flag2){
+                    flag=2;
+                    for(int i=0;i<countryList.size();i++){
+                        if(toCountry.equals(countryList.get(i).getCountryName())) {
+                            for (int j = 0; j < countryList.size(); j++) {
+                                if (fromCountry.equals(countryList.get(j).getCountryName())) {
+                                    if (countryList.get(j).getArmyValue() < fortifyArmyValue+1) {
+                                        flag = 3;
+                                    }else{
+                                        Integer newFromCountry = countryList.get(j).getArmyValue() - fortifyArmyValue;
+                                        Integer newToCountry =countryList.get(i).getArmyValue() + fortifyArmyValue;
+                                        MapEditorService.mapGraph.getCountryList().get(j).setArmyValue(newFromCountry);
+                                        MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(newToCountry);
+                                    }
                                 }
                             }
                         }
                     }
                 }
-
-                if (flag==0){
-                    return "to tountry name can not be found";
-                }else if(flag==1){
-                    return "from Country name can not be found";
-                }else if(flag==3){
-                    return "the army value of the form country is not enough";
-                }else if(flag==5){
-                    return "fromcountry and to country are not from the same player";
-                }else if(flag==4){
-                    return "countryname can not be found";
-                }else {
-                    return "fortify success";
-                }
+            }
+            if (flag==0){
+                return "from tountry name can not be found";
+            }else if(flag==1){
+                return "to Country name can not be found";
+            }else if(flag==3){
+                return "the army value of the form country is not enough";
             }else {
-                return "reinforce phase is not finish";
+                return "fortify success";
             }
         }
     }
@@ -75,6 +67,32 @@ public class FortifyService {
      * @return message
      */
     public String fortifyNone(){
+        playerNum++;
+        checkStop();
         return "fortify none success";
+    }
+
+    public boolean checkStop(){
+        boolean flag=false;
+        if(playerNum>=GamePlayerService.playerList.size()){
+            flag=true;
+        }
+        return flag;
+    }
+
+    /**
+     * check the country if from which player
+     * @param countryName
+     * @return Integer
+     */
+    public boolean checkPlayer(String countryName){
+
+        boolean flag = false;
+        for(int j=0;j<GamePlayerService.playerList.get(playerNum).getCountryList().size();j++){
+            if(countryName.equals(GamePlayerService.playerList.get(playerNum).getCountryList().get(j).getCountryName())){
+                flag=true;
+            }
+        }
+        return flag;
     }
 }

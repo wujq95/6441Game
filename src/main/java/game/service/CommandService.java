@@ -19,7 +19,7 @@ public class CommandService {
         inputCommand = inputCommand.trim();
         String commandReturnMsg = "";
 
-        switch (phase) {
+        /*switch (phase) {
             case MAPEDITOR:
                 // code block
                 break;
@@ -34,7 +34,7 @@ public class CommandService {
                 break;
             default:
                 // code block
-        }
+        }*/
         if (inputCommand.startsWith("editmap") || inputCommand.startsWith("loadmap")) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = mapEditorService.editMap(arguments[1]);

@@ -291,7 +291,7 @@ public class GamePlayerService {
     /**
      * check if all armies have been put on the country
      * @return boolean
-     */
+
     public boolean checkPutAll(){
 
         boolean flag = true;
@@ -302,44 +302,7 @@ public class GamePlayerService {
             }
         }
         return flag;
-    }
-
-    /**
-     * check the country if from which player
-     * @param countryName
-     * @return Integer
-     */
-    public Integer fromWhichPlayer(String countryName){
-
-        Integer flag = -1;
-        for(int i=0;i<playerList.size();i++){
-            for(int j=0;j<playerList.get(i).getCountryList().size();j++){
-                if(countryName.equals(playerList.get(i).getCountryList().get(j).getCountryName())){
-                    flag=i;
-                }
-            }
-        }
-        return flag;
-    }
-
-    /**
-     * check if fromcountry and to country are from the same player
-     * @param fromCountry
-     * @param toCountry
-     * @return Integer
-     */
-    public Integer checkSamePlayer(String fromCountry,String toCountry){
-        GamePlayerService gamePlayerService = new GamePlayerService();
-        Integer flagFrom  = gamePlayerService.fromWhichPlayer(fromCountry);
-        Integer flagTo  = gamePlayerService.fromWhichPlayer(toCountry);
-        if(flagFrom==-1||flagTo==-1){
-            return 0;
-        }else if(flagFrom.toString().equals(flagTo.toString())){
-            return 1;
-        }else{
-            return 2;
-        }
-    }
+    }*/
 
     /**
      * check at the moment which player should take action
