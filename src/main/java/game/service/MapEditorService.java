@@ -353,6 +353,9 @@ public class MapEditorService {
      * @return boolean
      */
     public boolean checkIfConnected(LinkedHashMap<Country, Set<Country>> adjacentCountries) {
+        if(adjacentCountries.keySet().size()==1){
+            return false;
+        }
         Integer start = 0;
         for (Country country : adjacentCountries.keySet()) {
             start = country.getId();
