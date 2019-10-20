@@ -99,7 +99,7 @@ public class GamePlayerServiceTest {
     }
 
     /**
-     * place one army to a country by countryname test
+     * place one army to a country by country name test
      */
     @Test
     public void placeOneTest(){

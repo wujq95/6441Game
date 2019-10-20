@@ -5,6 +5,9 @@ import service.MapEditorService;
 
 import java.util.*;
 
+/**
+ * Countries variables and basic methods
+ */
 public class Country {
 
     Integer id;
@@ -270,7 +273,7 @@ public class Country {
     /**
      * According to the continent Name to find required continent
      * @param continentName continent name
-     * @return null
+     * @return null or continent
      */
     private Continent findContinentByName(String continentName) {
         for (Continent continent : MapEditorService.mapGraph.getContinentList()) {

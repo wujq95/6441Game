@@ -12,9 +12,9 @@ public class FortifyService {
     static Integer playerNum = 0;
     /**
      * Fortify Action
-     * @param fromCountry string
-     * @param toCountry string
-     * @param num string
+     * @param fromCountry From Country Name
+     * @param toCountry To Country Name
+     * @param num Number
      * @return Message
      */
     public String fortify(String fromCountry, String toCountry, String num){
@@ -72,6 +72,10 @@ public class FortifyService {
         return "fortify none success";
     }
 
+    /**
+     * Check player's turn
+     * @return true or false
+     */
     public boolean checkStop(){
         boolean flag=false;
         if(playerNum>=GamePlayerService.playerList.size()){
@@ -82,8 +86,8 @@ public class FortifyService {
 
     /**
      * check the country if from which player
-     * @param countryName
-     * @return Integer
+     * @param countryName country name
+     * @return True of False
      */
     public boolean checkPlayer(String countryName){
 

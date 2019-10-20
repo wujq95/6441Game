@@ -13,8 +13,8 @@ public class ReinforceService {
 
     /**
      * Reinforce Phase Action
-     * @param countryName string
-     * @param num string
+     * @param countryName country name
+     * @param num Reinforced Army Value
      * @return Message
      */
     public String reinforce(String countryName, String num) {

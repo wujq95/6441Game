@@ -3,6 +3,9 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Game player class stored player's attributes and related methods
+ */
 public class GamePlayer {
     /**
      * Default Constructor
@@ -56,7 +59,7 @@ public class GamePlayer {
 
     /**
      * Get CountryList
-     * @return country list
+     * @return country country list
      */
     public List<Country> getCountryList() {
         return countryList;
@@ -70,6 +73,9 @@ public class GamePlayer {
         this.countryList = countryList;
     }
 
+    /**
+     * Initial variables
+     */
     String playerName;
     Integer armyValue;
     List<Country> countryList = new ArrayList<Country>();

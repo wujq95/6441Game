@@ -7,7 +7,7 @@ public class CommandService {
     /**
      * Prompt Command into console
      *
-     * @param inputCommand string
+     * @param inputCommand Commands
      * @return Message
      */
     public String processCommand(String inputCommand) {

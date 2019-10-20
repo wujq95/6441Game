@@ -27,7 +27,7 @@ public class MapEditorService {
     /**
      * Edit Continent
      *
-     * @param continentNameList string
+     * @param continentNameList Continent name list
      * @return message
      */
     String editContinent(String[] continentNameList) {
@@ -51,7 +51,7 @@ public class MapEditorService {
     /**
      * Edit Country
      *
-     * @param countryName string
+     * @param countryName country name
      * @return message
      */
     String editCountry(String[] countryName) {
@@ -75,7 +75,7 @@ public class MapEditorService {
     /**
      * Edit Neighbor
      *
-     * @param countryName string
+     * @param countryName country name
      * @return message
      */
     String editNeighbor(String[] countryName) {
@@ -129,7 +129,7 @@ public class MapEditorService {
     /**
      * edit map
      *
-     * @param fileName string
+     * @param fileName filename for stored map
      * @return message
      */
     public String editMap(String fileName) {
@@ -300,7 +300,7 @@ public class MapEditorService {
     /**
      * Map Validation
      *
-     * @return boolean
+     * @return True or False
      */
     public boolean validateMap() {
         //1. duplicate country names
@@ -349,8 +349,8 @@ public class MapEditorService {
     /**
      * Check adjacent country with each other
      *
-     * @param adjacentCountries
-     * @return boolean
+     * @param adjacentCountries neighbor of countries
+     * @return true of false
      */
     public boolean checkIfConnected(LinkedHashMap<Country, Set<Country>> adjacentCountries) {
         if(adjacentCountries.keySet().size()==1){
@@ -403,7 +403,7 @@ public class MapEditorService {
     /**
      * Save Map
      *
-     * @param fileName
+     * @param fileName Saved map filename
      * @return message
      */
     public String saveMap(String fileName) {
@@ -497,8 +497,8 @@ public class MapEditorService {
     /**
      * Find required Country by searching name
      *
-     * @param countryName string
-     * @return country
+     * @param countryName country name
+     * @return country object
      */
     private Country findCountryByName(String countryName) {
         for (Country country : mapGraph.getCountryList()) {

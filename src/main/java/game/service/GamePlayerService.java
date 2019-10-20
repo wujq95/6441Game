@@ -199,7 +199,7 @@ public class GamePlayerService {
 
     /**
      * place one army from the player to a country
-     * @param countryName string
+     * @param countryName Country Name
      * @return Message
      */
     public String placeOneArmy(String countryName){
@@ -288,7 +288,7 @@ public class GamePlayerService {
         return "calculate reinforce number success:";
     }
 
-    /**
+    /*
      * check if all armies have been put on the country
      * @return boolean
 

@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Continent class stored countries variables and related methods of countries' actions
+ */
 public class Continent {
     Integer id;
 
