@@ -265,30 +265,34 @@ public class GamePlayerService {
     public String calReinArmyNum(){
 
         GamePlayer player = playerList.get(ReinforceService.playerNum);
-        List<Country> countryList = player.getCountryList();
-        Integer countryNum = (int)Math.floor(countryList.size()/3);
+        if(player.getArmyValue()==0) {
+            List<Country> countryList = player.getCountryList();
+            Integer countryNum = (int) Math.floor(countryList.size() / 3);
 
-        List<Continent> continentList =  MapEditorService.mapGraph.getContinentList();
-        Integer continentNum = 0;
-        for(Continent continent:continentList){
-            boolean flag = true;
-            for(Country country:continent.getCountries()){
-                if (!country.getPlayer().getPlayerName().equals(player.getPlayerName())){
-                    flag =false;
+            List<Continent> continentList = MapEditorService.mapGraph.getContinentList();
+            Integer continentNum = 0;
+            for (Continent continent : continentList) {
+                boolean flag = true;
+                for (Country country : continent.getCountries()) {
+                    if (!country.getPlayer().getPlayerName().equals(player.getPlayerName())) {
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    continentNum++;
                 }
             }
-            if(flag){
-                continentNum++;
-            }
-        }
-        Integer newPlayerArmyValue = player.getArmyValue()+countryNum+continentNum+3;
-        player.setArmyValue(newPlayerArmyValue);
+            Integer newPlayerArmyValue = player.getArmyValue() + countryNum + continentNum + 3;
+            player.setArmyValue(newPlayerArmyValue);
 
-        return "calculate reinforce number success:"+"\n"
-                +"country number: round down("+countryList.size()+"\\3)="+countryNum+"\n"
-                +"continent number:"+continentNum+"\n"
-                +"normal addition:3\n"
-                +"total:"+newPlayerArmyValue;
+            return "calculate reinforce number success:" + "\n"
+                    + "country number: round down(" + countryList.size() + "\\3)=" + countryNum + "\n"
+                    + "continent number:" + continentNum + "\n"
+                    + "normal addition:3\n"
+                    + "total:" + newPlayerArmyValue;
+        }else{
+            return "wrong syntax";
+        }
     }
 
     /*
