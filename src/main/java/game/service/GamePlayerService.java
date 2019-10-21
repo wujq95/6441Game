@@ -279,17 +279,23 @@ public class GamePlayerService {
                     }
                 }
                 if (flag) {
-                    continentNum++;
+                    continentNum = continentNum+continent.getArmyValue();
                 }
             }
-            Integer newPlayerArmyValue = player.getArmyValue() + countryNum + continentNum + 3;
-            player.setArmyValue(newPlayerArmyValue);
-
-            return "calculate reinforce number success:" + "\n"
-                    + "country number: round down(" + countryList.size() + "\\3)=" + countryNum + "\n"
-                    + "continent number:" + continentNum + "\n"
-                    + "normal addition:3\n"
-                    + "total:" + newPlayerArmyValue;
+            Integer newPlayerArmyValue  =0;
+            if(continentNum>0){
+                newPlayerArmyValue =  player.getArmyValue()+continentNum ;
+                player.setArmyValue(newPlayerArmyValue);
+                return "calculate reinforce number success: " +newPlayerArmyValue+ "\n"
+                        + "continent value:" + continentNum + "\n";
+            }else{
+                newPlayerArmyValue = player.getArmyValue() + Math.max(countryNum,3);
+                player.setArmyValue(newPlayerArmyValue);
+                return "calculate reinforce number success: " +newPlayerArmyValue+ "\n"
+                        + "no continent value!"+ "\n"
+                        + "country number: round down(" + countryList.size() + "\\3)=" + countryNum + "\n"
+                        + "normal addition:3\n";
+            }
         }else{
             return "wrong syntax";
         }
