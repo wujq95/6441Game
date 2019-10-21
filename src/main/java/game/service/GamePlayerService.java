@@ -284,7 +284,6 @@ public class GamePlayerService {
         Integer newPlayerArmyValue = player.getArmyValue()+countryNum+continentNum+3;
         player.setArmyValue(newPlayerArmyValue);
 
-        //TO DO:after dividing player, return message includes every part message
         return "calculate reinforce number success:"+"\n"
                 +"country number: round down("+countryList.size()+"\\3)="+countryNum+"\n"
                 +"continent number:"+continentNum+"\n"

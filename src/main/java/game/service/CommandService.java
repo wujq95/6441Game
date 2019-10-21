@@ -62,9 +62,14 @@ public class CommandService {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = gamePlayerService.gamePlayerAction(arguments);
         } else if (inputCommand.startsWith("populatecountries")) {
-            String populateReturnMsg = gamePlayerService.populateCountries();
-            String alloReturnMsg = gamePlayerService.alloInitialArmy();
-            commandReturnMsg = populateReturnMsg + " " + alloReturnMsg;
+            boolean flag = gamePlayerService.checkPlayerNum();
+            if(flag){
+                String populateReturnMsg = gamePlayerService.populateCountries();
+                String alloReturnMsg = gamePlayerService.alloInitialArmy();
+                commandReturnMsg = populateReturnMsg + " " + alloReturnMsg;
+            }else{
+                commandReturnMsg = "Inappropriate player number";
+            }
         } else if (inputCommand.startsWith("placearmy")) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = gamePlayerService.placeOneArmy(arguments[1]);
