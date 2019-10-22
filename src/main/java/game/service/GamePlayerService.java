@@ -191,7 +191,6 @@ public class GamePlayerService {
         for(GamePlayer player:playerList){
             player.setArmyValue(initialArmies);
         }
-
         for(GamePlayer player:playerList){
             if(player.getArmyValue()>player.getCountryList().size()){
                 player.setArmyValue((player.getArmyValue()-player.getCountryList().size()));

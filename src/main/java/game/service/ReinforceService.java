@@ -22,7 +22,6 @@ public class ReinforceService {
         if (reinArmyValue<0){
             return "reinforce number can be negative";
         }else {
-
             int flag = 0;
             for (int j = 0; j < GamePlayerService.playerList.get(playerNum).getCountryList().size(); j++) {
                 if ((countryName).equals(GamePlayerService.playerList.get(playerNum).getCountryList().get(j).getCountryName())) {
