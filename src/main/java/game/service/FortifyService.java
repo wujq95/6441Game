@@ -3,7 +3,9 @@ package service;
 import model.Country;
 import model.GamePlayer;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * service class for fortify phase
@@ -33,21 +35,26 @@ public class FortifyService {
                 flag = 1;
                 if(flag2){
                     flag=2;
-                    for(int i=0;i<countryList.size();i++){
-                        if(toCountry.equals(countryList.get(i).getCountryName())) {
-                            for (int j = 0; j < countryList.size(); j++) {
-                                if (fromCountry.equals(countryList.get(j).getCountryName())) {
-                                    if (countryList.get(j).getArmyValue() < fortifyArmyValue+1) {
-                                        flag = 3;
-                                    }else{
-                                        Integer newFromCountry = countryList.get(j).getArmyValue() - fortifyArmyValue;
-                                        Integer newToCountry =countryList.get(i).getArmyValue() + fortifyArmyValue;
-                                        MapEditorService.mapGraph.getCountryList().get(j).setArmyValue(newFromCountry);
-                                        MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(newToCountry);
+                    boolean flag3= checkConnected(fromCountry,toCountry);
+                    if(flag3){
+                        for(int i=0;i<countryList.size();i++){
+                            if(toCountry.equals(countryList.get(i).getCountryName())) {
+                                for (int j = 0; j < countryList.size(); j++) {
+                                    if (fromCountry.equals(countryList.get(j).getCountryName())) {
+                                        if (countryList.get(j).getArmyValue() < fortifyArmyValue+1) {
+                                            flag = 3;
+                                        }else{
+                                            Integer newFromCountry = countryList.get(j).getArmyValue() - fortifyArmyValue;
+                                            Integer newToCountry =countryList.get(i).getArmyValue() + fortifyArmyValue;
+                                            MapEditorService.mapGraph.getCountryList().get(j).setArmyValue(newFromCountry);
+                                            MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(newToCountry);
+                                        }
                                     }
                                 }
                             }
                         }
+                    }else{
+                        flag = 4;
                     }
                 }
             }
@@ -57,6 +64,8 @@ public class FortifyService {
                 return "to Country name can not be found";
             }else if(flag==3){
                 return "the army value of the form country is not enough";
+            }else if(flag==4){
+                return "two countries are not connected";
             }else {
                 return "fortify success";
             }
@@ -99,6 +108,23 @@ public class FortifyService {
         for(int j=0;j<GamePlayerService.playerList.get(playerNum).getCountryList().size();j++){
             if(countryName.equals(GamePlayerService.playerList.get(playerNum).getCountryList().get(j).getCountryName())){
                 flag=true;
+            }
+        }
+        return flag;
+    }
+
+    public boolean checkConnected(String fromCountry,String toCountry){
+        boolean flag =false;
+        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
+            if(fromCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+                Set<Country> countryList = MapEditorService.mapGraph.getCountryList().get(i).getNeighbours();
+                Iterator it = countryList.iterator();
+                while(it.hasNext()){
+                    Country cc= (Country) it.next();
+                    if(cc.getCountryName().equals(toCountry)){
+                        flag=true;
+                    }
+                }
             }
         }
         return flag;
