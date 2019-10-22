@@ -35,41 +35,9 @@
       <AnchorPane fx:id="mapPane" prefHeight="600.0" />
       <AnchorPane fx:id="actionPane" prefHeight="300.0" style="-fx-background-color: lightGray;">
          <children>
-            <Button fx:id="addContinentBtn" layoutX="377.0" layoutY="14.0" mnemonicParsing="false" onAction="#addContinent" prefHeight="27.0" prefWidth="120.0" text="Add Continent" AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="10.0" />
-            <Button fx:id="addCountryBtn" layoutX="377.0" layoutY="67.0" mnemonicParsing="false" onAction="#addCountry" prefHeight="27.0" prefWidth="120.0" text="Add Country" AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="45.0" />
-            <TextField fx:id="continentNameR1" layoutX="14.0" layoutY="14.0" promptText="Continent Name" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="10.0" />
-            <TextField fx:id="continentValueR1" layoutX="194.0" layoutY="14.0" promptText="Continent Value" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="10.0" />
-            <TextField fx:id="countryNameR2" layoutX="14.0" layoutY="67.0" promptText="Country Name" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="45.0" />
-            <TextField fx:id="continentNameR2" layoutX="194.0" layoutY="67.0" promptText="Continent Name" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="45.0" />
-            <TextField fx:id="countryNameR3" layoutX="14.0" layoutY="123.0" promptText="Country Name" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="80.0" />
-            <TextField fx:id="neighborCountryNameR3" layoutX="194.0" layoutY="123.0" promptText="Neighbor Country Name" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="80.0" />
-            <Button fx:id="addConnectionBtn" layoutX="377.0" layoutY="123.0" mnemonicParsing="false" onAction="#addConnection" prefHeight="27.0" prefWidth="120.0" text="Add Connection" AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="80.0" />
-            <Separator layoutX="506.0" layoutY="-7.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="680.0" AnchorPane.topAnchor="0.0" />
-            <Button fx:id="deleteContinentBtn1" layoutX="506.0" layoutY="15.0" mnemonicParsing="false" onAction="#deleteContinent" prefHeight="27.0" prefWidth="140.0" text="Delete Continent" AnchorPane.leftAnchor="520.0" AnchorPane.topAnchor="10.0" />
-            <Button fx:id="deleteCountryBtn1" layoutX="506.0" layoutY="70.0" mnemonicParsing="false" onAction="#deleteCountry" prefHeight="27.0" prefWidth="140.0" text="Delete Country" AnchorPane.leftAnchor="520.0" AnchorPane.topAnchor="45.0" />
-            <Button fx:id="deleteConnectionBtn1" layoutX="506.0" layoutY="125.0" mnemonicParsing="false" onAction="#deleteConnection" prefHeight="27.0" prefWidth="140.0" text="Delete Connection" AnchorPane.leftAnchor="520.0" AnchorPane.topAnchor="80.0" />
-            <TextArea fx:id="commandLine" layoutX="692.0" layoutY="19.0" onKeyReleased="#detectEnter" prefHeight="80.0" prefWidth="200.0" promptText="Type your command here" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="690.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-            <TextField fx:id="playerNameInput" layoutX="15.0" layoutY="131.0" promptText="Game Player Name" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="115.0" />
-            <Button layoutX="200.0" layoutY="115.0" mnemonicParsing="false" onAction="#addPlayer" text="Add" />
-            <Button layoutX="255.0" layoutY="115.0" mnemonicParsing="false" onAction="#deletePlayer" text="Delete" />
-            <Button layoutX="385.0" layoutY="115.0" mnemonicParsing="false" onAction="#populateCountries" prefHeight="27.0" prefWidth="120.0" text="Populate Countries" AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="115.0">
-               <font>
-                  <Font size="11.0" />
-               </font>
-            </Button>
-            <Label layoutX="15.0" layoutY="150.0" prefHeight="27.0" prefWidth="167.0" text="Player Name: " textAlignment="RIGHT" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="150.0" />
-            <TextField layoutX="201.0" layoutY="145.0" promptText="Country Name" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="150.0" />
-            <Button layoutX="385.0" layoutY="150.0" mnemonicParsing="false" onAction="#placeArmy" prefHeight="27.0" prefWidth="120.0" text="Place Army" AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="150.0" />
-            <Button layoutX="520.0" layoutY="150.0" mnemonicParsing="false" onAction="#placeAll" prefHeight="27.0" prefWidth="140.0" text="Place All" AnchorPane.leftAnchor="520.0" AnchorPane.topAnchor="150.0" />
-            <TextField fx:id="reinforceNum" layoutX="200.0" layoutY="191.0" prefHeight="27.0" prefWidth="167.0" promptText="Num" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="185.0" />
-            <TextField fx:id="reinforceCountryName" layoutX="15.0" layoutY="191.0" promptText="Country Name" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="185.0" />
-            <Button layoutX="385.0" layoutY="191.0" mnemonicParsing="false" onAction="#reinforce" prefHeight="27.0" prefWidth="120.0" text="Reinforce" AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="185.0" />
-            <TextField fx:id="fortifyFrom" layoutX="15.0" layoutY="231.0" promptText="From Country" AnchorPane.topAnchor="220.0" />
-            <TextField fx:id="fortifyTo" layoutX="200.0" layoutY="231.0" promptText="To Country" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="220.0" />
-            <TextField fx:id="fortifyNum" layoutX="385.0" layoutY="231.0" prefHeight="27.0" prefWidth="77.0" promptText="Num" AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="220.0" />
-            <Button layoutX="475.0" layoutY="231.0" mnemonicParsing="false" onAction="#fortify" prefHeight="27.0" prefWidth="77.0" text="Fortify" AnchorPane.leftAnchor="475.0" AnchorPane.topAnchor="220.0" />
-            <Button layoutX="566.0" layoutY="231.0" mnemonicParsing="false" onAction="#fortifyNone" text="Fortify None" AnchorPane.topAnchor="220.0" />
-            <TextArea fx:id="infoTextView" layoutX="690.0" layoutY="99.0" prefHeight="200.0" prefWidth="200.0" promptText="Console Info" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="690.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0" />
+            <TextArea fx:id="commandLine" layoutX="20.0" layoutY="14.0" onKeyReleased="#detectEnter" prefHeight="80.0" prefWidth="680.0" promptText="Type your command here" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="800.0" AnchorPane.topAnchor="14.0" />
+            <TextArea fx:id="infoTextView" layoutX="20.0" layoutY="96.0" prefHeight="160.0" prefWidth="680.0" promptText="Console Info" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="800.0" AnchorPane.topAnchor="100.0" />
+            <Separator layoutX="712.0" layoutY="14.0" orientation="VERTICAL" prefHeight="261.0" prefWidth="0.0" />
          </children>
       </AnchorPane>
    </children>
