@@ -159,6 +159,9 @@ public class GamePlayerService {
             playerList.get(i%playerNum).setCountryList(playerCountryList);
             MapEditorService.mapGraph.getCountryList().get(i).setPlayer(playerList.get(i%playerNum));
         }
+        for(Country country:MapEditorService.mapGraph.getCountryList()){
+            country.setArmyValue(1);
+        }
         return "popilatecountries success and ";
     }
 
