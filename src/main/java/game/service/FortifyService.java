@@ -113,6 +113,12 @@ public class FortifyService {
         return flag;
     }
 
+    /**
+     * check if fortify countries are connected
+     * @param fromCountry
+     * @param toCountry
+     * @return
+     */
     public boolean checkConnected(String fromCountry,String toCountry){
         boolean flag =false;
         for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
