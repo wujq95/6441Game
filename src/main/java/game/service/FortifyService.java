@@ -1,6 +1,7 @@
 package service;
 
 import model.Country;
+import model.GamePlayer;
 
 import java.util.List;
 
@@ -68,7 +69,10 @@ public class FortifyService {
      */
     public String fortifyNone(){
         playerNum++;
-        checkStop();
+        boolean flag  =checkStop();
+        if(flag){
+            GamePlayerService.checkPhase++;
+        }
         return "fortify none success";
     }
 
