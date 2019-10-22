@@ -36,38 +36,10 @@ public class MapGraph {
 
     /**
      * notify the map observer
-     *
-     * @param action via different actions, the observer will call different update
-     * @param object pass different types of object the corresponding update() method needed
      */
-    public void notifyObservers(String action, Object object) {
+    public void notifyObservers() {
         for (Observer observer : mapObservers) {
-            switch (action) {
-                case "add continent":
-                    observer.updateMapGraph();
-                    break;
-                case "delete continent":
-                    observer.updateMapGraph();
-                    //observer.updateContinentList("add", (Continent) object);
-                    break;
-                case "add country":
-                    //FORCE update
-                    observer.updateCountry("add", (Country) object);
-                    break;
-                case "delete country":
-                    //observer.updateCountry("delete", (Country) object);
-                    observer.updateMapGraph();
-                    break;
-                case "add connection":
-                    //observer.updateConnection("add", (Connection) object);
-                    observer.updateMapGraph();
-                    break;
-                case "delete connection":
-                    //observer.updateConnection("delete", (Connection) object);
-                    //observer.updateCountry("delete", (Country) object);
-                    observer.updateMapGraph();
-                    break;
-            }
+            observer.updateMapGraph();
         }
     }
 
@@ -118,7 +90,7 @@ public class MapGraph {
     public void addContinent(String continentName, Integer armyValue, Color color) {
         Continent continent = new Continent(continentName, armyValue, color);
         continentList.add(continent);
-        notifyObservers("add continent", this);
+        notifyObservers();
     }
 
     /**
@@ -132,7 +104,7 @@ public class MapGraph {
 
         Continent continent = new Continent(continentName, 99, color);
         MapEditorService.mapGraph.continentList.add(continent);
-        notifyObservers("add continent", continent);
+        notifyObservers();
     }
 
     /**
@@ -155,7 +127,7 @@ public class MapGraph {
             }
         }
 
-        notifyObservers("delete continent", continentName);
+        notifyObservers();
     }
 
     /**
@@ -181,7 +153,8 @@ public class MapGraph {
                 country = new Country(countryName, continentName, countryList.get(countryList.size() - 1).getId() + 1);
             }
 
-            notifyObservers("add country", country);
+            notifyObservers();
+
             MapEditorService.mapGraph.countryList.add(country);
             MapEditorService.mapGraph.adjacentCountries.put(country, new HashSet<>());
             for (int i = 0; i < continentList.size(); i++) {
@@ -231,7 +204,7 @@ public class MapGraph {
         }
 
         Country country = new Country(countryName);
-        notifyObservers("delete country", country);
+        notifyObservers();
     }
 
     /**
@@ -248,9 +221,7 @@ public class MapGraph {
 
         connectionList.add(connection);
         connectionList.add(reverseconnection);
-
-        notifyObservers("add connection", connection);
-        notifyObservers("add connection", reverseconnection);
+        notifyObservers();
     }
 
     /**
@@ -267,7 +238,7 @@ public class MapGraph {
             if ((connection.getCountry1().countryName.equals(countryName1) && connection.getCountry2().countryName.equals(countryName2))
                     || ((connection.getCountry1().countryName.equals(countryName2) && connection.getCountry2().countryName.equals(countryName1)))) {
                 iterator.remove();
-                notifyObservers("delete connection", connection);
+                notifyObservers();
             }
         }
 
@@ -440,7 +411,7 @@ public class MapGraph {
             Connection connection = iterator.next();
             if (connection.getCountry1().getCountryName().equals(countryName) || connection.getCountry2().getCountryName().equals(countryName)) {
                 iterator.remove();
-                notifyObservers("delete connection", connection);
+                notifyObservers();
             }
         }
     }

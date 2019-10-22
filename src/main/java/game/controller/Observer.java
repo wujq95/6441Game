@@ -1,7 +1,5 @@
 package controller;
 
-import model.Connection;
-import model.Continent;
 import model.Country;
 import model.MapGraph;
 
