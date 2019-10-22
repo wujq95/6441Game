@@ -245,13 +245,18 @@ public class GamePlayerService {
         Integer t =checkWhichPlayer();
         GamePlayer player = playerList.get(t);
         Integer remainPlayerArmyValue = player.getArmyValue();
-        List<Country> countryList = MapEditorService.mapGraph.getCountryList();
+        List<Country> playerCountryList = player.getCountryList();
+        List<Country> mapCountryList = MapEditorService.mapGraph.getCountryList();
         if(remainPlayerArmyValue>0){
             for(int i=0;i<remainPlayerArmyValue;i++){
-                Integer index = (int)(Math.random()*countryList.size());
-                Integer newCountryArmyValue = countryList.get(index).getArmyValue()+1;
-                MapEditorService.mapGraph.getCountryList().get(index).setArmyValue(newCountryArmyValue);
-                player.setArmyValue(player.getArmyValue()-1);
+                Integer index = (int)(Math.random()*playerCountryList.size());
+                for(int j=0;j<mapCountryList.size();j++){
+                    if((playerCountryList.get(index).getCountryName()).equals(mapCountryList.get(j).getCountryName())){
+                        Integer newCountryArmyValue = mapCountryList.get(j).getArmyValue()+1;
+                        MapEditorService.mapGraph.getCountryList().get(j).setArmyValue(newCountryArmyValue);
+                        player.setArmyValue(player.getArmyValue()-1);
+                    }
+                }
             }
         }
         nextPhase();
