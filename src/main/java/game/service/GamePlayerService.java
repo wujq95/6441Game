@@ -265,27 +265,40 @@ public class GamePlayerService {
     public String calReinArmyNum(){
 
         GamePlayer player = playerList.get(ReinforceService.playerNum);
-        List<Country> countryList = player.getCountryList();
-        Integer countryNum = (int)Math.floor(countryList.size()/3);
+        if(player.getArmyValue()==0) {
+            List<Country> countryList = player.getCountryList();
+            Integer countryNum = (int) Math.floor(countryList.size() / 3);
 
-        List<Continent> continentList =  MapEditorService.mapGraph.getContinentList();
-        Integer continentNum = 0;
-        for(Continent continent:continentList){
-            boolean flag = true;
-            for(Country country:continent.getCountries()){
-                if (!country.getPlayer().getPlayerName().equals(player.getPlayerName())){
-                    flag =false;
+            List<Continent> continentList = MapEditorService.mapGraph.getContinentList();
+            Integer continentNum = 0;
+            for (Continent continent : continentList) {
+                boolean flag = true;
+                for (Country country : continent.getCountries()) {
+                    if (!country.getPlayer().getPlayerName().equals(player.getPlayerName())) {
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    continentNum = continentNum+continent.getArmyValue();
                 }
             }
-            if(flag){
-                continentNum++;
+            Integer newPlayerArmyValue  =0;
+            if(continentNum>0){
+                newPlayerArmyValue =  player.getArmyValue()+continentNum ;
+                player.setArmyValue(newPlayerArmyValue);
+                return "calculate reinforce number success: " +newPlayerArmyValue+ "\n"
+                        + "continent value:" + continentNum + "\n";
+            }else{
+                newPlayerArmyValue = player.getArmyValue() + Math.max(countryNum,3);
+                player.setArmyValue(newPlayerArmyValue);
+                return "calculate reinforce number success: " +newPlayerArmyValue+ "\n"
+                        + "no continent value!"+ "\n"
+                        + "country number: round down(" + countryList.size() + "\\3)=" + countryNum + "\n"
+                        + "normal addition:3\n";
             }
+        }else{
+            return "wrong syntax";
         }
-        Integer newPlayerArmyValue = player.getArmyValue()+countryNum+continentNum+3;
-        player.setArmyValue(newPlayerArmyValue);
-
-        //TO DO:after dividing player, return message includes every part message
-        return "calculate reinforce number success:";
     }
 
     /*
