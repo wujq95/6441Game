@@ -34,10 +34,13 @@ public class MapEditorService {
         // editcontinent -add name value -add name2 value2 -add name3 value3
         for (int i = 1; i < continentNameList.length; i++) {
             if (continentNameList[i].equals("-add")) {
-
                 String continentName = continentNameList[i + 1];
                 Integer continentValue = Integer.parseInt(continentNameList[i + 2]);
                 Color continentColor = colorPicker.pickOneColor();
+
+                if (continentValue <= 0) {
+                    return "continentvalue is not valid";
+                }
 
                 mapGraph.addContinent(continentName, continentValue, continentColor);
             } else if (continentNameList[i].equals("-remove")) {
@@ -353,7 +356,7 @@ public class MapEditorService {
      * @return true of false
      */
     public boolean checkIfConnected(LinkedHashMap<Country, Set<Country>> adjacentCountries) {
-        if(adjacentCountries.keySet().size()==1){
+        if (adjacentCountries.keySet().size() == 1) {
             return false;
         }
         Integer start = 0;

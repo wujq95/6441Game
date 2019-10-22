@@ -84,8 +84,8 @@ public class MapGraph {
      * Add new Continent
      *
      * @param continentName continent name
-     * @param armyValue number of army
-     * @param color selected color
+     * @param armyValue     number of army
+     * @param color         selected color
      */
     public void addContinent(String continentName, Integer armyValue, Color color) {
         Continent continent = new Continent(continentName, armyValue, color);
@@ -96,9 +96,9 @@ public class MapGraph {
     /**
      * validate the continent and add it to map
      *
-     * @param continentName continent name
+     * @param continentName  continent name
      * @param continentValue continent Id
-     * @param color color
+     * @param color          color
      */
     public void addContinent(String continentName, String continentValue, Color color) {
 
@@ -154,6 +154,7 @@ public class MapGraph {
             }
 
             notifyObservers();
+
             MapEditorService.mapGraph.countryList.add(country);
             MapEditorService.mapGraph.adjacentCountries.put(country, new HashSet<>());
             for (int i = 0; i < continentList.size(); i++) {
@@ -183,7 +184,6 @@ public class MapGraph {
      * @param countryName Country Name
      */
     public void deleteCountry(String countryName) {
-        deleteCountryfromConnectionList(countryName);
         List<Country> countryList = MapEditorService.mapGraph.countryList;
         for (int i = 0; i < countryList.size(); i++) {
             if (countryName.equals(countryList.get(i).getCountryName())) {
@@ -217,8 +217,10 @@ public class MapGraph {
         Country country1 = findCountryByName(countryName1);
         Country country2 = findCountryByName(countryName2);
         Connection connection = new Connection(country1, country2);
+        Connection reverseconnection = new Connection(country2, country1);
 
         connectionList.add(connection);
+        connectionList.add(reverseconnection);
         notifyObservers();
     }
 
@@ -230,15 +232,16 @@ public class MapGraph {
      */
     public boolean deleteConnection(String countryName1, String countryName2) {
         boolean flag = false;
-        int i = 0;
-        for (; i < connectionList.size(); i++) {
-            if (connectionList.get(i).getCountry1().countryName.equals(countryName1) && connectionList.get(i).getCountry2().countryName.equals(countryName2)) {
-                Connection connection = connectionList.get(i);
-                connectionList.remove(i);
+
+        for (Iterator<Connection> iterator = MapEditorService.mapGraph.connectionList.iterator(); iterator.hasNext(); ) {
+            Connection connection = iterator.next();
+            if ((connection.getCountry1().countryName.equals(countryName1) && connection.getCountry2().countryName.equals(countryName2))
+                    || ((connection.getCountry1().countryName.equals(countryName2) && connection.getCountry2().countryName.equals(countryName1)))) {
+                iterator.remove();
                 notifyObservers();
-                flag = true;
             }
         }
+
         return flag;
     }
 
@@ -371,6 +374,7 @@ public class MapGraph {
      */
     private void deleteCountryfromAdjacentCountries(Country country) {
         MapEditorService.mapGraph.adjacentCountries.remove(country);
+        deleteCountryfromConnectionList(country.getCountryName());
         for (Map.Entry<Country, Set<Country>> entry : MapEditorService.mapGraph.adjacentCountries.entrySet()) {
             if (entry.getValue().contains(country)) {
                 Set<Country> updatedNeighborCountries = entry.getValue();
@@ -398,13 +402,15 @@ public class MapGraph {
     }
 
     /**
-     *  Delete Country From Connected countries lists
+     * Delete Country From Connected countries lists
+     *
      * @param countryName country Name
      */
     private void deleteCountryfromConnectionList(String countryName) {
-        for (Connection connection : MapEditorService.mapGraph.connectionList) {
+        for (Iterator<Connection> iterator = MapEditorService.mapGraph.connectionList.iterator(); iterator.hasNext(); ) {
+            Connection connection = iterator.next();
             if (connection.getCountry1().getCountryName().equals(countryName) || connection.getCountry2().getCountryName().equals(countryName)) {
-                connectionList.remove(connection);
+                iterator.remove();
                 notifyObservers();
             }
         }
