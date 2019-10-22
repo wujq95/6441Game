@@ -14,7 +14,7 @@ public class GamePlayerService {
 
     public static List<GamePlayer> playerList = new ArrayList<GamePlayer>();
     public static int choosePlayer = -1;
-    public static int checkPhase = 1;
+    public static int checkPhase = 0;
 
     /**
      * check if player name is suitable for the game
@@ -34,6 +34,8 @@ public class GamePlayerService {
      * @return Message
      */
     public String gamePlayerAction(String[] arguments){
+
+        checkPhase = 1;
 
         List<String> addPlayerNameList = new ArrayList<String>();
         List<String> removePlayerNameList = new ArrayList<String>();
