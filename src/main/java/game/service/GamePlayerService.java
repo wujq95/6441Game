@@ -159,9 +159,7 @@ public class GamePlayerService {
             playerList.get(i%playerNum).setCountryList(playerCountryList);
             MapEditorService.mapGraph.getCountryList().get(i).setPlayer(playerList.get(i%playerNum));
         }
-        for(Country country:MapEditorService.mapGraph.getCountryList()){
-            country.setArmyValue(1);
-        }
+
         return "popilatecountries success and ";
     }
 
@@ -192,6 +190,20 @@ public class GamePlayerService {
 
         for(GamePlayer player:playerList){
             player.setArmyValue(initialArmies);
+        }
+
+        for(GamePlayer player:playerList){
+            if(player.getArmyValue()>player.getCountryList().size()){
+                player.setArmyValue((player.getArmyValue()-player.getCountryList().size()));
+                for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
+                    for(int j=0;j<player.getCountryList().size();j++){
+                        if((player.getCountryList().get(j).getCountryName()).equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+                            MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(1);
+                        }
+                    }
+                }
+            }
+
         }
         if(flag){
             return "player number wrong!";
