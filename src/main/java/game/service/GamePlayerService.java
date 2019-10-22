@@ -208,6 +208,7 @@ public class GamePlayerService {
         if(flag){
             return "player number wrong!";
         }else{
+            choosePlayer=0;
             return "allocate initial army success";
         }
     }
@@ -218,14 +219,11 @@ public class GamePlayerService {
      * @return Message
      */
     public String placeOneArmy(String countryName){
-
-        Integer t  = checkWhichPlayer();
-
         int flag = 0;
-        for (int j=0;j<playerList.get(t).getCountryList().size();j++){
-            if (countryName.equals(playerList.get(t).getCountryList().get(j).getCountryName())){
+        for (int j=0;j<playerList.get(choosePlayer).getCountryList().size();j++){
+            if (countryName.equals(playerList.get(choosePlayer).getCountryList().get(j).getCountryName())){
                 flag=1;
-                Integer PlayerArmyValue  = playerList.get(t).getArmyValue();
+                Integer PlayerArmyValue  = playerList.get(choosePlayer).getArmyValue();
                 if(PlayerArmyValue==0){
                     flag = 2;
                 }else{
@@ -235,8 +233,9 @@ public class GamePlayerService {
                             country.setArmyValue(newCountryArmyValue);
                         }
                     }
-                    Integer newPlayerArmyValue=playerList.get(t).getArmyValue()-1;
-                    playerList.get(t).setArmyValue(newPlayerArmyValue);
+                    Integer newPlayerArmyValue=playerList.get(choosePlayer).getArmyValue()-1;
+                    playerList.get(choosePlayer).setArmyValue(newPlayerArmyValue);
+
                 }
             }
         }
@@ -245,7 +244,7 @@ public class GamePlayerService {
         }else if(flag ==2){
             return "the army value of the player is not enough";
         }else{
-            nextPhase();
+            changeIndexPlayer();
             return "place one army success";
         }
 
@@ -255,21 +254,20 @@ public class GamePlayerService {
      * automatically place all armies to countries
      * @return Message
      */
-    public String placeAll(){
-
-        Integer t =checkWhichPlayer();
-        GamePlayer player = playerList.get(t);
-        Integer remainPlayerArmyValue = player.getArmyValue();
-        List<Country> playerCountryList = player.getCountryList();
-        List<Country> mapCountryList = MapEditorService.mapGraph.getCountryList();
-        if(remainPlayerArmyValue>0){
-            for(int i=0;i<remainPlayerArmyValue;i++){
-                Integer index = (int)(Math.random()*playerCountryList.size());
-                for(int j=0;j<mapCountryList.size();j++){
-                    if((playerCountryList.get(index).getCountryName()).equals(mapCountryList.get(j).getCountryName())){
-                        Integer newCountryArmyValue = mapCountryList.get(j).getArmyValue()+1;
-                        MapEditorService.mapGraph.getCountryList().get(j).setArmyValue(newCountryArmyValue);
-                        player.setArmyValue(player.getArmyValue()-1);
+    public String placeAll() {
+        for (GamePlayer player : playerList) {
+            Integer remainPlayerArmyValue = player.getArmyValue();
+            List<Country> playerCountryList = player.getCountryList();
+            List<Country> mapCountryList = MapEditorService.mapGraph.getCountryList();
+            if (remainPlayerArmyValue > 0) {
+                for (int i = 0; i < remainPlayerArmyValue; i++) {
+                    Integer index = (int) (Math.random() * playerCountryList.size());
+                    for (int j = 0; j < mapCountryList.size(); j++) {
+                        if ((playerCountryList.get(index).getCountryName()).equals(mapCountryList.get(j).getCountryName())) {
+                            Integer newCountryArmyValue = mapCountryList.get(j).getArmyValue() + 1;
+                            MapEditorService.mapGraph.getCountryList().get(j).setArmyValue(newCountryArmyValue);
+                            player.setArmyValue(player.getArmyValue() - 1);
+                        }
                     }
                 }
             }
@@ -338,16 +336,26 @@ public class GamePlayerService {
     }*/
 
     /**
-     * check at the moment which player should take action
+     * change the index of the player
      */
-    public Integer checkWhichPlayer(){
-        choosePlayer= 0;
-        for(int i=0;i<playerList.size();i++){
-            if(playerList.get(i).getArmyValue()==0){
-                choosePlayer=choosePlayer+1;
+    public void changeIndexPlayer(){
+        choosePlayer++;
+        if(choosePlayer==playerList.size()){
+            choosePlayer=0;
+        }
+        if(playerList.get(choosePlayer).getArmyValue()==0){
+            boolean flag= true;
+            for(int i=0;i<playerList.size();i++){
+                if(playerList.get(i).getArmyValue()>0){
+                    flag = false;
+                }
+            }
+            if(!flag) {
+                changeIndexPlayer();
+            }else{
+                checkPhase = 2;
             }
         }
-        return choosePlayer;
     }
 
     /**
