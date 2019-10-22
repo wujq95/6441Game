@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MapController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MapController">
    <children>
       <MenuBar>
         <menus>
@@ -35,9 +37,13 @@
       <AnchorPane fx:id="mapPane" prefHeight="600.0" />
       <AnchorPane fx:id="actionPane" prefHeight="300.0" style="-fx-background-color: lightGray;">
          <children>
-            <TextArea fx:id="commandLine" layoutX="20.0" layoutY="14.0" onKeyReleased="#detectEnter" prefHeight="80.0" prefWidth="680.0" promptText="Type your command here" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="800.0" AnchorPane.topAnchor="14.0" />
-            <TextArea fx:id="infoTextView" layoutX="20.0" layoutY="96.0" prefHeight="160.0" prefWidth="680.0" promptText="Console Info" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="800.0" AnchorPane.topAnchor="100.0" />
-            <Separator layoutX="712.0" layoutY="14.0" orientation="VERTICAL" prefHeight="261.0" prefWidth="0.0" />
+            <TextArea fx:id="commandLine" layoutX="20.0" layoutY="14.0" onKeyReleased="#detectEnter" prefHeight="80.0" prefWidth="590.0" promptText="Type your command here" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="14.0" />
+            <TextArea fx:id="infoTextView" layoutX="20.0" layoutY="96.0" prefHeight="172.0" prefWidth="590.0" promptText="Console Info" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" />
+            <Separator layoutX="712.0" layoutY="14.0" orientation="VERTICAL" prefHeight="261.0" prefWidth="0.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="620.0" AnchorPane.topAnchor="14.0" />
+            <Label layoutX="843.0" layoutY="25.0" text="Phase:" AnchorPane.leftAnchor="630.0" AnchorPane.topAnchor="14.0" />
+            <Label layoutX="843.0" layoutY="65.0" text="Current Layer:" AnchorPane.leftAnchor="630.0" AnchorPane.topAnchor="50.0" />
+            <Label fx:id="phaseLabel" layoutX="757.0" layoutY="14.0" text="None" AnchorPane.leftAnchor="750.0" AnchorPane.topAnchor="14.0" />
+            <Label fx:id="currentPlayerLabel" layoutX="750.0" layoutY="50.0" text="None" AnchorPane.leftAnchor="750.0" AnchorPane.topAnchor="50.0" />
          </children>
       </AnchorPane>
    </children>

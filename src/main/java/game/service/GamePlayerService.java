@@ -13,8 +13,8 @@ import java.util.List;
 public class GamePlayerService {
 
     public static List<GamePlayer> playerList = new ArrayList<GamePlayer>();
-    public static Integer choosePlayer;
-    public static Integer checkPhase = 1;
+    public static int choosePlayer = -1;
+    public static int checkPhase = 1;
 
     /**
      * check if player name is suitable for the game

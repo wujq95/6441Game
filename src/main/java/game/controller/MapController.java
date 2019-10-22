@@ -97,6 +97,23 @@ public class MapController{
     @FXML
     public TextArea infoTextView;
 
+    @FXML
+    public Label phaseLabel;
+
+    @FXML
+    public Label currentPlayerLabel;
+
+    private void loadGameInfo(GamePlayerService gamePlayerService){
+        int phaseNum = gamePlayerService.checkPhase;
+        if(phaseNum == 1) phaseLabel.setText("Startup Phase");
+        else if(phaseNum == 2) phaseLabel.setText("Reinforcement");
+
+        if(gamePlayerService.choosePlayer >= 0){
+            GamePlayer currentPlayer = gamePlayerService.playerList.get(gamePlayerService.choosePlayer);
+            currentPlayerLabel.setText(currentPlayer.getPlayerName());
+        }
+    }
+
     /**
      * load the mapGraph on mapPane
      * @param mGraph user interface loading map
@@ -262,6 +279,7 @@ public class MapController{
             String returnMsg = commandService.processCommand(commandStr);
             infoTextView.setText(returnMsg);
             loadMapGraph(MapEditorService.mapGraph);
+            loadGameInfo(gamePlayerService);
         }
     }
 
@@ -298,7 +316,6 @@ public class MapController{
         @Override
         public void updateMapGraph(){
             System.out.println("MapGraph Reloaded.");
-            //mapPane.getChildren().clear();
             loadMapGraph(MapEditorService.mapGraph);
         }
 
