@@ -114,7 +114,7 @@ public class MapController{
                 break;
             case 1:
                 phaseLabel.setText("Startup");
-                if(gamePlayerService.playerList.size() > 0){
+                if(gamePlayerService.playerList.size() > 0 && gamePlayerService.choosePlayer >=0 ){
                     GamePlayer currentPlayer = gamePlayerService.playerList.get(gamePlayerService.choosePlayer);
                     currentPlayerLabel.setText(currentPlayer.getPlayerName());
                 }
