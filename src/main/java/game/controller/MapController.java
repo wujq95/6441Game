@@ -326,7 +326,7 @@ public class MapController{
         // default empty graph before loaded
         this.mapGraph = new MapGraph();
         // this.mapGraphObserver = new MapGraphObserver(mapGraph);
-        this.mapGraphObserver = new MapGraphObserver(mapEditorService.mapGraph);
+        this.mapGraphObserver = new MapGraphObserver(MapEditorService.mapGraph);
     }
 
     /**
