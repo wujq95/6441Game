@@ -74,7 +74,7 @@ public class CommandService {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = gamePlayerService.placeAll();
         } else if (inputCommand.startsWith("start")) {
-            GamePlayerService.checkPhase = 1;
+            GamePlayerService.checkPhase = 2;
             commandReturnMsg = gamePlayerService.calReinArmyNum();
         } else if (inputCommand.startsWith("reinforce")) {
             GamePlayerService.checkPhase = 2;

@@ -13,7 +13,7 @@ import java.util.List;
 public class GamePlayerService {
 
     public static List<GamePlayer> playerList = new ArrayList<GamePlayer>();
-    public static Integer choosePlayer = 0;
+    public static Integer choosePlayer = -1;
     public static int checkPhase = 0;
 
     /**
