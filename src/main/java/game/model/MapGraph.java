@@ -135,6 +135,7 @@ public class MapGraph {
      *
      * @param countryName   Country Name
      * @param continentName Continent Name
+     * @return True or False
      */
     public boolean addCountry(String countryName, String continentName) {
         List<Continent> continentList = MapEditorService.mapGraph.getContinentList();
@@ -229,6 +230,7 @@ public class MapGraph {
      *
      * @param countryName1 Country name 1
      * @param countryName2 Country name 2
+     * @return True or False
      */
     public boolean deleteConnection(String countryName1, String countryName2) {
         boolean flag = false;

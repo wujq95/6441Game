@@ -122,9 +122,9 @@ public class FortifyService {
 
     /**
      * check if fortify countries are connected
-     * @param fromCountry
-     * @param toCountry
-     * @return
+     * @param fromCountry Initial Army Moving Country Name
+     * @param toCountry Goal Army Moving Country Name
+     * @return True or False
      */
     public boolean checkConnected(String fromCountry,String toCountry){
         boolean flag =false;

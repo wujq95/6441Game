@@ -18,7 +18,7 @@ public class GamePlayerService {
 
     /**
      * check if player name is suitable for the game
-     * @return
+     * @return True or False
      */
     public boolean checkPlayerNum(){
         if(playerList.size()>=2&&playerList.size()<=6){

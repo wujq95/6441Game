@@ -7,7 +7,7 @@ import model.Country;
  * service class for reinforce phase
  */
 public class ReinforceService {
-
+    // Initiate object to be used later conveniently
     GamePlayerService gamePlayerService = new GamePlayerService();
     public static Integer playerNum = 0;
 

@@ -122,7 +122,7 @@ public class Country {
 
     /**
      * Country Constructor
-     *
+     * @param countryId country Id
      * @param countryName country name
      * @param continentName continent name
      */
@@ -213,7 +213,7 @@ public class Country {
     /**
      * TODO: get the continent that the country belongs to
      *
-     * @return
+     * @return Get Neighbours
      */
     public Continent getContinent() {
         Continent continent = new Continent();
