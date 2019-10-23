@@ -104,12 +104,12 @@ public class MapController{
     public Label currentPlayerLabel;
 
     private void loadGameInfo(GamePlayerService gamePlayerService){
-        int phaseNum = gamePlayerService.checkPhase;
+        int phaseNum = GamePlayerService.checkPhase;
         if(phaseNum == 1) phaseLabel.setText("Startup Phase");
         else if(phaseNum == 2) phaseLabel.setText("Reinforcement");
 
-        if(gamePlayerService.choosePlayer >= 0){
-            GamePlayer currentPlayer = gamePlayerService.playerList.get(gamePlayerService.choosePlayer);
+        if(GamePlayerService.choosePlayer >= 0){
+            GamePlayer currentPlayer = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
             currentPlayerLabel.setText(currentPlayer.getPlayerName());
         }
     }
@@ -294,7 +294,7 @@ public class MapController{
         // default empty graph before loaded
         this.mapGraph = new MapGraph();
         // this.mapGraphObserver = new MapGraphObserver(mapGraph);
-        this.mapGraphObserver = new MapGraphObserver(mapEditorService.mapGraph);
+        this.mapGraphObserver = new MapGraphObserver(MapEditorService.mapGraph);
     }
 
     /**
