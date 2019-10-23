@@ -3,6 +3,7 @@ package service;
 import model.Country;
 import model.GamePlayer;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +14,7 @@ import java.util.Set;
 public class FortifyService {
 
     static Integer playerNum = 0;
+
     /**
      * Fortify Action
      * @param fromCountry From Country Name
@@ -67,6 +69,11 @@ public class FortifyService {
             }else if(flag==4){
                 return "two countries are not connected";
             }else {
+                playerNum++;
+                boolean flag3  =checkStop();
+                if(flag3){
+                    GamePlayerService.checkPhase++;
+                }
                 return "fortify success";
             }
         }
