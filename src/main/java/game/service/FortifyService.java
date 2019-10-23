@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class FortifyService {
 
-    static Integer playerNum = 0;
+    public static Integer playerNum = 0;
 
     /**
      * Fortify Action
