@@ -144,7 +144,7 @@ public class MapEditorService {
 
         //if the map file exists
         if (mapFile.isFile()) {
-            //TODO:SET CONTINENT NAMES/COUNTRY NAMES
+            //SET CONTINENT NAMES/COUNTRY NAMES
             HashMap<Integer, Continent> continentMap = new HashMap<>();
             HashMap<Integer, Country> countryHashMap = new HashMap<>();
 

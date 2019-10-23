@@ -61,7 +61,7 @@ public class FortifyService {
                 }
             }
             if (flag==0){
-                return "from tountry name can not be found";
+                return "from Country name can not be found";
             }else if(flag==1){
                 return "to Country name can not be found";
             }else if(flag==3){

@@ -162,7 +162,7 @@ public class GamePlayerService {
             MapEditorService.mapGraph.getCountryList().get(i).setPlayer(playerList.get(i%playerNum));
         }
 
-        return "popilatecountries success and ";
+        return "populatecountries success and ";
     }
 
     /**
