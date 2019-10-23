@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import service.GamePlayerService;
 import service.MapEditorService;
+import service.ReinforceService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,9 +114,9 @@ public class GamePlayerServiceTest {
         player2.setPlayerName("player02");
         player3.setPlayerName("player03");
 
-        player1.setArmyValue(1);
-        player2.setArmyValue(0);
-        player3.setArmyValue(0);
+        player1.setArmyValue(5);
+        player2.setArmyValue(4);
+        player3.setArmyValue(4);
 
         GamePlayerService.playerList.add(player1);
         GamePlayerService.playerList.add(player2);
@@ -139,13 +140,15 @@ public class GamePlayerServiceTest {
         GamePlayerService.playerList.add(player2);
         GamePlayerService.playerList.add(player3);
 
+        MapEditorService.mapGraph.getCountryList().get(0).setArmyValue(1);
         String countryName = MapEditorService.mapGraph.getCountryList().get(0).getCountryName();
 
-        Assert.assertEquals("1",GamePlayerService.playerList.get(0).getArmyValue().toString());
-        Assert.assertEquals("0",MapEditorService.mapGraph.getCountryList().get(0).getArmyValue().toString());
-        gamePlayerService.placeOneArmy(countryName);
-        Assert.assertEquals("0",GamePlayerService.playerList.get(0).getArmyValue().toString());
+        Assert.assertEquals("5",GamePlayerService.playerList.get(0).getArmyValue().toString());
         Assert.assertEquals("1",MapEditorService.mapGraph.getCountryList().get(0).getArmyValue().toString());
+        GamePlayerService.choosePlayer=0;
+        gamePlayerService.placeOneArmy(countryName);
+        Assert.assertEquals("4",GamePlayerService.playerList.get(0).getArmyValue().toString());
+        Assert.assertEquals("2",MapEditorService.mapGraph.getCountryList().get(0).getArmyValue().toString());
     }
 
     /**
@@ -202,10 +205,14 @@ public class GamePlayerServiceTest {
         GamePlayerService.playerList.add(player2);
         GamePlayerService.playerList.add(player3);
 
+        ReinforceService.playerNum=0;
         gamePlayerService.calReinArmyNum();
-
-        Assert.assertEquals("5",GamePlayerService.playerList.get(0).getArmyValue().toString());
+        Assert.assertEquals("2",GamePlayerService.playerList.get(0).getArmyValue().toString());
+        ReinforceService.playerNum=1;
+        gamePlayerService.calReinArmyNum();
         Assert.assertEquals("3",GamePlayerService.playerList.get(1).getArmyValue().toString());
+        ReinforceService.playerNum=2;
+        gamePlayerService.calReinArmyNum();
         Assert.assertEquals("5",GamePlayerService.playerList.get(2).getArmyValue().toString());
 
     }
