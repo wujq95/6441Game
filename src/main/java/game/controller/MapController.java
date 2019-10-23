@@ -19,9 +19,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 import model.*;
-import service.CommandService;
-import service.GamePlayerService;
-import service.MapEditorService;
+import service.*;
 
 import java.io.File;
 import java.util.List;
@@ -59,6 +57,10 @@ public class MapController{
      * GamePlayerService class contains all GamePlayer related methods
      */
     private static GamePlayerService gamePlayerService;
+
+    private static ReinforceService reinforceService;
+
+    private static FortifyService fortifyService;
 
     /**
      * load map option on menu bar
@@ -105,13 +107,38 @@ public class MapController{
 
     private void loadGameInfo(GamePlayerService gamePlayerService){
         int phaseNum = gamePlayerService.checkPhase;
-        if(phaseNum == 1) phaseLabel.setText("Startup Phase");
-        else if(phaseNum == 2) phaseLabel.setText("Reinforcement");
-
-        if(gamePlayerService.choosePlayer >= 0){
-            GamePlayer currentPlayer = gamePlayerService.playerList.get(gamePlayerService.choosePlayer);
-            currentPlayerLabel.setText(currentPlayer.getPlayerName());
+        switch (phaseNum){
+            case 0:
+                phaseLabel.setText("Map Editor");
+                currentPlayerLabel.setText("None");
+                break;
+            case 1:
+                phaseLabel.setText("Startup");
+                if(gamePlayerService.playerList.size() > 0){
+                    GamePlayer currentPlayer = gamePlayerService.playerList.get(gamePlayerService.choosePlayer);
+                    currentPlayerLabel.setText(currentPlayer.getPlayerName());
+                }
+                break;
+            case 2:
+                phaseLabel.setText("Reinforcement");
+                if(gamePlayerService.playerList.size() > 0){
+                    GamePlayer currentPlayer = gamePlayerService.playerList.get(reinforceService.playerNum);
+                    currentPlayerLabel.setText(currentPlayer.getPlayerName());
+                }
+                break;
+            case 3:
+                phaseLabel.setText("Fortification");
+                if(gamePlayerService.playerList.size() > 0){
+                    GamePlayer currentPlayer = gamePlayerService.playerList.get(fortifyService.playerNum);
+                    currentPlayerLabel.setText(currentPlayer.getPlayerName());
+                }
+                break;
+            case 4:
+                phaseLabel.setText("Game Stop");
+                currentPlayerLabel.setText("None");
+                break;
         }
+
     }
 
     /**
@@ -243,6 +270,9 @@ public class MapController{
                 //load map graph
                 loadMapGraph(mapGraph);
 
+                //load game info
+                loadGameInfo(gamePlayerService);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -290,6 +320,8 @@ public class MapController{
         colorPicker = new ColorController();
         mapEditorService = new MapEditorService();
         gamePlayerService = new GamePlayerService();
+        reinforceService = new ReinforceService();
+        fortifyService = new FortifyService();
 
         // default empty graph before loaded
         this.mapGraph = new MapGraph();

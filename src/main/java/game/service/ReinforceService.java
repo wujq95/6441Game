@@ -9,7 +9,7 @@ import model.Country;
 public class ReinforceService {
 
     GamePlayerService gamePlayerService = new GamePlayerService();
-    static Integer playerNum = 0;
+    public static Integer playerNum = 0;
 
     /**
      * Reinforce Phase Action
