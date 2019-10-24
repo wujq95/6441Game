@@ -116,21 +116,30 @@ public class MapController{
                 phaseLabel.setText("Startup");
                 if(gamePlayerService.playerList.size() > 0 && gamePlayerService.choosePlayer >=0 ){
                     GamePlayer currentPlayer = gamePlayerService.playerList.get(gamePlayerService.choosePlayer);
-                    currentPlayerLabel.setText(currentPlayer.getPlayerName());
+                    if(gamePlayerService.choosePlayer.equals(0))
+                        currentPlayerLabel.setText(currentPlayer.getPlayerName() + " (Me)");
+                    else
+                        currentPlayerLabel.setText(currentPlayer.getPlayerName());
                 }
                 break;
             case 2:
                 phaseLabel.setText("Reinforcement");
                 if(gamePlayerService.playerList.size() > 0){
                     GamePlayer currentPlayer = gamePlayerService.playerList.get(reinforceService.playerNum);
-                    currentPlayerLabel.setText(currentPlayer.getPlayerName());
+                    if(reinforceService.playerNum.equals(0))
+                        currentPlayerLabel.setText(currentPlayer.getPlayerName() + " (Me)");
+                    else
+                        currentPlayerLabel.setText(currentPlayer.getPlayerName());
                 }
                 break;
             case 3:
                 phaseLabel.setText("Fortification");
                 if(gamePlayerService.playerList.size() > 0){
                     GamePlayer currentPlayer = gamePlayerService.playerList.get(fortifyService.playerNum);
-                    currentPlayerLabel.setText(currentPlayer.getPlayerName());
+                    if(fortifyService.playerNum.equals(0))
+                        currentPlayerLabel.setText(currentPlayer.getPlayerName() + " (Me)");
+                    else
+                        currentPlayerLabel.setText(currentPlayer.getPlayerName());
                 }
                 break;
             case 4:
