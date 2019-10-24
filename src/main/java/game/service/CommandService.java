@@ -1,5 +1,8 @@
 package service;
 
+/**
+ * Command Service is used to receive the input commands for player actions
+ */
 public class CommandService {
 
     /**

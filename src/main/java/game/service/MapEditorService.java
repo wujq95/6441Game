@@ -11,7 +11,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * provide sservice for map editor
+ * provide service for map editor
  */
 public class MapEditorService {
     /**
