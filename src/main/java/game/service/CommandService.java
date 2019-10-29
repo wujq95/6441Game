@@ -16,6 +16,7 @@ public class CommandService {
         ReinforceService reinforceService = new ReinforceService();
         FortifyService fortifyService = new FortifyService();
         GamePlayerService gamePlayerService = new GamePlayerService();
+        AttackService attackService = new AttackService();
 
         inputCommand = inputCommand.trim();
         String commandReturnMsg = "";
@@ -91,7 +92,16 @@ public class CommandService {
             } else {
                 commandReturnMsg = fortifyService.fortify(arguments[1], arguments[2], arguments[3]);
             }
-        } else {
+        } else if (inputCommand.startsWith("attack")){
+            GamePlayerService.checkPhase = 4;
+            String[] arguments = inputCommand.split(" ");
+            commandReturnMsg = attackService.attack(arguments);
+
+        }else if(inputCommand.startsWith("defend")){
+            GamePlayerService.checkPhase = 4;
+            String[] arguments = inputCommand.split(" ");
+            commandReturnMsg = attackService.defend(arguments[1]);
+        }else{
             return "wrong syntax";
         }
 

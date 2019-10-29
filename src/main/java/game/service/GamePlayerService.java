@@ -176,7 +176,7 @@ public class GamePlayerService {
         Integer playerNum = playerList.size();
         Integer initialArmies = 0;
         if(playerNum == 2){
-            initialArmies=40;
+            initialArmies=100;
         } else if(playerNum==3){
             initialArmies=35;
         } else if(playerNum==4) {
