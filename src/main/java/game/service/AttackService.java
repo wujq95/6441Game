@@ -1,7 +1,6 @@
 package service;
 
 import model.Country;
-import model.GamePlayer;
 
 import java.util.*;
 
@@ -12,6 +11,8 @@ public class AttackService {
     public static String toCountry;
     public static Integer fromDiceNum;
     public static Integer toDiceNum;
+    public static List<Integer> fromDiceResultList;
+    public static List<Integer> toDiceResultList;
 
     /**
      * attack information input
@@ -290,6 +291,10 @@ public class AttackService {
                 }
             }
         }
+        fromDiceResultList = fromDiceList;
+        toDiceResultList = toDiceList;
+        //TO DO
+        //delete console
         System.out.println(fromDiceList);
         System.out.println(toDiceList);
 
