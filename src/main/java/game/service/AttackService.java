@@ -152,6 +152,11 @@ public class AttackService {
         }
     }
 
+    /**
+     * defend dive information input
+     * @param defendNum
+     * @return
+     */
     public String defend(String defendNum){
         String countryName = toCountry;
         Double dNumDefend = Double.parseDouble(defendNum);
@@ -178,7 +183,7 @@ public class AttackService {
     }
 
     /**
-     *
+     *check defend dice number
      * @param countryName
      * @param numDefend
      * @return
@@ -209,6 +214,10 @@ public class AttackService {
     }
 
 
+    /**
+     * attack process
+     * @return
+     */
     public String attackProcess(){
 
         Integer[] fromDiceArray = new Integer[fromDiceNum];
@@ -287,6 +296,10 @@ public class AttackService {
         return "attack process finished";
     }
 
+    /**
+     * delete one army if loosing the dice competition
+     * @param countryName
+     */
     public void deleteOneArmy(String countryName){
         for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
             if(countryName.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
