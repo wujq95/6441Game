@@ -346,17 +346,20 @@ public class MapController{
         // default empty graph before loaded
         this.mapGraph = new MapGraph();
         this.mapGraphObserver = new MapGraphObserver(MapEditorService.mapGraph);
-        this.gameInfoObserver = new GameInfoObserver(gamePlayerService, attackService);
+        this.gameInfoObserver = new GameInfoObserver(gamePlayerService, attackService, cardService);
     }
 
     public class GameInfoObserver extends Observer{
 
-        public GameInfoObserver(GamePlayerService gamePlayerService, AttackService attackService){
+        public GameInfoObserver(GamePlayerService gamePlayerService, AttackService attackService, CardService cardService){
             this.gamePlayerService = gamePlayerService;
             this.gamePlayerService.attach(this);
 
             this.attackService = attackService;
             this.attackService.attach(this);
+
+            this.cardService = cardService;
+            this.cardService.attach(this);
         }
 
         @Override
