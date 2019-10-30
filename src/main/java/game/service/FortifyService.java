@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import static controller.MapController.gamePlayerService;
+
 /**
  * service class for fortify phase
  */
@@ -141,5 +143,13 @@ public class FortifyService {
             }
         }
         return flag;
+    }
+
+    public String getCurrentPlayerName(){
+        GamePlayer currentGamePlayer = gamePlayerService.playerList.get(gamePlayerService.choosePlayer);
+        String currentPlayerName = currentGamePlayer.getPlayerName();
+        if(playerNum.equals(0))
+            currentPlayerName += " (Me)";
+        return currentPlayerName;
     }
 }
