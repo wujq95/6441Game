@@ -1,12 +1,27 @@
 package service;
 
+import controller.Observer;
 import model.Card;
 import model.GamePlayer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CardService {
     private int armyRewarded = 5;
+
+    //observers list
+    private List<controller.Observer> cardObservers = new ArrayList<>();
+
+    public void attach(controller.Observer observer){
+        cardObservers.add(observer);
+    }
+
+    public void notifyObservers(){
+        for (Observer observer : cardObservers) {
+            observer.update();
+        }
+    }
 
     public void rewardCardAfterConquerOneCountry(GamePlayer gamePlayer) {
         List<Card> previousCards = gamePlayer.getCardList();
