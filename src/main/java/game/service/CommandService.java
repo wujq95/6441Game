@@ -1,5 +1,6 @@
 package service;
 
+import controller.MapController;
 import model.GamePlayer;
 
 /**
@@ -14,12 +15,12 @@ public class CommandService {
      * @return Message
      */
     public String processCommand(String inputCommand) {
-        MapEditorService mapEditorService = new MapEditorService();
-        ReinforceService reinforceService = new ReinforceService();
-        FortifyService fortifyService = new FortifyService();
-        GamePlayerService gamePlayerService = new GamePlayerService();
-        AttackService attackService = new AttackService();
-        CardService cardService = new CardService();
+        MapEditorService mapEditorService = MapController.mapEditorService;
+        ReinforceService reinforceService = MapController.reinforceService;
+        FortifyService fortifyService = MapController.fortifyService;
+        GamePlayerService gamePlayerService = MapController.gamePlayerService;
+        AttackService attackService = MapController.attackService;
+        CardService cardService = MapController.cardService;
 
         inputCommand = inputCommand.trim();
         String commandReturnMsg = "";

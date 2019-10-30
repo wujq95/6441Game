@@ -44,6 +44,11 @@ public class MapController{
     private MapGraphObserver mapGraphObserver;
 
     /**
+     * observer of current game information
+     */
+    private GameInfoObserver gameInfoObserver;
+
+    /**
      * color palette for continents
      */
     private ColorController colorPicker;
@@ -51,16 +56,17 @@ public class MapController{
     /**
      * mapEditorService class contains all edit mapGraph methods
      */
-    private static MapEditorService mapEditorService;
+    public static MapEditorService mapEditorService;
 
-    /**
-     * GamePlayerService class contains all GamePlayer related methods
-     */
-    private static GamePlayerService gamePlayerService;
+    public static GamePlayerService gamePlayerService;
 
-    private static ReinforceService reinforceService;
+    public static ReinforceService reinforceService;
 
-    private static FortifyService fortifyService;
+    public static FortifyService fortifyService;
+
+    public static AttackService attackService;
+
+    public static CardService cardService;
 
     /**
      * load map option on menu bar
@@ -104,6 +110,9 @@ public class MapController{
 
     @FXML
     public Label currentPlayerLabel;
+
+    @FXML
+    public Label actionTakenLabel;
 
     private void loadGameInfo(GamePlayerService gamePlayerService){
         int phaseNum = gamePlayerService.checkPhase;
@@ -274,7 +283,7 @@ public class MapController{
                 mapEditorService.editMap(fileName);
                 this.mapGraph = MapEditorService.mapGraph;
                 //add observer
-                MapGraphObserver MapEditorMapGraphObserver = new MapGraphObserver(MapEditorService.mapGraph);
+                //MapGraphObserver MapEditorMapGraphObserver = new MapGraphObserver(MapEditorService.mapGraph);
 
                 //load map graph
                 loadMapGraph(mapGraph);
@@ -331,11 +340,27 @@ public class MapController{
         gamePlayerService = new GamePlayerService();
         reinforceService = new ReinforceService();
         fortifyService = new FortifyService();
+        attackService = new AttackService();
+        cardService = new CardService();
 
         // default empty graph before loaded
         this.mapGraph = new MapGraph();
-        // this.mapGraphObserver = new MapGraphObserver(mapGraph);
         this.mapGraphObserver = new MapGraphObserver(MapEditorService.mapGraph);
+        this.gameInfoObserver = new GameInfoObserver(gamePlayerService);
+    }
+
+    public class GameInfoObserver extends Observer{
+
+        public GameInfoObserver(GamePlayerService gamePlayerService){
+            this.gamePlayerService = gamePlayerService;
+            this.gamePlayerService.attach(this);
+        }
+
+        @Override
+        public void update(){
+            System.out.println("Game Information Reloaded");
+            //loadMapGraph(MapEditorService.mapGraph);
+        }
     }
 
     /**
@@ -355,55 +380,9 @@ public class MapController{
          * reload the mapGraph
          */
         @Override
-        public void updateMapGraph(){
+        public void update(){
             System.out.println("MapGraph Reloaded.");
             loadMapGraph(MapEditorService.mapGraph);
-        }
-
-        /**
-         * add the newly added country to mapPane
-         * @param action "add"
-         * @param country contains the information of the newly added country
-         */
-        @Override
-        public void updateCountry(String action, Country country){
-            if(action == "add"){
-                System.out.println("The Country Add");
-                /**
-                 * TODO: country.getContinent().getColor();
-                 */
-                // Color countryColor = country.getParentContinent().getColor();
-                Color countryColor = Color.TAN;
-                double x = 500; //country default x coordinate
-                double y = 500; //country default y coordinate
-
-                //Point2D center = new Point2D(x, y); //default position on scene
-                Circle circle = new Circle(x, y, 15, countryColor);
-                // TODO: circle.setId(country.getCountryName());
-                circle.setCursor(HAND);
-
-                Label label = new Label(country.getCountryName() + "\n" + "Player Name\n" + country.getArmyValue());
-                //label.setId(country.getCountryName());
-                label.setLayoutX(x - 20);
-                label.setLayoutY(y - 60);
-
-                circle.setOnMouseDragged((t) -> {
-                    // update Circle View's location
-                    circle.setCenterX(t.getX());
-                    circle.setCenterY(t.getY());
-                    label.setLayoutX(t.getX() - 20);
-                    label.setLayoutY(t.getY() - 60);
-                });
-
-                circle.setOnMouseClicked((t) -> {
-                    // update the dragged country's location info
-                    System.out.println("Country's new location set.");
-                    country.setCoordinator(t.getX(), t.getY());
-                    //MapEditorService.mapGraph.setCountryCoordinates(String countryName, double x, double y);
-                });
-
-                mapPane.getChildren().addAll(circle, label);
-            }
         }
     }
 }

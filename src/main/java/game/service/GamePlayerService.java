@@ -1,5 +1,6 @@
 package service;
 
+import controller.Observer;
 import model.Continent;
 import model.Country;
 import model.GamePlayer;
@@ -15,6 +16,20 @@ public class GamePlayerService {
     public static List<GamePlayer> playerList = new ArrayList<GamePlayer>();
     public static Integer choosePlayer = -1;
     public static int checkPhase = 0;
+
+    //observers list
+    private List<controller.Observer> gameInfoObservers = new ArrayList<>();
+
+
+    public void attach(controller.Observer observer){
+        gameInfoObservers.add(observer);
+    }
+
+    public void notifyObservers(){
+        for (Observer observer : gameInfoObservers) {
+            observer.update();
+        }
+    }
 
     /**
      * check if player name is suitable for the game
@@ -128,10 +143,11 @@ public class GamePlayerService {
      * @param playerName string
      */
     public void addPlayer(String playerName){
-            GamePlayer player = new GamePlayer();
-            player.setPlayerName(playerName);
-            player.setArmyValue(0);
-            playerList.add(player);
+        GamePlayer player = new GamePlayer();
+        player.setPlayerName(playerName);
+        player.setArmyValue(0);
+        playerList.add(player);
+        notifyObservers();
     }
 
     /**

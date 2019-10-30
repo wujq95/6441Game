@@ -39,7 +39,7 @@ public class MapGraph {
      */
     public void notifyObservers() {
         for (Observer observer : mapObservers) {
-            observer.updateMapGraph();
+            observer.update();
         }
     }
 
