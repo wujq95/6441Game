@@ -62,6 +62,74 @@ public class AttackService {
         }
     }
 
+    public String allout(String countryFrom, String countryTo) {
+
+        //check
+        boolean checkFromName = checkCountryName(countryFrom);
+        boolean checkToName = checkCountryName(countryTo);
+        boolean checkFromPlayer = checkFromPlayer(countryFrom);
+        boolean checkToPlayer = checkFromPlayer(countryTo);
+        boolean checkConnected = checkConnected(countryFrom, countryTo);
+        if (!checkFromName) {
+            return "from country name can not be found";
+        } else if (!checkToName) {
+            return "to country name can not be found";
+        } else if (!checkFromPlayer) {
+            return "from country must be from the real time player";
+        } else if (checkToPlayer) {
+            return "from country and to country can not from the same player";
+        } else if (!checkConnected) {
+            return "from country and to country must be connected";
+        } else {
+
+            //get army value
+            Integer fromCountryArmyValue = 1, toCountryArmyValue = 1;
+            List<Country> countryList = MapEditorService.mapGraph.getCountryList();
+            for (int i = 0, n = 0; i < countryList.size(); i++, n++) {
+                if (countryList.get(i).getCountryName().equals(countryFrom)) {
+                    fromCountryArmyValue = countryList.get(i).getArmyValue();
+                }
+                if (countryList.get(n).getCountryName().equals(countryTo)) {
+                    toCountryArmyValue = countryList.get(n).getArmyValue();
+                }
+            }
+
+            if (fromCountryArmyValue == 1) {
+                return "cannot attack";
+            } else {
+                fromCountry = countryFrom;
+                toCountry = countryTo;
+                //get maximal dice
+                fromDiceNum = fromCountryMaxdice(fromCountryArmyValue);
+                toDiceNum = toCountryMaxdice(toCountryArmyValue);
+
+                String result=alloutProcess();
+                return result;
+
+                }
+            }
+        }
+
+
+    public int fromCountryMaxdice(int armyvalue){
+        if(armyvalue>=4) {
+            fromDiceNum = 3;
+        }else if(armyvalue==3){
+            fromDiceNum = 2;
+        }else{
+            fromDiceNum = 1;
+        }
+        return fromDiceNum;
+    }
+
+    public int toCountryMaxdice(int armyvalue){
+        if(armyvalue>=2) {
+            toDiceNum = 2;
+        }else{
+            toDiceNum = 1;
+        }
+        return toDiceNum;
+    }
 
     /**
      * check if input country name can be found
@@ -214,6 +282,21 @@ public class AttackService {
         }
     }
 
+    public String alloutProcess() {
+        List<Country> countryList = MapEditorService.mapGraph.getCountryList();
+        int i = 0, n = 0;
+        for (; i < countryList.size(); i++, n++) {
+            countryList.get(i).getCountryName().equals(fromCountry);
+            countryList.get(n).getCountryName().equals(toCountry);
+            }
+
+        while (true) {
+            attackProcess();
+            if (countryList.get(i).getArmyValue() == 1||countryList.get(n).getArmyValue()==0) {
+                return "allout process finished";
+            }
+        }
+    }
 
     /**
      * attack process

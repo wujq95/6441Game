@@ -99,7 +99,11 @@ public class CommandService {
         } else if (inputCommand.startsWith("attack")) {
             GamePlayerService.checkPhase = 4;
             String[] arguments = inputCommand.split(" ");
-            commandReturnMsg = attackService.attack(arguments);
+            if(arguments[3].startsWith("-allout")){
+                commandReturnMsg = attackService.allout(arguments[1], arguments[2]);
+            }else {
+                commandReturnMsg = attackService.attack(arguments);
+            }
 
         } else if (inputCommand.startsWith("defend")) {
             GamePlayerService.checkPhase = 4;
