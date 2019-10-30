@@ -80,7 +80,7 @@ public class ReinforceService {
     public String getCurrentPlayerName(){
         GamePlayer currentGamePlayer = gamePlayerService.playerList.get(gamePlayerService.choosePlayer);
         String currentPlayerName = currentGamePlayer.getPlayerName();
-        if(playerNum.equals(0))
+        if(gamePlayerService.choosePlayer.equals(0))
             currentPlayerName += " (Me)";
         return currentPlayerName;
     }
