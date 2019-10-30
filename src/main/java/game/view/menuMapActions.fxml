@@ -40,10 +40,12 @@
             <TextArea fx:id="commandLine" layoutX="20.0" layoutY="14.0" onKeyReleased="#detectEnter" prefHeight="80.0" prefWidth="590.0" promptText="Type your command here" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="14.0" />
             <TextArea fx:id="infoTextView" layoutX="20.0" layoutY="96.0" prefHeight="172.0" prefWidth="590.0" promptText="Console Info" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" />
             <Separator layoutX="712.0" layoutY="14.0" orientation="VERTICAL" prefHeight="261.0" prefWidth="0.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="620.0" AnchorPane.topAnchor="14.0" />
-            <Label layoutX="843.0" layoutY="25.0" text="Phase:" AnchorPane.leftAnchor="630.0" AnchorPane.topAnchor="14.0" />
+            <Label layoutX="843.0" layoutY="25.0" text="Game Phase:" AnchorPane.leftAnchor="630.0" AnchorPane.topAnchor="14.0" />
             <Label layoutX="843.0" layoutY="65.0" text="Current Player:" AnchorPane.leftAnchor="630.0" AnchorPane.topAnchor="50.0" />
             <Label fx:id="phaseLabel" layoutX="757.0" layoutY="14.0" text="None" AnchorPane.leftAnchor="750.0" AnchorPane.topAnchor="14.0" />
             <Label fx:id="currentPlayerLabel" layoutX="750.0" layoutY="50.0" text="None" AnchorPane.leftAnchor="750.0" AnchorPane.topAnchor="50.0" />
+            <Label layoutX="630.0" layoutY="86.0" text="Action Taken:" AnchorPane.leftAnchor="630.0" AnchorPane.topAnchor="86.0" />
+            <Label fx:id="actionTakenLabel" layoutX="750.0" layoutY="86.0" text="None" AnchorPane.leftAnchor="750.0" AnchorPane.topAnchor="86.0" />
          </children>
       </AnchorPane>
    </children>
