@@ -73,11 +73,20 @@ public class GamePlayer {
         this.countryList = countryList;
     }
 
+    public List<Card> getCardList() {
+        return cardList;
+    }
+
+    public void setCardList(List<Card> cardList) {
+        this.cardList = cardList;
+    }
+
     /**
      * Initial variables
      */
     String playerName;
     Integer armyValue;
     List<Country> countryList = new ArrayList<Country>();
+    List<Card> cardList;
 
 }

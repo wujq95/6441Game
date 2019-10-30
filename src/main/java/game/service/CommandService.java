@@ -1,5 +1,7 @@
 package service;
 
+import model.GamePlayer;
+
 /**
  * Command Service is used to receive the input commands for player actions
  */
@@ -17,6 +19,7 @@ public class CommandService {
         FortifyService fortifyService = new FortifyService();
         GamePlayerService gamePlayerService = new GamePlayerService();
         AttackService attackService = new AttackService();
+        CardService cardService = new CardService();
 
         inputCommand = inputCommand.trim();
         String commandReturnMsg = "";
@@ -92,16 +95,39 @@ public class CommandService {
             } else {
                 commandReturnMsg = fortifyService.fortify(arguments[1], arguments[2], arguments[3]);
             }
-        } else if (inputCommand.startsWith("attack")){
+        } else if (inputCommand.startsWith("attack")) {
             GamePlayerService.checkPhase = 4;
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = attackService.attack(arguments);
 
-        }else if(inputCommand.startsWith("defend")){
+        } else if (inputCommand.startsWith("defend")) {
             GamePlayerService.checkPhase = 4;
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = attackService.defend(arguments[1]);
-        }else{
+        } else if (inputCommand.startsWith("exchangecards")) {
+            String[] arguments = inputCommand.split(" ");
+            //TODO:right now game player
+            GamePlayer gamePlayer = new GamePlayer();
+            if (cardService.mustExchange(gamePlayer)) {
+                if (arguments[1].equals("-none")) {
+                    return "you must exchange cards";
+                } else {
+                    cardService.exchangeCards(
+                            Integer.parseInt(arguments[1]),
+                            Integer.parseInt(arguments[2]),
+                            Integer.parseInt(arguments[3]),
+                            gamePlayer);
+                }
+            } else {
+                if (!arguments[1].equals("-none")) {
+                    cardService.exchangeCards(
+                            Integer.parseInt(arguments[1]),
+                            Integer.parseInt(arguments[2]),
+                            Integer.parseInt(arguments[3]),
+                            gamePlayer);
+                }
+            }
+        } else {
             return "wrong syntax";
         }
 
