@@ -14,7 +14,7 @@ import java.util.List;
 public class GamePlayerService {
 
     public static List<GamePlayer> playerList = new ArrayList<GamePlayer>();
-    public static Integer choosePlayer = -1;
+    public static Integer choosePlayer = 0;
     public static int checkPhase = 0;
 
     //observers list
@@ -82,6 +82,7 @@ public class GamePlayerService {
                     removePlayer(arguments[i+1]);
                 }
             }
+            notifyObservers();
             return "gameplayer action success";
         }
     }
@@ -147,7 +148,7 @@ public class GamePlayerService {
         player.setPlayerName(playerName);
         player.setArmyValue(0);
         playerList.add(player);
-        notifyObservers();
+
     }
 
     /**
@@ -160,6 +161,7 @@ public class GamePlayerService {
                 playerList.remove(i);
             }
         }
+        notifyObservers();
     }
 
     /**
@@ -177,7 +179,7 @@ public class GamePlayerService {
             playerList.get(i%playerNum).setCountryList(playerCountryList);
             MapEditorService.mapGraph.getCountryList().get(i).setPlayer(playerList.get(i%playerNum));
         }
-
+        notifyObservers();
         return "populatecountries success and ";
     }
 
@@ -226,6 +228,7 @@ public class GamePlayerService {
             return "player number wrong!";
         }else{
             choosePlayer=0;
+            notifyObservers();
             return "allocate initial army success";
         }
     }
@@ -262,6 +265,7 @@ public class GamePlayerService {
             return "the army value of the player is not enough";
         }else{
             changeIndexPlayer();
+            notifyObservers();
             return "place one army success";
         }
 
@@ -290,6 +294,7 @@ public class GamePlayerService {
             }
         }
         nextPhase();
+        notifyObservers();
         return "place all success!";
     }
 
@@ -388,5 +393,13 @@ public class GamePlayerService {
         if(flag){
             checkPhase = 2;
         }
+    }
+
+    public String getCurrentPlayerName(){
+        GamePlayer currentGamePlayer = playerList.get(choosePlayer);
+        String currentPlayerName = currentGamePlayer.getPlayerName();
+        if(choosePlayer.equals(0))
+            currentPlayerName += " (Me)";
+        return currentPlayerName;
     }
 }

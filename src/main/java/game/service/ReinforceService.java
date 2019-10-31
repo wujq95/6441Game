@@ -1,6 +1,7 @@
 package service;
 
 import model.Country;
+import model.GamePlayer;
 
 
 /**
@@ -74,6 +75,14 @@ public class ReinforceService {
         if(playerNum>=GamePlayerService.playerList.size()){
             GamePlayerService.checkPhase=3;
         }
+    }
+
+    public String getCurrentPlayerName(){
+        GamePlayer currentGamePlayer = gamePlayerService.playerList.get(gamePlayerService.choosePlayer);
+        String currentPlayerName = currentGamePlayer.getPlayerName();
+        if(gamePlayerService.choosePlayer.equals(0))
+            currentPlayerName += " (Me)";
+        return currentPlayerName;
     }
 }
 

@@ -1,5 +1,6 @@
 package service;
 
+import controller.Observer;
 import model.Country;
 
 import java.util.*;
@@ -13,6 +14,19 @@ public class AttackService {
     public static Integer toDiceNum;
     public static List<Integer> fromDiceResultList;
     public static List<Integer> toDiceResultList;
+
+    //observers list
+    private List<controller.Observer> attackObservers = new ArrayList<>();
+
+    public void attach(controller.Observer observer){
+        attackObservers.add(observer);
+    }
+
+    public void notifyObservers(){
+        for (Observer observer : attackObservers) {
+            observer.update();
+        }
+    }
 
     /**
      * attack information input
@@ -378,6 +392,7 @@ public class AttackService {
         toDiceResultList = toDiceList;
         //TO DO
         //delete console
+        notifyObservers();
         System.out.println(fromDiceList);
         System.out.println(toDiceList);
 
@@ -395,5 +410,13 @@ public class AttackService {
                 MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(newArmy);
             }
         }
+    }
+
+    public String getFromDice(){
+        return fromDiceResultList.toString();
+    }
+
+    public String getToDice(){
+        return toDiceResultList.toString();
     }
 }
