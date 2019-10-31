@@ -1,5 +1,6 @@
 package service;
 
+import controller.Observer;
 import model.Country;
 import model.GamePlayer;
 
@@ -14,6 +15,20 @@ import static controller.MapController.gamePlayerService;
  * service class for fortify phase
  */
 public class FortifyService {
+
+    //observers list
+    private List<Observer> fortifyInforObservers= new ArrayList<>();
+
+
+    public void attach(controller.Observer observer){
+        fortifyInforObservers.add(observer);
+    }
+
+    public void notifyObservers(){
+        for (Observer observer : fortifyInforObservers) {
+            observer.update();
+        }
+    }
 
     /**
      * Fortify Action
@@ -72,10 +87,12 @@ public class FortifyService {
                 boolean flag3  =checkStop();
                 if(flag3){
                     GamePlayerService.checkPhase=5;
+                    notifyObservers();
                     return "game stop";
                 }else{
                     GamePlayerService.checkPhase=2;
                     GamePlayerService.choosePlayer++;
+                    notifyObservers();
                     return "fortify success and enter into the reinforcement phase for the next player";
                 }
             }
@@ -91,10 +108,12 @@ public class FortifyService {
         boolean flag  =checkStop();
         if(flag){
             GamePlayerService.checkPhase=5;
+            notifyObservers();
             return "game stop";
         }else{
             GamePlayerService.checkPhase=2;
             GamePlayerService.choosePlayer++;
+            notifyObservers();
             return "fortify none success and enter into the reinforcement phase for the next player";
         }
     }
