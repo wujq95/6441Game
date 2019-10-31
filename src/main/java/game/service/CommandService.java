@@ -111,8 +111,7 @@ public class CommandService {
             commandReturnMsg = attackService.defend(arguments[1]);
         } else if (inputCommand.startsWith("exchangecards") && GamePlayerService.checkPhase == 2) {
             String[] arguments = inputCommand.split(" ");
-            //TODO:right now game player
-            GamePlayer gamePlayer = new GamePlayer();
+            GamePlayer gamePlayer = gamePlayerService.getCurrentPlayer();
             if (cardService.mustExchange(gamePlayer)) {
                 if (arguments[1].equals("-none")) {
                     return "you must exchange cards";
