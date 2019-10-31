@@ -294,10 +294,10 @@ public class GamePlayerService {
         }
         boolean flag = nextPhase();
         String result;
-        notifyObservers();
         if(flag){
             checkPhase=2;
             choosePlayer=0;
+            notifyObservers();
             result = "enter into the reinforcement phase";
         }else{
             result = "place all success!";
@@ -333,11 +333,13 @@ public class GamePlayerService {
             if(continentNum>0){
                 newPlayerArmyValue =  player.getArmyValue()+continentNum ;
                 player.setArmyValue(newPlayerArmyValue);
+                notifyObservers();
                 return "calculate reinforce number success: " +newPlayerArmyValue+ "\n"
                         + "continent value:" + continentNum + "\n";
             }else{
                 newPlayerArmyValue = player.getArmyValue() + Math.max(countryNum,3);
                 player.setArmyValue(newPlayerArmyValue);
+                notifyObservers();
                 return "calculate reinforce number success: " +newPlayerArmyValue+ "\n"
                         + "no continent value!"+ "\n"
                         + "country number: round down(" + countryList.size() + "\\3)=" + countryNum + "\n"

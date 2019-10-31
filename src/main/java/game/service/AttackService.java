@@ -11,8 +11,8 @@ public class AttackService {
     public static String toCountry;
     public static Integer fromDiceNum;
     public static Integer toDiceNum;
-    public static List<Integer> fromDiceResultList;
-    public static List<Integer> toDiceResultList;
+    public static List<Integer> fromDiceResultList=new LinkedList<>();
+    public static List<Integer> toDiceResultList=new LinkedList<>();
 
     //observers list
     private List<controller.Observer> attackObservers = new ArrayList<>();
@@ -331,6 +331,7 @@ public class AttackService {
      */
     public String noattack(){
         GamePlayerService.checkPhase=3;
+        notifyObservers();
         return "enter into fortification phase";
     }
 
