@@ -1,5 +1,6 @@
 package service;
 
+import controller.Observer;
 import model.Country;
 import model.GamePlayer;
 
@@ -8,12 +9,26 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import static controller.MapController.gamePlayerService;
+
 /**
  * service class for fortify phase
  */
 public class FortifyService {
 
-    public static Integer playerNum = 0;
+    //observers list
+    private List<Observer> fortifyInforObservers= new ArrayList<>();
+
+
+    public void attach(controller.Observer observer){
+        fortifyInforObservers.add(observer);
+    }
+
+    public void notifyObservers(){
+        for (Observer observer : fortifyInforObservers) {
+            observer.update();
+        }
+    }
 
     /**
      * Fortify Action
@@ -69,12 +84,17 @@ public class FortifyService {
             }else if(flag==4){
                 return "two countries are not connected";
             }else {
-                playerNum++;
                 boolean flag3  =checkStop();
                 if(flag3){
-                    GamePlayerService.checkPhase++;
+                    GamePlayerService.checkPhase=5;
+                    notifyObservers();
+                    return "game stop";
+                }else{
+                    GamePlayerService.checkPhase=2;
+                    GamePlayerService.choosePlayer++;
+                    notifyObservers();
+                    return "fortify success and enter into the reinforcement phase for the next player";
                 }
-                return "fortify success";
             }
         }
     }
@@ -84,12 +104,18 @@ public class FortifyService {
      * @return message
      */
     public String fortifyNone(){
-        playerNum++;
+
         boolean flag  =checkStop();
         if(flag){
-            GamePlayerService.checkPhase++;
+            GamePlayerService.checkPhase=5;
+            notifyObservers();
+            return "game stop";
+        }else{
+            GamePlayerService.checkPhase=2;
+            GamePlayerService.choosePlayer++;
+            notifyObservers();
+            return "fortify none success and enter into the reinforcement phase for the next player";
         }
-        return "fortify none success";
     }
 
     /**
@@ -98,7 +124,7 @@ public class FortifyService {
      */
     public boolean checkStop(){
         boolean flag=false;
-        if(playerNum>=GamePlayerService.playerList.size()){
+        if(GamePlayerService.choosePlayer>=GamePlayerService.playerList.size()-1){
             flag=true;
         }
         return flag;
@@ -112,8 +138,8 @@ public class FortifyService {
     public boolean checkPlayer(String countryName){
 
         boolean flag = false;
-        for(int j=0;j<GamePlayerService.playerList.get(playerNum).getCountryList().size();j++){
-            if(countryName.equals(GamePlayerService.playerList.get(playerNum).getCountryList().get(j).getCountryName())){
+        for(int j=0;j<GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getCountryList().size();j++){
+            if(countryName.equals(GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getCountryList().get(j).getCountryName())){
                 flag=true;
             }
         }
@@ -141,5 +167,13 @@ public class FortifyService {
             }
         }
         return flag;
+    }
+
+    public String getCurrentPlayerName(){
+        GamePlayer currentGamePlayer = gamePlayerService.playerList.get(gamePlayerService.choosePlayer);
+        String currentPlayerName = currentGamePlayer.getPlayerName();
+        if(gamePlayerService.choosePlayer.equals(0))
+            currentPlayerName += " (Me)";
+        return currentPlayerName;
     }
 }

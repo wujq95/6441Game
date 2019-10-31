@@ -86,7 +86,6 @@ public class MapController{
     @FXML
     public AnchorPane mapPane;
 
-
     /**
      * anchor pane containing all user interface actions to the map graph
      */
@@ -114,49 +113,52 @@ public class MapController{
     @FXML
     public Label actionTakenLabel;
 
-    private void loadGameInfo(GamePlayerService gamePlayerService){
-        int phaseNum = gamePlayerService.checkPhase;
+    @FXML
+    public Label attackerDice;
+
+    @FXML
+    public Label defenderDice;
+
+    private void loadGameInformation(GamePlayerService gamePlayerService){
+        int phaseNum  = gamePlayerService.checkPhase;
+
+        String phaseName = "Map Editor";
+        String currentPlayerName = "None";
+        String actionTaken = "None";
+        String attackerDiceOutcome = "None";
+        String defenderDiceOutcome = "None";
+
         switch (phaseNum){
             case 0:
-                phaseLabel.setText("Map Editor");
-                currentPlayerLabel.setText("None");
+                phaseName = "Map Editor";
                 break;
             case 1:
-                phaseLabel.setText("Startup");
-                if(gamePlayerService.playerList.size() > 0 && gamePlayerService.choosePlayer >=0 ){
-                    GamePlayer currentPlayer = gamePlayerService.playerList.get(gamePlayerService.choosePlayer);
-                    if(gamePlayerService.choosePlayer.equals(0))
-                        currentPlayerLabel.setText(currentPlayer.getPlayerName() + " (Me)");
-                    else
-                        currentPlayerLabel.setText(currentPlayer.getPlayerName());
-                }
+                phaseName = "Start Up";
+                currentPlayerName = gamePlayerService.getCurrentPlayerName();
                 break;
             case 2:
-                phaseLabel.setText("Reinforcement");
-                if(gamePlayerService.playerList.size() > 0){
-                    GamePlayer currentPlayer = gamePlayerService.playerList.get(reinforceService.playerNum);
-                    if(reinforceService.playerNum.equals(0))
-                        currentPlayerLabel.setText(currentPlayer.getPlayerName() + " (Me)");
-                    else
-                        currentPlayerLabel.setText(currentPlayer.getPlayerName());
-                }
+                phaseName = "Reinforcement";
+                currentPlayerName = reinforceService.getCurrentPlayerName();
                 break;
             case 3:
-                phaseLabel.setText("Fortification");
-                if(gamePlayerService.playerList.size() > 0){
-                    GamePlayer currentPlayer = gamePlayerService.playerList.get(fortifyService.playerNum);
-                    if(fortifyService.playerNum.equals(0))
-                        currentPlayerLabel.setText(currentPlayer.getPlayerName() + " (Me)");
-                    else
-                        currentPlayerLabel.setText(currentPlayer.getPlayerName());
-                }
+                phaseName = "Fortification";
+                currentPlayerName = fortifyService.getCurrentPlayerName();
                 break;
             case 4:
-                phaseLabel.setText("Game Stop");
-                currentPlayerLabel.setText("None");
+                phaseName = "Attack";
+                attackerDiceOutcome = attackService.getFromDice();
+                defenderDiceOutcome = attackService.getToDice();
+                break;
+            case 5:
+                phaseName = "Game Stop";
                 break;
         }
 
+        phaseLabel.setText(phaseName);
+        currentPlayerLabel.setText(currentPlayerName);
+        actionTakenLabel.setText(actionTaken);
+        attackerDice.setText(attackerDiceOutcome);
+        defenderDice.setText(defenderDiceOutcome);
     }
 
     /**
@@ -282,14 +284,12 @@ public class MapController{
                 String fileName = file.getName();
                 mapEditorService.editMap(fileName);
                 this.mapGraph = MapEditorService.mapGraph;
-                //add observer
-                //MapGraphObserver MapEditorMapGraphObserver = new MapGraphObserver(MapEditorService.mapGraph);
 
                 //load map graph
                 loadMapGraph(mapGraph);
 
                 //load game info
-                loadGameInfo(gamePlayerService);
+                loadGameInformation(gamePlayerService);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -326,8 +326,8 @@ public class MapController{
             CommandService commandService = new CommandService();
             String returnMsg = commandService.processCommand(commandStr);
             infoTextView.setText(returnMsg);
-            loadMapGraph(MapEditorService.mapGraph);
-            loadGameInfo(gamePlayerService);
+//            loadMapGraph(MapEditorService.mapGraph);
+//            loadGameInfo(gamePlayerService);
         }
     }
 
@@ -346,20 +346,34 @@ public class MapController{
         // default empty graph before loaded
         this.mapGraph = new MapGraph();
         this.mapGraphObserver = new MapGraphObserver(MapEditorService.mapGraph);
-        this.gameInfoObserver = new GameInfoObserver(gamePlayerService);
+        this.gameInfoObserver = new GameInfoObserver(gamePlayerService, attackService, cardService,reinforceService,fortifyService);
     }
 
     public class GameInfoObserver extends Observer{
 
-        public GameInfoObserver(GamePlayerService gamePlayerService){
+        public GameInfoObserver(GamePlayerService gamePlayerService, AttackService attackService, CardService cardService, ReinforceService reinforceService,FortifyService fortifyService){
             this.gamePlayerService = gamePlayerService;
             this.gamePlayerService.attach(this);
+
+            this.attackService = attackService;
+            this.attackService.attach(this);
+
+            this.cardService = cardService;
+            this.cardService.attach(this);
+
+            this.reinforceService = reinforceService;
+            this.reinforceService.attach(this);
+
+            this.fortifyService =fortifyService;
+            this.fortifyService.attach(this);
         }
 
         @Override
         public void update(){
             System.out.println("Game Information Reloaded");
-            //loadMapGraph(MapEditorService.mapGraph);
+            loadGameInformation(gamePlayerService);
+            System.out.println("Map Pane Reloaded");
+            loadMapGraph(MapEditorService.mapGraph);
         }
     }
 

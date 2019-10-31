@@ -15,7 +15,7 @@ import java.util.List;
 public class GamePlayerService {
 
     public static List<GamePlayer> playerList = new ArrayList<GamePlayer>();
-    public static Integer choosePlayer = -1;
+    public static Integer choosePlayer = 0;
     public static int checkPhase = 0;
 
     //observers list
@@ -109,6 +109,7 @@ public class GamePlayerService {
                     removePlayer(arguments[i+1]);
                 }
             }
+            notifyObservers();
             return "gameplayer action success";
         }
     }
@@ -174,7 +175,7 @@ public class GamePlayerService {
         player.setPlayerName(playerName);
         player.setArmyValue(0);
         playerList.add(player);
-        notifyObservers();
+
     }
 
     /**
@@ -187,6 +188,7 @@ public class GamePlayerService {
                 playerList.remove(i);
             }
         }
+        notifyObservers();
     }
 
     /**
@@ -204,7 +206,7 @@ public class GamePlayerService {
             playerList.get(i%playerNum).setCountryList(playerCountryList);
             MapEditorService.mapGraph.getCountryList().get(i).setPlayer(playerList.get(i%playerNum));
         }
-
+        notifyObservers();
         return "populatecountries success and ";
     }
 
@@ -253,6 +255,7 @@ public class GamePlayerService {
             return "player number wrong!";
         }else{
             choosePlayer=0;
+            notifyObservers();
             return "allocate initial army success";
         }
     }
@@ -288,10 +291,10 @@ public class GamePlayerService {
         }else if(flag ==2){
             return "the army value of the player is not enough";
         }else{
-            changeIndexPlayer();
-            return "place one army success";
+            String result=changeIndexPlayer();;
+            notifyObservers();
+            return result;
         }
-
     }
 
     /**
@@ -316,8 +319,17 @@ public class GamePlayerService {
                 }
             }
         }
-        nextPhase();
-        return "place all success!";
+        boolean flag = nextPhase();
+        String result;
+        if(flag){
+            checkPhase=2;
+            choosePlayer=0;
+            notifyObservers();
+            result = "enter into the reinforcement phase";
+        }else{
+            result = "place all success!";
+        }
+        return result;
     }
 
     /**
@@ -326,7 +338,7 @@ public class GamePlayerService {
      */
     public String calReinArmyNum(){
 
-        GamePlayer player = playerList.get(ReinforceService.playerNum);
+        GamePlayer player = playerList.get(choosePlayer);
         if(player.getArmyValue()==0) {
             List<Country> countryList = player.getCountryList();
             Integer countryNum = (int) Math.floor(countryList.size() / 3);
@@ -348,11 +360,13 @@ public class GamePlayerService {
             if(continentNum>0){
                 newPlayerArmyValue =  player.getArmyValue()+continentNum ;
                 player.setArmyValue(newPlayerArmyValue);
+                notifyObservers();
                 return "calculate reinforce number success: " +newPlayerArmyValue+ "\n"
                         + "continent value:" + continentNum + "\n";
             }else{
                 newPlayerArmyValue = player.getArmyValue() + Math.max(countryNum,3);
                 player.setArmyValue(newPlayerArmyValue);
+                notifyObservers();
                 return "calculate reinforce number success: " +newPlayerArmyValue+ "\n"
                         + "no continent value!"+ "\n"
                         + "country number: round down(" + countryList.size() + "\\3)=" + countryNum + "\n"
@@ -382,7 +396,8 @@ public class GamePlayerService {
     /**
      * change the index of the player
      */
-    public void changeIndexPlayer(){
+    public String changeIndexPlayer(){
+        String result = "place one army success";
         choosePlayer++;
         if(choosePlayer==playerList.size()){
             choosePlayer=0;
@@ -397,23 +412,30 @@ public class GamePlayerService {
             if(!flag) {
                 changeIndexPlayer();
             }else{
+                result = "enter into the reinforcement phase";
+                choosePlayer=0;
                 checkPhase = 2;
             }
         }
+        return result;
     }
 
     /**
      * check if player should enter next phase
      */
-    public void nextPhase(){
-        boolean flag= true;
-        for(int i=0;i<playerList.size();i++){
-            if(playerList.get(i).getArmyValue()>0){
-                flag = false;
-            }
+    public boolean nextPhase(){
+        boolean flag = false;
+        if(playerList.get(GamePlayerService.choosePlayer).getArmyValue()==0){
+            flag=true;
         }
-        if(flag){
-            checkPhase = 2;
-        }
+        return flag;
+    }
+
+    public String getCurrentPlayerName(){
+        GamePlayer currentGamePlayer = playerList.get(choosePlayer);
+        String currentPlayerName = currentGamePlayer.getPlayerName();
+        if(choosePlayer.equals(0))
+            currentPlayerName += " (Me)";
+        return currentPlayerName;
     }
 }
