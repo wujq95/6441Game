@@ -6,6 +6,7 @@ import model.Country;
 import model.GamePlayer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,6 +31,32 @@ public class GamePlayerService {
             observer.update();
         }
     }
+
+    public Integer orderTurn(){
+        double num;
+        int result;
+        num = Math.floor(Math.random() * 6 + 1);
+        result = (int) num;
+        return result;
+    }
+
+
+    public void decideTurn(GamePlayer player) {
+        for (GamePlayer players : playerList) {
+            player.setNum(orderTurn());
+        }
+        List<Integer> order = new ArrayList<>();
+        for(int i=0;i<=playerList.size();i++){
+            order.add(player.getNum());
+        }
+        // Descending sort
+        Collections.sort(order);
+        Collections.reverse(order);
+        for (int i = 0; i<=order.size();i++){
+        System.out.println("Player " + playerList.get(i) + "'s result for dice toll is " + order.get(i));}
+    }
+
+
 
     /**
      * check if player name is suitable for the game
