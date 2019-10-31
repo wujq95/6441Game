@@ -438,4 +438,8 @@ public class GamePlayerService {
             currentPlayerName += " (Me)";
         return currentPlayerName;
     }
+
+    public GamePlayer getCurrentPlayer() {
+        return GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
+    }
 }
