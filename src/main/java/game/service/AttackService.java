@@ -7,7 +7,6 @@ import java.util.*;
 
 public class AttackService {
 
-    public Integer playerNum = 0;
     public static String fromCountry;
     public static String toCountry;
     public static Integer fromDiceNum;
@@ -100,7 +99,7 @@ public class AttackService {
      * @return
      */
     public boolean checkFromPlayer(String countryName){
-        List<Country> countryList = GamePlayerService.playerList.get(playerNum).getCountryList();
+        List<Country> countryList = GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getCountryList();
         boolean flag = false;
         for(int i=0;i<countryList.size();i++){
             if(countryName.equals(countryList.get(i).getCountryName())){
@@ -149,18 +148,20 @@ public class AttackService {
             }
         }
         if(remainArmyNum==1){
+            return false;
+        }else if(remainArmyNum==2){
             if(num==1){
                 return true;
             }else{
                 return false;
             }
-        }else if(remainArmyNum==2){
+        }else if(remainArmyNum==3){
             if(num==1||num==2){
                 return true;
             }else{
                 return false;
             }
-        }else if (remainArmyNum>=3){
+        }else if (remainArmyNum>=4){
             return true;
         }else{
             return false;
@@ -307,12 +308,7 @@ public class AttackService {
         }
         fromDiceResultList = fromDiceList;
         toDiceResultList = toDiceList;
-        //TO DO
-        //delete console
         notifyObservers();
-        System.out.println(fromDiceList);
-        System.out.println(toDiceList);
-
         return "attack process finished";
     }
 
@@ -327,6 +323,15 @@ public class AttackService {
                 MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(newArmy);
             }
         }
+    }
+
+    /**
+     * choose to stop attacking
+     * @return
+     */
+    public String noattack(){
+        GamePlayerService.checkPhase=3;
+        return "enter into fortification phase";
     }
 
     public String getFromDice(){

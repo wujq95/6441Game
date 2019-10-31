@@ -10,7 +10,6 @@ import model.GamePlayer;
 public class ReinforceService {
     // Initiate object to be used later conveniently
     GamePlayerService gamePlayerService = new GamePlayerService();
-    public static Integer playerNum = 0;
 
     /**
      * Reinforce Phase Action
@@ -24,10 +23,10 @@ public class ReinforceService {
             return "reinforce number can be negative";
         }else {
             int flag = 0;
-            for (int j = 0; j < GamePlayerService.playerList.get(playerNum).getCountryList().size(); j++) {
-                if ((countryName).equals(GamePlayerService.playerList.get(playerNum).getCountryList().get(j).getCountryName())) {
+            for (int j = 0; j < GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getCountryList().size(); j++) {
+                if ((countryName).equals(GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getCountryList().get(j).getCountryName())) {
                     flag = 1;
-                    Integer playerArmyValue = GamePlayerService.playerList.get(playerNum).getArmyValue();
+                    Integer playerArmyValue = GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getArmyValue();
                     if (playerArmyValue < reinArmyValue) {
                         flag = 2;
                     } else {
@@ -38,7 +37,7 @@ public class ReinforceService {
                             }
                         }
                         Integer newPlayerArmyValue = playerArmyValue - reinArmyValue;
-                        GamePlayerService.playerList.get(playerNum).setArmyValue(newPlayerArmyValue);
+                        GamePlayerService.playerList.get(GamePlayerService.choosePlayer).setArmyValue(newPlayerArmyValue);
                     }
                 }
             }
@@ -48,9 +47,13 @@ public class ReinforceService {
             } else if (flag == 2) {
                 return "the army value of the player is not enough";
             } else {
-                checkPutAll();
-                checkNextPhase();
-                return "reinforce success";
+                boolean flag2 = checkNextPhase();
+                if(flag2){
+                    GamePlayerService.checkPhase=4;
+                    return "enter into the attack phase";
+                }else{
+                    return "reinforce success";
+                }
             }
         }
     }
@@ -59,22 +62,24 @@ public class ReinforceService {
      * check if one player have put all his armies to the countries
      */
     public void checkPutAll(){
-        int m = playerNum;
+        int m = GamePlayerService.choosePlayer;
         int t= m;
-        if(GamePlayerService.playerList.get(playerNum).getArmyValue()==0){
-            t=playerNum+1;
+        if(GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getArmyValue()==0){
+            t=GamePlayerService.choosePlayer+1;
         }
-        playerNum=t;
+        GamePlayerService.choosePlayer=t;
     }
 
     /**
      * check if player should enter next phase
      *
      */
-    public void checkNextPhase(){
-        if(playerNum>=GamePlayerService.playerList.size()){
-            GamePlayerService.checkPhase=3;
+    public boolean checkNextPhase(){
+        boolean flag = false;
+        if(GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getArmyValue()==0){
+            flag  =true;
         }
+        return flag;
     }
 
     public String getCurrentPlayerName(){

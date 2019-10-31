@@ -99,10 +99,13 @@ public class CommandService {
         } else if (inputCommand.startsWith("attack")) {
             GamePlayerService.checkPhase = 4;
             String[] arguments = inputCommand.split(" ");
-            commandReturnMsg = attackService.attack(arguments);
-
+            if(arguments[1].startsWith("-noattack")){
+                commandReturnMsg = attackService.noattack();
+            }else{
+                commandReturnMsg = attackService.attack(arguments);
+            }
         } else if (inputCommand.startsWith("defend")) {
-            GamePlayerService.checkPhase = 4;
+
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = attackService.defend(arguments[1]);
         } else if (inputCommand.startsWith("exchangecards")) {
