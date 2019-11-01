@@ -95,6 +95,8 @@ public class AttackService {
             return "from country and to country must be connected";
         } else {
 
+            fromCountry = countryFrom;
+            toCountry = countryTo;
             //get army value
             Integer fromCountryArmyValue = 1, toCountryArmyValue = 1;
             List<Country> countryList = MapEditorService.mapGraph.getCountryList();
@@ -107,24 +109,45 @@ public class AttackService {
                 }
             }
 
-            if (fromCountryArmyValue == 1) {
+            /*if (fromCountryArmyValue == 1) {
                 return "cannot attack";
             } else {
                 fromCountry = countryFrom;
                 toCountry = countryTo;
                 //get maximal dice
+
+
+
                 fromDiceNum = fromCountryMaxdice(fromCountryArmyValue);
                 toDiceNum = toCountryMaxdice(toCountryArmyValue);
 
                 String result=alloutProcess();
                 return result;
 
+            }*/
+
+
+            while(fromCountryArmyValue>1&&toCountryArmyValue>0){
+
+                fromDiceNum = fromCountryMaxdice(fromCountryArmyValue);
+                toDiceNum = toCountryMaxdice(toCountryArmyValue);
+                attackProcess();
+                for (int i = 0, n = 0; i < countryList.size(); i++, n++) {
+                    if (countryList.get(i).getCountryName().equals(countryFrom)) {
+                        fromCountryArmyValue = countryList.get(i).getArmyValue();
+                    }
+                    if (countryList.get(n).getCountryName().equals(countryTo)) {
+                        toCountryArmyValue = countryList.get(n).getArmyValue();
+                    }
                 }
             }
+
+            return "allout success";
         }
+    }
 
 
-    public int fromCountryMaxdice(int armyvalue){
+    public Integer fromCountryMaxdice(Integer armyvalue){
         if(armyvalue>=4) {
             fromDiceNum = 3;
         }else if(armyvalue==3){
@@ -303,7 +326,7 @@ public class AttackService {
         for (; i < countryList.size(); i++, n++) {
             countryList.get(i).getCountryName().equals(fromCountry);
             countryList.get(n).getCountryName().equals(toCountry);
-            }
+        }
 
         while (true) {
             attackProcess();
