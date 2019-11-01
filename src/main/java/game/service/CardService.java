@@ -39,7 +39,7 @@ public class CardService {
         notifyObservers();
     }
 
-    public void exchangeCards(int no1, int no2, int no3, GamePlayer gamePlayer) {
+    String exchangeCards(int no1, int no2, int no3, GamePlayer gamePlayer) {
         Card card1 = gamePlayer.getCardList().get(no1);
         Card card2 = gamePlayer.getCardList().get(no2);
         Card card3 = gamePlayer.getCardList().get(no3);
@@ -48,10 +48,13 @@ public class CardService {
             gamePlayer.setArmyValue(gamePlayer.getArmyValue() + armyRewarded);
         } else if (!card1.equals(card2) && !card2.equals(card3) && !card3.equals(card1)) {
             gamePlayer.setArmyValue(gamePlayer.getArmyValue() + armyRewarded);
+        } else {
+            return "invalid command";
         }
 
         armyRewarded = armyRewarded + 5;
         notifyObservers();
+        return "exchange success";
     }
 
     public boolean mustExchange(GamePlayer gamePlayer) {
