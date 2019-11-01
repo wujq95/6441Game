@@ -51,7 +51,7 @@ public class CommandService {
         } else if (inputCommand.startsWith("editneighbor") && GamePlayerService.checkPhase == 0) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = mapEditorService.editNeighbor(arguments);
-        } else if (inputCommand.startsWith("gameplayer") && GamePlayerService.checkPhase == 1) {
+        } else if (inputCommand.startsWith("gameplayer") && GamePlayerService.checkPhase == 1||GamePlayerService.checkPhase == 0) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = gamePlayerService.gamePlayerAction(arguments);
         } else if (inputCommand.startsWith("populatecountries") && GamePlayerService.checkPhase == 1) {
