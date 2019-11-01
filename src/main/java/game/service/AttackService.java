@@ -75,6 +75,12 @@ public class AttackService {
         }
     }
 
+    /**
+     * attack until no attack is possible using maximum number of dice to attack/defend
+     * @param countryFrom
+     * @param countryTo
+     * @return String
+     */
     public String allout(String countryFrom, String countryTo) {
 
         //check
@@ -109,44 +115,32 @@ public class AttackService {
                 }
             }
 
-            /*if (fromCountryArmyValue == 1) {
+            if (fromCountryArmyValue == 1) {
                 return "cannot attack";
             } else {
-                fromCountry = countryFrom;
-                toCountry = countryTo;
-                //get maximal dice
-
-
-
-                fromDiceNum = fromCountryMaxdice(fromCountryArmyValue);
-                toDiceNum = toCountryMaxdice(toCountryArmyValue);
-
-                String result=alloutProcess();
-                return result;
-
-            }*/
-
-
-            while(fromCountryArmyValue>1&&toCountryArmyValue>0){
-
-                fromDiceNum = fromCountryMaxdice(fromCountryArmyValue);
-                toDiceNum = toCountryMaxdice(toCountryArmyValue);
-                attackProcess();
-                for (int i = 0, n = 0; i < countryList.size(); i++, n++) {
-                    if (countryList.get(i).getCountryName().equals(countryFrom)) {
-                        fromCountryArmyValue = countryList.get(i).getArmyValue();
-                    }
-                    if (countryList.get(n).getCountryName().equals(countryTo)) {
-                        toCountryArmyValue = countryList.get(n).getArmyValue();
+                while(fromCountryArmyValue>1&&toCountryArmyValue>0){
+                    fromDiceNum = fromCountryMaxdice(fromCountryArmyValue);
+                    toDiceNum = toCountryMaxdice(toCountryArmyValue);
+                    attackProcess();
+                    for (int i = 0, n = 0; i < countryList.size(); i++, n++) {
+                        if (countryList.get(i).getCountryName().equals(countryFrom)) {
+                            fromCountryArmyValue = countryList.get(i).getArmyValue();
+                        }
+                        if (countryList.get(n).getCountryName().equals(countryTo)) {
+                            toCountryArmyValue = countryList.get(n).getArmyValue();
+                        }
                     }
                 }
-            }
-
             return "allout success";
+            }
         }
     }
 
-
+    /**
+     * calculate maximal dice
+     * @param armyvalue
+     * @return from country maximal dice
+     */
     public Integer fromCountryMaxdice(Integer armyvalue){
         if(armyvalue>=4) {
             fromDiceNum = 3;
@@ -158,6 +152,11 @@ public class AttackService {
         return fromDiceNum;
     }
 
+    /**
+     * calculate maximal dice
+     * @param armyvalue
+     * @return to country maximal dice
+     */
     public int toCountryMaxdice(int armyvalue){
         if(armyvalue>=2) {
             toDiceNum = 2;
@@ -317,22 +316,6 @@ public class AttackService {
             }
         }else{
             return false;
-        }
-    }
-
-    public String alloutProcess() {
-        List<Country> countryList = MapEditorService.mapGraph.getCountryList();
-        int i = 0, n = 0;
-        for (; i < countryList.size(); i++, n++) {
-            countryList.get(i).getCountryName().equals(fromCountry);
-            countryList.get(n).getCountryName().equals(toCountry);
-        }
-
-        while (true) {
-            attackProcess();
-            if (countryList.get(i).getArmyValue() == 1||countryList.get(n).getArmyValue()==0) {
-                return "allout process finished";
-            }
         }
     }
 
