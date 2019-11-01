@@ -106,12 +106,7 @@ public class CommandService {
             }else {
                 commandReturnMsg = attackService.attack(arguments);
             }
-<<<<<<< Updated upstream
-        } else if (inputCommand.startsWith("defend")) {
-            GamePlayerService.checkPhase = 4;
-=======
         } else if (inputCommand.startsWith("defend") && GamePlayerService.checkPhase == 4) {
->>>>>>> Stashed changes
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = attackService.defend(arguments[1]);
         } else if (inputCommand.startsWith("exchangecards") && GamePlayerService.checkPhase == 2) {
