@@ -313,6 +313,20 @@ public class AttackService {
     }
 
     /**
+     * check if the country has been conquered
+     * @return
+     */
+    public boolean checkConquered(){
+        boolean flag =false;
+        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
+            if(toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i))){
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
+    /**
      * delete one army if loosing the dice competition
      * @param countryName
      */
@@ -334,6 +348,43 @@ public class AttackService {
         notifyObservers();
         return "enter into fortification phase";
     }
+
+    /**
+     * if conquering one country,player could move some armies to that country
+     * @param num
+     * @return
+     */
+    public String attackMove(String num){
+
+        Double dArmyNum = Double.valueOf(num);
+        Integer ArmyNum = Integer.parseInt(num);
+        boolean flag = checkMoveArmy();
+
+        if(dArmyNum%1!=0){
+            return "Dice Number must be an integer";
+        }else if(ArmyNum<=0){
+                return "attack move number can be negative or zero";
+        }else if(flag){
+            return "incorrect army number";
+        }else{
+            for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
+                if(toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+                    MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(ArmyNum);
+                }
+            }
+            return "";
+        }
+
+    }
+
+    /**
+     * check if army of moving is suitable
+     * @return
+     */
+    public boolean checkMoveArmy(){
+        return true;
+    }
+
 
     public String getFromDice(){
         return fromDiceResultList.toString();
