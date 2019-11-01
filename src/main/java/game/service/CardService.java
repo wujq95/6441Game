@@ -6,18 +6,18 @@ import model.GamePlayer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class CardService {
     private int armyRewarded = 5;
-
-    //observers list
+    private static List<Card> cardDeckList;
     private List<controller.Observer> cardObservers = new ArrayList<>();
 
-    public void attach(controller.Observer observer){
+    public void attach(controller.Observer observer) {
         cardObservers.add(observer);
     }
 
-    public void notifyObservers(){
+    public void notifyObservers() {
         for (Observer observer : cardObservers) {
             observer.update();
         }
@@ -25,14 +25,18 @@ public class CardService {
 
     public void rewardCardAfterConquerOneCountry(GamePlayer gamePlayer) {
         List<Card> previousCards = gamePlayer.getCardList();
-        previousCards.add(Card.getRandomCard());
+        previousCards.add(getRandomCardFromDeck());
         gamePlayer.setCardList(previousCards);
+
+        notifyObservers();
     }
 
     public void rewardCardAfterConquerLastCountry(GamePlayer attacker, GamePlayer conquered) {
         List<Card> previousCards = attacker.getCardList();
         previousCards.addAll(conquered.getCardList());
         attacker.setCardList(previousCards);
+
+        notifyObservers();
     }
 
     public void exchangeCards(int no1, int no2, int no3, GamePlayer gamePlayer) {
@@ -47,9 +51,9 @@ public class CardService {
         }
 
         armyRewarded = armyRewarded + 5;
+        notifyObservers();
     }
 
-    //TODO:How to know who is the player right now?
     public boolean mustExchange(GamePlayer gamePlayer) {
         for (GamePlayer player : GamePlayerService.playerList) {
             if (gamePlayer.equals(player)) {
@@ -64,4 +68,39 @@ public class CardService {
         return false;
     }
 
+    public void createCardDeck() {
+        int number = MapEditorService.mapGraph.getCountryList().size();
+        cardDeckList = new ArrayList<Card>(number);
+
+        if (number % 3 == 0) {
+            for (int i = 0; i < number / 3; i++) {
+                cardDeckList.add(Card.artillery);
+                cardDeckList.add(Card.cavalry);
+                cardDeckList.add(Card.infantry);
+            }
+        } else if (number % 3 == 1) {
+            for (int i = 0; i < number / 3; i++) {
+                cardDeckList.add(Card.artillery);
+                cardDeckList.add(Card.cavalry);
+                cardDeckList.add(Card.infantry);
+            }
+            cardDeckList.add(Card.getRandomCard());
+        } else {
+            for (int i = 0; i < number / 3; i++) {
+                cardDeckList.add(Card.artillery);
+                cardDeckList.add(Card.cavalry);
+                cardDeckList.add(Card.infantry);
+            }
+            cardDeckList.add(Card.getRandomCard());
+            cardDeckList.add(Card.getRandomCard());
+        }
+
+        notifyObservers();
+    }
+
+    public Card getRandomCardFromDeck() {
+        Random rand = new Random();
+        int randomNumber = rand.nextInt(cardDeckList.size());
+        return cardDeckList.remove(randomNumber);
+    }
 }

@@ -6,6 +6,7 @@ import model.Country;
 import model.GamePlayer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,6 +31,32 @@ public class GamePlayerService {
             observer.update();
         }
     }
+
+    public Integer orderTurn(){
+        double num;
+        int result;
+        num = Math.floor(Math.random() * 6 + 1);
+        result = (int) num;
+        return result;
+    }
+
+
+    public void decideTurn(GamePlayer player) {
+        for (GamePlayer players : playerList) {
+            player.setNum(orderTurn());
+        }
+        List<Integer> order = new ArrayList<>();
+        for(int i=0;i<=playerList.size();i++){
+            order.add(player.getNum());
+        }
+        // Descending sort
+        Collections.sort(order);
+        Collections.reverse(order);
+        for (int i = 0; i<=order.size();i++){
+        System.out.println("Player " + playerList.get(i) + "'s result for dice toll is " + order.get(i));}
+    }
+
+
 
     /**
      * check if player name is suitable for the game
@@ -264,11 +291,10 @@ public class GamePlayerService {
         }else if(flag ==2){
             return "the army value of the player is not enough";
         }else{
-            changeIndexPlayer();
+            String result=changeIndexPlayer();;
             notifyObservers();
-            return "place one army success";
+            return result;
         }
-
     }
 
     /**
@@ -293,9 +319,17 @@ public class GamePlayerService {
                 }
             }
         }
-        nextPhase();
-        notifyObservers();
-        return "place all success!";
+        boolean flag = nextPhase();
+        String result;
+        if(flag){
+            checkPhase=2;
+            choosePlayer=0;
+            notifyObservers();
+            result = "enter into the reinforcement phase";
+        }else{
+            result = "place all success!";
+        }
+        return result;
     }
 
     /**
@@ -304,7 +338,7 @@ public class GamePlayerService {
      */
     public String calReinArmyNum(){
 
-        GamePlayer player = playerList.get(ReinforceService.playerNum);
+        GamePlayer player = playerList.get(choosePlayer);
         if(player.getArmyValue()==0) {
             List<Country> countryList = player.getCountryList();
             Integer countryNum = (int) Math.floor(countryList.size() / 3);
@@ -326,11 +360,13 @@ public class GamePlayerService {
             if(continentNum>0){
                 newPlayerArmyValue =  player.getArmyValue()+continentNum ;
                 player.setArmyValue(newPlayerArmyValue);
+                notifyObservers();
                 return "calculate reinforce number success: " +newPlayerArmyValue+ "\n"
                         + "continent value:" + continentNum + "\n";
             }else{
                 newPlayerArmyValue = player.getArmyValue() + Math.max(countryNum,3);
                 player.setArmyValue(newPlayerArmyValue);
+                notifyObservers();
                 return "calculate reinforce number success: " +newPlayerArmyValue+ "\n"
                         + "no continent value!"+ "\n"
                         + "country number: round down(" + countryList.size() + "\\3)=" + countryNum + "\n"
@@ -360,7 +396,8 @@ public class GamePlayerService {
     /**
      * change the index of the player
      */
-    public void changeIndexPlayer(){
+    public String changeIndexPlayer(){
+        String result = "place one army success";
         choosePlayer++;
         if(choosePlayer==playerList.size()){
             choosePlayer=0;
@@ -375,24 +412,23 @@ public class GamePlayerService {
             if(!flag) {
                 changeIndexPlayer();
             }else{
+                result = "enter into the reinforcement phase";
+                choosePlayer=0;
                 checkPhase = 2;
             }
         }
+        return result;
     }
 
     /**
      * check if player should enter next phase
      */
-    public void nextPhase(){
-        boolean flag= true;
-        for(int i=0;i<playerList.size();i++){
-            if(playerList.get(i).getArmyValue()>0){
-                flag = false;
-            }
+    public boolean nextPhase(){
+        boolean flag = false;
+        if(playerList.get(GamePlayerService.choosePlayer).getArmyValue()==0){
+            flag=true;
         }
-        if(flag){
-            checkPhase = 2;
-        }
+        return flag;
     }
 
     public String getCurrentPlayerName(){
@@ -401,5 +437,9 @@ public class GamePlayerService {
         if(choosePlayer.equals(0))
             currentPlayerName += " (Me)";
         return currentPlayerName;
+    }
+
+    public GamePlayer getCurrentPlayer() {
+        return GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
     }
 }

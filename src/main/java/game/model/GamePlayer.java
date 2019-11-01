@@ -81,6 +81,14 @@ public class GamePlayer {
         this.cardList = cardList;
     }
 
+    public void setNum(Integer num) {
+        this.num = num;
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
     /**
      * Initial variables
      */
@@ -88,5 +96,7 @@ public class GamePlayer {
     Integer armyValue;
     List<Country> countryList = new ArrayList<Country>();
     List<Card> cardList;
+    Integer num;
+
 
 }

@@ -7,13 +7,12 @@ import java.util.*;
 
 public class AttackService {
 
-    public Integer playerNum = 0;
     public static String fromCountry;
     public static String toCountry;
     public static Integer fromDiceNum;
     public static Integer toDiceNum;
-    public static List<Integer> fromDiceResultList;
-    public static List<Integer> toDiceResultList;
+    public static List<Integer> fromDiceResultList=new LinkedList<>();
+    public static List<Integer> toDiceResultList=new LinkedList<>();
 
     //observers list
     private List<controller.Observer> attackObservers = new ArrayList<>();
@@ -168,7 +167,7 @@ public class AttackService {
      * @return
      */
     public boolean checkFromPlayer(String countryName){
-        List<Country> countryList = GamePlayerService.playerList.get(playerNum).getCountryList();
+        List<Country> countryList = GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getCountryList();
         boolean flag = false;
         for(int i=0;i<countryList.size();i++){
             if(countryName.equals(countryList.get(i).getCountryName())){
@@ -217,18 +216,20 @@ public class AttackService {
             }
         }
         if(remainArmyNum==1){
+            return false;
+        }else if(remainArmyNum==2){
             if(num==1){
                 return true;
             }else{
                 return false;
             }
-        }else if(remainArmyNum==2){
+        }else if(remainArmyNum==3){
             if(num==1||num==2){
                 return true;
             }else{
                 return false;
             }
-        }else if (remainArmyNum>=3){
+        }else if (remainArmyNum>=4){
             return true;
         }else{
             return false;
@@ -390,13 +391,22 @@ public class AttackService {
         }
         fromDiceResultList = fromDiceList;
         toDiceResultList = toDiceList;
-        //TO DO
-        //delete console
         notifyObservers();
-        System.out.println(fromDiceList);
-        System.out.println(toDiceList);
-
         return "attack process finished";
+    }
+
+    /**
+     * check if the country has been conquered
+     * @return
+     */
+    public boolean checkConquered(){
+        boolean flag =false;
+        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
+            if(toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i))){
+                flag = true;
+            }
+        }
+        return flag;
     }
 
     /**
@@ -411,6 +421,53 @@ public class AttackService {
             }
         }
     }
+
+    /**
+     * choose to stop attacking
+     * @return
+     */
+    public String noattack(){
+        GamePlayerService.checkPhase=3;
+        notifyObservers();
+        return "enter into fortification phase";
+    }
+
+    /**
+     * if conquering one country,player could move some armies to that country
+     * @param num
+     * @return
+     */
+    public String attackMove(String num){
+
+        Double dArmyNum = Double.valueOf(num);
+        Integer ArmyNum = Integer.parseInt(num);
+        boolean flag = checkMoveArmy();
+
+        if(dArmyNum%1!=0){
+            return "Dice Number must be an integer";
+        }else if(ArmyNum<=0){
+                return "attack move number can be negative or zero";
+        }else if(flag){
+            return "incorrect army number";
+        }else{
+            for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
+                if(toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+                    MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(ArmyNum);
+                }
+            }
+            return "attack move success";
+        }
+
+    }
+
+    /**
+     * check if army of moving is suitable
+     * @return
+     */
+    public boolean checkMoveArmy(){
+        return true;
+    }
+
 
     public String getFromDice(){
         return fromDiceResultList.toString();
