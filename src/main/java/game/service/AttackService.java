@@ -372,7 +372,7 @@ public class AttackService {
                     MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(ArmyNum);
                 }
             }
-            return "";
+            return "attack move success";
         }
 
     }
