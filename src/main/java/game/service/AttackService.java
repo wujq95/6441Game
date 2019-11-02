@@ -2,6 +2,7 @@ package service;
 
 import controller.Observer;
 import model.Country;
+import model.GamePlayer;
 
 import java.util.*;
 
@@ -131,7 +132,23 @@ public class AttackService {
                         }
                     }
                 }
-            return "allout success";
+                boolean flag =  checkConquered();
+                if(flag){
+                    Integer numOfDice = fromDiceResultList.size();
+                    Integer fromArmyValue = checkArmyValueFromName(fromCountry);
+                    if(fromArmyValue>=numOfDice+2){
+                        notifyObservers();
+                        return "please choose the number of moving army value";
+                    }else{
+                        moveArmy(fromArmyValue-1);
+                        changPlayer();
+                        notifyObservers();
+                        return "attack and conquer success";
+                    }
+                }else {
+                    notifyObservers();
+                    return "allout process finished";
+                }
             }
         }
     }
@@ -278,8 +295,24 @@ public class AttackService {
                 boolean checkDice = checkDefendDice(countryName, numDefend);
                 if (checkDice) {
                     toDiceNum = numDefend;
-                    String result = attackProcess();
-                    return result;
+                    attackProcess();
+                    boolean flag =  checkConquered();
+                    if(flag){
+                        Integer numOfDice = fromDiceResultList.size();
+                        Integer fromArmyValue = checkArmyValueFromName(fromCountry);
+                        if(fromArmyValue>=numOfDice+2){
+                            notifyObservers();
+                            return "please choose the number of moving army value";
+                        }else{
+                            moveArmy(fromArmyValue-1);
+                            changPlayer();
+                            notifyObservers();
+                            return "attack and conquer success";
+                        }
+                    }else {
+                        notifyObservers();
+                        return "attack process finished";
+                    }
                 } else {
                     return "incorrect defend dice number";
                 }
@@ -323,7 +356,7 @@ public class AttackService {
      * attack process
      * @return
      */
-    public String attackProcess(){
+    public void attackProcess(){
 
         Integer[] fromDiceArray = new Integer[fromDiceNum];
         Integer[] toDiceArray = new Integer[toDiceNum];
@@ -397,22 +430,44 @@ public class AttackService {
         }
         fromDiceResultList = fromDiceList;
         toDiceResultList = toDiceList;
-        boolean flag =  checkConquered();
-        if(flag){
-            Integer numOfDice = fromDiceResultList.size();
-            Integer fromArmyValue = checkArmyValueFromName(fromCountry);
-            if(fromArmyValue>=numOfDice+2){
-                notifyObservers();
-                return "please choose the number of moving army value";
-            }else{
-                moveArmy(fromArmyValue-1);
-                notifyObservers();
-                return "attack and conquer success";
+    }
+
+    /**
+     * change the owner of the country after conquering
+     */
+    public  void changPlayer(){
+        GamePlayer oldFromPlayer = null;
+        GamePlayer oldToPlayer=null;
+        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
+            if(fromCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+                oldFromPlayer = MapEditorService.mapGraph.getCountryList().get(i).getPlayer();
             }
-        }else {
-            notifyObservers();
-            return "attack process finished";
         }
+        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
+            if(toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+                oldToPlayer= MapEditorService.mapGraph.getCountryList().get(i).getPlayer();
+                MapEditorService.mapGraph.getCountryList().get(i).setPlayer(oldFromPlayer);
+            }
+        }
+
+        Country country =null;
+        for(int i=0;i<GamePlayerService.playerList.size();i++){
+            if(oldToPlayer.getPlayerName().equals(GamePlayerService.playerList.get(i).getPlayerName())){
+                for(int j=0;j<GamePlayerService.playerList.get(i).getCountryList().size();j++){
+                    if(toCountry.equals(GamePlayerService.playerList.get(i).getCountryList().get(j).getCountryName())){
+                        country = GamePlayerService.playerList.get(i).getCountryList().get(j);
+                        GamePlayerService.playerList.get(i).getCountryList().remove(j);
+                    }
+                }
+            }
+        }
+
+        for(int i=0;i<GamePlayerService.playerList.size();i++){
+            if(oldFromPlayer.getPlayerName().equals(GamePlayerService.playerList.get(i).getPlayerName())){
+                GamePlayerService.playerList.get(i).getCountryList().add(country);
+            }
+        }
+
     }
 
     /**
@@ -519,6 +574,7 @@ public class AttackService {
                     MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(remainArmyValue-ArmyNum);
                 }
             }
+            changPlayer();
             notifyObservers();
             return "attack move success";
         }
