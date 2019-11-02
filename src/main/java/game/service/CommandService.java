@@ -84,11 +84,11 @@ public class CommandService {
             }
         } else if (inputCommand.startsWith("attack") && GamePlayerService.checkPhase == 4) {
             String[] arguments = inputCommand.split(" ");
-            if (arguments[1].startsWith("-noattack")){
+            if (arguments[1].startsWith("-noattack")) {
                 commandReturnMsg = attackService.noattack();
-            }else if(arguments[3].startsWith("-allout")){
+            } else if (arguments[3].startsWith("-allout")) {
                 commandReturnMsg = attackService.allout(arguments[1], arguments[2]);
-            }else {
+            } else {
                 commandReturnMsg = attackService.attack(arguments);
             }
         } else if (inputCommand.startsWith("defend") && GamePlayerService.checkPhase == 4) {
@@ -114,6 +114,8 @@ public class CommandService {
                             Integer.parseInt(arguments[2]),
                             Integer.parseInt(arguments[3]),
                             gamePlayer);
+                } else {
+                    cardService.notifyObservers();
                 }
             }
         } else {

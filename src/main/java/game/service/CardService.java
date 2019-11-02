@@ -27,16 +27,12 @@ public class CardService {
         List<Card> previousCards = gamePlayer.getCardList();
         previousCards.add(getRandomCardFromDeck());
         gamePlayer.setCardList(previousCards);
-
-        notifyObservers();
     }
 
     public void rewardCardAfterConquerLastCountry(GamePlayer attacker, GamePlayer conquered) {
         List<Card> previousCards = attacker.getCardList();
         previousCards.addAll(conquered.getCardList());
         attacker.setCardList(previousCards);
-
-        notifyObservers();
     }
 
     String exchangeCards(int no1, int no2, int no3, GamePlayer gamePlayer) {
@@ -53,7 +49,10 @@ public class CardService {
         }
 
         armyRewarded = armyRewarded + 5;
-        notifyObservers();
+
+        if (GamePlayerService.checkPhase == 2) {
+            notifyObservers();
+        }
         return "exchange success";
     }
 
@@ -71,31 +70,15 @@ public class CardService {
         return false;
     }
 
+    //TODO:游戏最开始orstartup结束时创建carddeck
     public void createCardDeck() {
-        int number = MapEditorService.mapGraph.getCountryList().size();
-        cardDeckList = new ArrayList<Card>(number);
+        int number = 42;
+        cardDeckList = new ArrayList<Card>(42);
 
-        if (number % 3 == 0) {
-            for (int i = 0; i < number / 3; i++) {
-                cardDeckList.add(Card.artillery);
-                cardDeckList.add(Card.cavalry);
-                cardDeckList.add(Card.infantry);
-            }
-        } else if (number % 3 == 1) {
-            for (int i = 0; i < number / 3; i++) {
-                cardDeckList.add(Card.artillery);
-                cardDeckList.add(Card.cavalry);
-                cardDeckList.add(Card.infantry);
-            }
-            cardDeckList.add(Card.getRandomCard());
-        } else {
-            for (int i = 0; i < number / 3; i++) {
-                cardDeckList.add(Card.artillery);
-                cardDeckList.add(Card.cavalry);
-                cardDeckList.add(Card.infantry);
-            }
-            cardDeckList.add(Card.getRandomCard());
-            cardDeckList.add(Card.getRandomCard());
+        for (int i = 0; i < number / 3; i++) {
+            cardDeckList.add(Card.artillery);
+            cardDeckList.add(Card.cavalry);
+            cardDeckList.add(Card.infantry);
         }
 
         notifyObservers();
