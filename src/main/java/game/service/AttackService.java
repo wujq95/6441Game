@@ -397,9 +397,56 @@ public class AttackService {
         }
         fromDiceResultList = fromDiceList;
         toDiceResultList = toDiceList;
-        notifyObservers();
-        return "attack process finished";
+        boolean flag =  checkConquered();
+        if(flag){
+            Integer numOfDice = fromDiceResultList.size();
+            Integer fromArmyValue = checkArmyValueFromName(fromCountry);
+            if(fromArmyValue>=numOfDice+2){
+                notifyObservers();
+                return "please choose the number of moving army value";
+            }else{
+                moveArmy(fromArmyValue-1);
+                notifyObservers();
+                return "attack and conquer success";
+            }
+        }else {
+            notifyObservers();
+            return "attack process finished";
+        }
     }
+
+    /**
+     *
+     * @param armyNum
+     */
+    public void moveArmy(Integer armyNum){
+        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
+            if(fromCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+                MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(1);
+            }
+        }
+        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
+            if(toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+                MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(armyNum);
+            }
+        }
+    }
+
+    /**
+     * get the army value of the country according to the country name
+     * @param name
+     * @return
+     */
+    public Integer checkArmyValueFromName(String name){
+        Integer result = 0;
+        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
+            if(name.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+                result = MapEditorService.mapGraph.getCountryList().get(i).getArmyValue();
+            }
+        }
+        return result;
+    }
+
 
     /**
      * check if the country has been conquered
@@ -408,8 +455,10 @@ public class AttackService {
     public boolean checkConquered(){
         boolean flag =false;
         for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-            if(toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i))){
-                flag = true;
+            if(toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+                if(MapEditorService.mapGraph.getCountryList().get(i).getArmyValue()==0){
+                    flag=true;
+                }
             }
         }
         return flag;
@@ -447,13 +496,16 @@ public class AttackService {
 
         Double dArmyNum = Double.valueOf(num);
         Integer ArmyNum = Integer.parseInt(num);
-        boolean flag = checkMoveArmy();
+        Integer numOfDice = fromDiceResultList.size();
+        boolean flag = checkMoveArmy(ArmyNum);
 
         if(dArmyNum%1!=0){
             return "Dice Number must be an integer";
-        }else if(ArmyNum<=0){
-                return "attack move number can be negative or zero";
-        }else if(flag){
+        }else if(ArmyNum<0){
+            return "attack move number can be negative";
+        }else if(ArmyNum<numOfDice){
+            return "attack move number can not be less than the number of dice";
+        }else if(!flag){
             return "incorrect army number";
         }else{
             for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
@@ -461,6 +513,13 @@ public class AttackService {
                     MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(ArmyNum);
                 }
             }
+            for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
+                if(fromCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+                    Integer remainArmyValue = MapEditorService.mapGraph.getCountryList().get(i).getArmyValue();
+                    MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(remainArmyValue-ArmyNum);
+                }
+            }
+            notifyObservers();
             return "attack move success";
         }
 
@@ -470,8 +529,20 @@ public class AttackService {
      * check if army of moving is suitable
      * @return
      */
-    public boolean checkMoveArmy(){
-        return true;
+    public boolean checkMoveArmy(Integer num){
+
+        Integer remainArmyValue = 0;
+        boolean flag = true;
+
+        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
+            if(fromCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+                remainArmyValue = MapEditorService.mapGraph.getCountryList().get(i).getArmyValue();
+            }
+        }
+        if(num>remainArmyValue-1){
+            flag = false;
+        }
+        return flag;
     }
 
 
