@@ -550,10 +550,12 @@ public class AttackService {
                 if(toCountry.equals(GamePlayerService.playerList.get(i).getCountryList().get(j).getCountryName())){
                     if(GamePlayerService.playerList.get(i).getCountryList().size()==1){
                         flag=true;
+                        cardService.rewardCardAfterConquerLastCountry(GamePlayerService.playerList.get(i));
                     }
                 }
             }
         }
+
         return flag;
     }
 
