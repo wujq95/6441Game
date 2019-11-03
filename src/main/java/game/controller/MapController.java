@@ -146,6 +146,7 @@ public class MapController{
                 break;
             case 4:
                 phaseName = "Attack";
+                currentPlayerName = fortifyService.getCurrentPlayerName();
                 attackerDiceOutcome = attackService.getFromDice();
                 defenderDiceOutcome = attackService.getToDice();
                 break;

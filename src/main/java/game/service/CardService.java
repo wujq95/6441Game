@@ -49,14 +49,23 @@ public class CardService {
     }
 
     String exchangeCards(int no1, int no2, int no3, GamePlayer gamePlayer) {
-        Card card1 = gamePlayer.getCardList().remove(no1);
-        Card card2 = gamePlayer.getCardList().remove(no2);
-        Card card3 = gamePlayer.getCardList().remove(no3);
+        if (gamePlayer.getCardList() == null || gamePlayer.getCardList().size() < 3){
+            return "you don't have enough cards";
+        }
+            Card card1 = gamePlayer.getCardList().get(no1);
+        Card card2 = gamePlayer.getCardList().get(no2);
+        Card card3 = gamePlayer.getCardList().get(no3);
 
         if (card1.equals(card2) && card2.equals(card3)) {
             gamePlayer.setArmyValue(gamePlayer.getArmyValue() + armyRewarded);
+            gamePlayer.getCardList().remove(no1);
+            gamePlayer.getCardList().remove(no2);
+            gamePlayer.getCardList().remove(no3);
         } else if (!card1.equals(card2) && !card2.equals(card3) && !card3.equals(card1)) {
             gamePlayer.setArmyValue(gamePlayer.getArmyValue() + armyRewarded);
+            gamePlayer.getCardList().remove(no1);
+            gamePlayer.getCardList().remove(no2);
+            gamePlayer.getCardList().remove(no3);
         } else {
             return "invalid command";
         }
@@ -73,7 +82,7 @@ public class CardService {
         for (GamePlayer player : GamePlayerService.playerList) {
             if (gamePlayer.equals(player)) {
 
-                if (player.getCardList() == null && player.getCardList().size() >= 5) {
+                if (player.getCardList() != null && player.getCardList().size() >= 5) {
                     return true;
                 } else {
                     return false;
