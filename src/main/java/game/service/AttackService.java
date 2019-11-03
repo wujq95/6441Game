@@ -516,6 +516,25 @@ public class AttackService {
                 }
             }
         }
+        boolean flag2 = checkConquerAll();
+        return flag;
+    }
+
+    /**
+     * check if all countries of a player have been conquered
+     * @return
+     */
+    public boolean checkConquerAll(){
+        boolean flag = false;
+        for(int i=0;i<GamePlayerService.playerList.size();i++){
+            for(int j=0;j<GamePlayerService.playerList.get(i).getCountryList().size();j++){
+                if(toCountry.equals(GamePlayerService.playerList.get(i).getCountryList().get(j).getCountryName())){
+                    if(GamePlayerService.playerList.get(i).getCountryList().size()==1){
+                        flag=true;
+                    }
+                }
+            }
+        }
         return flag;
     }
 
