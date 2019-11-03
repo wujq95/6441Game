@@ -12,6 +12,7 @@ public class CardService {
     private int armyRewarded = 5;
     private static List<Card> cardDeckList;
     private List<controller.Observer> cardObservers = new ArrayList<>();
+    private GamePlayerService gamePlayerService = new GamePlayerService();
 
     public void attach(controller.Observer observer) {
         cardObservers.add(observer);
@@ -23,7 +24,9 @@ public class CardService {
         }
     }
 
-    public void rewardCardAfterConquerOneCountry(GamePlayer gamePlayer) {
+    public void rewardCardAfterConquerOneCountry() {
+        GamePlayer gamePlayer = gamePlayerService.getCurrentPlayer();
+
         List<Card> previousCards = gamePlayer.getCardList();
         previousCards.add(getRandomCardFromDeck());
         gamePlayer.setCardList(previousCards);
@@ -70,7 +73,6 @@ public class CardService {
         return false;
     }
 
-    //TODO:游戏最开始orstartup结束时创建carddeck
     public void createCardDeck() {
         int number = 42;
         cardDeckList = new ArrayList<Card>(42);

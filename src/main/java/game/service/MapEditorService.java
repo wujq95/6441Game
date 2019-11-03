@@ -231,6 +231,7 @@ public class MapEditorService {
                 return "the map is not valid";
             }
 
+
             returnMsg = "load map from file " + mapFile + " success";
         } else {
             File file = new File(fileName);

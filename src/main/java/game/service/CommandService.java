@@ -28,9 +28,11 @@ public class CommandService {
         if (inputCommand.startsWith("editmap") && GamePlayerService.checkPhase == 0) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = mapEditorService.editMap(arguments[1]);
+            cardService.createCardDeck();
         } else if (inputCommand.startsWith("loadmap") && GamePlayerService.checkPhase == 1) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = mapEditorService.editMap(arguments[1]);
+            cardService.createCardDeck();
         } else if (inputCommand.startsWith("showmap") && GamePlayerService.checkPhase == 0) {
             commandReturnMsg = mapEditorService.showMap();
         } else if (inputCommand.startsWith("savemap") && GamePlayerService.checkPhase == 0) {
@@ -51,7 +53,7 @@ public class CommandService {
         } else if (inputCommand.startsWith("editneighbor") && GamePlayerService.checkPhase == 0) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = mapEditorService.editNeighbor(arguments);
-        } else if (inputCommand.startsWith("gameplayer") && GamePlayerService.checkPhase == 1||GamePlayerService.checkPhase==0) {
+        } else if (inputCommand.startsWith("gameplayer") && GamePlayerService.checkPhase == 1 || GamePlayerService.checkPhase == 0) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = gamePlayerService.gamePlayerAction(arguments);
         } else if (inputCommand.startsWith("populatecountries") && GamePlayerService.checkPhase == 1) {
@@ -85,7 +87,7 @@ public class CommandService {
         } else if (inputCommand.startsWith("attackmove") && GamePlayerService.checkPhase == 4) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = attackService.attackMove(arguments[1]);
-        }else if (inputCommand.startsWith("attack") && GamePlayerService.checkPhase == 4) {
+        } else if (inputCommand.startsWith("attack") && GamePlayerService.checkPhase == 4) {
             String[] arguments = inputCommand.split(" ");
             if (arguments[1].startsWith("-noattack")) {
                 commandReturnMsg = attackService.noattack();
@@ -94,7 +96,7 @@ public class CommandService {
             } else {
                 commandReturnMsg = attackService.attack(arguments);
             }
-        }  else if (inputCommand.startsWith("defend") && GamePlayerService.checkPhase == 4) {
+        } else if (inputCommand.startsWith("defend") && GamePlayerService.checkPhase == 4) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = attackService.defend(arguments[1]);
         } else if (inputCommand.startsWith("exchangecards") && GamePlayerService.checkPhase == 2) {

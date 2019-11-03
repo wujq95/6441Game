@@ -12,17 +12,19 @@ public class AttackService {
     public static String toCountry;
     public static Integer fromDiceNum;
     public static Integer toDiceNum;
-    public static List<Integer> fromDiceResultList=new LinkedList<>();
-    public static List<Integer> toDiceResultList=new LinkedList<>();
+    public static List<Integer> fromDiceResultList = new LinkedList<>();
+    public static List<Integer> toDiceResultList = new LinkedList<>();
+    private CardService cardService = new CardService();
+
 
     //observers list
     private List<controller.Observer> attackObservers = new ArrayList<>();
 
-    public void attach(controller.Observer observer){
+    public void attach(controller.Observer observer) {
         attackObservers.add(observer);
     }
 
-    public void notifyObservers(){
+    public void notifyObservers() {
         for (Observer observer : attackObservers) {
             observer.update();
         }
@@ -30,43 +32,44 @@ public class AttackService {
 
     /**
      * attack information input
+     *
      * @param arguments
      * @return
      */
-    public String attack(String[] arguments){
+    public String attack(String[] arguments) {
 
-        String countryFrom  = arguments[1];
+        String countryFrom = arguments[1];
         String countryTo = arguments[2];
         Double dNumFromDice = Double.parseDouble(arguments[3]);
 
-        if(dNumFromDice%1!=0){
+        if (dNumFromDice % 1 != 0) {
             return "Dice Number must be an integer";
-        }else{
+        } else {
             Integer numFromDice = Integer.parseInt(arguments[3]);
-            if(numFromDice<=0){
+            if (numFromDice <= 0) {
                 return "Dice Number can not be negative or zero";
-            }else if(numFromDice>3){
+            } else if (numFromDice > 3) {
                 return "Dice Number can not be more than three";
-            }else{
+            } else {
                 boolean checkFromName = checkCountryName(countryFrom);
                 boolean checkToName = checkCountryName(countryTo);
                 boolean checkFromPlayer = checkFromPlayer(countryFrom);
                 boolean checkToPlayer = checkFromPlayer(countryTo);
-                boolean checkConnected = checkConnected(countryFrom,countryTo);
-                boolean checkDiceNum = checkDiceNum(countryFrom,numFromDice);
-                if(!checkFromName){
+                boolean checkConnected = checkConnected(countryFrom, countryTo);
+                boolean checkDiceNum = checkDiceNum(countryFrom, numFromDice);
+                if (!checkFromName) {
                     return "from country name can not be found";
-                }else if(!checkToName){
+                } else if (!checkToName) {
                     return "to country name can not be found";
-                }else if(!checkFromPlayer){
+                } else if (!checkFromPlayer) {
                     return "from country must be from the real time player";
-                }else if(checkToPlayer){
+                } else if (checkToPlayer) {
                     return "from country and to country can not from the same player";
-                }else if(!checkConnected){
+                } else if (!checkConnected) {
                     return "from country and to country must be connected";
-                }else if(!checkDiceNum){
+                } else if (!checkDiceNum) {
                     return "incorrect attack dice number";
-                }else {
+                } else {
                     fromCountry = countryFrom;
                     toCountry = countryTo;
                     fromDiceNum = numFromDice;
@@ -78,6 +81,7 @@ public class AttackService {
 
     /**
      * attack until no attack is possible using maximum number of dice to attack/defend
+     *
      * @param countryFrom
      * @param countryTo
      * @return String
@@ -119,7 +123,7 @@ public class AttackService {
             if (fromCountryArmyValue == 1) {
                 return "cannot attack";
             } else {
-                while(fromCountryArmyValue>1&&toCountryArmyValue>0){
+                while (fromCountryArmyValue > 1 && toCountryArmyValue > 0) {
                     fromDiceNum = fromCountryMaxdice(fromCountryArmyValue);
                     toDiceNum = toCountryMaxdice(toCountryArmyValue);
                     attackProcess();
@@ -132,20 +136,20 @@ public class AttackService {
                         }
                     }
                 }
-                boolean flag =  checkConquered();
-                if(flag){
+                boolean flag = checkConquered();
+                if (flag) {
                     Integer numOfDice = fromDiceResultList.size();
                     Integer fromArmyValue = checkArmyValueFromName(fromCountry);
-                    if(fromArmyValue>=numOfDice+2){
+                    if (fromArmyValue >= numOfDice + 2) {
                         notifyObservers();
                         return "please choose the number of moving army value";
-                    }else{
-                        moveArmy(fromArmyValue-1);
+                    } else {
+                        moveArmy(fromArmyValue - 1);
                         changPlayer();
                         notifyObservers();
                         return "attack and conquer success";
                     }
-                }else {
+                } else {
                     notifyObservers();
                     return "allout process finished";
                 }
@@ -155,15 +159,16 @@ public class AttackService {
 
     /**
      * calculate maximal dice
+     *
      * @param armyvalue
      * @return from country maximal dice
      */
-    public Integer fromCountryMaxdice(Integer armyvalue){
-        if(armyvalue>=4) {
+    public Integer fromCountryMaxdice(Integer armyvalue) {
+        if (armyvalue >= 4) {
             fromDiceNum = 3;
-        }else if(armyvalue==3){
+        } else if (armyvalue == 3) {
             fromDiceNum = 2;
-        }else{
+        } else {
             fromDiceNum = 1;
         }
         return fromDiceNum;
@@ -171,13 +176,14 @@ public class AttackService {
 
     /**
      * calculate maximal dice
+     *
      * @param armyvalue
      * @return to country maximal dice
      */
-    public int toCountryMaxdice(int armyvalue){
-        if(armyvalue>=2) {
+    public int toCountryMaxdice(int armyvalue) {
+        if (armyvalue >= 2) {
             toDiceNum = 2;
-        }else{
+        } else {
             toDiceNum = 1;
         }
         return toDiceNum;
@@ -185,15 +191,16 @@ public class AttackService {
 
     /**
      * check if input country name can be found
+     *
      * @param countryName
      * @return boolean
      */
-    public boolean checkCountryName(String countryName){
+    public boolean checkCountryName(String countryName) {
 
         List<Country> countryList = MapEditorService.mapGraph.getCountryList();
         boolean flag = false;
-        for(int i=0;i<countryList.size();i++){
-            if(countryName.equals(countryList.get(i).getCountryName())){
+        for (int i = 0; i < countryList.size(); i++) {
+            if (countryName.equals(countryList.get(i).getCountryName())) {
                 flag = true;
             }
         }
@@ -202,14 +209,15 @@ public class AttackService {
 
     /**
      * check if the country is from the real time player
+     *
      * @param countryName
      * @return
      */
-    public boolean checkFromPlayer(String countryName){
+    public boolean checkFromPlayer(String countryName) {
         List<Country> countryList = GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getCountryList();
         boolean flag = false;
-        for(int i=0;i<countryList.size();i++){
-            if(countryName.equals(countryList.get(i).getCountryName())){
+        for (int i = 0; i < countryList.size(); i++) {
+            if (countryName.equals(countryList.get(i).getCountryName())) {
                 flag = true;
             }
         }
@@ -218,20 +226,21 @@ public class AttackService {
 
     /**
      * check if fortify countries are connected
+     *
      * @param countryFrom Initial Army Moving Country Name
-     * @param countryTo Goal Army Moving Country Name
+     * @param countryTo   Goal Army Moving Country Name
      * @return True or False
      */
-    public boolean checkConnected(String countryFrom,String countryTo){
-        boolean flag =false;
-        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-            if(countryFrom.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+    public boolean checkConnected(String countryFrom, String countryTo) {
+        boolean flag = false;
+        for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
+            if (countryFrom.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())) {
                 Set<Country> countryList = MapEditorService.mapGraph.getCountryList().get(i).getNeighbours();
                 Iterator it = countryList.iterator();
-                while(it.hasNext()){
-                    Country cc= (Country) it.next();
-                    if(cc.getCountryName().equals(countryTo)){
-                        flag=true;
+                while (it.hasNext()) {
+                    Country cc = (Country) it.next();
+                    if (cc.getCountryName().equals(countryTo)) {
+                        flag = true;
                     }
                 }
             }
@@ -241,51 +250,53 @@ public class AttackService {
 
     /**
      * check if attack dice number is correct
+     *
      * @param fromCountryName
      * @param num
      * @return
      */
-    public boolean checkDiceNum(String fromCountryName,Integer num){
+    public boolean checkDiceNum(String fromCountryName, Integer num) {
 
         Integer remainArmyNum = 0;
         List<Country> countryList = MapEditorService.mapGraph.getCountryList();
-        for(int i=0;i<countryList.size();i++){
-            if(fromCountryName.equals(countryList.get(i).getCountryName())){
-                remainArmyNum=countryList.get(i).getArmyValue();
+        for (int i = 0; i < countryList.size(); i++) {
+            if (fromCountryName.equals(countryList.get(i).getCountryName())) {
+                remainArmyNum = countryList.get(i).getArmyValue();
             }
         }
-        if(remainArmyNum==1){
+        if (remainArmyNum == 1) {
             return false;
-        }else if(remainArmyNum==2){
-            if(num==1){
+        } else if (remainArmyNum == 2) {
+            if (num == 1) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
-        }else if(remainArmyNum==3){
-            if(num==1||num==2){
+        } else if (remainArmyNum == 3) {
+            if (num == 1 || num == 2) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
-        }else if (remainArmyNum>=4){
+        } else if (remainArmyNum >= 4) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     /**
      * defend dive information input
+     *
      * @param defendNum
      * @return
      */
-    public String defend(String defendNum){
+    public String defend(String defendNum) {
         String countryName = toCountry;
         Double dNumDefend = Double.parseDouble(defendNum);
-        if(dNumDefend%1!=0){
+        if (dNumDefend % 1 != 0) {
             return "Dice Number must be an integer";
-        }else {
+        } else {
             Integer numDefend = Integer.parseInt(defendNum);
             if (numDefend <= 0) {
                 return "Dice Number can not be negative or zero";
@@ -296,20 +307,20 @@ public class AttackService {
                 if (checkDice) {
                     toDiceNum = numDefend;
                     attackProcess();
-                    boolean flag =  checkConquered();
-                    if(flag){
+                    boolean flag = checkConquered();
+                    if (flag) {
                         Integer numOfDice = fromDiceResultList.size();
                         Integer fromArmyValue = checkArmyValueFromName(fromCountry);
-                        if(fromArmyValue>=numOfDice+2){
+                        if (fromArmyValue >= numOfDice + 2) {
                             notifyObservers();
                             return "please choose the number of moving army value";
-                        }else{
-                            moveArmy(fromArmyValue-1);
+                        } else {
+                            moveArmy(fromArmyValue - 1);
                             changPlayer();
                             notifyObservers();
                             return "attack and conquer success";
                         }
-                    }else {
+                    } else {
                         notifyObservers();
                         return "attack process finished";
                     }
@@ -322,108 +333,110 @@ public class AttackService {
     }
 
     /**
-     *check defend dice number
+     * check defend dice number
+     *
      * @param countryName
      * @param numDefend
      * @return
      */
-    public boolean checkDefendDice(String countryName,Integer numDefend){
-        Integer remainArmyNum=0;
+    public boolean checkDefendDice(String countryName, Integer numDefend) {
+        Integer remainArmyNum = 0;
         List<Country> countryList = MapEditorService.mapGraph.getCountryList();
-        for(int i=0;i<countryList.size();i++){
-            if(countryName.equals(countryList.get(i).getCountryName())){
-                remainArmyNum=countryList.get(i).getArmyValue();
+        for (int i = 0; i < countryList.size(); i++) {
+            if (countryName.equals(countryList.get(i).getCountryName())) {
+                remainArmyNum = countryList.get(i).getArmyValue();
             }
         }
-        if(remainArmyNum==1){
-            if(numDefend==1){
+        if (remainArmyNum == 1) {
+            if (numDefend == 1) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
-        }else if(remainArmyNum>=2){
-            if(numDefend==1||numDefend==2){
+        } else if (remainArmyNum >= 2) {
+            if (numDefend == 1 || numDefend == 2) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
-        }else{
+        } else {
             return false;
         }
     }
 
     /**
      * attack process
+     *
      * @return
      */
-    public void attackProcess(){
+    public void attackProcess() {
 
         Integer[] fromDiceArray = new Integer[fromDiceNum];
         Integer[] toDiceArray = new Integer[toDiceNum];
 
-        for(int i=0;i<fromDiceNum;i++){
-            fromDiceArray[i] = ((int)(Math.random()*6+1));
+        for (int i = 0; i < fromDiceNum; i++) {
+            fromDiceArray[i] = ((int) (Math.random() * 6 + 1));
         }
 
-        for(int i=0;i<toDiceNum;i++){
-            toDiceArray[i] = (int)(Math.random()*6+1);
+        for (int i = 0; i < toDiceNum; i++) {
+            toDiceArray[i] = (int) (Math.random() * 6 + 1);
         }
 
-        Arrays.sort(fromDiceArray,Collections.reverseOrder());
-        Arrays.sort(toDiceArray,Collections.reverseOrder());
+        Arrays.sort(fromDiceArray, Collections.reverseOrder());
+        Arrays.sort(toDiceArray, Collections.reverseOrder());
 
         ArrayList<Integer> fromDiceList = new ArrayList<Integer>(Arrays.asList(fromDiceArray));
         ArrayList<Integer> toDiceList = new ArrayList<Integer>(Arrays.asList(toDiceArray));
 
-        if(fromDiceList.size()==1){
-            if(toDiceList.size()==1){
-                if(fromDiceList.get(0)>toDiceList.get(0)){
+        if (fromDiceList.size() == 1) {
+            if (toDiceList.size() == 1) {
+                if (fromDiceList.get(0) > toDiceList.get(0)) {
                     deleteOneArmy(toCountry);
-                }else{
+                } else {
                     deleteOneArmy(fromCountry);
                 }
-            }else{
-                if(fromDiceList.get(0)>toDiceList.get(0)){
+            } else {
+                if (fromDiceList.get(0) > toDiceList.get(0)) {
                     deleteOneArmy(toCountry);
-                }else{
-                    deleteOneArmy(fromCountry);
-                }
-            }
-        }else if(fromDiceList.size()==2){
-            if(toDiceList.size()==1){
-                if(fromDiceList.get(0)>toDiceList.get(0)){
-                    deleteOneArmy(toCountry);
-                }else{
-                    deleteOneArmy(fromCountry);
-                }
-            }else{
-                if(fromDiceList.get(0)>toDiceList.get(0)){
-                    deleteOneArmy(toCountry);
-                }else{
-                    deleteOneArmy(fromCountry);
-                }
-                if(fromDiceList.get(1)>toDiceList.get(1)){
-                    deleteOneArmy(toCountry);
-                }else{
+                } else {
                     deleteOneArmy(fromCountry);
                 }
             }
-        }else{
-            if(toDiceList.size()==1){
-                if(fromDiceList.get(0)>toDiceList.get(0)){
+        } else if (fromDiceList.size() == 2) {
+            if (toDiceList.size() == 1) {
+                if (fromDiceList.get(0) > toDiceList.get(0)) {
                     deleteOneArmy(toCountry);
-                }else{
+                } else {
                     deleteOneArmy(fromCountry);
                 }
-            }else{
-                if(fromDiceList.get(0)>toDiceList.get(0)){
+            } else {
+                if (fromDiceList.get(0) > toDiceList.get(0)) {
                     deleteOneArmy(toCountry);
-                }else{
+                } else {
                     deleteOneArmy(fromCountry);
                 }
-                if(fromDiceList.get(1)>toDiceList.get(1)){
+                if (fromDiceList.get(1) > toDiceList.get(1)) {
                     deleteOneArmy(toCountry);
-                }else{
+                } else {
+                    deleteOneArmy(fromCountry);
+                }
+            }
+        } else {
+            if (toDiceList.size() == 1) {
+                if (fromDiceList.get(0) > toDiceList.get(0)) {
+                    deleteOneArmy(toCountry);
+                } else {
+                    deleteOneArmy(fromCountry);
+                }
+            } else {
+                if (fromDiceList.get(0) > toDiceList.get(0)) {
+                    deleteOneArmy(toCountry);
+                } else {
+                    deleteOneArmy(fromCountry);
+                }
+                if (fromDiceList.get(1) > toDiceList.get(1)) {
+                    deleteOneArmy(toCountry);
+                } else {
                     deleteOneArmy(fromCountry);
                 }
             }
@@ -435,26 +448,26 @@ public class AttackService {
     /**
      * change the owner of the country after conquering
      */
-    public  void changPlayer(){
+    public void changPlayer() {
         GamePlayer oldFromPlayer = null;
-        GamePlayer oldToPlayer=null;
-        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-            if(fromCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+        GamePlayer oldToPlayer = null;
+        for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
+            if (fromCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())) {
                 oldFromPlayer = MapEditorService.mapGraph.getCountryList().get(i).getPlayer();
             }
         }
-        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-            if(toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
-                oldToPlayer= MapEditorService.mapGraph.getCountryList().get(i).getPlayer();
+        for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
+            if (toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())) {
+                oldToPlayer = MapEditorService.mapGraph.getCountryList().get(i).getPlayer();
                 MapEditorService.mapGraph.getCountryList().get(i).setPlayer(oldFromPlayer);
             }
         }
 
-        Country country =null;
-        for(int i=0;i<GamePlayerService.playerList.size();i++){
-            if(oldToPlayer.getPlayerName().equals(GamePlayerService.playerList.get(i).getPlayerName())){
-                for(int j=0;j<GamePlayerService.playerList.get(i).getCountryList().size();j++){
-                    if(toCountry.equals(GamePlayerService.playerList.get(i).getCountryList().get(j).getCountryName())){
+        Country country = null;
+        for (int i = 0; i < GamePlayerService.playerList.size(); i++) {
+            if (oldToPlayer.getPlayerName().equals(GamePlayerService.playerList.get(i).getPlayerName())) {
+                for (int j = 0; j < GamePlayerService.playerList.get(i).getCountryList().size(); j++) {
+                    if (toCountry.equals(GamePlayerService.playerList.get(i).getCountryList().get(j).getCountryName())) {
                         country = GamePlayerService.playerList.get(i).getCountryList().get(j);
                         GamePlayerService.playerList.get(i).getCountryList().remove(j);
                     }
@@ -462,8 +475,8 @@ public class AttackService {
             }
         }
 
-        for(int i=0;i<GamePlayerService.playerList.size();i++){
-            if(oldFromPlayer.getPlayerName().equals(GamePlayerService.playerList.get(i).getPlayerName())){
+        for (int i = 0; i < GamePlayerService.playerList.size(); i++) {
+            if (oldFromPlayer.getPlayerName().equals(GamePlayerService.playerList.get(i).getPlayerName())) {
                 GamePlayerService.playerList.get(i).getCountryList().add(country);
             }
         }
@@ -471,17 +484,16 @@ public class AttackService {
     }
 
     /**
-     *
      * @param armyNum
      */
-    public void moveArmy(Integer armyNum){
-        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-            if(fromCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+    public void moveArmy(Integer armyNum) {
+        for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
+            if (fromCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())) {
                 MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(1);
             }
         }
-        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-            if(toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+        for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
+            if (toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())) {
                 MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(armyNum);
             }
         }
@@ -489,13 +501,14 @@ public class AttackService {
 
     /**
      * get the army value of the country according to the country name
+     *
      * @param name
      * @return
      */
-    public Integer checkArmyValueFromName(String name){
+    public Integer checkArmyValueFromName(String name) {
         Integer result = 0;
-        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-            if(name.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+        for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
+            if (name.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())) {
                 result = MapEditorService.mapGraph.getCountryList().get(i).getArmyValue();
             }
         }
@@ -505,6 +518,7 @@ public class AttackService {
 
     /**
      * check if the country has been conquered
+     *
      * @return
      */
     public boolean checkConquered(){
@@ -518,6 +532,7 @@ public class AttackService {
             }
         }
         if(flag){
+            cardService.rewardCardAfterConquerOneCountry();
             flag2 = checkConquerAll();
         }
 
@@ -544,12 +559,13 @@ public class AttackService {
 
     /**
      * delete one army if loosing the dice competition
+     *
      * @param countryName
      */
-    public void deleteOneArmy(String countryName){
-        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-            if(countryName.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
-                Integer newArmy = MapEditorService.mapGraph.getCountryList().get(i).getArmyValue()-1;
+    public void deleteOneArmy(String countryName) {
+        for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
+            if (countryName.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())) {
+                Integer newArmy = MapEditorService.mapGraph.getCountryList().get(i).getArmyValue() - 1;
                 MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(newArmy);
             }
         }
@@ -557,44 +573,46 @@ public class AttackService {
 
     /**
      * choose to stop attacking
+     *
      * @return
      */
-    public String noattack(){
-        GamePlayerService.checkPhase=3;
+    public String noattack() {
+        GamePlayerService.checkPhase = 3;
         notifyObservers();
         return "enter into fortification phase";
     }
 
     /**
      * if conquering one country,player could move some armies to that country
+     *
      * @param num
      * @return
      */
-    public String attackMove(String num){
+    public String attackMove(String num) {
 
         Double dArmyNum = Double.valueOf(num);
         Integer ArmyNum = Integer.parseInt(num);
         Integer numOfDice = fromDiceResultList.size();
         boolean flag = checkMoveArmy(ArmyNum);
 
-        if(dArmyNum%1!=0){
+        if (dArmyNum % 1 != 0) {
             return "Dice Number must be an integer";
-        }else if(ArmyNum<0){
+        } else if (ArmyNum < 0) {
             return "attack move number can be negative";
-        }else if(ArmyNum<numOfDice){
+        } else if (ArmyNum < numOfDice) {
             return "attack move number can not be less than the number of dice";
-        }else if(!flag){
+        } else if (!flag) {
             return "incorrect army number";
-        }else{
-            for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-                if(toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+        } else {
+            for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
+                if (toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())) {
                     MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(ArmyNum);
                 }
             }
-            for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-                if(fromCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+            for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
+                if (fromCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())) {
                     Integer remainArmyValue = MapEditorService.mapGraph.getCountryList().get(i).getArmyValue();
-                    MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(remainArmyValue-ArmyNum);
+                    MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(remainArmyValue - ArmyNum);
                 }
             }
             changPlayer();
@@ -606,30 +624,31 @@ public class AttackService {
 
     /**
      * check if army of moving is suitable
+     *
      * @return
      */
-    public boolean checkMoveArmy(Integer num){
+    public boolean checkMoveArmy(Integer num) {
 
         Integer remainArmyValue = 0;
         boolean flag = true;
 
-        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-            if(fromCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+        for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
+            if (fromCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())) {
                 remainArmyValue = MapEditorService.mapGraph.getCountryList().get(i).getArmyValue();
             }
         }
-        if(num>remainArmyValue-1){
+        if (num > remainArmyValue - 1) {
             flag = false;
         }
         return flag;
     }
 
 
-    public String getFromDice(){
+    public String getFromDice() {
         return fromDiceResultList.toString();
     }
 
-    public String getToDice(){
+    public String getToDice() {
         return toDiceResultList.toString();
     }
 }
