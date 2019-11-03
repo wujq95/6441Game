@@ -141,6 +141,7 @@ public class AttackService {
                     Integer numOfDice = fromDiceResultList.size();
                     Integer fromArmyValue = checkArmyValueFromName(fromCountry);
                     if (fromArmyValue >= numOfDice + 2) {
+                        changPlayer();
                         notifyObservers();
                         return "please choose the number of moving army value";
                     } else {
@@ -215,6 +216,7 @@ public class AttackService {
      */
     public boolean checkFromPlayer(String countryName) {
         List<Country> countryList = GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getCountryList();
+        System.out.println(GamePlayerService.choosePlayer);
         boolean flag = false;
         for (int i = 0; i < countryList.size(); i++) {
             if (countryName.equals(countryList.get(i).getCountryName())) {
@@ -312,6 +314,7 @@ public class AttackService {
                         Integer numOfDice = fromDiceResultList.size();
                         Integer fromArmyValue = checkArmyValueFromName(fromCountry);
                         if (fromArmyValue >= numOfDice + 2) {
+                            changPlayer();
                             notifyObservers();
                             return "please choose the number of moving army value";
                         } else {
