@@ -508,6 +508,7 @@ public class AttackService {
      * @return
      */
     public boolean checkConquered(){
+        boolean flag2=false;
         boolean flag =false;
         for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
             if(toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
@@ -516,7 +517,10 @@ public class AttackService {
                 }
             }
         }
-        boolean flag2 = checkConquerAll();
+        if(flag){
+            flag2 = checkConquerAll();
+        }
+
         return flag;
     }
 
