@@ -34,8 +34,6 @@ public class CardService {
         }
         previousCards.add(getRandomCardFromDeck());
         gamePlayer.setCardList(previousCards);
-
-        gamePlayerService.updateGamePlayerCard(gamePlayer);
     }
 
     public void rewardCardAfterConquerLastCountry(GamePlayer conquered) {
@@ -44,8 +42,6 @@ public class CardService {
         previousCards.addAll(conquered.getCardList());
         attacker.setCardList(previousCards);
         conquered.setCardList(new LinkedList<Card>());
-
-        gamePlayerService.updateGamePlayerCard(attacker);
     }
 
     String exchangeCards(int no1, int no2, int no3, GamePlayer gamePlayer) {
