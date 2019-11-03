@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -23,6 +24,7 @@ public class GamePlayer {
         this.armyValue = armyValue;
         this.countryList = countryList;
         this.playerName = playerName;
+        this.cardList = new LinkedList<>();
     }
 
     /**

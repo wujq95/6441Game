@@ -5,6 +5,7 @@ import model.Card;
 import model.GamePlayer;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -28,8 +29,13 @@ public class CardService {
         GamePlayer gamePlayer = gamePlayerService.getCurrentPlayer();
 
         List<Card> previousCards = gamePlayer.getCardList();
+        if (previousCards == null) {
+            previousCards = new LinkedList<>();
+        }
         previousCards.add(getRandomCardFromDeck());
         gamePlayer.setCardList(previousCards);
+
+        gamePlayerService.updateGamePlayerCard(gamePlayer);
     }
 
     public void rewardCardAfterConquerLastCountry(GamePlayer conquered) {
@@ -37,12 +43,15 @@ public class CardService {
         List<Card> previousCards = attacker.getCardList();
         previousCards.addAll(conquered.getCardList());
         attacker.setCardList(previousCards);
+        conquered.setCardList(new LinkedList<Card>());
+
+        gamePlayerService.updateGamePlayerCard(attacker);
     }
 
     String exchangeCards(int no1, int no2, int no3, GamePlayer gamePlayer) {
-        Card card1 = gamePlayer.getCardList().get(no1);
-        Card card2 = gamePlayer.getCardList().get(no2);
-        Card card3 = gamePlayer.getCardList().get(no3);
+        Card card1 = gamePlayer.getCardList().remove(no1);
+        Card card2 = gamePlayer.getCardList().remove(no2);
+        Card card3 = gamePlayer.getCardList().remove(no3);
 
         if (card1.equals(card2) && card2.equals(card3)) {
             gamePlayer.setArmyValue(gamePlayer.getArmyValue() + armyRewarded);
@@ -63,7 +72,8 @@ public class CardService {
     public boolean mustExchange(GamePlayer gamePlayer) {
         for (GamePlayer player : GamePlayerService.playerList) {
             if (gamePlayer.equals(player)) {
-                if (player.getCardList().size() >= 5) {
+
+                if (player.getCardList() == null && player.getCardList().size() >= 5) {
                     return true;
                 } else {
                     return false;

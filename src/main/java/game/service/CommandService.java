@@ -106,7 +106,7 @@ public class CommandService {
                 if (arguments[1].equals("-none")) {
                     return "you must exchange cards";
                 } else {
-                    cardService.exchangeCards(
+                    return cardService.exchangeCards(
                             Integer.parseInt(arguments[1]),
                             Integer.parseInt(arguments[2]),
                             Integer.parseInt(arguments[3]),
@@ -114,7 +114,7 @@ public class CommandService {
                 }
             } else {
                 if (!arguments[1].equals("-none")) {
-                    cardService.exchangeCards(
+                    return cardService.exchangeCards(
                             Integer.parseInt(arguments[1]),
                             Integer.parseInt(arguments[2]),
                             Integer.parseInt(arguments[3]),

@@ -442,4 +442,10 @@ public class GamePlayerService {
     public GamePlayer getCurrentPlayer() {
         return GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
     }
+
+    public void updateGamePlayerCard(GamePlayer player){
+        GamePlayer gamePlayer = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
+        GamePlayerService.playerList.remove(gamePlayer);
+        GamePlayerService.playerList.add(player);
+    }
 }
