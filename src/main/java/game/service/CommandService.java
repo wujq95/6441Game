@@ -99,6 +99,8 @@ public class CommandService {
         } else if (inputCommand.startsWith("defend") && GamePlayerService.checkPhase == 4) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = attackService.defend(arguments[1]);
+        } else if (inputCommand.startsWith("gamestop") && GamePlayerService.checkPhase == 3) {
+            commandReturnMsg = fortifyService.stop();
         } else if (inputCommand.startsWith("exchangecards") && GamePlayerService.checkPhase == 2) {
             String[] arguments = inputCommand.split(" ");
             GamePlayer gamePlayer = gamePlayerService.getCurrentPlayer();

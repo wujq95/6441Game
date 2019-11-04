@@ -175,11 +175,25 @@ public class FortifyService {
         return flag;
     }
 
+    /**
+     * get the name of the current player
+     * @return
+     */
     public String getCurrentPlayerName() {
         GamePlayer currentGamePlayer = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
         String currentPlayerName = currentGamePlayer.getPlayerName();
         if (GamePlayerService.choosePlayer.equals(0))
             currentPlayerName += " (Me)";
         return currentPlayerName;
+    }
+
+    /**
+     * stop game
+     * @return
+     */
+    public String stop(){
+        GamePlayerService.checkPhase=5;
+        notifyObservers();
+        return "game stop";
     }
 }
