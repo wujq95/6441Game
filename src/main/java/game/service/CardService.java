@@ -9,22 +9,35 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Card function for reinforcement phase
+ */
 public class CardService {
     private int armyRewarded = 5;
     private static List<Card> cardDeckList;
     private List<controller.Observer> cardObservers = new ArrayList<>();
     private GamePlayerService gamePlayerService = new GamePlayerService();
 
+    /**
+     * Add observer
+     * @param observer observer
+     */
     public void attach(controller.Observer observer) {
         cardObservers.add(observer);
     }
 
+    /**
+     * Notify all observers inside observer list once changed
+     */
     public void notifyObservers() {
         for (Observer observer : cardObservers) {
             observer.update();
         }
     }
 
+    /**
+     * Get reward card once attack conquered one country
+     */
     public void rewardCardAfterConquerOneCountry() {
         GamePlayer gamePlayer = gamePlayerService.getCurrentPlayer();
 
@@ -36,6 +49,10 @@ public class CardService {
         gamePlayer.setCardList(previousCards);
     }
 
+    /**
+     * Get reward card once all countries have been conquered
+     * @param conquered
+     */
     public void rewardCardAfterConquerLastCountry(GamePlayer conquered) {
         GamePlayer attacker = gamePlayerService.getCurrentPlayer();
         List<Card> previousCards = attacker.getCardList();
@@ -44,6 +61,14 @@ public class CardService {
         conquered.setCardList(new LinkedList<Card>());
     }
 
+    /**
+     * Exchange cards
+     * @param no1 card no1
+     * @param no2 card no2
+     * @param no3 card no3
+     * @param gamePlayer game player instance
+     * @return message
+     */
     String exchangeCards(int no1, int no2, int no3, GamePlayer gamePlayer) {
         if (gamePlayer.getCardList() == null || gamePlayer.getCardList().size() < 3) {
             return "you don't have enough cards";
@@ -74,6 +99,11 @@ public class CardService {
         return "exchange success";
     }
 
+    /**
+     * check whether player should exchange card
+     * @param gamePlayer player instance
+     * @return true or false
+     */
     public boolean mustExchange(GamePlayer gamePlayer) {
         for (GamePlayer player : GamePlayerService.playerList) {
             if (gamePlayer.equals(player)) {
@@ -89,6 +119,9 @@ public class CardService {
         return false;
     }
 
+    /**
+     * Create three type of cards
+     */
     public void createCardDeck() {
         int number = 42;
         cardDeckList = new ArrayList<Card>(42);
@@ -102,6 +135,10 @@ public class CardService {
         notifyObservers();
     }
 
+    /**
+     * Get card
+     * @return card type number
+     */
     public Card getRandomCardFromDeck() {
         Random rand = new Random();
         int randomNumber = rand.nextInt(cardDeckList.size());

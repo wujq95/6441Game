@@ -18,11 +18,17 @@ public class ReinforceService {
     //observers list
     private List<Observer> reinforceInfoObservers= new ArrayList<>();
 
-
+    /**
+     * add observer
+     * @param observer observer
+     */
     public void attach(controller.Observer observer){
         reinforceInfoObservers.add(observer);
     }
 
+    /**
+     * Notify observers once changed
+     */
     public void notifyObservers(){
         for (Observer observer : reinforceInfoObservers) {
             observer.update();
@@ -102,6 +108,10 @@ public class ReinforceService {
         return flag;
     }
 
+    /**
+     * Obtain player name in current phase
+     * @return player name
+     */
     public String getCurrentPlayerName(){
         GamePlayer currentGamePlayer = gamePlayerService.playerList.get(gamePlayerService.choosePlayer);
         String currentPlayerName = currentGamePlayer.getPlayerName();
