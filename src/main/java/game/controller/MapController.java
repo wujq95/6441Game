@@ -122,6 +122,12 @@ public class MapController{
      * Dice result for attacker
      */
     @FXML
+    public Label currentCardPlayerLabel;
+
+    @FXML
+    public Label cardListLabel;
+
+    @FXML
     public Label attackerDice;
     /**
      * Dice result for defender
@@ -184,14 +190,14 @@ public class MapController{
         mapPane.getChildren().clear();
 
         // location for game player list title and continent list title
-        double x = mapPane.getLayoutBounds().getMaxX() - 300;
+        double x = mapPane.getLayoutBounds().getMaxX() - 400;
         double y = 20;
 
         // Load all game players
         List<GamePlayer> gamePlayerList = GamePlayerService.playerList;
 
         // set Game Player List Title
-        Text title = new Text("Game Players");
+        Text title = new Text("Players World Domination View");
         title.setX(x);
         title.setY(y);
         mapPane.getChildren().addAll(title);
@@ -201,6 +207,7 @@ public class MapController{
         for (GamePlayer gamePlayer : gamePlayerList) {
             // set game player name location
             y = i * 50 + 50;
+
             Text text = new Text((gamePlayer.getPlayerName() + ": " + gamePlayer.getArmyValue()));
             text.setX(x);
             text.setY(y);
