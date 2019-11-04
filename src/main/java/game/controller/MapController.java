@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -22,6 +23,8 @@ import model.*;
 import service.*;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static javafx.scene.Cursor.HAND;
@@ -114,6 +117,9 @@ public class MapController{
     public Label actionTakenLabel;
 
     @FXML
+    public Pane cardExchangePane;
+
+    @FXML
     public Label currentCardPlayerLabel;
 
     @FXML
@@ -124,6 +130,20 @@ public class MapController{
 
     @FXML
     public Label defenderDice;
+
+    private void loadCardsExchangeView(GamePlayerService gamePlayerService){
+        GamePlayer currentPlayer = gamePlayerService.getCurrentPlayer();
+        currentPlayer.getCardList();
+
+        currentCardPlayerLabel.setText(currentPlayer.getPlayerName());
+        //cardListLabel.setText(cardsList);
+
+        cardExchangePane.setVisible(true);
+    }
+
+    private void hideCardsExchangeView(){
+        cardExchangePane.setVisible(false);
+    }
 
     private void loadGameInformation(GamePlayerService gamePlayerService){
         int phaseNum  = gamePlayerService.checkPhase;
@@ -145,6 +165,7 @@ public class MapController{
             case 2:
                 phaseName = "Reinforcement";
                 currentPlayerName = reinforceService.getCurrentPlayerName();
+                loadCardsExchangeView(gamePlayerService);
                 break;
             case 3:
                 phaseName = "Fortification";
@@ -155,6 +176,7 @@ public class MapController{
                 currentPlayerName = fortifyService.getCurrentPlayerName();
                 attackerDiceOutcome = attackService.getFromDice();
                 defenderDiceOutcome = attackService.getToDice();
+                hideCardsExchangeView();
                 break;
             case 5:
                 phaseName = "Game Stop";
@@ -166,6 +188,8 @@ public class MapController{
         actionTakenLabel.setText(actionTaken);
         attackerDice.setText(attackerDiceOutcome);
         defenderDice.setText(defenderDiceOutcome);
+
+
     }
 
     /**
@@ -194,7 +218,14 @@ public class MapController{
             // set game player name location
             y = i * 50 + 50;
 
-            Text text = new Text((gamePlayer.getPlayerName() + ": " + gamePlayer.getArmyValue()));
+            String playerName = gamePlayer.getPlayerName();
+            String armyValue = gamePlayer.getArmyValue().toString();
+            String controlledContinentsNum = "0";
+            String percentageOnMap = "0%";
+
+            List<String> line = Arrays.asList(playerName, armyValue, controlledContinentsNum, percentageOnMap);
+            // Text text = new Text((gamePlayer.getPlayerName() + ": " + gamePlayer.getArmyValue()));
+            Text text = new Text(line.toString());
             text.setX(x);
             text.setY(y);
 
