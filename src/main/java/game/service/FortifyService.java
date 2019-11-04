@@ -19,11 +19,17 @@ public class FortifyService {
     //observers list
     private List<Observer> fortifyInforObservers = new ArrayList<>();
 
-
+    /**
+     * Add observer
+     * @param observer observer
+     */
     public void attach(controller.Observer observer) {
         fortifyInforObservers.add(observer);
     }
 
+    /**
+     * Notify observers once changed
+     */
     public void notifyObservers() {
         for (Observer observer : fortifyInforObservers) {
             observer.update();

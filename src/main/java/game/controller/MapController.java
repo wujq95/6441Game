@@ -103,22 +103,36 @@ public class MapController{
      */
     @FXML
     public TextArea infoTextView;
-
+    /**
+     * Phase label displaying current phase name
+     */
     @FXML
     public Label phaseLabel;
-
+    /**
+     * Current Player name will be demonstrated
+     */
     @FXML
     public Label currentPlayerLabel;
-
+    /**
+     * Current Action label
+     */
     @FXML
     public Label actionTakenLabel;
-
+    /**
+     * Dice result for attacker
+     */
     @FXML
     public Label attackerDice;
-
+    /**
+     * Dice result for defender
+     */
     @FXML
     public Label defenderDice;
 
+    /**
+     * Load game information
+     * @param gamePlayerService gamerPlayerService instance initial
+     */
     private void loadGameInformation(GamePlayerService gamePlayerService){
         int phaseNum  = gamePlayerService.checkPhase;
 
@@ -350,6 +364,9 @@ public class MapController{
         this.gameInfoObserver = new GameInfoObserver(gamePlayerService, attackService, cardService,reinforceService,fortifyService);
     }
 
+    /**
+     * sub-class of observer GameInObserver constructor
+     */
     public class GameInfoObserver extends Observer{
 
         public GameInfoObserver(GamePlayerService gamePlayerService, AttackService attackService, CardService cardService, ReinforceService reinforceService,FortifyService fortifyService){
@@ -369,6 +386,9 @@ public class MapController{
             this.fortifyService.attach(this);
         }
 
+        /**
+         * View layer required update function with GameInformation and Map loading
+         */
         @Override
         public void update(){
             System.out.println("Game Information Reloaded");

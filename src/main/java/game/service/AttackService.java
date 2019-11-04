@@ -6,6 +6,9 @@ import model.GamePlayer;
 
 import java.util.*;
 
+/**
+ * Attack Phase
+ */
 public class AttackService {
 
     public static String fromCountry;
@@ -20,10 +23,17 @@ public class AttackService {
     //observers list
     private List<controller.Observer> attackObservers = new ArrayList<>();
 
+    /**
+     * Add observer
+     * @param observer observer
+     */
     public void attach(controller.Observer observer) {
         attackObservers.add(observer);
     }
 
+    /**
+     * Notify observers once changed
+     */
     public void notifyObservers() {
         for (Observer observer : attackObservers) {
             observer.update();
@@ -33,8 +43,8 @@ public class AttackService {
     /**
      * attack information input
      *
-     * @param arguments
-     * @return
+     * @param arguments input command
+     * @return Message
      */
     public String attack(String[] arguments) {
 
@@ -82,9 +92,9 @@ public class AttackService {
     /**
      * attack until no attack is possible using maximum number of dice to attack/defend
      *
-     * @param countryFrom
-     * @param countryTo
-     * @return String
+     * @param countryFrom input command
+     * @param countryTo input command
+     * @return Message
      */
     public String allout(String countryFrom, String countryTo) {
 
@@ -161,7 +171,7 @@ public class AttackService {
     /**
      * calculate maximal dice
      *
-     * @param armyvalue
+     * @param armyvalue number of armies
      * @return from country maximal dice
      */
     public Integer fromCountryMaxdice(Integer armyvalue) {
@@ -178,7 +188,7 @@ public class AttackService {
     /**
      * calculate maximal dice
      *
-     * @param armyvalue
+     * @param armyvalue number of armies
      * @return to country maximal dice
      */
     public int toCountryMaxdice(int armyvalue) {
@@ -193,7 +203,7 @@ public class AttackService {
     /**
      * check if input country name can be found
      *
-     * @param countryName
+     * @param countryName country name
      * @return boolean
      */
     public boolean checkCountryName(String countryName) {
@@ -211,8 +221,8 @@ public class AttackService {
     /**
      * check if the country is from the real time player
      *
-     * @param countryName
-     * @return
+     * @param countryName country name
+     * @return true or false
      */
     public boolean checkFromPlayer(String countryName) {
         List<Country> countryList = GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getCountryList();
@@ -253,9 +263,9 @@ public class AttackService {
     /**
      * check if attack dice number is correct
      *
-     * @param fromCountryName
-     * @param num
-     * @return
+     * @param fromCountryName country name
+     * @param num dice number
+     * @return true or false
      */
     public boolean checkDiceNum(String fromCountryName, Integer num) {
 
@@ -290,8 +300,8 @@ public class AttackService {
     /**
      * defend dive information input
      *
-     * @param defendNum
-     * @return
+     * @param defendNum dice number
+     * @return message
      */
     public String defend(String defendNum) {
         String countryName = toCountry;
@@ -338,9 +348,9 @@ public class AttackService {
     /**
      * check defend dice number
      *
-     * @param countryName
-     * @param numDefend
-     * @return
+     * @param countryName country name
+     * @param numDefend dice number
+     * @return true or false
      */
     public boolean checkDefendDice(String countryName, Integer numDefend) {
         Integer remainArmyNum = 0;
@@ -370,7 +380,6 @@ public class AttackService {
     /**
      * attack process
      *
-     * @return
      */
     public void attackProcess() {
 
@@ -487,7 +496,8 @@ public class AttackService {
     }
 
     /**
-     * @param armyNum
+     * Move army
+     * @param armyNum number of armies player want to move
      */
     public void moveArmy(Integer armyNum) {
         for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
@@ -505,8 +515,8 @@ public class AttackService {
     /**
      * get the army value of the country according to the country name
      *
-     * @param name
-     * @return
+     * @param name player name
+     * @return number of army
      */
     public Integer checkArmyValueFromName(String name) {
         Integer result = 0;
@@ -522,7 +532,7 @@ public class AttackService {
     /**
      * check if the country has been conquered
      *
-     * @return
+     * @return true or false
      */
     public boolean checkConquered(){
         boolean flag2=false;
@@ -544,7 +554,7 @@ public class AttackService {
 
     /**
      * check if all countries of a player have been conquered
-     * @return
+     * @return true or false
      */
     public boolean checkConquerAll(){
         boolean flag = false;
@@ -565,7 +575,7 @@ public class AttackService {
     /**
      * delete one army if loosing the dice competition
      *
-     * @param countryName
+     * @param countryName country name
      */
     public void deleteOneArmy(String countryName) {
         for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
@@ -579,7 +589,7 @@ public class AttackService {
     /**
      * choose to stop attacking
      *
-     * @return
+     * @return message
      */
     public String noattack() {
         GamePlayerService.checkPhase = 3;
@@ -590,8 +600,8 @@ public class AttackService {
     /**
      * if conquering one country,player could move some armies to that country
      *
-     * @param num
-     * @return
+     * @param num number of armies
+     * @return message
      */
     public String attackMove(String num) {
 
@@ -630,7 +640,7 @@ public class AttackService {
     /**
      * check if army of moving is suitable
      *
-     * @return
+     * @return true or false
      */
     public boolean checkMoveArmy(Integer num) {
 
@@ -648,11 +658,18 @@ public class AttackService {
         return flag;
     }
 
-
+    /**
+     * Get dice toll result
+     * @return dice number
+     */
     public String getFromDice() {
         return fromDiceResultList.toString();
     }
 
+    /**
+     * Get dice toll result
+     * @return dice number
+     */
     public String getToDice() {
         return toDiceResultList.toString();
     }

@@ -21,17 +21,27 @@ public class GamePlayerService {
     //observers list
     private List<controller.Observer> gameInfoObservers = new ArrayList<>();
 
-
+    /**
+     * Add observer
+     * @param observer observer
+     */
     public void attach(controller.Observer observer){
         gameInfoObservers.add(observer);
     }
 
+    /**
+     * Notify Once changed
+     */
     public void notifyObservers(){
         for (Observer observer : gameInfoObservers) {
             observer.update();
         }
     }
 
+    /**
+     * Get random number for dice toll result
+     * @return Dice number
+     */
     public Integer orderTurn(){
         double num;
         int result;
@@ -40,7 +50,10 @@ public class GamePlayerService {
         return result;
     }
 
-
+    /**
+     * Assign dice number to each player
+     * @param player player instance
+     */
     public void decideTurn(GamePlayer player) {
         for (GamePlayer players : playerList) {
             player.setNum(orderTurn());
@@ -431,6 +444,10 @@ public class GamePlayerService {
         return flag;
     }
 
+    /**
+     * Get player name in current phase
+     * @return player name
+     */
     public String getCurrentPlayerName(){
         GamePlayer currentGamePlayer = playerList.get(choosePlayer);
         String currentPlayerName = currentGamePlayer.getPlayerName();
@@ -439,10 +456,18 @@ public class GamePlayerService {
         return currentPlayerName;
     }
 
+    /**
+     * Gey current player
+     * @return current player from player list
+     */
     public GamePlayer getCurrentPlayer() {
         return GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
     }
 
+    /**
+     * update card information for player
+     * @param player player instance
+     */
     public void updateGamePlayerCard(GamePlayer player){
         GamePlayer gamePlayer = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
         GamePlayerService.playerList.remove(gamePlayer);
