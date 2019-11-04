@@ -87,9 +87,10 @@ public class FortifyService {
             } else {
                 boolean flag3 = checkStop();
                 if (flag3) {
-                    GamePlayerService.checkPhase = 5;
+                    GamePlayerService.checkPhase = 2;
+                    GamePlayerService.choosePlayer=0;
                     notifyObservers();
-                    return "game stop";
+                    return "fortify success and enter into the reinforcement phase for the next player";
                 } else {
                     GamePlayerService.checkPhase = 2;
                     GamePlayerService.choosePlayer++;
@@ -109,9 +110,10 @@ public class FortifyService {
 
         boolean flag = checkStop();
         if (flag) {
-            GamePlayerService.checkPhase = 5;
+            GamePlayerService.checkPhase = 2;
+            GamePlayerService.choosePlayer=0;
             notifyObservers();
-            return "game stop";
+            return "fortify none success and enter into the reinforcement phase for the next player";
         } else {
             GamePlayerService.checkPhase = 2;
             GamePlayerService.choosePlayer++;
