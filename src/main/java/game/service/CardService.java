@@ -18,6 +18,8 @@ public class CardService {
     private List<controller.Observer> cardObservers = new ArrayList<>();
     private GamePlayerService gamePlayerService = new GamePlayerService();
 
+    public static Card lastRewardedCard;
+
     /**
      * Add observer
      *
@@ -51,8 +53,10 @@ public class CardService {
         previousCards.add(randomCard);
         gamePlayer.setCardList(previousCards);
 
+        lastRewardedCard = randomCard;
         return randomCard.name();
     }
+
 
     /**
      * Get reward card once all countries have been conquered
