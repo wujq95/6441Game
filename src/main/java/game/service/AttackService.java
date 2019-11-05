@@ -1,6 +1,7 @@
 package service;
 
 import controller.Observer;
+import model.Continent;
 import model.Country;
 import model.GamePlayer;
 
@@ -152,11 +153,13 @@ public class AttackService {
                     Integer fromArmyValue = checkArmyValueFromName(fromCountry);
                     if (fromArmyValue >= numOfDice + 2) {
                         changPlayer();
+                        dealControllContinent();
                         notifyObservers();
                         return "please choose the number of moving army value";
                     } else {
                         moveArmy(fromArmyValue - 1);
                         changPlayer();
+                        dealControllContinent();
                         notifyObservers();
                         return "attack and conquer success";
                     }
@@ -325,11 +328,13 @@ public class AttackService {
                         Integer fromArmyValue = checkArmyValueFromName(fromCountry);
                         if (fromArmyValue >= numOfDice + 2) {
                             changPlayer();
+                            dealControllContinent();
                             notifyObservers();
                             return "please choose the number of moving army value";
                         } else {
                             moveArmy(fromArmyValue - 1);
                             changPlayer();
+                            dealControllContinent();
                             notifyObservers();
                             return "attack and conquer success";
                         }
@@ -658,6 +663,38 @@ public class AttackService {
         return flag;
     }
 
+    /**
+     * check if the player control all countries in a continent
+     */
+    public void dealControllContinent(){
+        String continentName="";
+        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
+            if(toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+                continentName = MapEditorService.mapGraph.getCountryList().get(i).getParentContinent().getContinentName();
+            }
+        }
+
+        for(int i=0;i<MapEditorService.mapGraph.getContinentList().size();i++){
+            if(continentName.equals(MapEditorService.mapGraph.getContinentList().get(i).getContinentName())){
+                List<Country> countryList = MapEditorService.mapGraph.getContinentList().get(i).getCountries();
+                boolean flag =true;
+                for(Country country:countryList){
+                    for(int j=0;j<MapEditorService.mapGraph.getCountryList().size();j++){
+                        if(country.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(j).getCountryName())){
+                            if(!MapEditorService.mapGraph.getCountryList().get(j).getPlayer().getPlayerName().equals(GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getPlayerName())){
+                                flag = false;
+                            }
+                        }
+                    }
+                }
+                if(flag){
+                    List<String> continentNameList = GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getControlledContinent();
+                    continentNameList.add(continentName);
+                    GamePlayerService.playerList.get(GamePlayerService.choosePlayer).setControlledContinent(continentNameList);
+                }
+            }
+        }
+    }
     /**
      * Get dice toll result
      * @return dice number

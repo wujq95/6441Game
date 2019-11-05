@@ -19,12 +19,14 @@ public class GamePlayer {
      * @param playerName 　player name
      * @param armyValue number of army
      * @param countryList country list
+     * @param
      */
     public GamePlayer(String playerName,Integer armyValue,List<Country> countryList){
         this.armyValue = armyValue;
         this.countryList = countryList;
         this.playerName = playerName;
         this.cardList = new LinkedList<>();
+        this.controlledContinent = new LinkedList<>();
     }
 
     /**
@@ -75,21 +77,49 @@ public class GamePlayer {
         this.countryList = countryList;
     }
 
+    /**
+     * Get card list
+     * @return card list
+     */
     public List<Card> getCardList() {
         return cardList;
     }
 
+    /**
+     * set card list
+     * @param cardList
+     */
     public void setCardList(List<Card> cardList) {
         this.cardList = cardList;
     }
 
+    /**
+     * set num
+     * @param num
+     */
     public void setNum(Integer num) {
         this.num = num;
     }
 
+    /**
+     * get num
+     * @return
+     */
     public Integer getNum() {
         return num;
     }
+
+    /**
+     * set controlled continent
+     * @param controlledContinent
+     */
+    public void setControlledContinent(List<String> controlledContinent){this.controlledContinent = controlledContinent;}
+
+    /**
+     * get controlled continent
+     * @return
+     */
+    public List<String> getControlledContinent (){return controlledContinent;}
 
     /**
      * Initial variables
@@ -99,6 +129,7 @@ public class GamePlayer {
     List<Country> countryList = new ArrayList<Country>();
     List<Card> cardList;
     Integer num;
+    List<String> controlledContinent = new LinkedList<>();
 
 
 }
