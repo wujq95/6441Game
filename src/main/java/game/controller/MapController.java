@@ -131,6 +131,9 @@ public class MapController {
     public Label cardListLabel;
 
     @FXML
+    public Label chosenCardLabel;
+
+    @FXML
     public Label attackerDice;
     /**
      * Dice result for defender
@@ -155,6 +158,8 @@ public class MapController {
             }
             cardListLabel.setText(builder.toString());
         }
+
+        chosenCardLabel.setText("Chosen Card");
 
         cardExchangePane.setVisible(true);
     }
