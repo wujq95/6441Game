@@ -23,6 +23,7 @@ import model.*;
 import service.*;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -235,10 +236,14 @@ public class MapController{
 
             String playerName = gamePlayer.getPlayerName();
             String armyValue = gamePlayer.getArmyValue().toString();
-            String controlledContinentsNum = "0";
-            String percentageOnMap = "0%";
+            String controlledContinents = gamePlayer.getControlledContinent().toString();
+            int countryNum = gamePlayer.getCountryList().size();
+            int totalCountryNum = MapEditorService.mapGraph.getCountryList().size();
+            double percentage = countryNum * 1.0 / totalCountryNum;
+            DecimalFormat df = new DecimalFormat("##.##%");
+            String percentageOnMap = df.format(percentage);
 
-            List<String> line = Arrays.asList(playerName, armyValue, controlledContinentsNum, percentageOnMap);
+            List<String> line = Arrays.asList(playerName, armyValue, controlledContinents, percentageOnMap);
             // Text text = new Text((gamePlayer.getPlayerName() + ": " + gamePlayer.getArmyValue()));
             Text text = new Text(line.toString());
             text.setX(x);
