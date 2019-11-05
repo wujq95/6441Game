@@ -26,69 +26,6 @@ public class AttackServiceTest {
         mapEditorService = new MapEditorService();
     }
 
-
-    /**
-     * attack move test
-     */
-    @Test
-    public void attackMoveTest(){
-
-        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
-
-        GamePlayer player1 = new GamePlayer();
-        GamePlayer player2 = new GamePlayer();
-        GamePlayer player3 = new GamePlayer();
-
-        player1.setPlayerName("player01");
-        player2.setPlayerName("player02");
-        player3.setPlayerName("player03");
-
-        player1.setArmyValue(0);
-        player2.setArmyValue(0);
-        player3.setArmyValue(0);
-
-        GamePlayerService.playerList.add(player1);
-        GamePlayerService.playerList.add(player2);
-        GamePlayerService.playerList.add(player3);
-
-        List<Country> countryList1 = new ArrayList<Country>();
-        countryList1.add(MapEditorService.mapGraph.getCountryList().get(0));
-        countryList1.add(MapEditorService.mapGraph.getCountryList().get(1));
-        player1.setCountryList(countryList1);
-        MapEditorService.mapGraph.getCountryList().get(0).setPlayer(player1);
-        MapEditorService.mapGraph.getCountryList().get(1).setPlayer(player1);
-
-        List<Country> countryList2 = new ArrayList<Country>();
-        countryList2.add(MapEditorService.mapGraph.getCountryList().get(2));
-        player2.setCountryList(countryList2);
-        MapEditorService.mapGraph.getCountryList().get(2).setPlayer(player2);
-
-        List<Country> countryList3 = new ArrayList<Country>();
-        countryList3.add(MapEditorService.mapGraph.getCountryList().get(3));
-        countryList3.add(MapEditorService.mapGraph.getCountryList().get(4));
-        player3.setCountryList(countryList3);
-        MapEditorService.mapGraph.getCountryList().get(3).setPlayer(player3);
-        MapEditorService.mapGraph.getCountryList().get(4).setPlayer(player3);
-
-        GamePlayerService.playerList.add(player1);
-        GamePlayerService.playerList.add(player2);
-        GamePlayerService.playerList.add(player3);
-
-        AttackService.fromCountry = MapEditorService.mapGraph.getCountryList().get(1).getCountryName();
-        AttackService.toCountry= MapEditorService.mapGraph.getCountryList().get(2).getCountryName();
-        AttackService.fromDiceResultList.add(3);
-        AttackService.fromDiceResultList.add(2);
-
-        MapEditorService.mapGraph.getCountryList().get(1).setArmyValue(5);
-        MapEditorService.mapGraph.getCountryList().get(2).setArmyValue(0);
-
-        Assert.assertEquals(MapEditorService.mapGraph.getCountryList().get(1).getArmyValue().toString(),"5");
-        Assert.assertEquals(MapEditorService.mapGraph.getCountryList().get(2).getArmyValue().toString(),"0");
-        attackService.attackMove("2");
-        Assert.assertEquals(MapEditorService.mapGraph.getCountryList().get(1).getArmyValue().toString(),"3");
-        Assert.assertEquals(MapEditorService.mapGraph.getCountryList().get(2).getArmyValue().toString(),"2");
-    }
-
     /**
      * attack test
      */
@@ -154,7 +91,69 @@ public class AttackServiceTest {
         sum = firstCountryArmyValue+secondCountryArmyValue;
         Assert.assertEquals(sum.toString(),"8");
     }
-    
+
+    /**
+     * attack move test
+     */
+    @Test
+    public void attackMoveTest(){
+
+        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
+
+        GamePlayer player1 = new GamePlayer();
+        GamePlayer player2 = new GamePlayer();
+        GamePlayer player3 = new GamePlayer();
+
+        player1.setPlayerName("player01");
+        player2.setPlayerName("player02");
+        player3.setPlayerName("player03");
+
+        player1.setArmyValue(0);
+        player2.setArmyValue(0);
+        player3.setArmyValue(0);
+
+        GamePlayerService.playerList.add(player1);
+        GamePlayerService.playerList.add(player2);
+        GamePlayerService.playerList.add(player3);
+
+        List<Country> countryList1 = new ArrayList<Country>();
+        countryList1.add(MapEditorService.mapGraph.getCountryList().get(0));
+        countryList1.add(MapEditorService.mapGraph.getCountryList().get(1));
+        player1.setCountryList(countryList1);
+        MapEditorService.mapGraph.getCountryList().get(0).setPlayer(player1);
+        MapEditorService.mapGraph.getCountryList().get(1).setPlayer(player1);
+
+        List<Country> countryList2 = new ArrayList<Country>();
+        countryList2.add(MapEditorService.mapGraph.getCountryList().get(2));
+        player2.setCountryList(countryList2);
+        MapEditorService.mapGraph.getCountryList().get(2).setPlayer(player2);
+
+        List<Country> countryList3 = new ArrayList<Country>();
+        countryList3.add(MapEditorService.mapGraph.getCountryList().get(3));
+        countryList3.add(MapEditorService.mapGraph.getCountryList().get(4));
+        player3.setCountryList(countryList3);
+        MapEditorService.mapGraph.getCountryList().get(3).setPlayer(player3);
+        MapEditorService.mapGraph.getCountryList().get(4).setPlayer(player3);
+
+        GamePlayerService.playerList.add(player1);
+        GamePlayerService.playerList.add(player2);
+        GamePlayerService.playerList.add(player3);
+
+        AttackService.fromCountry = MapEditorService.mapGraph.getCountryList().get(1).getCountryName();
+        AttackService.toCountry= MapEditorService.mapGraph.getCountryList().get(2).getCountryName();
+        AttackService.fromDiceResultList.add(3);
+        AttackService.fromDiceResultList.add(2);
+
+        MapEditorService.mapGraph.getCountryList().get(1).setArmyValue(5);
+        MapEditorService.mapGraph.getCountryList().get(2).setArmyValue(0);
+
+        Assert.assertEquals(MapEditorService.mapGraph.getCountryList().get(1).getArmyValue().toString(),"5");
+        Assert.assertEquals(MapEditorService.mapGraph.getCountryList().get(2).getArmyValue().toString(),"0");
+        attackService.attackMove("2");
+        Assert.assertEquals(MapEditorService.mapGraph.getCountryList().get(1).getArmyValue().toString(),"3");
+        Assert.assertEquals(MapEditorService.mapGraph.getCountryList().get(2).getArmyValue().toString(),"2");
+    }
+
     /**
      * no attack test
      */
