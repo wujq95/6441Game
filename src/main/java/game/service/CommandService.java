@@ -122,7 +122,6 @@ public class CommandService {
                 }
             } else {
                 if (!arguments[1].equals("-none")) {
-                    //TODO:得到卡之后增加提示信息
                     return cardService.exchangeCards(
                             Integer.parseInt(arguments[1]) - 1,
                             Integer.parseInt(arguments[2]) - 1,

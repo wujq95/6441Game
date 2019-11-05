@@ -65,6 +65,7 @@ public class CardService {
         previousCards.addAll(conquered.getCardList());
         attacker.setCardList(previousCards);
         conquered.setCardList(new LinkedList<Card>());
+        notifyObservers();
     }
 
     /**
