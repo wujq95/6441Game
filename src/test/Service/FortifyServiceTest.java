@@ -31,7 +31,7 @@ public class FortifyServiceTest {
      */
     @Test
     public void fortifyTest() {
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
+        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
@@ -80,5 +80,157 @@ public class FortifyServiceTest {
         Assert.assertEquals("3",MapEditorService.mapGraph.getCountryList().get(0).getArmyValue().toString());
         Assert.assertEquals("2",MapEditorService.mapGraph.getCountryList().get(1).getArmyValue().toString());
 
+    }
+
+    /**
+     * fortify none test
+     */
+    @Test
+    public void fortifyNoneTest(){
+        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
+
+        List<Country> countryList1 = new ArrayList<Country>();
+        countryList1.add(MapEditorService.mapGraph.getCountryList().get(0));
+        countryList1.add(MapEditorService.mapGraph.getCountryList().get(1));
+
+        List<Country> countryList2 = new ArrayList<Country>();
+        countryList2.add(MapEditorService.mapGraph.getCountryList().get(2));
+
+        List<Country> countryList3 = new ArrayList<Country>();
+        countryList3.add(MapEditorService.mapGraph.getCountryList().get(3));
+        countryList3.add(MapEditorService.mapGraph.getCountryList().get(4));
+
+        MapEditorService.mapGraph.getCountryList().get(0).setArmyValue(5);
+        MapEditorService.mapGraph.getCountryList().get(1).setArmyValue(0);
+
+        Assert.assertEquals("5",MapEditorService.mapGraph.getCountryList().get(0).getArmyValue().toString());
+        Assert.assertEquals("0",MapEditorService.mapGraph.getCountryList().get(1).getArmyValue().toString());
+
+        fortifyService.fortifyNone();
+        Assert.assertEquals("5",MapEditorService.mapGraph.getCountryList().get(0).getArmyValue().toString());
+        Assert.assertEquals("0",MapEditorService.mapGraph.getCountryList().get(1).getArmyValue().toString());
+
+
+    }
+
+    /**
+     * fortify phase change test
+     */
+    @Test
+    public void fortifyPhaseTest() {
+        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
+
+        GamePlayer player1 = new GamePlayer();
+        GamePlayer player2 = new GamePlayer();
+        GamePlayer player3 = new GamePlayer();
+
+        player1.setArmyValue(0);
+        player2.setArmyValue(0);
+        player3.setArmyValue(0);
+
+        GamePlayerService.playerList.add(player1);
+        GamePlayerService.playerList.add(player2);
+        GamePlayerService.playerList.add(player3);
+
+        List<Country> countryList1 = new ArrayList<Country>();
+        countryList1.add(MapEditorService.mapGraph.getCountryList().get(0));
+        countryList1.add(MapEditorService.mapGraph.getCountryList().get(1));
+        player1.setCountryList(countryList1);
+
+        List<Country> countryList2 = new ArrayList<Country>();
+        countryList2.add(MapEditorService.mapGraph.getCountryList().get(2));
+        player2.setCountryList(countryList2);
+
+        List<Country> countryList3 = new ArrayList<Country>();
+        countryList3.add(MapEditorService.mapGraph.getCountryList().get(3));
+        countryList3.add(MapEditorService.mapGraph.getCountryList().get(4));
+        player3.setCountryList(countryList3);
+
+        MapEditorService.mapGraph.getCountryList().get(0).setArmyValue(5);
+        MapEditorService.mapGraph.getCountryList().get(1).setArmyValue(0);
+
+        String fromCountry = MapEditorService.mapGraph.getCountryList().get(0).getCountryName();
+        String toCountry = MapEditorService.mapGraph.getCountryList().get(1).getCountryName();
+
+        fortifyService.fortify(fromCountry,toCountry,"2");
+        Assert.assertEquals(GamePlayerService.checkPhase,2);
+    }
+
+    /**
+     * fortify phase change test
+     */
+    @Test
+    public void fortifyNonePhaseTest() {
+        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
+
+        List<Country> countryList1 = new ArrayList<Country>();
+        countryList1.add(MapEditorService.mapGraph.getCountryList().get(0));
+        countryList1.add(MapEditorService.mapGraph.getCountryList().get(1));
+
+        List<Country> countryList2 = new ArrayList<Country>();
+        countryList2.add(MapEditorService.mapGraph.getCountryList().get(2));
+
+        List<Country> countryList3 = new ArrayList<Country>();
+        countryList3.add(MapEditorService.mapGraph.getCountryList().get(3));
+        countryList3.add(MapEditorService.mapGraph.getCountryList().get(4));
+
+        MapEditorService.mapGraph.getCountryList().get(0).setArmyValue(5);
+        MapEditorService.mapGraph.getCountryList().get(1).setArmyValue(0);
+
+        fortifyService.fortifyNone();
+        Assert.assertEquals(GamePlayerService.checkPhase,2);
+    }
+
+    /**
+     * player test
+     */
+    @Test
+    public void playerTest(){
+        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
+
+        GamePlayer player1 = new GamePlayer();
+        GamePlayer player2 = new GamePlayer();
+        GamePlayer player3 = new GamePlayer();
+
+        player1.setArmyValue(0);
+        player2.setArmyValue(0);
+        player3.setArmyValue(0);
+
+        GamePlayerService.playerList.add(player1);
+        GamePlayerService.playerList.add(player2);
+        GamePlayerService.playerList.add(player3);
+
+        List<Country> countryList1 = new ArrayList<Country>();
+        countryList1.add(MapEditorService.mapGraph.getCountryList().get(0));
+        countryList1.add(MapEditorService.mapGraph.getCountryList().get(1));
+        player1.setCountryList(countryList1);
+
+        List<Country> countryList2 = new ArrayList<Country>();
+        countryList2.add(MapEditorService.mapGraph.getCountryList().get(2));
+        player2.setCountryList(countryList2);
+
+        List<Country> countryList3 = new ArrayList<Country>();
+        countryList3.add(MapEditorService.mapGraph.getCountryList().get(3));
+        countryList3.add(MapEditorService.mapGraph.getCountryList().get(4));
+        player3.setCountryList(countryList3);
+
+        MapEditorService.mapGraph.getCountryList().get(0).setArmyValue(5);
+        MapEditorService.mapGraph.getCountryList().get(1).setArmyValue(0);
+
+        String fromCountry = MapEditorService.mapGraph.getCountryList().get(0).getCountryName();
+        String toCountry = MapEditorService.mapGraph.getCountryList().get(1).getCountryName();
+
+        fortifyService.fortify(fromCountry,toCountry,"2");
+        Assert.assertEquals(GamePlayerService.choosePlayer.toString(),"1");
+    }
+
+    /**
+     * stop test
+     */
+    @Test
+    public void stopTest(){
+        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
+        fortifyService.stop();
+        Assert.assertEquals(GamePlayerService.checkPhase,5);
     }
 }
