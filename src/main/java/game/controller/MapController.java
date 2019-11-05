@@ -6,7 +6,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -18,24 +17,21 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-
 import model.*;
 import service.*;
 
 import java.io.File;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
-
-import static javafx.scene.Cursor.HAND;
 
 
 /**
  * MapController class
  * Linking the user input with backend model data
  */
-public class MapController{
+public class MapController {
 
     /**
      * data structure storing the loaded map
@@ -142,27 +138,38 @@ public class MapController{
     @FXML
     public Label defenderDice;
 
-    private void loadCardsExchangeView(GamePlayerService gamePlayerService){
+    private void loadCardsExchangeView(GamePlayerService gamePlayerService) {
         GamePlayer currentPlayer = gamePlayerService.getCurrentPlayer();
         // TODO:
-        currentPlayer.getCardList();
+        List<Card> cardList = currentPlayer.getCardList();
 
         currentCardPlayerLabel.setText(currentPlayer.getPlayerName());
-        //cardListLabel.setText(cardsList);
+
+        if (cardList == null) {
+            cardList = new LinkedList<>();
+            cardListLabel.setText("zero cards");
+        } else {
+            StringBuilder builder = new StringBuilder();
+            for (Card card : cardList) {
+                builder.append(card.name()).append(" ");
+            }
+            cardListLabel.setText(builder.toString());
+        }
 
         cardExchangePane.setVisible(true);
     }
 
-    private void hideCardsExchangeView(){
+    private void hideCardsExchangeView() {
         cardExchangePane.setVisible(false);
     }
 
     /**
      * Load game information
+     *
      * @param gamePlayerService gamerPlayerService instance initial
      */
-    private void loadGameInformation(GamePlayerService gamePlayerService){
-        int phaseNum  = gamePlayerService.checkPhase;
+    private void loadGameInformation(GamePlayerService gamePlayerService) {
+        int phaseNum = gamePlayerService.checkPhase;
 
         String phaseName = "Map Editor";
         String currentPlayerName = "None";
@@ -170,7 +177,7 @@ public class MapController{
         String attackerDiceOutcome = "None";
         String defenderDiceOutcome = "None";
 
-        switch (phaseNum){
+        switch (phaseNum) {
             case 0:
                 phaseName = "Map Editor";
                 break;
@@ -210,9 +217,10 @@ public class MapController{
 
     /**
      * load the mapGraph on mapPane
+     *
      * @param mGraph user interface loading map
      */
-    private void loadMapGraph(MapGraph mGraph){
+    private void loadMapGraph(MapGraph mGraph) {
         mapPane.getChildren().clear();
 
         // location for game player list title and continent list title
@@ -265,7 +273,7 @@ public class MapController{
         mapPane.getChildren().addAll(title);
 
         i = 0;
-        for (Continent continent:continentList) {
+        for (Continent continent : continentList) {
             Rectangle continentRectangle = new Rectangle(60, 20, continent.getColor());
             continentRectangle.setId("continent" + continent.getContinentName());
             Text text = new Text(continent.getContinentName() + ": " + continent.getArmyValue());
@@ -285,7 +293,7 @@ public class MapController{
 
         // Load all countries
         List<Country> countryList = mGraph.getCountryList();
-        for (Country country: countryList) {
+        for (Country country : countryList) {
             x = country.getX();
             y = country.getY();
             x = x * 1.3;
@@ -294,7 +302,7 @@ public class MapController{
             Circle circle = new Circle(x, y, 15, countryColor);
 
             GamePlayer player = country.getPlayer();
-            String playerName = (player == null)? "": player.getPlayerName();
+            String playerName = (player == null) ? "" : player.getPlayerName();
             Label label = new Label(country.getCountryName() + "\n" + country.getArmyValue() + "\n" + playerName);
             label.setFont(new Font(10));
             label.toFront();
@@ -308,7 +316,7 @@ public class MapController{
 
         // Load all connections
         List<Connection> connectionList = mGraph.getConnections();
-        for(Connection connection: connectionList){
+        for (Connection connection : connectionList) {
             Country country1 = connection.getCountry1();
             Country country2 = connection.getCountry2();
 
@@ -322,7 +330,7 @@ public class MapController{
             line.setStartY(pt1.getY() * 1.3);
             line.setEndX(pt2.getX() * 1.3);
             line.setEndY(pt2.getY() * 1.3);
-            line.setStroke(Color.rgb(95,103,105));
+            line.setStroke(Color.rgb(95, 103, 105));
             line.toBack();
 
             mapPane.getChildren().add(line);
@@ -331,6 +339,7 @@ public class MapController{
 
     /**
      * load map the map into MapGraph mapGraph data structure
+     *
      * @param event mouse click event
      */
     @FXML
@@ -358,13 +367,14 @@ public class MapController{
 
     /**
      * save the map to file
+     *
      * @param event mouse click event
      */
     @FXML
     void saveMap(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showSaveDialog(saveMapMenuItem.getParentPopup());
-        if(file != null){
+        if (file != null) {
             MapEditorService.mapGraph = this.mapGraph;
             System.out.println(file.getName());
             mapEditorService.saveMap(file.getName());
@@ -373,11 +383,12 @@ public class MapController{
 
     /**
      * send the command line, and display the return info
+     *
      * @param event mouse click event
      */
     @FXML
-    void detectEnter(KeyEvent event){
-        if (event.getCode() == KeyCode.ENTER){
+    void detectEnter(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
             System.out.println("Enter Key Pressed");
             String commandStr = commandLine.getText();
             System.out.println("Your command: " + commandStr);
@@ -393,7 +404,7 @@ public class MapController{
     /**
      * MapController constructor
      */
-    public MapController(){
+    public MapController() {
         colorPicker = new ColorController();
         mapEditorService = new MapEditorService();
         gamePlayerService = new GamePlayerService();
@@ -405,15 +416,15 @@ public class MapController{
         // default empty graph before loaded
         this.mapGraph = new MapGraph();
         this.mapGraphObserver = new MapGraphObserver(MapEditorService.mapGraph);
-        this.gameInfoObserver = new GameInfoObserver(gamePlayerService, attackService, cardService,reinforceService,fortifyService);
+        this.gameInfoObserver = new GameInfoObserver(gamePlayerService, attackService, cardService, reinforceService, fortifyService);
     }
 
     /**
      * sub-class of observer GameInObserver constructor
      */
-    public class GameInfoObserver extends Observer{
+    public class GameInfoObserver extends Observer {
 
-        public GameInfoObserver(GamePlayerService gamePlayerService, AttackService attackService, CardService cardService, ReinforceService reinforceService,FortifyService fortifyService){
+        public GameInfoObserver(GamePlayerService gamePlayerService, AttackService attackService, CardService cardService, ReinforceService reinforceService, FortifyService fortifyService) {
             this.gamePlayerService = gamePlayerService;
             this.gamePlayerService.attach(this);
 
@@ -426,7 +437,7 @@ public class MapController{
             this.reinforceService = reinforceService;
             this.reinforceService.attach(this);
 
-            this.fortifyService =fortifyService;
+            this.fortifyService = fortifyService;
             this.fortifyService.attach(this);
         }
 
@@ -434,7 +445,7 @@ public class MapController{
          * View layer required update function with GameInformation and Map loading
          */
         @Override
-        public void update(){
+        public void update() {
             System.out.println("Game Information Reloaded");
             loadGameInformation(gamePlayerService);
             System.out.println("Map Pane Reloaded");
@@ -445,12 +456,13 @@ public class MapController{
     /**
      * MapGraphObserver
      */
-    public class MapGraphObserver extends Observer{
+    public class MapGraphObserver extends Observer {
         /**
          * mapGraphObserver constructor
+         *
          * @param mapGraph map graph
          */
-        public MapGraphObserver(MapGraph mapGraph){
+        public MapGraphObserver(MapGraph mapGraph) {
             this.mapGraph = mapGraph;
             this.mapGraph.attach(this);
         }
@@ -459,7 +471,7 @@ public class MapController{
          * reload the mapGraph
          */
         @Override
-        public void update(){
+        public void update() {
             System.out.println("MapGraph Reloaded.");
             loadMapGraph(MapEditorService.mapGraph);
         }

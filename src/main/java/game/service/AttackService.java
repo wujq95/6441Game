@@ -550,8 +550,8 @@ public class AttackService {
             }
         }
         if(flag){
-            cardService.rewardCardAfterConquerOneCountry();
             flag2 = checkConquerAll();
+            cardService.rewardCardAfterConquerOneCountry();
         }
 
         return flag;

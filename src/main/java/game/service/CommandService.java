@@ -109,19 +109,21 @@ public class CommandService {
                     return "you must exchange cards";
                 } else {
                     return cardService.exchangeCards(
-                            Integer.parseInt(arguments[1]),
-                            Integer.parseInt(arguments[2]),
-                            Integer.parseInt(arguments[3]),
+                            Integer.parseInt(arguments[1]) - 1,
+                            Integer.parseInt(arguments[2]) - 1,
+                            Integer.parseInt(arguments[3]) - 1,
                             gamePlayer);
                 }
             } else {
                 if (!arguments[1].equals("-none")) {
+                    //TODO:得到卡之后增加提示信息
                     return cardService.exchangeCards(
-                            Integer.parseInt(arguments[1]),
-                            Integer.parseInt(arguments[2]),
-                            Integer.parseInt(arguments[3]),
+                            Integer.parseInt(arguments[1]) - 1,
+                            Integer.parseInt(arguments[2]) - 1,
+                            Integer.parseInt(arguments[3]) - 1,
                             gamePlayer);
                 } else {
+                    //TODO:The player can choose 2 not to exchange cards and exit the card exchange view.
                     cardService.notifyObservers();
                 }
             }
