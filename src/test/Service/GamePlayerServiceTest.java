@@ -77,7 +77,7 @@ public class GamePlayerServiceTest {
     @Test
     public void populateCountriesTest(){
 
-        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
+        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
 
         List<GamePlayer>  playerList = new ArrayList<GamePlayer>();
         GamePlayer player1 = new GamePlayer();
@@ -104,7 +104,7 @@ public class GamePlayerServiceTest {
      */
     @Test
     public void placeOneTest(){
-        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
+        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
@@ -169,7 +169,7 @@ public class GamePlayerServiceTest {
         player2.setArmyValue(0);
         player3.setArmyValue(0);
 
-        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk2.map");
+        mapEditorService.editMap("/Users/siming/Desktop/risk2.map");
         List<Country> countryList1 = new ArrayList<Country>();
 
         countryList1.add(MapEditorService.mapGraph.getCountryList().get(0));
