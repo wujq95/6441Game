@@ -597,7 +597,7 @@ public class AttackService {
      *
      * @return message
      */
-    public String noattack() {
+    public String noAttack() {
         GamePlayerService.checkPhase = 3;
         notifyObservers();
         return "enter into fortification phase";

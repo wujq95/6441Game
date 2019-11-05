@@ -94,7 +94,7 @@ public class CommandService {
                     cardService.rewardCardAfterConquerOneCountry();
                     AttackService.ConqueredAtleastOneIntheturn = false;
                 }
-                commandReturnMsg = attackService.noattack();
+                commandReturnMsg = attackService.noAttack();
             } else if (arguments[3].startsWith("-allout")) {
                 commandReturnMsg = attackService.allout(arguments[1], arguments[2]);
             } else {
