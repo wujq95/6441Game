@@ -66,6 +66,9 @@ public class CardService {
     public void rewardCardAfterConquerLastCountry(GamePlayer conquered) {
         GamePlayer attacker = gamePlayerService.getCurrentPlayer();
         List<Card> previousCards = attacker.getCardList();
+        if (previousCards == null) {
+            previousCards = new LinkedList<>();
+        }
         previousCards.addAll(conquered.getCardList());
         attacker.setCardList(previousCards);
         conquered.setCardList(new LinkedList<Card>());
