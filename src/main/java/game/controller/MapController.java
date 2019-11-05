@@ -160,12 +160,20 @@ public class MapController {
         }
 
         Card rewardedCard = CardService.lastRewardedCard;
+        List<Card> rewardedCardList = CardService.rewardedCardsAfterDefeatAnotherPlayer;
         if (rewardedCard == null)
             rewardedCardLabel.setText("None");
-        else{
-            rewardedCardLabel.setText(rewardedCard.name());
+        else {
+            rewardedCardList.add(rewardedCard);
+            StringBuilder builder = new StringBuilder();
+            for (Card card : rewardedCardList) {
+                builder.append(card.name()).append(" ");
+            }
+            cardListLabel.setText(builder.toString());
+            rewardedCardLabel.setText(builder.toString());
             //set to null, so after next refresh view, last rewarded card will display "None"
             CardService.lastRewardedCard = null;
+            CardService.rewardedCardsAfterDefeatAnotherPlayer = null;
         }
 
 

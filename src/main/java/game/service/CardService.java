@@ -19,6 +19,8 @@ public class CardService {
     private GamePlayerService gamePlayerService = new GamePlayerService();
 
     public static Card lastRewardedCard;
+    public static List<Card> rewardedCardsAfterDefeatAnotherPlayer = new LinkedList<>();
+    public static boolean notExchangeCards = false;
 
     /**
      * Add observer
@@ -71,6 +73,7 @@ public class CardService {
         }
         previousCards.addAll(conquered.getCardList());
         attacker.setCardList(previousCards);
+        rewardedCardsAfterDefeatAnotherPlayer = previousCards;
         conquered.setCardList(new LinkedList<Card>());
         notifyObservers();
     }
