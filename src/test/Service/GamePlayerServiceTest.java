@@ -77,7 +77,7 @@ public class GamePlayerServiceTest {
     @Test
     public void populateCountriesTest(){
 
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
+        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
 
         List<GamePlayer>  playerList = new ArrayList<GamePlayer>();
         GamePlayer player1 = new GamePlayer();
@@ -104,7 +104,7 @@ public class GamePlayerServiceTest {
      */
     @Test
     public void placeOneTest(){
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
+        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
@@ -169,7 +169,7 @@ public class GamePlayerServiceTest {
         player2.setArmyValue(0);
         player3.setArmyValue(0);
 
-        mapEditorService.editMap("/Applications/Domination/maps/risk2t.map");
+        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk2.map");
         List<Country> countryList1 = new ArrayList<Country>();
 
         countryList1.add(MapEditorService.mapGraph.getCountryList().get(0));
@@ -205,13 +205,13 @@ public class GamePlayerServiceTest {
         GamePlayerService.playerList.add(player2);
         GamePlayerService.playerList.add(player3);
 
-        ReinforceService.playerNum=0;
+        GamePlayerService.choosePlayer=0;
         gamePlayerService.calReinArmyNum();
         Assert.assertEquals("2",GamePlayerService.playerList.get(0).getArmyValue().toString());
-        ReinforceService.playerNum=1;
+        GamePlayerService.choosePlayer=1;
         gamePlayerService.calReinArmyNum();
         Assert.assertEquals("3",GamePlayerService.playerList.get(1).getArmyValue().toString());
-        ReinforceService.playerNum=2;
+        GamePlayerService.choosePlayer=2;
         gamePlayerService.calReinArmyNum();
         Assert.assertEquals("5",GamePlayerService.playerList.get(2).getArmyValue().toString());
 
