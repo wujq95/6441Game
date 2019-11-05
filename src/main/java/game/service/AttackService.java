@@ -540,7 +540,6 @@ public class AttackService {
      * @return true or false
      */
     public boolean checkConquered() {
-        boolean flag2 = false;
         boolean flag = false;
         for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
             if (toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())) {
@@ -550,7 +549,7 @@ public class AttackService {
             }
         }
         if (flag) {
-            flag2 = checkConquerAll();
+            checkConquerAll();
             ConqueredAtleastOneIntheturn = true;
         }
 

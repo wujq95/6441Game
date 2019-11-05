@@ -91,10 +91,12 @@ public class CommandService {
             String[] arguments = inputCommand.split(" ");
             if (arguments[1].startsWith("-noattack")) {
                 if (AttackService.ConqueredAtleastOneIntheturn) {
-                    cardService.rewardCardAfterConquerOneCountry();
+                    String cardName = cardService.rewardCardAfterConquerOneCountry();
                     AttackService.ConqueredAtleastOneIntheturn = false;
+                    commandReturnMsg = attackService.noAttack() + " you have been rewarded a card " + cardName;
+                } else {
+                    commandReturnMsg = attackService.noAttack();
                 }
-                commandReturnMsg = attackService.noAttack();
             } else if (arguments[3].startsWith("-allout")) {
                 commandReturnMsg = attackService.allout(arguments[1], arguments[2]);
             } else {

@@ -20,6 +20,7 @@ public class CardService {
 
     /**
      * Add observer
+     *
      * @param observer observer
      */
     public void attach(controller.Observer observer) {
@@ -38,19 +39,24 @@ public class CardService {
     /**
      * Get reward card once attack conquered one country
      */
-    public void rewardCardAfterConquerOneCountry() {
+    public String rewardCardAfterConquerOneCountry() {
         GamePlayer gamePlayer = gamePlayerService.getCurrentPlayer();
 
         List<Card> previousCards = gamePlayer.getCardList();
         if (previousCards == null) {
             previousCards = new LinkedList<>();
         }
-        previousCards.add(getRandomCardFromDeck());
+
+        Card randomCard = getRandomCardFromDeck();
+        previousCards.add(randomCard);
         gamePlayer.setCardList(previousCards);
+
+        return randomCard.name();
     }
 
     /**
      * Get reward card once all countries have been conquered
+     *
      * @param conquered
      */
     public void rewardCardAfterConquerLastCountry(GamePlayer conquered) {
@@ -63,13 +69,14 @@ public class CardService {
 
     /**
      * Exchange cards
-     * @param no1 card no1
-     * @param no2 card no2
-     * @param no3 card no3
+     *
+     * @param no1        card no1
+     * @param no2        card no2
+     * @param no3        card no3
      * @param gamePlayer game player instance
      * @return message
      */
-    String exchangeCards(int no1, int no2, int no3, GamePlayer gamePlayer) {
+    public String exchangeCards(int no1, int no2, int no3, GamePlayer gamePlayer) {
         if (gamePlayer.getCardList() == null || gamePlayer.getCardList().size() < 3) {
             return "you don't have enough cards";
         }
@@ -101,6 +108,7 @@ public class CardService {
 
     /**
      * check whether player should exchange card
+     *
      * @param gamePlayer player instance
      * @return true or false
      */
@@ -137,6 +145,7 @@ public class CardService {
 
     /**
      * Get card
+     *
      * @return card type number
      */
     public Card getRandomCardFromDeck() {
