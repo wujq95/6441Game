@@ -90,6 +90,10 @@ public class CommandService {
         } else if (inputCommand.startsWith("attack") && GamePlayerService.checkPhase == 4) {
             String[] arguments = inputCommand.split(" ");
             if (arguments[1].startsWith("-noattack")) {
+                if (AttackService.ConqueredAtleastOneIntheturn) {
+                    cardService.rewardCardAfterConquerOneCountry();
+                    AttackService.ConqueredAtleastOneIntheturn = false;
+                }
                 commandReturnMsg = attackService.noattack();
             } else if (arguments[3].startsWith("-allout")) {
                 commandReturnMsg = attackService.allout(arguments[1], arguments[2]);

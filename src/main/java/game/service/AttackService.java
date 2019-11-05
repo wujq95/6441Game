@@ -1,7 +1,6 @@
 package service;
 
 import controller.Observer;
-import model.Continent;
 import model.Country;
 import model.GamePlayer;
 
@@ -19,13 +18,14 @@ public class AttackService {
     public static List<Integer> fromDiceResultList = new LinkedList<>();
     public static List<Integer> toDiceResultList = new LinkedList<>();
     private CardService cardService = new CardService();
-
+    static boolean ConqueredAtleastOneIntheturn = false;
 
     //observers list
     private List<controller.Observer> attackObservers = new ArrayList<>();
 
     /**
      * Add observer
+     *
      * @param observer observer
      */
     public void attach(controller.Observer observer) {
@@ -94,7 +94,7 @@ public class AttackService {
      * attack until no attack is possible using maximum number of dice to attack/defend
      *
      * @param countryFrom input command
-     * @param countryTo input command
+     * @param countryTo   input command
      * @return Message
      */
     public String allout(String countryFrom, String countryTo) {
@@ -267,7 +267,7 @@ public class AttackService {
      * check if attack dice number is correct
      *
      * @param fromCountryName country name
-     * @param num dice number
+     * @param num             dice number
      * @return true or false
      */
     public boolean checkDiceNum(String fromCountryName, Integer num) {
@@ -354,7 +354,7 @@ public class AttackService {
      * check defend dice number
      *
      * @param countryName country name
-     * @param numDefend dice number
+     * @param numDefend   dice number
      * @return true or false
      */
     public boolean checkDefendDice(String countryName, Integer numDefend) {
@@ -384,7 +384,6 @@ public class AttackService {
 
     /**
      * attack process
-     *
      */
     public void attackProcess() {
 
@@ -502,6 +501,7 @@ public class AttackService {
 
     /**
      * Move army
+     *
      * @param armyNum number of armies player want to move
      */
     public void moveArmy(Integer armyNum) {
@@ -539,19 +539,19 @@ public class AttackService {
      *
      * @return true or false
      */
-    public boolean checkConquered(){
-        boolean flag2=false;
-        boolean flag =false;
-        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-            if(toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
-                if(MapEditorService.mapGraph.getCountryList().get(i).getArmyValue()==0){
-                    flag=true;
+    public boolean checkConquered() {
+        boolean flag2 = false;
+        boolean flag = false;
+        for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
+            if (toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())) {
+                if (MapEditorService.mapGraph.getCountryList().get(i).getArmyValue() == 0) {
+                    flag = true;
                 }
             }
         }
-        if(flag){
+        if (flag) {
             flag2 = checkConquerAll();
-            cardService.rewardCardAfterConquerOneCountry();
+            ConqueredAtleastOneIntheturn = true;
         }
 
         return flag;
@@ -559,15 +559,16 @@ public class AttackService {
 
     /**
      * check if all countries of a player have been conquered
+     *
      * @return true or false
      */
-    public boolean checkConquerAll(){
+    public boolean checkConquerAll() {
         boolean flag = false;
-        for(int i=0;i<GamePlayerService.playerList.size();i++){
-            for(int j=0;j<GamePlayerService.playerList.get(i).getCountryList().size();j++){
-                if(toCountry.equals(GamePlayerService.playerList.get(i).getCountryList().get(j).getCountryName())){
-                    if(GamePlayerService.playerList.get(i).getCountryList().size()==1){
-                        flag=true;
+        for (int i = 0; i < GamePlayerService.playerList.size(); i++) {
+            for (int j = 0; j < GamePlayerService.playerList.get(i).getCountryList().size(); j++) {
+                if (toCountry.equals(GamePlayerService.playerList.get(i).getCountryList().get(j).getCountryName())) {
+                    if (GamePlayerService.playerList.get(i).getCountryList().size() == 1) {
+                        flag = true;
                         cardService.rewardCardAfterConquerLastCountry(GamePlayerService.playerList.get(i));
                     }
                 }
@@ -666,28 +667,28 @@ public class AttackService {
     /**
      * check if the player control all countries in a continent
      */
-    public void dealControllContinent(){
-        String continentName="";
-        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-            if(toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+    public void dealControllContinent() {
+        String continentName = "";
+        for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
+            if (toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())) {
                 continentName = MapEditorService.mapGraph.getCountryList().get(i).getParentContinent().getContinentName();
             }
         }
 
-        for(int i=0;i<MapEditorService.mapGraph.getContinentList().size();i++){
-            if(continentName.equals(MapEditorService.mapGraph.getContinentList().get(i).getContinentName())){
+        for (int i = 0; i < MapEditorService.mapGraph.getContinentList().size(); i++) {
+            if (continentName.equals(MapEditorService.mapGraph.getContinentList().get(i).getContinentName())) {
                 List<Country> countryList = MapEditorService.mapGraph.getContinentList().get(i).getCountries();
-                boolean flag =true;
-                for(Country country:countryList){
-                    for(int j=0;j<MapEditorService.mapGraph.getCountryList().size();j++){
-                        if(country.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(j).getCountryName())){
-                            if(!MapEditorService.mapGraph.getCountryList().get(j).getPlayer().getPlayerName().equals(GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getPlayerName())){
+                boolean flag = true;
+                for (Country country : countryList) {
+                    for (int j = 0; j < MapEditorService.mapGraph.getCountryList().size(); j++) {
+                        if (country.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(j).getCountryName())) {
+                            if (!MapEditorService.mapGraph.getCountryList().get(j).getPlayer().getPlayerName().equals(GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getPlayerName())) {
                                 flag = false;
                             }
                         }
                     }
                 }
-                if(flag){
+                if (flag) {
                     List<String> continentNameList = GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getControlledContinent();
                     continentNameList.add(continentName);
                     GamePlayerService.playerList.get(GamePlayerService.choosePlayer).setControlledContinent(continentNameList);
@@ -695,8 +696,10 @@ public class AttackService {
             }
         }
     }
+
     /**
      * Get dice toll result
+     *
      * @return dice number
      */
     public String getFromDice() {
@@ -705,6 +708,7 @@ public class AttackService {
 
     /**
      * Get dice toll result
+     *
      * @return dice number
      */
     public String getToDice() {
