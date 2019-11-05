@@ -131,7 +131,7 @@ public class MapController {
     public Label cardListLabel;
 
     @FXML
-    public Label chosenCardLabel;
+    public Label rewardedCardLabel;
 
     @FXML
     public Label attackerDice;
@@ -159,7 +159,23 @@ public class MapController {
             cardListLabel.setText(builder.toString());
         }
 
-        chosenCardLabel.setText("Chosen Card");
+        Card rewardedCard = CardService.lastRewardedCard;
+        List<Card> rewardedCardList = CardService.rewardedCardsAfterDefeatAnotherPlayer;
+        if (rewardedCard == null)
+            rewardedCardLabel.setText("None");
+        else {
+            rewardedCardList.add(rewardedCard);
+            StringBuilder builder = new StringBuilder();
+            for (Card card : rewardedCardList) {
+                builder.append(card.name()).append(" ");
+            }
+            cardListLabel.setText(builder.toString());
+            rewardedCardLabel.setText(builder.toString());
+            //set to null, so after next refresh view, last rewarded card will display "None"
+            CardService.lastRewardedCard = null;
+            CardService.rewardedCardsAfterDefeatAnotherPlayer = null;
+        }
+
 
         cardExchangePane.setVisible(true);
     }

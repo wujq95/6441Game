@@ -128,8 +128,9 @@ public class CommandService {
                             Integer.parseInt(arguments[3]) - 1,
                             gamePlayer);
                 } else {
-                    //TODO:The player can choose 2 not to exchange cards and exit the card exchange view.
+                    CardService.notExchangeCards = true;
                     cardService.notifyObservers();
+                    CardService.notExchangeCards = false;
                 }
             }
         } else {

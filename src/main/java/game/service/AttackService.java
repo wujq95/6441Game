@@ -154,12 +154,14 @@ public class AttackService {
                     if (fromArmyValue >= numOfDice + 2) {
                         changPlayer();
                         dealControllContinent();
+                        deletePlayer();
                         notifyObservers();
                         return "please choose the number of moving army value";
                     } else {
                         moveArmy(fromArmyValue - 1);
                         changPlayer();
                         dealControllContinent();
+                        deletePlayer();
                         notifyObservers();
                         return "attack and conquer success";
                     }
@@ -329,12 +331,14 @@ public class AttackService {
                         if (fromArmyValue >= numOfDice + 2) {
                             changPlayer();
                             dealControllContinent();
+                            deletePlayer();
                             notifyObservers();
                             return "please choose the number of moving army value";
                         } else {
                             moveArmy(fromArmyValue - 1);
                             changPlayer();
                             dealControllContinent();
+                            deletePlayer();
                             notifyObservers();
                             return "attack and conquer success";
                         }
@@ -561,20 +565,29 @@ public class AttackService {
      *
      * @return true or false
      */
-    public boolean checkConquerAll() {
-        boolean flag = false;
+    public void checkConquerAll() {
         for (int i = 0; i < GamePlayerService.playerList.size(); i++) {
             for (int j = 0; j < GamePlayerService.playerList.get(i).getCountryList().size(); j++) {
                 if (toCountry.equals(GamePlayerService.playerList.get(i).getCountryList().get(j).getCountryName())) {
                     if (GamePlayerService.playerList.get(i).getCountryList().size() == 1) {
-                        flag = true;
                         cardService.rewardCardAfterConquerLastCountry(GamePlayerService.playerList.get(i));
                     }
                 }
             }
         }
+    }
 
-        return flag;
+    /**
+     * delete player if the player has no country
+     */
+    public void deletePlayer(){
+        for(int i=0;i<GamePlayerService.playerList.size();i++){
+            if(GamePlayerService.playerList.get(i).getCountryList().size()==0){
+                GamePlayerService.playerList.remove(i);
+                Integer t = GamePlayerService.choosePlayer;
+                GamePlayerService.choosePlayer = t-1;
+            }
+        }
     }
 
     /**

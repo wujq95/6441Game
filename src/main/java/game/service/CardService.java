@@ -18,6 +18,10 @@ public class CardService {
     private List<controller.Observer> cardObservers = new ArrayList<>();
     private GamePlayerService gamePlayerService = new GamePlayerService();
 
+    public static Card lastRewardedCard;
+    public static List<Card> rewardedCardsAfterDefeatAnotherPlayer = new LinkedList<>();
+    public static boolean notExchangeCards = false;
+
     /**
      * Add observer
      *
@@ -51,8 +55,10 @@ public class CardService {
         previousCards.add(randomCard);
         gamePlayer.setCardList(previousCards);
 
+        lastRewardedCard = randomCard;
         return randomCard.name();
     }
+
 
     /**
      * Get reward card once all countries have been conquered
@@ -62,8 +68,12 @@ public class CardService {
     public void rewardCardAfterConquerLastCountry(GamePlayer conquered) {
         GamePlayer attacker = gamePlayerService.getCurrentPlayer();
         List<Card> previousCards = attacker.getCardList();
+        if (previousCards == null) {
+            previousCards = new LinkedList<>();
+        }
         previousCards.addAll(conquered.getCardList());
         attacker.setCardList(previousCards);
+        rewardedCardsAfterDefeatAnotherPlayer = previousCards;
         conquered.setCardList(new LinkedList<Card>());
         notifyObservers();
     }
