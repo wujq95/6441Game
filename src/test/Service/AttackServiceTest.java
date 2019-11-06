@@ -32,7 +32,7 @@ public class AttackServiceTest {
     @Test
     public void attackMoveTest(){
 
-        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
+        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
@@ -93,7 +93,7 @@ public class AttackServiceTest {
      */
     @Test
     public void attackTest(){
-        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
+        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
@@ -159,7 +159,7 @@ public class AttackServiceTest {
      */
     @Test
     public void noAttackTest(){
-        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
+        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
         attackService.noAttack();
         Assert.assertEquals(GamePlayerService.checkPhase,3);
     }
@@ -169,7 +169,7 @@ public class AttackServiceTest {
      */
     @Test
     public void changePlayerTest(){
-        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
+        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
@@ -223,7 +223,7 @@ public class AttackServiceTest {
      */
     @Test
     public void controlContinentTest(){
-        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
+        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();

@@ -155,6 +155,7 @@ public class AttackService {
                         changPlayer();
                         dealControllContinent();
                         deletePlayer();
+                        checkStop();
                         notifyObservers();
                         return "please choose the number of moving army value";
                     } else {
@@ -162,6 +163,7 @@ public class AttackService {
                         changPlayer();
                         dealControllContinent();
                         deletePlayer();
+                        checkStop();
                         notifyObservers();
                         return "attack and conquer success";
                     }
@@ -332,6 +334,7 @@ public class AttackService {
                             changPlayer();
                             dealControllContinent();
                             deletePlayer();
+                            checkStop();
                             notifyObservers();
                             return "please choose the number of moving army value";
                         } else {
@@ -339,6 +342,7 @@ public class AttackService {
                             changPlayer();
                             dealControllContinent();
                             deletePlayer();
+                            checkStop();
                             notifyObservers();
                             return "attack and conquer success";
                         }
@@ -706,6 +710,15 @@ public class AttackService {
                     GamePlayerService.playerList.get(GamePlayerService.choosePlayer).setControlledContinent(continentNameList);
                 }
             }
+        }
+    }
+
+    /**
+     * check the game has stopped
+     */
+    public void checkStop(){
+        if(GamePlayerService.playerList.size()==1){
+            GamePlayerService.checkPhase=5;
         }
     }
 
