@@ -19,7 +19,6 @@ public class GamePlayer {
      * @param playerName 　player name
      * @param armyValue number of army
      * @param countryList country list
-     * @param
      */
     public GamePlayer(String playerName,Integer armyValue,List<Country> countryList){
         this.armyValue = armyValue;
@@ -87,7 +86,7 @@ public class GamePlayer {
 
     /**
      * set card list
-     * @param cardList
+     * @param cardList card list
      */
     public void setCardList(List<Card> cardList) {
         this.cardList = cardList;
@@ -95,7 +94,7 @@ public class GamePlayer {
 
     /**
      * set num
-     * @param num
+     * @param num dice number
      */
     public void setNum(Integer num) {
         this.num = num;
@@ -103,7 +102,7 @@ public class GamePlayer {
 
     /**
      * get num
-     * @return
+     * @return number
      */
     public Integer getNum() {
         return num;
@@ -111,13 +110,13 @@ public class GamePlayer {
 
     /**
      * set controlled continent
-     * @param controlledContinent
+     * @param controlledContinent controlled continent list
      */
     public void setControlledContinent(List<String> controlledContinent){this.controlledContinent = controlledContinent;}
 
     /**
      * get controlled continent
-     * @return
+     * @return controlled continent
      */
     public List<String> getControlledContinent (){return controlledContinent;}
 

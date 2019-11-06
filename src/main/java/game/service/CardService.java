@@ -60,7 +60,7 @@ public class CardService {
     /**
      * Get reward card once all countries have been conquered
      *
-     * @param conquered
+     * @param conquered conquered country
      */
     public void rewardCardAfterConquerLastCountry(GamePlayer conquered) {
         GamePlayer attacker = gamePlayerService.getCurrentPlayer();
