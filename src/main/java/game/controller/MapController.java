@@ -159,17 +159,23 @@ public class MapController {
             cardListLabel.setText(builder.toString());
         }
 
-        Card rewardedCard = CardService.lastRewardedCard;
-        List<Card> rewardedCardList = CardService.rewardedCardsAfterDefeatAnotherPlayer;
+        Card rewardedCard = null;
+        if (CardService.lastRewardedCard.get(currentPlayer) != null) {
+            rewardedCard = CardService.lastRewardedCard.get(currentPlayer);
+        }
+        List<Card> rewardedCardList = CardService.rewardedCardsAfterDefeatAnotherPlayer.get(currentPlayer);
         if (rewardedCard == null)
-            rewardedCardLabel.setText("None");
+            rewardedCardLabel.setText("zero cards");
         else {
-            rewardedCardList.add(rewardedCard);
+            List<Card> fullRewardedCards = new LinkedList<>();
+            fullRewardedCards.add(rewardedCard);
+            if (rewardedCardList != null) {
+                fullRewardedCards.addAll(rewardedCardList);
+            }
             StringBuilder builder = new StringBuilder();
-            for (Card card : rewardedCardList) {
+            for (Card card : fullRewardedCards) {
                 builder.append(card.name()).append(" ");
             }
-            cardListLabel.setText(builder.toString());
             rewardedCardLabel.setText(builder.toString());
             //set to null, so after next refresh view, last rewarded card will display "None"
             CardService.lastRewardedCard = null;

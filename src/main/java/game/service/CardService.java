@@ -4,10 +4,7 @@ import controller.Observer;
 import model.Card;
 import model.GamePlayer;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Card function for reinforcement phase
@@ -18,8 +15,8 @@ public class CardService {
     private List<controller.Observer> cardObservers = new ArrayList<>();
     private GamePlayerService gamePlayerService = new GamePlayerService();
 
-    public static Card lastRewardedCard;
-    public static List<Card> rewardedCardsAfterDefeatAnotherPlayer = new LinkedList<>();
+    public static HashMap<GamePlayer, Card> lastRewardedCard = new HashMap<>();
+    public static HashMap<GamePlayer, List<Card>> rewardedCardsAfterDefeatAnotherPlayer = new HashMap<>();
     public static boolean notExchangeCards = false;
 
     /**
@@ -55,7 +52,7 @@ public class CardService {
         previousCards.add(randomCard);
         gamePlayer.setCardList(previousCards);
 
-        lastRewardedCard = randomCard;
+        lastRewardedCard.put(gamePlayer, randomCard);
         return randomCard.name();
     }
 
@@ -73,7 +70,7 @@ public class CardService {
         }
         previousCards.addAll(conquered.getCardList());
         attacker.setCardList(previousCards);
-        rewardedCardsAfterDefeatAnotherPlayer = previousCards;
+        rewardedCardsAfterDefeatAnotherPlayer.put(attacker, previousCards);
         conquered.setCardList(new LinkedList<Card>());
         notifyObservers();
     }
