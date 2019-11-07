@@ -24,7 +24,7 @@ public class FortifyServiceTest {
     public void initial(){
         fortifyService = new FortifyService();
         mapEditorService = new MapEditorService();
-        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
+        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
     }
 
     /**
@@ -168,7 +168,6 @@ public class FortifyServiceTest {
      */
     @Test
     public void fortifyNonePhaseTest() {
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
 
         List<Country> countryList1 = new ArrayList<Country>();
         countryList1.add(MapEditorService.mapGraph.getCountryList().get(0));

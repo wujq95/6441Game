@@ -5,6 +5,7 @@ import model.Country;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import service.GamePlayerService;
 import service.MapEditorService;
 
 import java.io.File;
@@ -112,37 +113,6 @@ public class MapEditorServiceTest {
         Assert.assertTrue(mapEditorService.checkIfConnected(adjacentCountries));
     }
 
-    /**
-     * check continent is connected sub graph
-     */
-    @Test
-    public void testConnectedContinentGraph2() {
-        LinkedHashMap<Country, Set<Country>> adjacentCountries = new LinkedHashMap<Country, Set<Country>>();
-        mapEditorService.editMap("/Applications/Domination/maps/risk2t.map");
-
-        Continent continent = MapEditorService.mapGraph.getContinentList().get(0);
-        Set<Country> countryList = continent.getCountries().get(3).getNeighbours();
-        Iterator<Country> countryItegator = countryList.iterator();
-        while (countryItegator.hasNext()) {
-            Country country1 = (Country) countryItegator.next();
-            if (country1.getCountryName().equals("Spain")) {
-                countryItegator.remove();
-            }
-        }
-        Continent continent2 = MapEditorService.mapGraph.getContinentList().get(1);
-        Set<Country> countryList2 = continent2.getCountries().get(0).getNeighbours();
-        Iterator<Country> countryItegator2 = countryList2.iterator();
-        while (countryItegator2.hasNext()) {
-            Country country2 = (Country) countryItegator2.next();
-            if (country2.getCountryName().equals("Morocco")) {
-                countryItegator.remove();
-            }
-        }
-        for (Country country : continent.getCountries()) {
-            adjacentCountries.put(country, country.getNeighbours());
-        }
-        Assert.assertFalse(mapEditorService.checkIfConnected(adjacentCountries));
-    }
 
     /**
      * test valid map
