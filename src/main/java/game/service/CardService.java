@@ -39,6 +39,7 @@ public class CardService {
 
     /**
      * Get reward card once attack conquered one country
+     *
      * @return card name
      */
     public String rewardCardAfterConquerOneCountry() {
@@ -68,6 +69,9 @@ public class CardService {
         List<Card> previousCards = attacker.getCardList();
         if (previousCards == null) {
             previousCards = new LinkedList<>();
+        }
+        if (conquered.getCardList() == null) {
+            conquered.setCardList(new LinkedList<Card>());
         }
         previousCards.addAll(conquered.getCardList());
         attacker.setCardList(previousCards);
