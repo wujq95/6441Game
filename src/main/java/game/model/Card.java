@@ -2,6 +2,9 @@ package model;
 
 import java.util.Random;
 
+/**
+ * initial Card model
+ */
 public enum Card {
     infantry,
     cavalry,

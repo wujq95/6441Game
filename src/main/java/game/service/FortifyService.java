@@ -183,7 +183,7 @@ public class FortifyService {
 
     /**
      * get the name of the current player
-     * @return
+     * @return current palyer name
      */
     public String getCurrentPlayerName() {
         GamePlayer currentGamePlayer = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
@@ -195,7 +195,7 @@ public class FortifyService {
 
     /**
      * stop game
-     * @return
+     * @return message
      */
     public String stop(){
         GamePlayerService.checkPhase=5;
