@@ -79,6 +79,10 @@ public class GamePlayerServiceTest {
 
         mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
 
+        for(int i=GamePlayerService.playerList.size()-1;i>=0;i--){
+            GamePlayerService.playerList.remove(i);
+        }
+
         List<GamePlayer>  playerList = new ArrayList<GamePlayer>();
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
