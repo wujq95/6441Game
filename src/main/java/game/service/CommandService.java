@@ -93,7 +93,7 @@ public class CommandService {
                 if (AttackService.ConqueredAtleastOneIntheturn) {
                     String cardName = cardService.rewardCardAfterConquerOneCountry();
                     AttackService.ConqueredAtleastOneIntheturn = false;
-                    commandReturnMsg = attackService.noAttack() + " you have been rewarded a card " + cardName;
+                    commandReturnMsg = attackService.noAttack() + " , and you have been rewarded a card " + cardName;
                 } else {
                     commandReturnMsg = attackService.noAttack();
                 }
@@ -131,6 +131,7 @@ public class CommandService {
                     CardService.notExchangeCards = true;
                     cardService.notifyObservers();
                     CardService.notExchangeCards = false;
+                    return "you choose not to exchange cards";
                 }
             }
         } else {

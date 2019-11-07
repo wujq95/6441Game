@@ -131,9 +131,6 @@ public class MapController {
     public Label cardListLabel;
 
     @FXML
-    public Label rewardedCardLabel;
-
-    @FXML
     public Label attackerDice;
     /**
      * Dice result for defender
@@ -143,7 +140,6 @@ public class MapController {
 
     private void loadCardsExchangeView(GamePlayerService gamePlayerService) {
         GamePlayer currentPlayer = gamePlayerService.getCurrentPlayer();
-        // TODO:
         List<Card> cardList = currentPlayer.getCardList();
 
         currentCardPlayerLabel.setText(currentPlayer.getPlayerName());
@@ -158,30 +154,6 @@ public class MapController {
             }
             cardListLabel.setText(builder.toString());
         }
-
-        Card rewardedCard = null;
-        if (CardService.lastRewardedCard.get(currentPlayer) != null) {
-            rewardedCard = CardService.lastRewardedCard.get(currentPlayer);
-        }
-        List<Card> rewardedCardList = CardService.rewardedCardsAfterDefeatAnotherPlayer.get(currentPlayer);
-        if (rewardedCard == null)
-            rewardedCardLabel.setText("zero cards");
-        else {
-            List<Card> fullRewardedCards = new LinkedList<>();
-            fullRewardedCards.add(rewardedCard);
-            if (rewardedCardList != null) {
-                fullRewardedCards.addAll(rewardedCardList);
-            }
-            StringBuilder builder = new StringBuilder();
-            for (Card card : fullRewardedCards) {
-                builder.append(card.name()).append(" ");
-            }
-            rewardedCardLabel.setText(builder.toString());
-            //set to null, so after next refresh view, last rewarded card will display "None"
-            CardService.lastRewardedCard = null;
-            CardService.rewardedCardsAfterDefeatAnotherPlayer = null;
-        }
-
 
         cardExchangePane.setVisible(true);
     }
@@ -218,7 +190,7 @@ public class MapController {
                 loadCardsExchangeView(gamePlayerService);
                 break;
             case 3:
-                phaseName = "Fortification";
+                phaseName = "Fortificatioxn";
                 currentPlayerName = fortifyService.getCurrentPlayerName();
                 break;
             case 4:
