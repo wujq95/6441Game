@@ -88,6 +88,11 @@ public class CardService {
         if (gamePlayer.getCardList() == null || gamePlayer.getCardList().size() < 3) {
             return "you don't have enough cards";
         }
+        if (gamePlayer.getCardList().size() <= no1 ||
+                gamePlayer.getCardList().size() <= no2 ||
+                gamePlayer.getCardList().size() <= no3) {
+            return "invalid command";
+        }
         Card card1 = gamePlayer.getCardList().get(no1);
         Card card2 = gamePlayer.getCardList().get(no2);
         Card card3 = gamePlayer.getCardList().get(no3);
