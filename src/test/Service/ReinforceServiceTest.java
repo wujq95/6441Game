@@ -24,6 +24,7 @@ public class ReinforceServiceTest {
     public void initial(){
         reinforceService = new ReinforceService();
         mapEditorService = new MapEditorService();
+        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
     }
 
     /**
@@ -31,7 +32,6 @@ public class ReinforceServiceTest {
      */
     @Test
     public void reinforceTest(){
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
@@ -78,7 +78,6 @@ public class ReinforceServiceTest {
 
     @Test
     public void reinforcePhaseTest(){
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
@@ -115,8 +114,7 @@ public class ReinforceServiceTest {
         GamePlayerService.playerList.add(player3);
 
         String countryName = MapEditorService.mapGraph.getCountryList().get(0).getCountryName();
-        Assert.assertEquals("3",GamePlayerService.playerList.get(0).getArmyValue().toString());
-        Assert.assertEquals("0",MapEditorService.mapGraph.getCountryList().get(0).getArmyValue().toString());
+        GamePlayerService.checkPhase=2;
         reinforceService.reinforce(countryName,"3");
         GamePlayerService.checkPhase=4;
     }

@@ -24,6 +24,7 @@ public class FortifyServiceTest {
     public void initial(){
         fortifyService = new FortifyService();
         mapEditorService = new MapEditorService();
+        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
     }
 
     /**
@@ -31,7 +32,6 @@ public class FortifyServiceTest {
      */
     @Test
     public void fortifyTest() {
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
@@ -87,7 +87,6 @@ public class FortifyServiceTest {
      */
     @Test
     public void fortifyNoneTest(){
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
 
         List<Country> countryList1 = new ArrayList<Country>();
         countryList1.add(MapEditorService.mapGraph.getCountryList().get(0));
@@ -118,7 +117,6 @@ public class FortifyServiceTest {
      */
     @Test
     public void fortifyPhaseTest() {
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
@@ -186,7 +184,6 @@ public class FortifyServiceTest {
      */
     @Test
     public void playerTest(){
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
@@ -220,6 +217,9 @@ public class FortifyServiceTest {
         String fromCountry = MapEditorService.mapGraph.getCountryList().get(0).getCountryName();
         String toCountry = MapEditorService.mapGraph.getCountryList().get(1).getCountryName();
 
+
+        GamePlayerService.choosePlayer=0;
+
         fortifyService.fortify(fromCountry,toCountry,"2");
         Assert.assertEquals(GamePlayerService.choosePlayer.toString(),"1");
     }
@@ -229,7 +229,7 @@ public class FortifyServiceTest {
      */
     @Test
     public void stopTest(){
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
+
         fortifyService.stop();
         Assert.assertEquals(GamePlayerService.checkPhase,5);
     }

@@ -24,6 +24,7 @@ public class AttackServiceTest {
     public void initial(){
         attackService = new AttackService();
         mapEditorService = new MapEditorService();
+        mapEditorService.editMap("/Users/wujiaqi/soen6441/risk.map");
     }
 
     /**
@@ -31,8 +32,6 @@ public class AttackServiceTest {
      */
     @Test
     public void attackMoveTest(){
-
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
@@ -76,16 +75,16 @@ public class AttackServiceTest {
         AttackService.fromCountry = MapEditorService.mapGraph.getCountryList().get(1).getCountryName();
         AttackService.toCountry= MapEditorService.mapGraph.getCountryList().get(2).getCountryName();
         AttackService.fromDiceResultList.add(3);
-        AttackService.fromDiceResultList.add(2);
+        AttackService.fromDiceResultList.add(3);
 
         MapEditorService.mapGraph.getCountryList().get(1).setArmyValue(5);
         MapEditorService.mapGraph.getCountryList().get(2).setArmyValue(0);
 
         Assert.assertEquals(MapEditorService.mapGraph.getCountryList().get(1).getArmyValue().toString(),"5");
         Assert.assertEquals(MapEditorService.mapGraph.getCountryList().get(2).getArmyValue().toString(),"0");
-        attackService.attackMove("2");
-        Assert.assertEquals(MapEditorService.mapGraph.getCountryList().get(1).getArmyValue().toString(),"3");
-        Assert.assertEquals(MapEditorService.mapGraph.getCountryList().get(2).getArmyValue().toString(),"2");
+        attackService.attackMove("3");
+        Assert.assertEquals(MapEditorService.mapGraph.getCountryList().get(1).getArmyValue().toString(),"2");
+        Assert.assertEquals(MapEditorService.mapGraph.getCountryList().get(2).getArmyValue().toString(),"3");
     }
 
     /**
@@ -93,7 +92,6 @@ public class AttackServiceTest {
      */
     @Test
     public void attackTest(){
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
@@ -159,7 +157,6 @@ public class AttackServiceTest {
      */
     @Test
     public void noAttackTest(){
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
         attackService.noAttack();
         Assert.assertEquals(GamePlayerService.checkPhase,3);
     }
@@ -169,7 +166,6 @@ public class AttackServiceTest {
      */
     @Test
     public void changePlayerTest(){
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
@@ -223,7 +219,7 @@ public class AttackServiceTest {
      */
     @Test
     public void controlContinentTest(){
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
+
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
