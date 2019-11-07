@@ -39,6 +39,7 @@ public class CardService {
 
     /**
      * Get reward card once attack conquered one country
+     * @return card name
      */
     public String rewardCardAfterConquerOneCountry() {
         GamePlayer gamePlayer = gamePlayerService.getCurrentPlayer();

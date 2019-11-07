@@ -98,7 +98,7 @@ public class ReinforceService {
 
     /**
      * check if player should enter next phase
-     *
+     * @return true or false
      */
     public boolean checkNextPhase(){
         boolean flag = false;

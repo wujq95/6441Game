@@ -566,8 +566,6 @@ public class AttackService {
 
     /**
      * check if all countries of a player have been conquered
-     *
-     * @return true or false
      */
     public void checkConquerAll() {
         for (int i = 0; i < GamePlayerService.playerList.size(); i++) {
@@ -661,7 +659,7 @@ public class AttackService {
 
     /**
      * check if army of moving is suitable
-     *
+     * @param num army value
      * @return true or false
      */
     public boolean checkMoveArmy(Integer num) {
