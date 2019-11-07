@@ -29,7 +29,7 @@ public class CommandService {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = mapEditorService.editMap(arguments[1]);
             cardService.createCardDeck();
-        } else if (inputCommand.startsWith("loadmap") && GamePlayerService.checkPhase == 1) {
+        } else if (inputCommand.startsWith("loadmap") && GamePlayerService.checkPhase == 0) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = mapEditorService.editMap(arguments[1]);
             cardService.createCardDeck();
