@@ -45,9 +45,9 @@ public class FortifyServiceTest {
         player2.setArmyValue(0);
         player3.setArmyValue(0);
 
-        GamePlayerService.playerList.add(player1);
-        GamePlayerService.playerList.add(player2);
-        GamePlayerService.playerList.add(player3);
+        for(int i=GamePlayerService.playerList.size()-1;i>=0;i--) {
+            GamePlayerService.playerList.remove(i);
+        }
 
         List<Country> countryList1 = new ArrayList<Country>();
         countryList1.add(MapEditorService.mapGraph.getCountryList().get(0));
@@ -76,6 +76,8 @@ public class FortifyServiceTest {
         Assert.assertEquals("5",MapEditorService.mapGraph.getCountryList().get(0).getArmyValue().toString());
         Assert.assertEquals("0",MapEditorService.mapGraph.getCountryList().get(1).getArmyValue().toString());
 
+        GamePlayerService.choosePlayer=0;
+
         fortifyService.fortify(fromCountry,toCountry,"2");
         Assert.assertEquals("3",MapEditorService.mapGraph.getCountryList().get(0).getArmyValue().toString());
         Assert.assertEquals("2",MapEditorService.mapGraph.getCountryList().get(1).getArmyValue().toString());
@@ -102,8 +104,11 @@ public class FortifyServiceTest {
         MapEditorService.mapGraph.getCountryList().get(0).setArmyValue(5);
         MapEditorService.mapGraph.getCountryList().get(1).setArmyValue(0);
 
+        GamePlayerService.choosePlayer=0;
+
         Assert.assertEquals("5",MapEditorService.mapGraph.getCountryList().get(0).getArmyValue().toString());
         Assert.assertEquals("0",MapEditorService.mapGraph.getCountryList().get(1).getArmyValue().toString());
+
 
         fortifyService.fortifyNone();
         Assert.assertEquals("5",MapEditorService.mapGraph.getCountryList().get(0).getArmyValue().toString());
@@ -117,6 +122,10 @@ public class FortifyServiceTest {
      */
     @Test
     public void fortifyPhaseTest() {
+
+        for(int i=GamePlayerService.playerList.size()-1;i>=0;i--) {
+            GamePlayerService.playerList.remove(i);
+        }
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
