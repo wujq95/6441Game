@@ -61,6 +61,9 @@ public class MapEditorService {
         String Msg = "";
         for (int i = 1; i < countryName.length; i++) {
             if (countryName[i].equals("-add")) {
+                if (countryName.length <= i + 2 || countryName[i + 2] == null) {
+                    return "invalid command";
+                }
                 boolean flag = mapGraph.addCountry(countryName[i + 1], countryName[i + 2]);
                 if (flag) {
                     Msg = "add success";
@@ -427,22 +430,31 @@ public class MapEditorService {
         String continents = "\n[continents]";
         lines.add(continents);
 
+        List<Continent> updatedContinentList = new LinkedList<>();
+        //continentindex for continent id
+        int continentIndex = 1;
         for (Continent continent : mapGraph.getContinentList()) {
             String continentDesc = continent.getContinentName() + " " + continent.getArmyValue() + " " + continent.getColor();
             lines.add(continentDesc);
+
+            continent.setId(continentIndex);
+            updatedContinentList.add(continent);
+            continentIndex++;
         }
 
         lines.add("\n[countries]");
         int index = 0;
         for (Country country : mapGraph.getCountryList()) {
             String countryDesc = "";
+
+            //index for the countries id
             index++;
             if (country.getId() == null) {
                 countryDesc = index + " " + country.getCountryName() + " "
-                        + country.getParentContinent().getId() + " " + country.getX() + " " + country.getY();
+                        + findContinentIdByName(country.getParentContinent().getContinentName(), updatedContinentList) + " " + country.getX() + " " + country.getY();
             } else {
                 countryDesc = country.getId() + " " + country.getCountryName() + " "
-                        + country.getParentContinent().getId() + " " + country.getX() + " " + country.getY();
+                        + findContinentIdByName(country.getParentContinent().getContinentName(), updatedContinentList) + " " + country.getX() + " " + country.getY();
             }
 
             lines.add(countryDesc);
@@ -511,5 +523,15 @@ public class MapEditorService {
             }
         }
         return null;
+    }
+
+    private int findContinentIdByName(String name, List<Continent> continentList) {
+        for (Continent continent : continentList) {
+            if (name.equals(continent.getContinentName())) {
+                return continent.getId();
+            }
+        }
+
+        return 0;
     }
 }

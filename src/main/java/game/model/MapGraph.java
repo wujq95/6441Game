@@ -94,20 +94,6 @@ public class MapGraph {
     }
 
     /**
-     * validate the continent and add it to map
-     *
-     * @param continentName  continent name
-     * @param continentValue continent Id
-     * @param color          color
-     */
-    public void addContinent(String continentName, String continentValue, Color color) {
-
-        Continent continent = new Continent(continentName, 99, color);
-        MapEditorService.mapGraph.continentList.add(continent);
-        notifyObservers();
-    }
-
-    /**
      * @param continentName continent name
      */
     public void deleteContinent(String continentName) {
@@ -151,6 +137,7 @@ public class MapGraph {
             if (countryList.size() == 0) {
                 country = new Country(countryName, continentName, 1);
             } else {
+                //country id
                 country = new Country(countryName, continentName, countryList.get(countryList.size() - 1).getId() + 1);
             }
 
