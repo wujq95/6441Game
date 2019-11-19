@@ -138,6 +138,10 @@ public class MapController {
     @FXML
     public Label defenderDice;
 
+    /**
+     * load the cards exchange view
+     * @param gamePlayerService
+     */
     private void loadCardsExchangeView(GamePlayerService gamePlayerService) {
         GamePlayer currentPlayer = gamePlayerService.getCurrentPlayer();
         List<Card> cardList = currentPlayer.getCardList();
@@ -155,7 +159,10 @@ public class MapController {
             cardListLabel.setText(builder.toString());
         }
 
-        cardExchangePane.setVisible(true);
+        if(CardService.notExchangeCards)
+            cardExchangePane.setVisible(false);
+        else
+            cardExchangePane.setVisible(true);
     }
 
     private void hideCardsExchangeView() {
