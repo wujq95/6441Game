@@ -1,13 +1,34 @@
 package model;
 
+import strategy.Strategy;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
 
 /**
  * Game player class stored player's attributes and related methods
  */
 public class GamePlayer {
+
+    private Strategy strategy;
+
+    public void setStrategy(Strategy strategy){
+        this.strategy = strategy;
+    }
+
+    public void attack(){
+        this.strategy.attack();
+    }
+
+    public void reinforce(){
+        this.strategy.reinforce();
+    }
+
+    public void fortify(){
+        this.strategy.fortify();
+    }
+
     /**
      * Default Constructor
      */
