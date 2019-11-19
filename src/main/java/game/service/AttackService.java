@@ -19,6 +19,8 @@ public class AttackService {
     public static List<Integer> toDiceResultList = new LinkedList<>();
     private CardService cardService = new CardService();
     static boolean ConqueredAtleastOneIntheturn = false;
+    static boolean conqueredAll = false;
+
 
     //observers list
     private List<controller.Observer> attackObservers = new ArrayList<>();
@@ -157,7 +159,13 @@ public class AttackService {
                         deletePlayer();
                         checkStop();
                         notifyObservers();
-                        return "please choose the number of moving army value";
+
+                        if (conqueredAll) {
+                            conqueredAll = false;
+                            return "you have get the other player's cards, please choose the number of moving army value";
+                        } else {
+                            return "please choose the number of moving army value";
+                        }
                     } else {
                         moveArmy(fromArmyValue - 1);
                         changPlayer();
@@ -165,7 +173,13 @@ public class AttackService {
                         deletePlayer();
                         checkStop();
                         notifyObservers();
-                        return "attack and conquer success";
+
+                        if (conqueredAll) {
+                            conqueredAll = false;
+                            return "attack and conquer success, you have get the other player's cards";
+                        } else {
+                            return "attack and conquer success";
+                        }
                     }
                 } else {
                     notifyObservers();
@@ -336,7 +350,13 @@ public class AttackService {
                             deletePlayer();
                             checkStop();
                             notifyObservers();
-                            return "please choose the number of moving army value";
+
+                            if (conqueredAll) {
+                                conqueredAll = false;
+                                return "you have get the other player's cards, please choose the number of moving army value";
+                            } else {
+                                return "please choose the number of moving army value";
+                            }
                         } else {
                             moveArmy(fromArmyValue - 1);
                             changPlayer();
@@ -344,7 +364,13 @@ public class AttackService {
                             deletePlayer();
                             checkStop();
                             notifyObservers();
-                            return "attack and conquer success";
+
+                            if (conqueredAll) {
+                                conqueredAll = false;
+                                return "attack and conquer success, you have get the other player's cards";
+                            } else {
+                                return "attack and conquer success";
+                            }
                         }
                     } else {
                         notifyObservers();
@@ -566,14 +592,13 @@ public class AttackService {
 
     /**
      * check if all countries of a player have been conquered
-     *
-     * @return true or false
      */
     public void checkConquerAll() {
         for (int i = 0; i < GamePlayerService.playerList.size(); i++) {
             for (int j = 0; j < GamePlayerService.playerList.get(i).getCountryList().size(); j++) {
                 if (toCountry.equals(GamePlayerService.playerList.get(i).getCountryList().get(j).getCountryName())) {
                     if (GamePlayerService.playerList.get(i).getCountryList().size() == 1) {
+                        conqueredAll = true;
                         cardService.rewardCardAfterConquerLastCountry(GamePlayerService.playerList.get(i));
                     }
                 }
@@ -584,12 +609,12 @@ public class AttackService {
     /**
      * delete player if the player has no country
      */
-    public void deletePlayer(){
-        for(int i=0;i<GamePlayerService.playerList.size();i++){
-            if(GamePlayerService.playerList.get(i).getCountryList().size()==0){
+    public void deletePlayer() {
+        for (int i = 0; i < GamePlayerService.playerList.size(); i++) {
+            if (GamePlayerService.playerList.get(i).getCountryList().size() == 0) {
                 GamePlayerService.playerList.remove(i);
                 Integer t = GamePlayerService.choosePlayer;
-                GamePlayerService.choosePlayer = t-1;
+                GamePlayerService.choosePlayer = t - 1;
             }
         }
     }
@@ -661,7 +686,7 @@ public class AttackService {
 
     /**
      * check if army of moving is suitable
-     *
+     * @param num army value
      * @return true or false
      */
     public boolean checkMoveArmy(Integer num) {
@@ -716,9 +741,9 @@ public class AttackService {
     /**
      * check the game has stopped
      */
-    public void checkStop(){
-        if(GamePlayerService.playerList.size()==1){
-            GamePlayerService.checkPhase=5;
+    public void checkStop() {
+        if (GamePlayerService.playerList.size() == 1) {
+            GamePlayerService.checkPhase = 5;
         }
     }
 

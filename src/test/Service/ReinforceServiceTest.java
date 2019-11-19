@@ -24,6 +24,7 @@ public class ReinforceServiceTest {
     public void initial(){
         reinforceService = new ReinforceService();
         mapEditorService = new MapEditorService();
+        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
     }
 
     /**
@@ -31,7 +32,6 @@ public class ReinforceServiceTest {
      */
     @Test
     public void reinforceTest(){
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
@@ -45,9 +45,9 @@ public class ReinforceServiceTest {
         player2.setArmyValue(0);
         player3.setArmyValue(0);
 
-        GamePlayerService.playerList.add(player1);
-        GamePlayerService.playerList.add(player2);
-        GamePlayerService.playerList.add(player3);
+        for(int i=GamePlayerService.playerList.size()-1;i>=0;i--){
+            GamePlayerService.playerList.remove(i);
+        }
 
         List<Country> countryList1 = new ArrayList<Country>();
         countryList1.add(MapEditorService.mapGraph.getCountryList().get(0));
@@ -66,6 +66,8 @@ public class ReinforceServiceTest {
         GamePlayerService.playerList.add(player1);
         GamePlayerService.playerList.add(player2);
         GamePlayerService.playerList.add(player3);
+
+        GamePlayerService.choosePlayer=0;
 
         String countryName = MapEditorService.mapGraph.getCountryList().get(0).getCountryName();
         Assert.assertEquals("3",GamePlayerService.playerList.get(0).getArmyValue().toString());
@@ -78,7 +80,6 @@ public class ReinforceServiceTest {
 
     @Test
     public void reinforcePhaseTest(){
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
 
         GamePlayer player1 = new GamePlayer();
         GamePlayer player2 = new GamePlayer();
@@ -115,8 +116,7 @@ public class ReinforceServiceTest {
         GamePlayerService.playerList.add(player3);
 
         String countryName = MapEditorService.mapGraph.getCountryList().get(0).getCountryName();
-        Assert.assertEquals("3",GamePlayerService.playerList.get(0).getArmyValue().toString());
-        Assert.assertEquals("0",MapEditorService.mapGraph.getCountryList().get(0).getArmyValue().toString());
+        GamePlayerService.checkPhase=2;
         reinforceService.reinforce(countryName,"3");
         GamePlayerService.checkPhase=4;
     }

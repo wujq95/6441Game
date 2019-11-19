@@ -55,7 +55,12 @@ public class CardServiceTest {
         cardList.add(Card.artillery);
         gamePlayer.setCardList(cardList);
         gamePlayer.setArmyValue(0);
+
+        for(int i=GamePlayerService.playerList.size()-1;i>=0;i--) {
+            GamePlayerService.playerList.remove(i);
+        }
         GamePlayerService.playerList.add(gamePlayer);
+
 
         cardService.rewardCardAfterConquerOneCountry();
         Assert.assertEquals(2, GamePlayerService.playerList.get(0).getCardList().size());

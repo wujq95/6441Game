@@ -408,6 +408,7 @@ public class GamePlayerService {
 
     /**
      * change the index of the player
+     * @return message
      */
     public String changeIndexPlayer(){
         String result = "place one army success";
@@ -435,6 +436,7 @@ public class GamePlayerService {
 
     /**
      * check if player should enter next phase
+     * @return true or false
      */
     public boolean nextPhase(){
         boolean flag = false;

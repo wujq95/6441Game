@@ -39,6 +39,8 @@ public class CardService {
 
     /**
      * Get reward card once attack conquered one country
+     *
+     * @return card name
      */
     public String rewardCardAfterConquerOneCountry() {
         GamePlayer gamePlayer = gamePlayerService.getCurrentPlayer();
@@ -68,6 +70,9 @@ public class CardService {
         if (previousCards == null) {
             previousCards = new LinkedList<>();
         }
+        if (conquered.getCardList() == null) {
+            conquered.setCardList(new LinkedList<Card>());
+        }
         previousCards.addAll(conquered.getCardList());
         attacker.setCardList(previousCards);
         rewardedCardsAfterDefeatAnotherPlayer.put(attacker, previousCards);
@@ -87,6 +92,11 @@ public class CardService {
     public String exchangeCards(int no1, int no2, int no3, GamePlayer gamePlayer) {
         if (gamePlayer.getCardList() == null || gamePlayer.getCardList().size() < 3) {
             return "you don't have enough cards";
+        }
+        if (gamePlayer.getCardList().size() <= no1 ||
+                gamePlayer.getCardList().size() <= no2 ||
+                gamePlayer.getCardList().size() <= no3) {
+            return "invalid command";
         }
         Card card1 = gamePlayer.getCardList().get(no1);
         Card card2 = gamePlayer.getCardList().get(no2);
