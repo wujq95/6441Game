@@ -4,6 +4,7 @@ import controller.Observer;
 import model.Continent;
 import model.Country;
 import model.GamePlayer;
+import strategy.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -117,7 +118,21 @@ public class GamePlayerService {
         }else{
             for(int i =0;i<arguments.length;i++){
                 if(arguments[i].startsWith("-add")){
-                    addPlayer(arguments[i+1]);
+                    if(arguments[i+2].startsWith("human")){
+                        addPlayer(arguments[i+1],null);
+                    }else if(arguments[i+2].startsWith("aggressive")){
+                        Strategy strategy = new AggressiveStrategy();
+                        addPlayer(arguments[i+1],strategy);
+                    }else if(arguments[i+2].startsWith("benevolent")){
+                        Strategy strategy = new BenevolentStrategy();
+                        addPlayer(arguments[i+1],strategy);
+                    }else if(arguments[i+2].startsWith("cheater")){
+                        Strategy strategy = new CheaterStrategy();
+                        addPlayer(arguments[i+1],strategy);
+                    }else if(arguments[i+2].startsWith("random")){
+                        Strategy strategy = new RandomStrategy();
+                        addPlayer(arguments[i+1],strategy);
+                    }
                 }else if(arguments[i].startsWith("-remove")){
                     removePlayer(arguments[i+1]);
                 }
@@ -183,8 +198,9 @@ public class GamePlayerService {
      * add one player to the player list by player name
      * @param playerName string
      */
-    public void addPlayer(String playerName){
+    public void addPlayer(String playerName, Strategy strategy){
         GamePlayer player = new GamePlayer();
+        player.setStrategy(strategy);
         player.setPlayerName(playerName);
         player.setArmyValue(0);
         playerList.add(player);
