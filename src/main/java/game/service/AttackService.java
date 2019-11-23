@@ -1,15 +1,16 @@
 package service;
 
-import controller.Observer;
 import model.Country;
 import model.GamePlayer;
+import observer.Observable;
 
 import java.util.*;
+
 
 /**
  * Attack Phase
  */
-public class AttackService {
+public class AttackService extends Observable {
 
     public static String fromCountry;
     public static String toCountry;
@@ -20,28 +21,6 @@ public class AttackService {
     private CardService cardService = new CardService();
     static boolean ConqueredAtleastOneIntheturn = false;
     static boolean conqueredAll = false;
-
-
-    //observers list
-    private List<controller.Observer> attackObservers = new ArrayList<>();
-
-    /**
-     * Add observer
-     *
-     * @param observer observer
-     */
-    public void attach(controller.Observer observer) {
-        attackObservers.add(observer);
-    }
-
-    /**
-     * Notify observers once changed
-     */
-    public void notifyObservers() {
-        for (Observer observer : attackObservers) {
-            observer.update();
-        }
-    }
 
     /**
      * attack information input
@@ -158,7 +137,7 @@ public class AttackService {
                         dealControllContinent();
                         deletePlayer();
                         checkStop();
-                        notifyObservers();
+                        notifyObservers(this);
 
                         if (conqueredAll) {
                             conqueredAll = false;
@@ -172,7 +151,7 @@ public class AttackService {
                         dealControllContinent();
                         deletePlayer();
                         checkStop();
-                        notifyObservers();
+                        notifyObservers(this);
 
                         if (conqueredAll) {
                             conqueredAll = false;
@@ -182,7 +161,7 @@ public class AttackService {
                         }
                     }
                 } else {
-                    notifyObservers();
+                    notifyObservers(this);
                     return "allout process finished";
                 }
             }
@@ -349,7 +328,7 @@ public class AttackService {
                             dealControllContinent();
                             deletePlayer();
                             checkStop();
-                            notifyObservers();
+                            notifyObservers(this);
 
                             if (conqueredAll) {
                                 conqueredAll = false;
@@ -363,7 +342,7 @@ public class AttackService {
                             dealControllContinent();
                             deletePlayer();
                             checkStop();
-                            notifyObservers();
+                            notifyObservers(this);
 
                             if (conqueredAll) {
                                 conqueredAll = false;
@@ -373,7 +352,7 @@ public class AttackService {
                             }
                         }
                     } else {
-                        notifyObservers();
+                        notifyObservers(this);
                         return "attack process finished";
                     }
                 } else {
@@ -640,7 +619,7 @@ public class AttackService {
      */
     public String noAttack() {
         GamePlayerService.checkPhase = 3;
-        notifyObservers();
+        notifyObservers(this);
         return "enter into fortification phase";
     }
 
@@ -678,7 +657,7 @@ public class AttackService {
                 }
             }
             changPlayer();
-            notifyObservers();
+            notifyObservers(this);
             return "attack move success";
         }
 

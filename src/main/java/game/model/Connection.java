@@ -1,10 +1,5 @@
 package model;
 
-import controller.Observer;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Connection class is used to initiate the connection between two countries' variables
  */

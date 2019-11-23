@@ -1,40 +1,18 @@
 package service;
 
-import controller.Observer;
 import model.Country;
 import model.GamePlayer;
+import observer.Observable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import static controller.MapController.gamePlayerService;
-
 /**
  * service class for fortify phase
  */
-public class FortifyService {
-
-    //observers list
-    private List<Observer> fortifyInforObservers = new ArrayList<>();
-
-    /**
-     * Add observer
-     * @param observer observer
-     */
-    public void attach(controller.Observer observer) {
-        fortifyInforObservers.add(observer);
-    }
-
-    /**
-     * Notify observers once changed
-     */
-    public void notifyObservers() {
-        for (Observer observer : fortifyInforObservers) {
-            observer.update();
-        }
-    }
+public class FortifyService extends Observable {
 
     /**
      * Fortify Action
@@ -95,12 +73,12 @@ public class FortifyService {
                 if (flag3) {
                     GamePlayerService.checkPhase = 2;
                     GamePlayerService.choosePlayer=0;
-                    notifyObservers();
+                    notifyObservers(this);
                     return "fortify success and enter into the reinforcement phase for the next player";
                 } else {
                     GamePlayerService.checkPhase = 2;
                     GamePlayerService.choosePlayer++;
-                    notifyObservers();
+                    notifyObservers(this);
                     return "fortify success and enter into the reinforcement phase for the next player";
                 }
             }
@@ -118,12 +96,12 @@ public class FortifyService {
         if (flag) {
             GamePlayerService.checkPhase = 2;
             GamePlayerService.choosePlayer=0;
-            notifyObservers();
+            notifyObservers(this);
             return "fortify none success and enter into the reinforcement phase for the next player";
         } else {
             GamePlayerService.checkPhase = 2;
             GamePlayerService.choosePlayer++;
-            notifyObservers();
+            notifyObservers(this);
             return "fortify none success and enter into the reinforcement phase for the next player";
         }
     }
@@ -199,7 +177,7 @@ public class FortifyService {
      */
     public String stop(){
         GamePlayerService.checkPhase=5;
-        notifyObservers();
+        notifyObservers(this);
         return "game stop";
     }
 }

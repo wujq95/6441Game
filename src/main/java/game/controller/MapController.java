@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import model.*;
 import service.*;
+import observer.*;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -31,7 +32,7 @@ import java.util.List;
  * MapController class
  * Linking the user input with backend model data
  */
-public class MapController {
+public class MapController{
 
     /**
      * data structure storing the loaded map
@@ -451,7 +452,7 @@ public class MapController {
          * View layer required update function with GameInformation and Map loading
          */
         @Override
-        public void update() {
+        public void update(Observable o) {
             System.out.println("Game Information Reloaded");
             loadGameInformation(gamePlayerService);
             System.out.println("Map Pane Reloaded");
@@ -477,7 +478,7 @@ public class MapController {
          * reload the mapGraph
          */
         @Override
-        public void update() {
+        public void update(Observable o) {
             System.out.println("MapGraph Reloaded.");
             loadMapGraph(MapEditorService.mapGraph);
         }

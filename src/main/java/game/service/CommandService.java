@@ -129,7 +129,7 @@ public class CommandService {
                             gamePlayer);
                 } else {
                     CardService.notExchangeCards = true;
-                    cardService.notifyObservers();
+                    cardService.notifyObservers(cardService);
                     CardService.notExchangeCards = false;
                     return "you choose not to exchange cards";
                 }

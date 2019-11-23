@@ -1,7 +1,7 @@
 package model;
 
-import controller.Observer;
 import javafx.scene.paint.Color;
+import observer.Observable;
 import service.MapEditorService;
 
 import java.util.*;
@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * Initial Map and observer
  */
-public class MapGraph {
+public class MapGraph extends Observable {
     String name;
 
     Integer height, width;
@@ -22,26 +22,6 @@ public class MapGraph {
 
     List<Connection> connectionList;
 
-    // observers list
-    private List<controller.Observer> mapObservers = new ArrayList<>();
-
-    /**
-     * attach the observer
-     *
-     * @param observer the observer to be attached
-     */
-    public void attach(controller.Observer observer) {
-        mapObservers.add(observer);
-    }
-
-    /**
-     * notify the map observer
-     */
-    public void notifyObservers() {
-        for (Observer observer : mapObservers) {
-            observer.update();
-        }
-    }
 
     /**
      * Initial continent List
@@ -90,7 +70,7 @@ public class MapGraph {
     public void addContinent(String continentName, Integer armyValue, Color color) {
         Continent continent = new Continent(continentName, armyValue, color);
         continentList.add(continent);
-        notifyObservers();
+        notifyObservers(this);
     }
 
     /**
@@ -113,7 +93,7 @@ public class MapGraph {
             }
         }
 
-        notifyObservers();
+        notifyObservers(this);
     }
 
     /**
@@ -141,7 +121,7 @@ public class MapGraph {
                 country = new Country(countryName, continentName, countryList.get(countryList.size() - 1).getId() + 1);
             }
 
-            notifyObservers();
+            notifyObservers(this);
 
             MapEditorService.mapGraph.countryList.add(country);
             MapEditorService.mapGraph.adjacentCountries.put(country, new HashSet<>());
@@ -192,7 +172,7 @@ public class MapGraph {
         }
 
         Country country = new Country(countryName);
-        notifyObservers();
+        notifyObservers(this);
     }
 
     /**
@@ -209,7 +189,7 @@ public class MapGraph {
 
         connectionList.add(connection);
         connectionList.add(reverseconnection);
-        notifyObservers();
+        notifyObservers(this);
     }
 
     /**
@@ -227,7 +207,7 @@ public class MapGraph {
             if ((connection.getCountry1().countryName.equals(countryName1) && connection.getCountry2().countryName.equals(countryName2))
                     || ((connection.getCountry1().countryName.equals(countryName2) && connection.getCountry2().countryName.equals(countryName1)))) {
                 iterator.remove();
-                notifyObservers();
+                notifyObservers(this);
             }
         }
 
@@ -400,7 +380,7 @@ public class MapGraph {
             Connection connection = iterator.next();
             if (connection.getCountry1().getCountryName().equals(countryName) || connection.getCountry2().getCountryName().equals(countryName)) {
                 iterator.remove();
-                notifyObservers();
+                notifyObservers(this);
             }
         }
     }
