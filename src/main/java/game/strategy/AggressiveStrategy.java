@@ -85,7 +85,6 @@ public class AggressiveStrategy implements Strategy {
 
     @Override
     public void fortify() {
-        //build2说的规则对不对？如果是的话就要考虑最多兵数的两个是否相连
         Integer fromCountryIndex = 0;
         Integer toCountryIndex = 0;
         Integer maxArmyValue = 0;
@@ -128,12 +127,12 @@ public class AggressiveStrategy implements Strategy {
         for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
             if (fromCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())) {
                 Integer oldArmy =  MapEditorService.mapGraph.getCountryList().get(i).getArmyValue();
-                MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(oldArmy-1);
+                MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(oldArmy-armyValue);
             }
         }
         for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
             if (toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())) {
-                MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(1);
+                MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(armyValue);
             }
         }
     }
