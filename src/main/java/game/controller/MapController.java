@@ -250,6 +250,7 @@ public class MapController{
             y = i * 50 + 50;
 
             String playerName = gamePlayer.getPlayerName();
+            String strategyName = gamePlayer.getStrategyName();
             String armyValue = gamePlayer.getArmyValue().toString();
             String controlledContinents = gamePlayer.getControlledContinent().toString();
             int countryNum = gamePlayer.getCountryList().size();
@@ -258,7 +259,7 @@ public class MapController{
             DecimalFormat df = new DecimalFormat("##.##%");
             String percentageOnMap = df.format(percentage);
 
-            List<String> line = Arrays.asList(playerName, armyValue, controlledContinents, percentageOnMap);
+            List<String> line = Arrays.asList(playerName, strategyName, armyValue, controlledContinents, percentageOnMap);
             // Text text = new Text((gamePlayer.getPlayerName() + ": " + gamePlayer.getArmyValue()));
             Text text = new Text(line.toString());
             text.setX(x);
