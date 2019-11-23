@@ -191,7 +191,7 @@ public class GamePlayerService extends Observable {
         player.setPlayerName(playerName);
         player.setArmyValue(0);
         playerList.add(player);
-
+        notifyObservers(this);
     }
 
     /**
@@ -458,6 +458,7 @@ public class GamePlayerService extends Observable {
         String currentPlayerName = currentGamePlayer.getPlayerName();
         if(choosePlayer.equals(0))
             currentPlayerName += " (Me)";
+        currentPlayerName += " " + currentGamePlayer.getStrategyName();
         return currentPlayerName;
     }
 
