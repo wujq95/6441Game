@@ -1,9 +1,10 @@
 package service;
 
-import controller.Observer;
 import model.Continent;
 import model.Country;
 import model.GamePlayer;
+import observer.Observable;
+import observer.Observer;
 import strategy.*;
 
 import java.util.ArrayList;
@@ -13,31 +14,12 @@ import java.util.List;
 /**
  * service class to deal with player
  */
-public class GamePlayerService {
+public class GamePlayerService extends Observable {
 
     public static List<GamePlayer> playerList = new ArrayList<GamePlayer>();
     public static Integer choosePlayer = 0;
     public static int checkPhase = 0;
 
-    //observers list
-    private List<controller.Observer> gameInfoObservers = new ArrayList<>();
-
-    /**
-     * Add observer
-     * @param observer observer
-     */
-    public void attach(controller.Observer observer){
-        gameInfoObservers.add(observer);
-    }
-
-    /**
-     * Notify Once changed
-     */
-    public void notifyObservers(){
-        for (Observer observer : gameInfoObservers) {
-            observer.update();
-        }
-    }
 
     /**
      * Get random number for dice toll result
@@ -137,7 +119,7 @@ public class GamePlayerService {
                     removePlayer(arguments[i+1]);
                 }
             }
-            notifyObservers();
+            notifyObservers(this);
             return "gameplayer action success";
         }
     }
@@ -200,6 +182,7 @@ public class GamePlayerService {
      */
     public void addPlayer(String playerName, Strategy strategy){
         GamePlayer player = new GamePlayer();
+        // TODO observer
         player.setStrategy(strategy);
         player.setPlayerName(playerName);
         player.setArmyValue(0);
@@ -217,7 +200,7 @@ public class GamePlayerService {
                 playerList.remove(i);
             }
         }
-        notifyObservers();
+        notifyObservers(this);
     }
 
     /**
@@ -235,7 +218,7 @@ public class GamePlayerService {
             playerList.get(i%playerNum).setCountryList(playerCountryList);
             MapEditorService.mapGraph.getCountryList().get(i).setPlayer(playerList.get(i%playerNum));
         }
-        notifyObservers();
+        notifyObservers(this);
         return "populatecountries success and ";
     }
 
@@ -284,7 +267,7 @@ public class GamePlayerService {
             return "player number wrong!";
         }else{
             choosePlayer=0;
-            notifyObservers();
+            notifyObservers(this);
             return "allocate initial army success";
         }
     }
@@ -321,7 +304,7 @@ public class GamePlayerService {
             return "the army value of the player is not enough";
         }else{
             String result=changeIndexPlayer();;
-            notifyObservers();
+            notifyObservers(this);
             return result;
         }
     }
@@ -353,7 +336,7 @@ public class GamePlayerService {
         if(flag){
             checkPhase=2;
             choosePlayer=0;
-            notifyObservers();
+            notifyObservers(this);
             result = "enter into the reinforcement phase";
         }else{
             result = "place all success!";
@@ -389,13 +372,13 @@ public class GamePlayerService {
             if(continentNum>0){
                 newPlayerArmyValue =  player.getArmyValue()+continentNum ;
                 player.setArmyValue(newPlayerArmyValue);
-                notifyObservers();
+                notifyObservers(this);
                 return "calculate reinforce number success: " +newPlayerArmyValue+ "\n"
                         + "continent value:" + continentNum + "\n";
             }else{
                 newPlayerArmyValue = player.getArmyValue() + Math.max(countryNum,3);
                 player.setArmyValue(newPlayerArmyValue);
-                notifyObservers();
+                notifyObservers(this);
                 return "calculate reinforce number success: " +newPlayerArmyValue+ "\n"
                         + "no continent value!"+ "\n"
                         + "country number: round down(" + countryList.size() + "\\3)=" + countryNum + "\n"

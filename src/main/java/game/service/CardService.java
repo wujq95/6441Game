@@ -1,41 +1,22 @@
 package service;
 
-import controller.Observer;
 import model.Card;
 import model.GamePlayer;
+import observer.Observable;
 
 import java.util.*;
 
 /**
  * Card function for reinforcement phase
  */
-public class CardService {
+public class CardService extends Observable {
     private int armyRewarded = 5;
     private static List<Card> cardDeckList;
-    private List<controller.Observer> cardObservers = new ArrayList<>();
     private GamePlayerService gamePlayerService = new GamePlayerService();
 
     public static HashMap<GamePlayer, Card> lastRewardedCard = new HashMap<>();
     public static HashMap<GamePlayer, List<Card>> rewardedCardsAfterDefeatAnotherPlayer = new HashMap<>();
     public static boolean notExchangeCards = false;
-
-    /**
-     * Add observer
-     *
-     * @param observer observer
-     */
-    public void attach(controller.Observer observer) {
-        cardObservers.add(observer);
-    }
-
-    /**
-     * Notify all observers inside observer list once changed
-     */
-    public void notifyObservers() {
-        for (Observer observer : cardObservers) {
-            observer.update();
-        }
-    }
 
     /**
      * Get reward card once attack conquered one country
@@ -77,7 +58,7 @@ public class CardService {
         attacker.setCardList(previousCards);
         rewardedCardsAfterDefeatAnotherPlayer.put(attacker, previousCards);
         conquered.setCardList(new LinkedList<Card>());
-        notifyObservers();
+        notifyObservers(this);
     }
 
     /**
@@ -119,7 +100,7 @@ public class CardService {
         armyRewarded = armyRewarded + 5;
 
         if (GamePlayerService.checkPhase == 2) {
-            notifyObservers();
+            notifyObservers(this);
         }
         return "exchange success";
     }
@@ -158,7 +139,7 @@ public class CardService {
             cardDeckList.add(Card.infantry);
         }
 
-        notifyObservers();
+        notifyObservers(this);
     }
 
     /**

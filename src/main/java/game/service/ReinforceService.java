@@ -1,39 +1,16 @@
 package service;
 
-import controller.Observer;
 import model.Country;
 import model.GamePlayer;
-
-import java.util.ArrayList;
-import java.util.List;
+import observer.Observable;
 
 
 /**
  * service class for reinforce phase
  */
-public class ReinforceService {
+public class ReinforceService extends Observable {
     // Initiate object to be used later conveniently
     GamePlayerService gamePlayerService = new GamePlayerService();
-
-    //observers list
-    private List<Observer> reinforceInfoObservers= new ArrayList<>();
-
-    /**
-     * add observer
-     * @param observer observer
-     */
-    public void attach(controller.Observer observer){
-        reinforceInfoObservers.add(observer);
-    }
-
-    /**
-     * Notify observers once changed
-     */
-    public void notifyObservers(){
-        for (Observer observer : reinforceInfoObservers) {
-            observer.update();
-        }
-    }
 
     /**
      * Reinforce Phase Action
@@ -74,10 +51,10 @@ public class ReinforceService {
                 boolean flag2 = checkNextPhase();
                 if(flag2){
                     GamePlayerService.checkPhase=4;
-                    notifyObservers();
+                    notifyObservers(this);
                     return "enter into the attack phase";
                 }else{
-                    notifyObservers();
+                    notifyObservers(this);
                     return "reinforce success";
                 }
             }

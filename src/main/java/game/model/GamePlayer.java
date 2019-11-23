@@ -1,5 +1,6 @@
 package model;
 
+import observer.Observable;
 import strategy.Strategy;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * Game player class stored player's attributes and related methods
  */
-public class GamePlayer {
+public class GamePlayer extends Observable {
 
     private Strategy strategy;
 
@@ -19,14 +20,17 @@ public class GamePlayer {
 
     public void attack(){
         this.strategy.attack();
+        notifyObservers(this);
     }
 
     public void reinforce(){
         this.strategy.reinforce();
+        notifyObservers(this);
     }
 
     public void fortify(){
         this.strategy.fortify();
+        notifyObservers(this);
     }
 
     /**
