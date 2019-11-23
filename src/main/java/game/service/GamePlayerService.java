@@ -19,7 +19,11 @@ public class GamePlayerService extends Observable {
     public static List<GamePlayer> playerList = new ArrayList<GamePlayer>();
     public static Integer choosePlayer = 0;
     public static int checkPhase = 0;
+    private Observer observer;
 
+    public void setObserver(Observer obs) {
+        observer = obs;
+    }
 
     /**
      * Get random number for dice toll result
@@ -182,7 +186,7 @@ public class GamePlayerService extends Observable {
      */
     public void addPlayer(String playerName, Strategy strategy){
         GamePlayer player = new GamePlayer();
-        // TODO observer
+        player.attach(observer);
         player.setStrategy(strategy);
         player.setPlayerName(playerName);
         player.setArmyValue(0);
