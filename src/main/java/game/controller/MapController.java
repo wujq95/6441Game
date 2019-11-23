@@ -434,6 +434,7 @@ public class MapController{
         public GameInfoObserver(GamePlayerService gamePlayerService, AttackService attackService, CardService cardService, ReinforceService reinforceService, FortifyService fortifyService) {
             this.gamePlayerService = gamePlayerService;
             this.gamePlayerService.attach(this);
+            this.gamePlayerService.setObserver(this);
 
             this.attackService = attackService;
             this.attackService.attach(this);
