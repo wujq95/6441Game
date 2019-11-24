@@ -12,12 +12,17 @@ public class ReadFileAdapter implements ReadFileFromEmpty, ReadFileFromExistedFi
         this.readFileFromExistedFile =readFile;
     }
 
-    public void readFileFromEmpty() {
-        readFileFromEmpty.insertIntoHole(str);
+    @Override
+    public String readFileFromEmpty(String mapFile) {
+        readFileFromEmpty.readFileFromEmpty("");
+
+        return "";
     }
 
-    public void readFileFromExistedFile() {
-        readFileFromExistedFile.insert(msg);
-    }
+    @Override
+    public String readFileFromExistedFile(String mapFile) {
+        readFileFromExistedFile.readFileFromExistedFile("");
 
+        return "";
+    }
 }

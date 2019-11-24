@@ -1,13 +1,14 @@
 package service;
 
 public class SaveLoadGameAttackPhase extends SaveLoadGame {
-    @Override
-    void saveGame() {
 
+    @Override
+    String saveGame(String fileName) {
+        return null;
     }
 
     @Override
-    void loadGame() {
-
+    String loadGame(String fileName) {
+        return null;
     }
 }
