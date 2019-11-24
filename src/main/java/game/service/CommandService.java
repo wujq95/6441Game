@@ -2,6 +2,7 @@ package service;
 
 import controller.MapController;
 import model.GamePlayer;
+import strategy.CheaterStrategy;
 
 /**
  * Command Service is used to receive the input commands for player actions
@@ -73,7 +74,14 @@ public class CommandService {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = gamePlayerService.placeAll();
         } else if (inputCommand.startsWith("start") && GamePlayerService.checkPhase == 2) {
-            commandReturnMsg = gamePlayerService.calReinArmyNum();
+            GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
+            if(player.getStrategyName().equals("CheaterStrategy")){
+                player.reinforce();
+                gamePlayerService.changPlayer();
+                commandReturnMsg = "cheater strategy execution success and enter into the reinforcement phase for the next player";
+            }else{
+                commandReturnMsg = gamePlayerService.calReinArmyNum();
+            }
         } else if (inputCommand.startsWith("reinforce") && GamePlayerService.checkPhase == 2) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = reinforceService.reinforce(arguments[1], arguments[2]);

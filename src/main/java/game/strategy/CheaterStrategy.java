@@ -58,7 +58,6 @@ public class CheaterStrategy implements Strategy{
                 MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(newArmyValue);
             }
         }
-        System.out.println("Reinforcing in cheater mode...");
     }
 
     @Override
