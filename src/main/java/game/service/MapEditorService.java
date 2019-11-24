@@ -309,7 +309,7 @@ public class MapEditorService {
      *
      * @return True or False
      */
-    public boolean validateMap() {
+    public static boolean validateMap() {
         //1. duplicate country names
         Set<String> countryNames = new HashSet<>();
         for (Country country : mapGraph.getCountryList()) {
@@ -359,7 +359,7 @@ public class MapEditorService {
      * @param adjacentCountries neighbor of countries
      * @return true of false
      */
-    public boolean checkIfConnected(LinkedHashMap<Country, Set<Country>> adjacentCountries) {
+    public static boolean checkIfConnected(LinkedHashMap<Country, Set<Country>> adjacentCountries) {
         if (adjacentCountries.keySet().size() == 1) {
             return false;
         }
@@ -516,7 +516,7 @@ public class MapEditorService {
      * @param countryName country name
      * @return country object
      */
-    private Country findCountryByName(String countryName) {
+    public static Country findCountryByName(String countryName) {
         for (Country country : mapGraph.getCountryList()) {
             if (countryName.equals(country.getCountryName())) {
                 return country;
@@ -525,7 +525,7 @@ public class MapEditorService {
         return null;
     }
 
-    private int findContinentIdByName(String name, List<Continent> continentList) {
+    public static int findContinentIdByName(String name, List<Continent> continentList) {
         for (Continent continent : continentList) {
             if (name.equals(continent.getContinentName())) {
                 return continent.getId();
