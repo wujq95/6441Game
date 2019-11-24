@@ -19,9 +19,9 @@ public class CheaterStrategy implements Strategy{
                 Iterator it = countryList.iterator();
                 while(it.hasNext()){
                     Country country = (Country) it.next();
-                    countryList.remove(country);
-                    country.setPlayer(player);
-                    countryList.add(country);
+                    //MapEditorService.mapGraph.getCountryList().get(i).getNeighbours().remove(country);
+                    //country.setPlayer(player);
+                    //MapEditorService.mapGraph.getCountryList().get(i).getNeighbours().add(country);
                     String countryName = country.getCountryName();
                     for(int j=0;j< MapEditorService.mapGraph.getCountryList().size();j++){
                         if(countryName.equals(MapEditorService.mapGraph.getCountryList().get(j).getCountryName())){

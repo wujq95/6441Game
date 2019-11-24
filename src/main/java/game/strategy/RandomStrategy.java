@@ -75,7 +75,7 @@ public class RandomStrategy implements Strategy{
         GamePlayerService gamePlayerService = new GamePlayerService();
         gamePlayerService.calReinArmyNum();
         GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
-        Integer randomIndex = (int)(Math.random()*(player.getCountryList().size()))+1;
+        Integer randomIndex = (int)(Math.random()*(player.getCountryList().size()));
         Country country  = player.getCountryList().get(randomIndex);
         for(int i=0;i< MapEditorService.mapGraph.getCountryList().size();i++){
             if(country.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){

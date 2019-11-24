@@ -77,8 +77,16 @@ public class CommandService {
             GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
             if(player.getStrategyName().equals("CheaterStrategy")){
                 player.reinforce();
+                //player.attack();
+                player.fortify();
                 gamePlayerService.changPlayer();
                 commandReturnMsg = "cheater strategy execution success and enter into the reinforcement phase for the next player";
+            }else if(player.getStrategyName().equals("RandomStrategy")){
+                player.reinforce();
+                //player.attack();
+                //player.fortify();
+                gamePlayerService.changPlayer();
+                commandReturnMsg = "random strategy execution success and enter into the reinforcement phase for the next player";
             }else{
                 commandReturnMsg = gamePlayerService.calReinArmyNum();
             }
