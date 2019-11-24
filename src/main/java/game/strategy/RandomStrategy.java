@@ -90,8 +90,8 @@ public class RandomStrategy implements Strategy{
     @Override
     public void fortify() {
         GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
-        Integer fromRandomIndex = (int)(Math.random()*(player.getCountryList().size()))+1;
-        Integer toRandomIndex = (int)(Math.random()*(player.getCountryList().size()))+1;
+        Integer fromRandomIndex = (int)(Math.random()*(player.getCountryList().size()));
+        Integer toRandomIndex = (int)(Math.random()*(player.getCountryList().size()));
         Country fromCountry  = player.getCountryList().get(fromRandomIndex);
         Country toCountry  = player.getCountryList().get(toRandomIndex);
         Integer fromCountryArmyValue = fromCountry.getArmyValue();

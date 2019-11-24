@@ -84,9 +84,16 @@ public class CommandService {
             }else if(player.getStrategyName().equals("RandomStrategy")){
                 player.reinforce();
                 //player.attack();
-                //player.fortify();
+                //fortify需要检查两个国家是否相连
+                // player.fortify();
                 gamePlayerService.changPlayer();
                 commandReturnMsg = "random strategy execution success and enter into the reinforcement phase for the next player";
+            }else if(player.getStrategyName().equals("BenevolentStrategy")){
+                player.reinforce();
+                player.attack();
+                // player.fortify();
+                gamePlayerService.changPlayer();
+                commandReturnMsg = "benevolent strategy execution success and enter into the reinforcement phase for the next player";
             }else{
                 commandReturnMsg = gamePlayerService.calReinArmyNum();
             }
