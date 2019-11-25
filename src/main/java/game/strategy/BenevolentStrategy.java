@@ -9,7 +9,6 @@ import java.util.List;
 
 public class BenevolentStrategy implements Strategy {
 
-    Integer countryFlag = 0;
     RandomStrategy randomStrategy = new RandomStrategy();
     Integer fromIndex = 0;
     Integer toIndex = 0;
@@ -31,7 +30,6 @@ public class BenevolentStrategy implements Strategy {
 
         MapEditorService.mapGraph.getCountryList().get(countryFlag).setArmyValue(armyFlag+armyValue);
         GamePlayerService.playerList.get(GamePlayerService.choosePlayer).setArmyValue(0);
-        System.out.println("Reinforcing benevolently...");
     }
 
     @Override

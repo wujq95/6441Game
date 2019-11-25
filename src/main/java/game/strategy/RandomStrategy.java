@@ -49,13 +49,16 @@ public class RandomStrategy implements Strategy{
                 AttackService.fromCountry = MapEditorService.mapGraph.getCountryList().get(index2).getCountryName();
                 AttackService.toCountry = MapEditorService.mapGraph.getCountryList().get(enemyIndex).getCountryName();
                 attackService.attackProcess();
+                boolean flag = attackService.checkConquered();
+                if(flag){
+                    aggressiveStrategy.moveArmy(1,MapEditorService.mapGraph.getCountryList().get(index).getCountryName(),MapEditorService.mapGraph.getCountryList().get(enemyIndex).getCountryName());
+                    //attackService.dealControllContinent();
+                    attackService.deletePlayer();
+                    attackService.checkStop();
+                    break;
+                }
             }
         }
-        if(MapEditorService.mapGraph.getCountryList().get(enemyIndex).getArmyValue()==0){
-            aggressiveStrategy.moveArmy(1,MapEditorService.mapGraph.getCountryList().get(index).getCountryName(),MapEditorService.mapGraph.getCountryList().get(enemyIndex).getCountryName());
-        }
-
-
     }
 
     @Override
@@ -72,7 +75,6 @@ public class RandomStrategy implements Strategy{
             }
         }
         GamePlayerService.playerList.get(GamePlayerService.choosePlayer).setArmyValue(0);
-        System.out.println("Reinforcing randomly...");
     }
 
     @Override

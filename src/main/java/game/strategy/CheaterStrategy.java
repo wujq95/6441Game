@@ -2,6 +2,7 @@ package strategy;
 
 import model.Country;
 import model.GamePlayer;
+import service.AttackService;
 import service.GamePlayerService;
 import service.MapEditorService;
 
@@ -12,40 +13,11 @@ import java.util.Set;
 
 
 public class CheaterStrategy implements Strategy{
+
+    AttackService attackService = new AttackService();
     @Override
     public void attack() {
         GamePlayer player=GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
-        /*for(int i=0;i< MapEditorService.mapGraph.getCountryList().size();i++){
-            if(player.getPlayerName()==MapEditorService.mapGraph.getCountryList().get(i).getPlayer().getPlayerName()){
-                Set<Country> countryList = MapEditorService.mapGraph.getCountryList().get(i).getNeighbours();
-                Iterator it = countryList.iterator();
-                while(it.hasNext()){
-                    Country country = (Country) it.next();
-                    //MapEditorService.mapGraph.getCountryList().get(i).getNeighbours().remove(country);
-                    //country.setPlayer(player);
-                    //MapEditorService.mapGraph.getCountryList().get(i).getNeighbours().add(country);
-                    String countryName = country.getCountryName();
-                    for(int j=0;j< MapEditorService.mapGraph.getCountryList().size();j++){
-                        if(countryName.equals(MapEditorService.mapGraph.getCountryList().get(j).getCountryName())){
-                            GamePlayer playerOwner = MapEditorService.mapGraph.getCountryList().get(j).getPlayer();
-                            if(!playerOwner.getPlayerName().equals(player.getPlayerName())){
-                                for(int t=0;t<GamePlayerService.playerList.size();t++){
-                                    if(GamePlayerService.playerList.get(t).getPlayerName().equals(playerOwner.getPlayerName())){
-                                        for(int p=0;p<GamePlayerService.playerList.get(t).getCountryList().size();p++){
-                                            if(GamePlayerService.playerList.get(t).getCountryList().get(p).getCountryName().equals(countryName)){
-                                                GamePlayerService.playerList.get(t).getCountryList().remove(p);
-                                            }
-                                        }
-                                    }
-                                }
-                                GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getCountryList().add(country);
-                            }
-                        }
-                    }
-
-                }
-            }
-        }*/
         List<Country> countryList = player.getCountryList();
 
         List<Country> a = new LinkedList<>();
@@ -61,6 +33,9 @@ public class CheaterStrategy implements Strategy{
                 GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getCountryList().add(MapEditorService.mapGraph.getCountryList().get(indexList.get(j)));
             }
         }
+        //attackService.dealControllContinent();
+        attackService.deletePlayer();
+        attackService.checkStop();
     }
 
     @Override
@@ -87,7 +62,6 @@ public class CheaterStrategy implements Strategy{
                player.getCountryList().get(i).setArmyValue(newArmyValue);
             }
         }
-        System.out.println("Fortifying in cheater mode...");
     }
 
     /**
