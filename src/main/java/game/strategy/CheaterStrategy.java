@@ -6,6 +6,8 @@ import service.GamePlayerService;
 import service.MapEditorService;
 
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 
@@ -13,7 +15,7 @@ public class CheaterStrategy implements Strategy{
     @Override
     public void attack() {
         GamePlayer player=GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
-        for(int i=0;i< MapEditorService.mapGraph.getCountryList().size();i++){
+        /*for(int i=0;i< MapEditorService.mapGraph.getCountryList().size();i++){
             if(player.getPlayerName()==MapEditorService.mapGraph.getCountryList().get(i).getPlayer().getPlayerName()){
                 Set<Country> countryList = MapEditorService.mapGraph.getCountryList().get(i).getNeighbours();
                 Iterator it = countryList.iterator();
@@ -43,9 +45,22 @@ public class CheaterStrategy implements Strategy{
 
                 }
             }
-        }
+        }*/
+        List<Country> countryList = player.getCountryList();
 
-        System.out.println("Attacking in cheater mode...");
+        List<Country> a = new LinkedList<>();
+        for(int i=0;i<countryList.size();i++){
+            a.add(countryList.get(i));
+        }
+        for (int i=0;i<a.size();i++){
+            Country country  = countryList.get(i);
+            List<Integer> indexList = findEnemy(country);
+            for(int j=0;j<indexList.size();j++){
+                removeCountryFromPlayer(MapEditorService.mapGraph.getCountryList().get(indexList.get(j)));
+                MapEditorService.mapGraph.getCountryList().get(indexList.get(j)).setPlayer(player);
+                GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getCountryList().add(MapEditorService.mapGraph.getCountryList().get(indexList.get(j)));
+            }
+        }
     }
 
     @Override
@@ -92,5 +107,52 @@ public class CheaterStrategy implements Strategy{
             }
         }
         return flag;
+    }
+
+
+    /**
+     * find neighbor index list
+     * @param country
+     * @return
+     */
+    public List<Integer> findEnemy(Country country){
+        List<Integer> indexList = new LinkedList<>();
+        for (int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
+            if(country.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+                Set<Country> countryNeighbors = MapEditorService.mapGraph.getCountryList().get(i).getNeighbours();
+                Iterator it  = countryNeighbors.iterator();
+                while (it.hasNext()){
+                    Country countryNeighbor = (Country) it.next();
+                    for (int j=0;j<MapEditorService.mapGraph.getCountryList().size();j++){
+                        if(countryNeighbor.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(j).getCountryName())){
+                            if(!MapEditorService.mapGraph.getCountryList().get(j).getPlayer().getPlayerName().equals(MapEditorService.mapGraph.getCountryList().get(i).getPlayer().getPlayerName())){
+                                indexList.add(j);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return indexList;
+    }
+
+    /**
+     * remove the country from his old owner
+     * @param country
+     */
+    public void removeCountryFromPlayer(Country country){
+        Integer index=-1;
+        GamePlayer player = country.getPlayer();
+        for(int i=0;i<GamePlayerService.playerList.size();i++){
+            if(player.getPlayerName().equals(GamePlayerService.playerList.get(i).getPlayerName())){
+                index = i;
+            }
+        }
+        for(int i=0;i<GamePlayerService.playerList.get(index).getCountryList().size();i++){
+            if(country.getCountryName().equals(GamePlayerService.playerList.get(index).getCountryList().get(i).getCountryName())){
+                GamePlayerService.playerList.get(index).getCountryList().remove(i);
+            }
+        }
+
     }
 }

@@ -77,7 +77,7 @@ public class CommandService {
             GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
             if(player.getStrategyName().equals("CheaterStrategy")){
                 player.reinforce();
-                //player.attack();
+                player.attack();
                 player.fortify();
                 gamePlayerService.changPlayer();
                 commandReturnMsg = "cheater strategy execution success and enter into the reinforcement phase for the next player";
