@@ -140,6 +140,6 @@ public class AggressiveStrategy implements Strategy {
         Integer fromArmyValue = MapEditorService.mapGraph.getCountryList().get(fromCountryIndex).getArmyValue();
         MapEditorService.mapGraph.getCountryList().get(fromCountryIndex).setArmyValue(1);
         Integer toArmyValue = MapEditorService.mapGraph.getCountryList().get(toCountryIndex).getArmyValue();
-        MapEditorService.mapGraph.getCountryList().get(fromCountryIndex).setArmyValue(toArmyValue+fromArmyValue-1);
+        MapEditorService.mapGraph.getCountryList().get(toCountryIndex).setArmyValue(toArmyValue+fromArmyValue-1);
     }
 }

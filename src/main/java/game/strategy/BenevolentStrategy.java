@@ -10,9 +10,12 @@ import java.util.List;
 import java.util.Set;
 
 public class BenevolentStrategy implements Strategy {
+
+    Integer countryFlag = 0;
+
     @Override
     public void attack() {
-        System.out.println("Attacking benevolently...");
+
     }
 
     @Override
@@ -33,9 +36,10 @@ public class BenevolentStrategy implements Strategy {
     @Override
     public void fortify() {
         GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
-        List<Country> countryList = MapEditorService.mapGraph.getCountryList();
+        List<Country> countryList = player.getCountryList();
+        List<Country> countryCopy = countryList;
         while(countryList.size()>0){
-            Integer countryFlag  = checkWeakestCountry(countryList);
+            countryFlag  = checkWeakestCountry(countryList);
             Country country = countryList.get(countryFlag);
             Set<Country> countryNeighborSet = country.getNeighbours();
             Iterator it = countryNeighborSet.iterator();
@@ -72,12 +76,14 @@ public class BenevolentStrategy implements Strategy {
                 }
             }
             if(flag){
-                countryList.remove(countryFlag);
+                countryCopy.remove(0);
+                countryList = countryCopy;
             }else{
-                countryList.clear();
+                for(int i=countryList.size()-1;i>=0;i--){
+                    countryList.remove(i);
+                }
             }
         }
-        System.out.println("Fortifying benevolently...");
     }
 
 
