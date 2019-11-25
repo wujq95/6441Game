@@ -83,9 +83,8 @@ public class CommandService {
                 commandReturnMsg = "cheater strategy execution success and enter into the reinforcement phase for the next player";
             }else if(player.getStrategyName().equals("RandomStrategy")){
                 player.reinforce();
-                //player.attack();
-                //fortify需要检查两个国家是否相连
-                // player.fortify();
+                player.attack();
+                player.fortify();
                 gamePlayerService.changPlayer();
                 commandReturnMsg = "random strategy execution success and enter into the reinforcement phase for the next player";
             }else if(player.getStrategyName().equals("BenevolentStrategy")){
