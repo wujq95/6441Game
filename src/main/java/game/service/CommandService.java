@@ -80,24 +80,28 @@ public class CommandService {
                 player.attack();
                 player.fortify();
                 gamePlayerService.changPlayer();
+                attackService.checkStop();
                 commandReturnMsg = "cheater strategy execution success and enter into the reinforcement phase for the next player";
             }else if(player.getStrategyName().equals("RandomStrategy")){
                 player.reinforce();
                 player.attack();
                 player.fortify();
                 gamePlayerService.changPlayer();
+                attackService.checkStop();
                 commandReturnMsg = "random strategy execution success and enter into the reinforcement phase for the next player";
             }else if(player.getStrategyName().equals("BenevolentStrategy")){
                 player.reinforce();
                 player.attack();
                 player.fortify();
                 gamePlayerService.changPlayer();
+                attackService.checkStop();
                 commandReturnMsg = "benevolent strategy execution success and enter into the reinforcement phase for the next player";
             } else if(player.getStrategyName().equals("AggressiveStrategy")){
                 player.reinforce();
                 player.attack();
                 player.fortify();
                 gamePlayerService.changPlayer();
+                attackService.checkStop();
                 commandReturnMsg = "aggressiveStrategy strategy execution success and enter into the reinforcement phase for the next player";
             }else{
                 commandReturnMsg = gamePlayerService.calReinArmyNum();

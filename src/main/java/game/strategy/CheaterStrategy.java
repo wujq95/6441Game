@@ -35,7 +35,6 @@ public class CheaterStrategy implements Strategy{
         }
         //attackService.dealControllContinent();
         attackService.deletePlayer();
-        attackService.checkStop();
     }
 
     @Override

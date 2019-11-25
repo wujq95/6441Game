@@ -44,7 +44,6 @@ public class AggressiveStrategy implements Strategy {
                     // attackService.dealControllContinent();
                     //也需要改，不能直接改index,需要重新确定在playerlist中的index
                     attackService.deletePlayer();
-                    attackService.checkStop();
                 }
             }
         }

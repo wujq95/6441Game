@@ -589,11 +589,15 @@ public class AttackService extends Observable {
      * delete player if the player has no country
      */
     public void deletePlayer() {
-        for (int i = 0; i < GamePlayerService.playerList.size(); i++) {
+        String playerName  = GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getPlayerName();
+        for (int i = GamePlayerService.playerList.size()-1; i >=0; i--) {
             if (GamePlayerService.playerList.get(i).getCountryList().size() == 0) {
                 GamePlayerService.playerList.remove(i);
-                Integer t = GamePlayerService.choosePlayer;
-                GamePlayerService.choosePlayer = t - 1;
+            }
+        }
+        for(int i=0;i<GamePlayerService.playerList.size();i++){
+            if(playerName.equals(GamePlayerService.playerList.get(i).getPlayerName())){
+                GamePlayerService.choosePlayer = i;
             }
         }
     }
@@ -724,6 +728,7 @@ public class AttackService extends Observable {
         if (GamePlayerService.playerList.size() == 1) {
             GamePlayerService.checkPhase = 5;
         }
+        notifyObservers(this);
     }
 
     /**

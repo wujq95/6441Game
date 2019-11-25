@@ -54,7 +54,6 @@ public class RandomStrategy implements Strategy{
                     aggressiveStrategy.moveArmy(1,MapEditorService.mapGraph.getCountryList().get(index).getCountryName(),MapEditorService.mapGraph.getCountryList().get(enemyIndex).getCountryName());
                     //attackService.dealControllContinent();
                     attackService.deletePlayer();
-                    attackService.checkStop();
                     break;
                 }
             }
