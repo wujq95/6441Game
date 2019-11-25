@@ -52,7 +52,7 @@ public class RandomStrategy implements Strategy{
                 boolean flag = attackService.checkConquered();
                 if(flag){
                     aggressiveStrategy.moveArmy(1,MapEditorService.mapGraph.getCountryList().get(index).getCountryName(),MapEditorService.mapGraph.getCountryList().get(enemyIndex).getCountryName());
-                    //attackService.dealControllContinent();
+                    attackService.dealControllContinent();
                     attackService.deletePlayer();
                     break;
                 }

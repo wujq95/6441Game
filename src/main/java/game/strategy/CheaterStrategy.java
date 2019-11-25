@@ -1,5 +1,6 @@
 package strategy;
 
+import model.Continent;
 import model.Country;
 import model.GamePlayer;
 import service.AttackService;
@@ -33,7 +34,7 @@ public class CheaterStrategy implements Strategy{
                 GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getCountryList().add(MapEditorService.mapGraph.getCountryList().get(indexList.get(j)));
             }
         }
-        //attackService.dealControllContinent();
+        attackService.dealControllContinent();
         attackService.deletePlayer();
     }
 
@@ -128,4 +129,6 @@ public class CheaterStrategy implements Strategy{
         }
 
     }
+
+
 }

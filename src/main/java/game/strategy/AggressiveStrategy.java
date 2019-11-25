@@ -40,9 +40,7 @@ public class AggressiveStrategy implements Strategy {
                 boolean flag = attackService.checkConquered();
                 if(flag){
                     moveArmy(1,country.getCountryName(),countryNeighbor.getCountryName());
-                    //需要改
-                    // attackService.dealControllContinent();
-                    //也需要改，不能直接改index,需要重新确定在playerlist中的index
+                    attackService.dealControllContinent();
                     attackService.deletePlayer();
                 }
             }
