@@ -15,7 +15,6 @@ public class BenevolentStrategy implements Strategy {
 
     @Override
     public void attack() {
-
     }
 
     @Override
