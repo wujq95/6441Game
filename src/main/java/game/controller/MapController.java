@@ -179,7 +179,9 @@ public class MapController{
         int phaseNum = gamePlayerService.checkPhase;
 
         String phaseName = "Map Editor";
-        String currentPlayerName = "None";
+        // String currentPlayerName = "None";
+        GamePlayer currentPlayer = null;
+        String currentPlayerInfo = "None";
         String actionTaken = "None";
         String attackerDiceOutcome = "None";
         String defenderDiceOutcome = "None";
@@ -190,20 +192,28 @@ public class MapController{
                 break;
             case 1:
                 phaseName = "Start Up";
-                currentPlayerName = gamePlayerService.getCurrentPlayerName();
+                //currentPlayerName = gamePlayerService.getCurrentPlayerName();
+                currentPlayer = gamePlayerService.getCurrentPlayer();
+                currentPlayerInfo = currentPlayer.getPlayerName() + "(" + currentPlayer.getStrategyName() + ")";
                 break;
             case 2:
                 phaseName = "Reinforcement";
-                currentPlayerName = reinforceService.getCurrentPlayerName();
+                //currentPlayerName = reinforceService.getCurrentPlayerName();
+                currentPlayer = gamePlayerService.getCurrentPlayer();
+                currentPlayerInfo = currentPlayer.getPlayerName() + "(" + currentPlayer.getStrategyName() + ")";
                 loadCardsExchangeView(gamePlayerService);
                 break;
             case 3:
-                phaseName = "Fortificatioxn";
-                currentPlayerName = fortifyService.getCurrentPlayerName();
+                phaseName = "Fortification";
+                //currentPlayerName = fortifyService.getCurrentPlayerName();
+                currentPlayer = gamePlayerService.getCurrentPlayer();
+                currentPlayerInfo = currentPlayer.getPlayerName() + "(" + currentPlayer.getStrategyName() + ")";
                 break;
             case 4:
                 phaseName = "Attack";
-                currentPlayerName = fortifyService.getCurrentPlayerName();
+                //currentPlayerName = fortifyService.getCurrentPlayerName();
+                currentPlayer = gamePlayerService.getCurrentPlayer();
+                currentPlayerInfo = currentPlayer.getPlayerName() + "(" + currentPlayer.getStrategyName() + ")";
                 attackerDiceOutcome = attackService.getFromDice();
                 defenderDiceOutcome = attackService.getToDice();
                 hideCardsExchangeView();
@@ -214,7 +224,7 @@ public class MapController{
         }
 
         phaseLabel.setText(phaseName);
-        currentPlayerLabel.setText(currentPlayerName);
+        currentPlayerLabel.setText(currentPlayerInfo);
         actionTakenLabel.setText(actionTaken);
         attackerDice.setText(attackerDiceOutcome);
         defenderDice.setText(defenderDiceOutcome);
@@ -231,7 +241,7 @@ public class MapController{
         mapPane.getChildren().clear();
 
         // location for game player list title and continent list title
-        double x = mapPane.getLayoutBounds().getMaxX() - 400;
+        double x = mapPane.getLayoutBounds().getMaxX() - 550;
         double y = 20;
 
         // Load all game players
@@ -243,6 +253,13 @@ public class MapController{
         title.setY(y);
         mapPane.getChildren().addAll(title);
 
+        Text hintTitle = new Text("Name, Strategy, #Army, OwnedContinents, #Country, %");
+        hintTitle.setFont(new Font(10.0));
+        hintTitle.setFill(Color.BURLYWOOD);
+        hintTitle.setX(x);
+        hintTitle.setY(y + 15);
+        mapPane.getChildren().addAll(hintTitle);
+
         // render all game players info
         int i = 0;
         for (GamePlayer gamePlayer : gamePlayerList) {
@@ -253,13 +270,15 @@ public class MapController{
             String strategyName = gamePlayer.getStrategyName();
             String armyValue = gamePlayer.getArmyValue().toString();
             String controlledContinents = gamePlayer.getControlledContinent().toString();
+            controlledContinents = "\n" + controlledContinents;
             int countryNum = gamePlayer.getCountryList().size();
+            String countryNumStr = Integer.toString(countryNum);
             int totalCountryNum = MapEditorService.mapGraph.getCountryList().size();
             double percentage = countryNum * 1.0 / totalCountryNum;
             DecimalFormat df = new DecimalFormat("##.##%");
             String percentageOnMap = df.format(percentage);
 
-            List<String> line = Arrays.asList(playerName, strategyName, armyValue, controlledContinents, percentageOnMap);
+            List<String> line = Arrays.asList(playerName, strategyName, armyValue, controlledContinents, countryNumStr, percentageOnMap);
             // Text text = new Text((gamePlayer.getPlayerName() + ": " + gamePlayer.getArmyValue()));
             Text text = new Text(line.toString());
             text.setX(x);
@@ -304,8 +323,8 @@ public class MapController{
         for (Country country : countryList) {
             x = country.getX();
             y = country.getY();
-            x = x * 1.3;
-            y = y * 1.3;
+            x = x * 1.1;
+            y = y * 1.1;
             Color countryColor = country.getParentContinent().getColor();
             Circle circle = new Circle(x, y, 15, countryColor);
 
@@ -334,10 +353,10 @@ public class MapController{
 
             Line line = new Line();
             line.setId(lineId);
-            line.setStartX(pt1.getX() * 1.3);
-            line.setStartY(pt1.getY() * 1.3);
-            line.setEndX(pt2.getX() * 1.3);
-            line.setEndY(pt2.getY() * 1.3);
+            line.setStartX(pt1.getX() * 1.1);
+            line.setStartY(pt1.getY() * 1.1);
+            line.setEndX(pt2.getX() * 1.1);
+            line.setEndY(pt2.getY() * 1.1);
             line.setStroke(Color.rgb(95, 103, 105));
             line.toBack();
 
