@@ -57,8 +57,6 @@ public class AggressiveStrategy implements Strategy {
                 }
             }
         }
-
-        System.out.println("Attacking aggressively...");
     }
 
     @Override
@@ -76,11 +74,8 @@ public class AggressiveStrategy implements Strategy {
                 }
             }
         }
-
         MapEditorService.mapGraph.getCountryList().get(countryFlag).setArmyValue(armyFlag+armyValue);
         GamePlayerService.playerList.get(GamePlayerService.choosePlayer).setArmyValue(0);
-
-        System.out.println("Reinforcing aggressively...");
     }
 
     @Override
@@ -114,7 +109,6 @@ public class AggressiveStrategy implements Strategy {
             }
         }
         fortifyArmy(fromCountryIndex,toCountryIndex);
-        System.out.println("Fortifying aggressively...");
     }
 
     /**
