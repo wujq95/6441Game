@@ -90,7 +90,7 @@ public class CommandService {
             }else if(player.getStrategyName().equals("BenevolentStrategy")){
                 player.reinforce();
                 player.attack();
-                //player.fortify();
+                player.fortify();
                 gamePlayerService.changPlayer();
                 commandReturnMsg = "benevolent strategy execution success and enter into the reinforcement phase for the next player";
             } else if(player.getStrategyName().equals("AggressiveStrategy")){
