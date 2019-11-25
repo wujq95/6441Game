@@ -19,11 +19,11 @@ public class GamePlayer extends Observable {
     }
 
     public String getStrategyName() {
-        String strategyName = "Human";
+        String strategyName = "HumanStrategy";
         if(strategy != null){
             strategyName = strategy.getClass().getSimpleName();
         }
-        return strategyName;
+        return strategyName.substring(0, strategyName.length() - 8);
     }
 
     public void attack(){
