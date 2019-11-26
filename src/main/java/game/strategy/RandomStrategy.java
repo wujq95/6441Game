@@ -9,6 +9,8 @@ import service.MapEditorService;
 import java.util.*;
 
 public class RandomStrategy implements Strategy{
+
+    CheaterStrategy cheaterStrategy = new CheaterStrategy();
     @Override
     public void attack() {
         GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
@@ -51,7 +53,10 @@ public class RandomStrategy implements Strategy{
                 attackService.attackProcess();
                 boolean flag = attackService.checkConquered();
                 if(flag){
-                    aggressiveStrategy.moveArmy(1,MapEditorService.mapGraph.getCountryList().get(index).getCountryName(),MapEditorService.mapGraph.getCountryList().get(enemyIndex).getCountryName());
+                    cheaterStrategy.removeCountryFromPlayer(MapEditorService.mapGraph.getCountryList().get(enemyIndex));
+                    MapEditorService.mapGraph.getCountryList().get(enemyIndex).setPlayer(player);
+                    GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getCountryList().add(MapEditorService.mapGraph.getCountryList().get(enemyIndex));
+                    aggressiveStrategy.moveArmy(1,MapEditorService.mapGraph.getCountryList().get(index2).getCountryName(),MapEditorService.mapGraph.getCountryList().get(enemyIndex).getCountryName());
                     attackService.dealControllContinent();
                     attackService.deletePlayer();
                     break;
