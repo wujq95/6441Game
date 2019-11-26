@@ -1,5 +1,6 @@
 package service;
 
+import model.Continent;
 import model.Country;
 import model.GamePlayer;
 import observer.Observable;
@@ -589,11 +590,15 @@ public class AttackService extends Observable {
      * delete player if the player has no country
      */
     public void deletePlayer() {
-        for (int i = 0; i < GamePlayerService.playerList.size(); i++) {
+        String playerName  = GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getPlayerName();
+        for (int i = GamePlayerService.playerList.size()-1; i >=0; i--) {
             if (GamePlayerService.playerList.get(i).getCountryList().size() == 0) {
                 GamePlayerService.playerList.remove(i);
-                Integer t = GamePlayerService.choosePlayer;
-                GamePlayerService.choosePlayer = t - 1;
+            }
+        }
+        for(int i=0;i<GamePlayerService.playerList.size();i++){
+            if(playerName.equals(GamePlayerService.playerList.get(i).getPlayerName())){
+                GamePlayerService.choosePlayer = i;
             }
         }
     }
@@ -687,33 +692,32 @@ public class AttackService extends Observable {
     /**
      * check if the player control all countries in a continent
      */
-    public void dealControllContinent() {
-        String continentName = "";
-        for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
-            if (toCountry.equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())) {
-                continentName = MapEditorService.mapGraph.getCountryList().get(i).getParentContinent().getContinentName();
+    public void dealControllContinent(){
+        for(GamePlayer player:GamePlayerService.playerList){
+            List<String> continentListControlled = player.getControlledContinent();
+            for(int i=continentListControlled.size()-1;i>=0;i--){
+                continentListControlled.remove(i);
             }
-        }
-
-        for (int i = 0; i < MapEditorService.mapGraph.getContinentList().size(); i++) {
-            if (continentName.equals(MapEditorService.mapGraph.getContinentList().get(i).getContinentName())) {
-                List<Country> countryList = MapEditorService.mapGraph.getContinentList().get(i).getCountries();
+            List<Continent> continentList = MapEditorService.mapGraph.getContinentList();
+            for(int i=0;i<continentList.size();i++){
+                Continent continent  = continentList.get(i);
+                List<Country> countryList = continent.getCountries();
                 boolean flag = true;
-                for (Country country : countryList) {
-                    for (int j = 0; j < MapEditorService.mapGraph.getCountryList().size(); j++) {
-                        if (country.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(j).getCountryName())) {
-                            if (!MapEditorService.mapGraph.getCountryList().get(j).getPlayer().getPlayerName().equals(GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getPlayerName())) {
+                for(Country country:countryList){
+                    for(int t=0;t<MapEditorService.mapGraph.getCountryList().size();t++){
+                        if(country.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(t).getCountryName())){
+                            GamePlayer countryOwner = MapEditorService.mapGraph.getCountryList().get(t).getPlayer();
+                            if(countryOwner.getPlayerName()!=player.getPlayerName()){
                                 flag = false;
                             }
                         }
                     }
                 }
-                if (flag) {
-                    List<String> continentNameList = GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getControlledContinent();
-                    continentNameList.add(continentName);
-                    GamePlayerService.playerList.get(GamePlayerService.choosePlayer).setControlledContinent(continentNameList);
+                if(flag){
+                    continentListControlled.add(continent.getContinentName());
                 }
             }
+            player.setControlledContinent(continentListControlled);
         }
     }
 
@@ -724,6 +728,7 @@ public class AttackService extends Observable {
         if (GamePlayerService.playerList.size() == 1) {
             GamePlayerService.checkPhase = 5;
         }
+        notifyObservers(this);
     }
 
     /**

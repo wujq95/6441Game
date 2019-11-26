@@ -5,14 +5,16 @@ import model.GamePlayer;
 import service.GamePlayerService;
 import service.MapEditorService;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 public class BenevolentStrategy implements Strategy {
+
+    RandomStrategy randomStrategy = new RandomStrategy();
+    Integer fromIndex = 0;
+    Integer toIndex = 0;
+
     @Override
     public void attack() {
-        System.out.println("Attacking benevolently...");
     }
 
     @Override
@@ -27,57 +29,36 @@ public class BenevolentStrategy implements Strategy {
 
         MapEditorService.mapGraph.getCountryList().get(countryFlag).setArmyValue(armyFlag+armyValue);
         GamePlayerService.playerList.get(GamePlayerService.choosePlayer).setArmyValue(0);
-        System.out.println("Reinforcing benevolently...");
     }
 
     @Override
     public void fortify() {
+        Integer flag =-1;
+        Integer index =-1;
         GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
-        List<Country> countryList = MapEditorService.mapGraph.getCountryList();
-        while(countryList.size()>0){
-            Integer countryFlag  = checkWeakestCountry(countryList);
-            Country country = countryList.get(countryFlag);
-            Set<Country> countryNeighborSet = country.getNeighbours();
-            Iterator it = countryNeighborSet.iterator();
-            boolean flag  =true;
-            while (it.hasNext()){
-                if(flag){
-                    Country countryNeighbor = (Country)it.next();
-                    if(player.getPlayerName().equals(countryNeighbor.getPlayer().getPlayerName())){
-                        Integer toArmyValue = 0;
-                        Integer formArmyValue = 0;
-                        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-                            if(country.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
-                                toArmyValue = MapEditorService.mapGraph.getCountryList().get(i).getArmyValue();
-                            }
-                        }
-                        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-                            if(countryNeighbor.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
-                                formArmyValue = MapEditorService.mapGraph.getCountryList().get(i).getArmyValue();
-                            }
-                        }
-                        Integer armyMovement = (toArmyValue+formArmyValue)/2;
-                        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-                            if(country.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
-                                MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(toArmyValue+armyMovement);
-                            }
-                        }
-                        for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-                            if(countryNeighbor.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
-                                MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(formArmyValue-armyMovement);
-                            }
-                        }
-                        flag = false;
-                    }
-                }
-            }
-            if(flag){
-                countryList.remove(countryFlag);
-            }else{
-                countryList.clear();
+        List<Country> countryList = player.getCountryList();
+        for(int i=0;i<countryList.size();i++){
+            Country country = countryList.get(i);
+            flag = randomStrategy.findFriend(country);
+            if(flag!=-1){
+                fromIndex = flag;
+                index = i;
+                break;
             }
         }
-        System.out.println("Fortifying benevolently...");
+        if(flag!=-1){
+            Country country  =player.getCountryList().get(index);
+            for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
+                if(country.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+                    toIndex = i;
+                }
+            }
+            Integer formArmyValue = MapEditorService.mapGraph.getCountryList().get(fromIndex).getArmyValue();
+            Integer toArmyValue = MapEditorService.mapGraph.getCountryList().get(toIndex).getArmyValue();
+            Integer armyMovement = formArmyValue-(toArmyValue+formArmyValue)/2;
+            MapEditorService.mapGraph.getCountryList().get(fromIndex).setArmyValue(formArmyValue-armyMovement);
+            MapEditorService.mapGraph.getCountryList().get(toIndex).setArmyValue(toArmyValue+armyMovement);
+        }
     }
 
 

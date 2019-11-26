@@ -40,29 +40,16 @@ public class AggressiveStrategy implements Strategy {
                 boolean flag = attackService.checkConquered();
                 if(flag){
                     moveArmy(1,country.getCountryName(),countryNeighbor.getCountryName());
-                    attackService.changPlayer();
                     attackService.dealControllContinent();
                     attackService.deletePlayer();
-                    attackService.checkStop();
-                    /**
-                     * notifyObservers();
-                     *
-                     *if (conqueredAll) {
-                     *    conqueredAll = false;
-                     *    return "you have get the other player's cards, please choose the number of moving army value";
-                     *} else {
-                     *     return "please choose the number of moving army value";
-                     *}
-                     */
                 }
             }
         }
-
-        System.out.println("Attacking aggressively...");
     }
 
     @Override
     public void reinforce() {
+        countryFlag=0;
         gamePlayerService.calReinArmyNum();
         GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
         Integer armyValue = player.getArmyValue();
@@ -76,11 +63,8 @@ public class AggressiveStrategy implements Strategy {
                 }
             }
         }
-
         MapEditorService.mapGraph.getCountryList().get(countryFlag).setArmyValue(armyFlag+armyValue);
         GamePlayerService.playerList.get(GamePlayerService.choosePlayer).setArmyValue(0);
-
-        System.out.println("Reinforcing aggressively...");
     }
 
     @Override
@@ -114,7 +98,6 @@ public class AggressiveStrategy implements Strategy {
             }
         }
         fortifyArmy(fromCountryIndex,toCountryIndex);
-        System.out.println("Fortifying aggressively...");
     }
 
     /**
@@ -146,6 +129,6 @@ public class AggressiveStrategy implements Strategy {
         Integer fromArmyValue = MapEditorService.mapGraph.getCountryList().get(fromCountryIndex).getArmyValue();
         MapEditorService.mapGraph.getCountryList().get(fromCountryIndex).setArmyValue(1);
         Integer toArmyValue = MapEditorService.mapGraph.getCountryList().get(toCountryIndex).getArmyValue();
-        MapEditorService.mapGraph.getCountryList().get(fromCountryIndex).setArmyValue(toArmyValue+fromArmyValue-1);
+        MapEditorService.mapGraph.getCountryList().get(toCountryIndex).setArmyValue(toArmyValue+fromArmyValue-1);
     }
 }

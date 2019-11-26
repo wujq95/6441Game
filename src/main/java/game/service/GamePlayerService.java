@@ -16,6 +16,7 @@ import java.util.List;
  */
 public class GamePlayerService extends Observable {
 
+    FortifyService fortifyService = new FortifyService();
     public static List<GamePlayer> playerList = new ArrayList<GamePlayer>();
     public static Integer choosePlayer = 0;
     public static int checkPhase = 0;
@@ -507,5 +508,20 @@ public class GamePlayerService extends Observable {
         }
 
         return null;
+    }
+
+    /**
+     * change player and phase
+     */
+    public void changPlayer(){
+        boolean flag = fortifyService.checkStop();
+        if(flag){
+            GamePlayerService.checkPhase = 2;
+            GamePlayerService.choosePlayer=0;
+        }else {
+            GamePlayerService.checkPhase = 2;
+            GamePlayerService.choosePlayer++;
+        }
+        notifyObservers(this);
     }
 }
