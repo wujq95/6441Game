@@ -49,6 +49,7 @@ public class AggressiveStrategy implements Strategy {
 
     @Override
     public void reinforce() {
+        countryFlag=0;
         gamePlayerService.calReinArmyNum();
         GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
         Integer armyValue = player.getArmyValue();
