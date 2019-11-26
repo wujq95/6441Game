@@ -22,7 +22,7 @@ public class CommandService {
         GamePlayerService gamePlayerService = MapController.gamePlayerService;
         AttackService attackService = MapController.attackService;
         CardService cardService = MapController.cardService;
-        TournamentService tournamentService = new TournamentService();
+        TournamentService tournamentService = MapController.tournamentService;
 
         inputCommand = inputCommand.trim();
         String commandReturnMsg = "";

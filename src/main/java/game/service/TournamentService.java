@@ -1,15 +1,23 @@
 package service;
 
 import model.GamePlayer;
+import observer.Observable;
+import observer.Observer;
 import strategy.*;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class TournamentService {
+public class TournamentService extends Observable {
     //check if command is right
     //check String and number are right
     //检查策略种类个数符合要求,策略拼写正确
+
+    private Observer observer;
+
+    public void setObserver(Observer obs) {
+        observer = obs;
+    }
 
     MapEditorService mapEditorService = new MapEditorService();
 
@@ -17,6 +25,7 @@ public class TournamentService {
         List<String> mapFileList = new LinkedList<>();
         List<String> playerStrategyList = new LinkedList<>();
         GamePlayerService gamePlayerService = new GamePlayerService();
+        gamePlayerService.setObserver(observer);
         Integer gameNumber =0;
         Integer maxTurnNumber = 0;
         Integer indexP =0;
