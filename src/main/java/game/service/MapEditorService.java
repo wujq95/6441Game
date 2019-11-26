@@ -151,8 +151,8 @@ public class MapEditorService {
             ReadFileFromEmpty readFileFromEmpty = new ReadFileAdapter(readFileFromExistedFileImplement);
             readFileFromEmpty.readFileFromEmpty(fileName);
         } else {
-            ReadFileFromEmpty readFileFromEmpty = new ReadFileAdapter(readFileFromExistedFileImplement);
-            readFileFromEmpty.readFileFromEmpty(fileName);
+            ReadFileFromExistedFile readFileFromExistedFile = new ReadFileAdapter(readFileFromEmptyImplement);
+            readFileFromExistedFile.readFileFromExistedFile(fileName);
         }
 
         return returnMsg;
