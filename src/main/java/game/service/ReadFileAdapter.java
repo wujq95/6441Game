@@ -9,20 +9,16 @@ public class ReadFileAdapter implements ReadFileFromEmpty, ReadFileFromExistedFi
     }
 
     public ReadFileAdapter(ReadFileFromExistedFile readFile) {
-        this.readFileFromExistedFile =readFile;
+        this.readFileFromExistedFile = readFile;
     }
 
     @Override
     public String readFileFromEmpty(String mapFile) {
-        readFileFromEmpty.readFileFromEmpty("");
-
-        return "";
+        return readFileFromEmpty.readFileFromEmpty(mapFile);
     }
 
     @Override
     public String readFileFromExistedFile(String mapFile) {
-        readFileFromExistedFile.readFileFromExistedFile("");
-
-        return "";
+        return readFileFromExistedFile.readFileFromExistedFile(mapFile);
     }
 }
