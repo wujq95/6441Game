@@ -22,6 +22,7 @@ public class CommandService {
         GamePlayerService gamePlayerService = MapController.gamePlayerService;
         AttackService attackService = MapController.attackService;
         CardService cardService = MapController.cardService;
+        TournamentService tournamentService = MapController.tournamentService;
 
         inputCommand = inputCommand.trim();
         String commandReturnMsg = "";
@@ -54,7 +55,7 @@ public class CommandService {
         } else if (inputCommand.startsWith("editneighbor") && GamePlayerService.checkPhase == 0) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = mapEditorService.editNeighbor(arguments);
-        } else if (inputCommand.startsWith("gameplayer") && GamePlayerService.checkPhase == 1 || GamePlayerService.checkPhase == 0) {
+        } else if (inputCommand.startsWith("gameplayer") && (GamePlayerService.checkPhase == 1 || GamePlayerService.checkPhase == 0)) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = gamePlayerService.gamePlayerAction(arguments);
         } else if (inputCommand.startsWith("populatecountries") && GamePlayerService.checkPhase == 1) {
@@ -125,6 +126,9 @@ public class CommandService {
         } else if (inputCommand.startsWith("reinforce") && GamePlayerService.checkPhase == 2) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = reinforceService.reinforce(arguments[1], arguments[2]);
+        }else if(inputCommand.startsWith("tournament")&& GamePlayerService.checkPhase == 0){
+            String[] arguments = inputCommand.split(" ");
+            commandReturnMsg = tournamentService.tournament(arguments);
         } else if (inputCommand.startsWith("fortify") && GamePlayerService.checkPhase == 3) {
             String[] arguments = inputCommand.split(" ");
             if (arguments[1].startsWith("none")) {

@@ -3,13 +3,14 @@ package service;
 import com.sun.deploy.util.StringUtils;
 import javafx.scene.paint.Color;
 import model.*;
+import strategy.Strategy;
 
 import java.io.*;
 import java.util.*;
 
 import static service.MapEditorService.*;
 
-public class SaveLoadGameStartUpPhase extends SaveLoadGame {
+public class SaveLoadGameFortificationPhase extends SaveLoadGame {
     @Override
     String saveGame(String fileName) {
         fileName = fileName.trim();
@@ -361,3 +362,4 @@ public class SaveLoadGameStartUpPhase extends SaveLoadGame {
         return returnMsg;
     }
 }
+

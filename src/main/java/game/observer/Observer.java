@@ -17,5 +17,7 @@ public abstract class Observer {
 
     protected CardService cardService;
 
+    protected TournamentService tournamentService;
+
     public abstract void update(Observable o);
 }

@@ -69,6 +69,8 @@ public class MapController{
 
     public static CardService cardService;
 
+    public static TournamentService tournamentService;
+
     /**
      * load map option on menu bar
      */
@@ -439,11 +441,12 @@ public class MapController{
         fortifyService = new FortifyService();
         attackService = new AttackService();
         cardService = new CardService();
+        tournamentService = new TournamentService();
 
         // default empty graph before loaded
         this.mapGraph = new MapGraph();
         this.mapGraphObserver = new MapGraphObserver(MapEditorService.mapGraph);
-        this.gameInfoObserver = new GameInfoObserver(gamePlayerService, attackService, cardService, reinforceService, fortifyService);
+        this.gameInfoObserver = new GameInfoObserver(gamePlayerService, attackService, cardService, reinforceService, fortifyService, tournamentService);
     }
 
     /**
@@ -451,7 +454,8 @@ public class MapController{
      */
     public class GameInfoObserver extends Observer {
 
-        public GameInfoObserver(GamePlayerService gamePlayerService, AttackService attackService, CardService cardService, ReinforceService reinforceService, FortifyService fortifyService) {
+        public GameInfoObserver(GamePlayerService gamePlayerService, AttackService attackService, CardService cardService,
+                                ReinforceService reinforceService, FortifyService fortifyService, TournamentService tournamentService) {
             this.gamePlayerService = gamePlayerService;
             this.gamePlayerService.attach(this);
             this.gamePlayerService.setObserver(this);
@@ -467,6 +471,11 @@ public class MapController{
 
             this.fortifyService = fortifyService;
             this.fortifyService.attach(this);
+
+            this.tournamentService = tournamentService;
+            this.tournamentService.setObserver(this);
+            //this.tournamentService.attach(this);
+
         }
 
         /**

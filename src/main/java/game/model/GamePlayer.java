@@ -2,6 +2,7 @@ package model;
 
 import observer.Observable;
 import strategy.Strategy;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,33 +15,29 @@ public class GamePlayer extends Observable {
 
     private Strategy strategy;
 
-    public void setStrategy(Strategy strategy){
+    public void setStrategy(Strategy strategy) {
         this.strategy = strategy;
     }
 
     public String getStrategyName() {
         String strategyName = "HumanStrategy";
-//        if(strategy != null){
-//            strategyName = strategy.getClass().getSimpleName();
-//        }
-//        return strategyName.substring(0, strategyName.length() - 8);
         if(strategy != null){
             strategyName = strategy.getClass().getSimpleName();
         }
         return strategyName;
     }
 
-    public void attack(){
+    public void attack() {
         this.strategy.attack();
         notifyObservers(this);
     }
 
-    public void reinforce(){
+    public void reinforce() {
         this.strategy.reinforce();
         notifyObservers(this);
     }
 
-    public void fortify(){
+    public void fortify() {
         this.strategy.fortify();
         notifyObservers(this);
     }
@@ -48,16 +45,17 @@ public class GamePlayer extends Observable {
     /**
      * Default Constructor
      */
-    public GamePlayer(){
+    public GamePlayer() {
     }
 
     /**
      * Constructor with player name , Number of Armies and country list
-     * @param playerName 　player name
-     * @param armyValue number of army
+     *
+     * @param playerName  　player name
+     * @param armyValue   number of army
      * @param countryList country list
      */
-    public GamePlayer(String playerName,Integer armyValue,List<Country> countryList){
+    public GamePlayer(String playerName, Integer armyValue, List<Country> countryList) {
         this.armyValue = armyValue;
         this.countryList = countryList;
         this.playerName = playerName;
@@ -67,6 +65,7 @@ public class GamePlayer extends Observable {
 
     /**
      * Get PlayerName
+     *
      * @return player name
      */
     public String getPlayerName() {
@@ -75,6 +74,7 @@ public class GamePlayer extends Observable {
 
     /**
      * Set PlayerName
+     *
      * @param playerName player name
      */
     public void setPlayerName(String playerName) {
@@ -83,6 +83,7 @@ public class GamePlayer extends Observable {
 
     /**
      * Get Number of Army
+     *
      * @return number of army
      */
     public Integer getArmyValue() {
@@ -91,6 +92,7 @@ public class GamePlayer extends Observable {
 
     /**
      * Set Number of Army
+     *
      * @param armyValue number of army
      */
     public void setArmyValue(Integer armyValue) {
@@ -99,14 +101,24 @@ public class GamePlayer extends Observable {
 
     /**
      * Get CountryList
+     *
      * @return country country list
      */
     public List<Country> getCountryList() {
         return countryList;
     }
 
+    public List<String> getCountryNameList() {
+        List<String> strings = new LinkedList<>();
+        for (Country country : countryList) {
+            strings.add(country.getCountryName());
+        }
+        return strings;
+    }
+
     /**
      * Set CountryList
+     *
      * @param countryList country list
      */
     public void setCountryList(List<Country> countryList) {
@@ -115,6 +127,7 @@ public class GamePlayer extends Observable {
 
     /**
      * Get card list
+     *
      * @return card list
      */
     public List<Card> getCardList() {
@@ -123,6 +136,7 @@ public class GamePlayer extends Observable {
 
     /**
      * set card list
+     *
      * @param cardList card list
      */
     public void setCardList(List<Card> cardList) {
@@ -130,7 +144,22 @@ public class GamePlayer extends Observable {
     }
 
     /**
+     * set card list
+     *
+     * @param cardList card list
+     */
+    public void setCardStringList(List<String> cardList) {
+        List<Card> list = new LinkedList<>();
+        for (String card : cardList) {
+            list.add(Card.valueOf(card));
+        }
+
+        this.cardList = list;
+    }
+
+    /**
      * set num
+     *
      * @param num dice number
      */
     public void setNum(Integer num) {
@@ -139,6 +168,7 @@ public class GamePlayer extends Observable {
 
     /**
      * get num
+     *
      * @return number
      */
     public Integer getNum() {
@@ -147,15 +177,21 @@ public class GamePlayer extends Observable {
 
     /**
      * set controlled continent
+     *
      * @param controlledContinent controlled continent list
      */
-    public void setControlledContinent(List<String> controlledContinent){this.controlledContinent = controlledContinent;}
+    public void setControlledContinent(List<String> controlledContinent) {
+        this.controlledContinent = controlledContinent;
+    }
 
     /**
      * get controlled continent
+     *
      * @return controlled continent
      */
-    public List<String> getControlledContinent (){return controlledContinent;}
+    public List<String> getControlledContinent() {
+        return controlledContinent;
+    }
 
     /**
      * Initial variables

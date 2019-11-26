@@ -1,7 +1,5 @@
 package service;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class WriteFileAdapter implements WriteFileToNewFile, WriteFileToExistedFile {
@@ -16,11 +14,11 @@ public class WriteFileAdapter implements WriteFileToNewFile, WriteFileToExistedF
         this.writeFileToExistedFile = writeFile;
     }
 
-    public void writeFileToNewFile() {
-        writeFileToNewFile.writeFileToNewFile();
+    public String writeFileToNewFile(String mapFile, List<String> lines) {
+        return writeFileToNewFile.writeFileToNewFile(mapFile, lines);
     }
 
-    public String writeFileToExistedFile(String  mapFile, List<String> lines) {
-        return writeFileToExistedFile.writeFileToExistedFile("", new LinkedList<String>());
+    public String writeFileToExistedFile(String mapFile, List<String> lines) {
+        return writeFileToExistedFile.writeFileToExistedFile(mapFile, lines);
     }
 }

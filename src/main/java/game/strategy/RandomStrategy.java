@@ -9,6 +9,8 @@ import service.MapEditorService;
 import java.util.*;
 
 public class RandomStrategy implements Strategy{
+
+    CheaterStrategy cheaterStrategy = new CheaterStrategy();
     @Override
     public void attack() {
         GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
@@ -51,6 +53,9 @@ public class RandomStrategy implements Strategy{
                 attackService.attackProcess();
                 boolean flag = attackService.checkConquered();
                 if(flag){
+                    cheaterStrategy.removeCountryFromPlayer(MapEditorService.mapGraph.getCountryList().get(enemyIndex));
+                    MapEditorService.mapGraph.getCountryList().get(enemyIndex).setPlayer(player);
+                    GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getCountryList().add(MapEditorService.mapGraph.getCountryList().get(enemyIndex));
                     aggressiveStrategy.moveArmy(1,MapEditorService.mapGraph.getCountryList().get(index2).getCountryName(),MapEditorService.mapGraph.getCountryList().get(enemyIndex).getCountryName());
                     attackService.dealControllContinent();
                     attackService.deletePlayer();
@@ -65,8 +70,7 @@ public class RandomStrategy implements Strategy{
         GamePlayerService gamePlayerService = new GamePlayerService();
         gamePlayerService.calReinArmyNum();
         GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
-        Integer  p =player.getCountryList().size();
-        Integer randomIndex = (int)(Math.random()*(p));
+        Integer randomIndex = (int)(Math.random()*(player.getCountryList().size()));
         Country country  = player.getCountryList().get(randomIndex);
         for(int i=0;i< MapEditorService.mapGraph.getCountryList().size();i++){
             if(country.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){

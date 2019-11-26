@@ -28,9 +28,10 @@ public class GamePlayerService extends Observable {
 
     /**
      * Get random number for dice toll result
+     *
      * @return Dice number
      */
-    public Integer orderTurn(){
+    public Integer orderTurn() {
         double num;
         int result;
         num = Math.floor(Math.random() * 6 + 1);
@@ -40,6 +41,7 @@ public class GamePlayerService extends Observable {
 
     /**
      * Assign dice number to each player
+     *
      * @param player player instance
      */
     public void decideTurn(GamePlayer player) {
@@ -47,81 +49,83 @@ public class GamePlayerService extends Observable {
             player.setNum(orderTurn());
         }
         List<Integer> order = new ArrayList<>();
-        for(int i=0;i<=playerList.size();i++){
+        for (int i = 0; i <= playerList.size(); i++) {
             order.add(player.getNum());
         }
         // Descending sort
         Collections.sort(order);
         Collections.reverse(order);
-        for (int i = 0; i<=order.size();i++){
-        System.out.println("Player " + playerList.get(i) + "'s result for dice toll is " + order.get(i));}
+        for (int i = 0; i <= order.size(); i++) {
+            System.out.println("Player " + playerList.get(i) + "'s result for dice toll is " + order.get(i));
+        }
     }
-
 
 
     /**
      * check if player name is suitable for the game
+     *
      * @return True or False
      */
-    public boolean checkPlayerNum(){
-        if(playerList.size()>=2&&playerList.size()<=6){
+    public boolean checkPlayerNum() {
+        if (playerList.size() >= 2 && playerList.size() <= 6) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     /**
      * add players to the playerlist and remove players from the playerlist
+     *
      * @param arguments string
      * @return Message
      */
-    public String gamePlayerAction(String[] arguments){
+    public String gamePlayerAction(String[] arguments) {
 
         checkPhase = 1;
 
         List<String> addPlayerNameList = new ArrayList<String>();
         List<String> removePlayerNameList = new ArrayList<String>();
 
-        for (int i=0;i<arguments.length;i++){
-            if (arguments[i].startsWith("-add")){
-                addPlayerNameList.add(arguments[i+1]);
+        for (int i = 0; i < arguments.length; i++) {
+            if (arguments[i].startsWith("-add")) {
+                addPlayerNameList.add(arguments[i + 1]);
             }
         }
 
-        for (int i=0;i<arguments.length;i++){
-            if (arguments[i].startsWith("-remove")){
-                removePlayerNameList.add(arguments[i+1]);
+        for (int i = 0; i < arguments.length; i++) {
+            if (arguments[i].startsWith("-remove")) {
+                removePlayerNameList.add(arguments[i + 1]);
             }
         }
 
         boolean checkDuplicate = checkDuplicatePlayerName(addPlayerNameList);
         boolean checkIncluded = checkPlayerNameIncluded(removePlayerNameList);
 
-        if(checkDuplicate){
+        if (checkDuplicate) {
             return "player name duplicate";
-        }else if(!checkIncluded){
+        } else if (!checkIncluded) {
             return "player name can not be found";
-        }else{
-            for(int i =0;i<arguments.length;i++){
-                if(arguments[i].startsWith("-add")){
-                    if(arguments[i+2].startsWith("human")){
-                        addPlayer(arguments[i+1],null);
-                    }else if(arguments[i+2].startsWith("aggressive")){
+        } else {
+            for (int i = 0; i < arguments.length; i++) {
+                if (arguments[i].startsWith("-add")) {
+                    if (arguments[i + 2].startsWith("human")) {
+                        addPlayer(arguments[i + 1], null);
+                    } else if (arguments[i + 2].startsWith("aggressive")) {
                         Strategy strategy = new AggressiveStrategy();
-                        addPlayer(arguments[i+1],strategy);
-                    }else if(arguments[i+2].startsWith("benevolent")){
+                        addPlayer(arguments[i + 1], strategy);
+                    } else if (arguments[i + 2].startsWith("benevolent")) {
                         Strategy strategy = new BenevolentStrategy();
-                        addPlayer(arguments[i+1],strategy);
-                    }else if(arguments[i+2].startsWith("cheater")){
+                        addPlayer(arguments[i + 1], strategy);
+                    } else if (arguments[i + 2].startsWith("cheater")) {
                         Strategy strategy = new CheaterStrategy();
-                        addPlayer(arguments[i+1],strategy);
-                    }else if(arguments[i+2].startsWith("random")){
+                        addPlayer(arguments[i + 1], strategy);
+                    } else if (arguments[i + 2].startsWith("random")) {
                         Strategy strategy = new RandomStrategy();
-                        addPlayer(arguments[i+1],strategy);
+                        addPlayer(arguments[i + 1], strategy);
                     }
-                }else if(arguments[i].startsWith("-remove")){
-                    removePlayer(arguments[i+1]);
+                } else if (arguments[i].startsWith("-remove")) {
+                    removePlayer(arguments[i + 1]);
                 }
             }
             notifyObservers(this);
@@ -131,11 +135,12 @@ public class GamePlayerService extends Observable {
 
     /**
      * check if the player names that are added are duplicated
+     *
      * @param playerNameList list
      * @return boolean
      */
-    public boolean checkDuplicatePlayerName(List<String> playerNameList){
-        if(playerNameList.size()>0) {
+    public boolean checkDuplicatePlayerName(List<String> playerNameList) {
+        if (playerNameList.size() > 0) {
             boolean flagAll = false;
 
             for (int i = 0; i < playerNameList.size(); i++) {
@@ -150,19 +155,20 @@ public class GamePlayerService extends Observable {
                 }
             }
             return flagAll;
-        }else{
+        } else {
             return false;
         }
     }
 
     /**
      * check player names that are removed can be found
+     *
      * @param playerNameList list
      * @return boolean
      */
-    public boolean checkPlayerNameIncluded(List<String> playerNameList){
+    public boolean checkPlayerNameIncluded(List<String> playerNameList) {
 
-        if(playerNameList.size()>0) {
+        if (playerNameList.size() > 0) {
             boolean flagAll = true;
             for (int i = 0; i < playerNameList.size(); i++) {
                 boolean flag = false;
@@ -176,16 +182,17 @@ public class GamePlayerService extends Observable {
                 }
             }
             return flagAll;
-        }else{
+        } else {
             return true;
         }
     }
 
     /**
      * add one player to the player list by player name
+     *
      * @param playerName string
      */
-    public void addPlayer(String playerName, Strategy strategy){
+    public void addPlayer(String playerName, Strategy strategy) {
         GamePlayer player = new GamePlayer();
         player.attach(observer);
         player.setStrategy(strategy);
@@ -197,11 +204,12 @@ public class GamePlayerService extends Observable {
 
     /**
      * remove one player from the player list by name
+     *
      * @param playerName string
      */
-    public void removePlayer(String playerName){
-        for(int i=0;i<playerList.size();i++){
-            if(playerList.get(i).getPlayerName().equals(playerName)){
+    public void removePlayer(String playerName) {
+        for (int i = 0; i < playerList.size(); i++) {
+            if (playerList.get(i).getPlayerName().equals(playerName)) {
                 playerList.remove(i);
             }
         }
@@ -210,18 +218,19 @@ public class GamePlayerService extends Observable {
 
     /**
      * populate all countries to players
+     *
      * @return string
      */
-    public String populateCountries(){
+    public String populateCountries() {
 
-        List<Country> countryList =  MapEditorService.mapGraph.getCountryList();
+        List<Country> countryList = MapEditorService.mapGraph.getCountryList();
 
         Integer playerNum = playerList.size();
-        for(int i=0;i<countryList.size();i++){
-            List<Country> playerCountryList = playerList.get(i%playerNum).getCountryList();
+        for (int i = 0; i < countryList.size(); i++) {
+            List<Country> playerCountryList = playerList.get(i % playerNum).getCountryList();
             playerCountryList.add(countryList.get(i));
-            playerList.get(i%playerNum).setCountryList(playerCountryList);
-            MapEditorService.mapGraph.getCountryList().get(i).setPlayer(playerList.get(i%playerNum));
+            playerList.get(i % playerNum).setCountryList(playerCountryList);
+            MapEditorService.mapGraph.getCountryList().get(i).setPlayer(playerList.get(i % playerNum));
         }
         notifyObservers(this);
         return "populatecountries success and ";
@@ -229,38 +238,39 @@ public class GamePlayerService extends Observable {
 
     /**
      * allocate initial armies for all players
+     *
      * @return string
      */
-    public String alloInitialArmy(){
+    public String alloInitialArmy() {
 
         boolean flag = false;
 
         Integer playerNum = playerList.size();
         Integer initialArmies = 0;
-        if(playerNum == 2){
-            initialArmies=40;
-        } else if(playerNum==3){
-            initialArmies=35;
-        } else if(playerNum==4) {
+        if (playerNum == 2) {
+            initialArmies = 40;
+        } else if (playerNum == 3) {
+            initialArmies = 35;
+        } else if (playerNum == 4) {
             initialArmies = 30;
-        } else if(playerNum==5){
-            initialArmies =25;
-        } else if(playerNum==6){
-            initialArmies=20;
-        }else{
-            initialArmies =0;
-            flag =true;
+        } else if (playerNum == 5) {
+            initialArmies = 25;
+        } else if (playerNum == 6) {
+            initialArmies = 20;
+        } else {
+            initialArmies = 0;
+            flag = true;
         }
 
-        for(GamePlayer player:playerList){
+        for (GamePlayer player : playerList) {
             player.setArmyValue(initialArmies);
         }
-        for(GamePlayer player:playerList){
-            if(player.getArmyValue()>player.getCountryList().size()){
-                player.setArmyValue((player.getArmyValue()-player.getCountryList().size()));
-                for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-                    for(int j=0;j<player.getCountryList().size();j++){
-                        if((player.getCountryList().get(j).getCountryName()).equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
+        for (GamePlayer player : playerList) {
+            if (player.getArmyValue() > player.getCountryList().size()) {
+                player.setArmyValue((player.getArmyValue() - player.getCountryList().size()));
+                for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
+                    for (int j = 0; j < player.getCountryList().size(); j++) {
+                        if ((player.getCountryList().get(j).getCountryName()).equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())) {
                             MapEditorService.mapGraph.getCountryList().get(i).setArmyValue(1);
                         }
                     }
@@ -268,10 +278,10 @@ public class GamePlayerService extends Observable {
             }
 
         }
-        if(flag){
+        if (flag) {
             return "player number wrong!";
-        }else{
-            choosePlayer=0;
+        } else {
+            choosePlayer = 0;
             notifyObservers(this);
             return "allocate initial army success";
         }
@@ -279,36 +289,38 @@ public class GamePlayerService extends Observable {
 
     /**
      * place one army from the player to a country
+     *
      * @param countryName Country Name
      * @return Message
      */
-    public String placeOneArmy(String countryName){
+    public String placeOneArmy(String countryName) {
         int flag = 0;
-        for (int j=0;j<playerList.get(choosePlayer).getCountryList().size();j++){
-            if (countryName.equals(playerList.get(choosePlayer).getCountryList().get(j).getCountryName())){
-                flag=1;
-                Integer PlayerArmyValue  = playerList.get(choosePlayer).getArmyValue();
-                if(PlayerArmyValue==0){
+        for (int j = 0; j < playerList.get(choosePlayer).getCountryList().size(); j++) {
+            if (countryName.equals(playerList.get(choosePlayer).getCountryList().get(j).getCountryName())) {
+                flag = 1;
+                Integer PlayerArmyValue = playerList.get(choosePlayer).getArmyValue();
+                if (PlayerArmyValue == 0) {
                     flag = 2;
-                }else{
-                    for(Country country:MapEditorService.mapGraph.getCountryList()){
-                        if(country.getCountryName().equals(countryName)){
-                            Integer newCountryArmyValue = country.getArmyValue()+1;
+                } else {
+                    for (Country country : MapEditorService.mapGraph.getCountryList()) {
+                        if (country.getCountryName().equals(countryName)) {
+                            Integer newCountryArmyValue = country.getArmyValue() + 1;
                             country.setArmyValue(newCountryArmyValue);
                         }
                     }
-                    Integer newPlayerArmyValue=playerList.get(choosePlayer).getArmyValue()-1;
+                    Integer newPlayerArmyValue = playerList.get(choosePlayer).getArmyValue() - 1;
                     playerList.get(choosePlayer).setArmyValue(newPlayerArmyValue);
 
                 }
             }
         }
-        if(flag==0){
+        if (flag == 0) {
             return "country name can not be found";
-        }else if(flag ==2){
+        } else if (flag == 2) {
             return "the army value of the player is not enough";
-        }else{
-            String result=changeIndexPlayer();;
+        } else {
+            String result = changeIndexPlayer();
+            ;
             notifyObservers(this);
             return result;
         }
@@ -316,6 +328,7 @@ public class GamePlayerService extends Observable {
 
     /**
      * automatically place all armies to countries
+     *
      * @return Message
      */
     public String placeAll() {
@@ -338,12 +351,12 @@ public class GamePlayerService extends Observable {
         }
         boolean flag = nextPhase();
         String result;
-        if(flag){
-            checkPhase=2;
-            choosePlayer=0;
+        if (flag) {
+            checkPhase = 2;
+            choosePlayer = 0;
             notifyObservers(this);
             result = "enter into the reinforcement phase";
-        }else{
+        } else {
             result = "place all success!";
         }
         return result;
@@ -351,12 +364,13 @@ public class GamePlayerService extends Observable {
 
     /**
      * calculate the army number at the beginning of the reinforce phase
+     *
      * @return Message
      */
-    public String calReinArmyNum(){
+    public String calReinArmyNum() {
 
         GamePlayer player = playerList.get(choosePlayer);
-        if(player.getArmyValue()==0) {
+        if (player.getArmyValue() == 0) {
             List<Country> countryList = player.getCountryList();
             Integer countryNum = (int) Math.floor(countryList.size() / 3);
 
@@ -370,26 +384,26 @@ public class GamePlayerService extends Observable {
                     }
                 }
                 if (flag) {
-                    continentNum = continentNum+continent.getArmyValue();
+                    continentNum = continentNum + continent.getArmyValue();
                 }
             }
-            Integer newPlayerArmyValue  =0;
-            if(continentNum>0){
-                newPlayerArmyValue =  player.getArmyValue()+continentNum ;
+            Integer newPlayerArmyValue = 0;
+            if (continentNum > 0) {
+                newPlayerArmyValue = player.getArmyValue() + continentNum;
                 player.setArmyValue(newPlayerArmyValue);
                 notifyObservers(this);
-                return "calculate reinforce number success: " +newPlayerArmyValue+ "\n"
+                return "calculate reinforce number success: " + newPlayerArmyValue + "\n"
                         + "continent value:" + continentNum + "\n";
-            }else{
-                newPlayerArmyValue = player.getArmyValue() + Math.max(countryNum,3);
+            } else {
+                newPlayerArmyValue = player.getArmyValue() + Math.max(countryNum, 3);
                 player.setArmyValue(newPlayerArmyValue);
                 notifyObservers(this);
-                return "calculate reinforce number success: " +newPlayerArmyValue+ "\n"
-                        + "no continent value!"+ "\n"
+                return "calculate reinforce number success: " + newPlayerArmyValue + "\n"
+                        + "no continent value!" + "\n"
                         + "country number: round down(" + countryList.size() + "\\3)=" + countryNum + "\n"
                         + "normal addition:3\n";
             }
-        }else{
+        } else {
             return "wrong syntax";
         }
     }
@@ -412,26 +426,27 @@ public class GamePlayerService extends Observable {
 
     /**
      * change the index of the player
+     *
      * @return message
      */
-    public String changeIndexPlayer(){
+    public String changeIndexPlayer() {
         String result = "place one army success";
         choosePlayer++;
-        if(choosePlayer==playerList.size()){
-            choosePlayer=0;
+        if (choosePlayer == playerList.size()) {
+            choosePlayer = 0;
         }
-        if(playerList.get(choosePlayer).getArmyValue()==0){
-            boolean flag= true;
-            for(int i=0;i<playerList.size();i++){
-                if(playerList.get(i).getArmyValue()>0){
+        if (playerList.get(choosePlayer).getArmyValue() == 0) {
+            boolean flag = true;
+            for (int i = 0; i < playerList.size(); i++) {
+                if (playerList.get(i).getArmyValue() > 0) {
                     flag = false;
                 }
             }
-            if(!flag) {
+            if (!flag) {
                 changeIndexPlayer();
-            }else{
+            } else {
                 result = "enter into the reinforcement phase";
-                choosePlayer=0;
+                choosePlayer = 0;
                 checkPhase = 2;
             }
         }
@@ -440,24 +455,26 @@ public class GamePlayerService extends Observable {
 
     /**
      * check if player should enter next phase
+     *
      * @return true or false
      */
-    public boolean nextPhase(){
+    public boolean nextPhase() {
         boolean flag = false;
-        if(playerList.get(GamePlayerService.choosePlayer).getArmyValue()==0){
-            flag=true;
+        if (playerList.get(GamePlayerService.choosePlayer).getArmyValue() == 0) {
+            flag = true;
         }
         return flag;
     }
 
     /**
      * Get player name in current phase
+     *
      * @return player name
      */
-    public String getCurrentPlayerName(){
+    public String getCurrentPlayerName() {
         GamePlayer currentGamePlayer = playerList.get(choosePlayer);
         String currentPlayerName = currentGamePlayer.getPlayerName();
-        if(choosePlayer.equals(0))
+        if (choosePlayer.equals(0))
             currentPlayerName += " (Me)";
         currentPlayerName += " " + currentGamePlayer.getStrategyName();
         return currentPlayerName;
@@ -465,6 +482,7 @@ public class GamePlayerService extends Observable {
 
     /**
      * Gey current player
+     *
      * @return current player from player list
      */
     public GamePlayer getCurrentPlayer() {
@@ -473,12 +491,23 @@ public class GamePlayerService extends Observable {
 
     /**
      * update card information for player
+     *
      * @param player player instance
      */
-    public void updateGamePlayerCard(GamePlayer player){
+    public void updateGamePlayerCard(GamePlayer player) {
         GamePlayer gamePlayer = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
         GamePlayerService.playerList.remove(gamePlayer);
         GamePlayerService.playerList.add(player);
+    }
+
+    public static GamePlayer findPlayerFromName(String name) {
+        for (GamePlayer player : playerList) {
+            if (name.equals(player.getPlayerName())) {
+                return player;
+            }
+        }
+
+        return null;
     }
 
     /**
