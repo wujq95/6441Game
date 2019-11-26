@@ -121,8 +121,6 @@ public class MapGraph extends Observable {
                 country = new Country(countryName, continentName, countryList.get(countryList.size() - 1).getId() + 1);
             }
 
-            notifyObservers(this);
-
             MapEditorService.mapGraph.countryList.add(country);
             MapEditorService.mapGraph.adjacentCountries.put(country, new HashSet<>());
             for (int i = 0; i < continentList.size(); i++) {
@@ -138,6 +136,7 @@ public class MapGraph extends Observable {
                     MapEditorService.mapGraph.getContinentList().get(i).setCountries(countryList1);
                 }
             }
+            notifyObservers(this);
             return true;
         } else {
             return false;
