@@ -99,9 +99,14 @@ public class TournamentService extends Observable {
                             break;
                         }
                     }
-                    for(int p=0;p<GamePlayerService.playerList.size();p++){
-                        result = result+"game"+index+" winner:"+GamePlayerService.playerList.get(p).getStrategyName()+"\n";
+                    if(GamePlayerService.playerList.size()==1){
+                        for(int p=0;p<GamePlayerService.playerList.size();p++){
+                            result = result+"game"+index+" result:"+GamePlayerService.playerList.get(p).getStrategyName()+"\n";
+                        }
+                    }else {
+                        result = result+"game"+index+" result:Draw\n";
                     }
+
                     for(int p=GamePlayerService.playerList.size()-1;p>=0;p--){
                         GamePlayerService.playerList.remove(p);
                     }
