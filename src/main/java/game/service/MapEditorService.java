@@ -143,14 +143,14 @@ public class MapEditorService {
         }
         String returnMsg = "";
         File mapFile = new File(fileName);
+        ReadFileFromEmptyImplement readFileFromEmptyImplement = new ReadFileFromEmptyImplement();
+        ReadFileFromExistedFileImplement readFileFromExistedFileImplement = new ReadFileFromExistedFileImplement();
 
         //if the map file exists
         if (mapFile.isFile()) {
-            ReadFileFromEmptyImplement readFileFromEmptyImplement = new ReadFileFromEmptyImplement();
-            ReadFileFromExistedFile readFileFromExistedFile = new ReadFileAdapter(readFileFromEmptyImplement);
-            readFileFromExistedFile.readFileFromExistedFile(fileName);
+            ReadFileFromEmpty readFileFromEmpty = new ReadFileAdapter(readFileFromExistedFileImplement);
+            readFileFromEmpty.readFileFromEmpty(fileName);
         } else {
-            ReadFileFromExistedFileImplement readFileFromExistedFileImplement = new ReadFileFromExistedFileImplement();
             ReadFileFromEmpty readFileFromEmpty = new ReadFileAdapter(readFileFromExistedFileImplement);
             readFileFromEmpty.readFileFromEmpty(fileName);
         }

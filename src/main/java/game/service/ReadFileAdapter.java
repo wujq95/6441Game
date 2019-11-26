@@ -14,7 +14,7 @@ public class ReadFileAdapter implements ReadFileFromEmpty, ReadFileFromExistedFi
 
     @Override
     public String readFileFromEmpty(String mapFile) {
-        return readFileFromEmpty.readFileFromEmpty(mapFile);
+        return readFileFromExistedFile.readFileFromExistedFile(mapFile);
     }
 
     @Override
