@@ -1,7 +1,14 @@
 package service;
 
+/**
+ * Read file interface
+ */
 public interface ReadFileFromEmpty {
-
-public String readFileFromEmpty(String mapFile);
+    /**
+     * interface required function
+     * @param mapFile file anme
+     * @return message
+     */
+    public String readFileFromEmpty(String mapFile);
 
 }

@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class CardService extends Observable {
     private int armyRewarded = 5;
-    private static List<Card> cardDeckList;
+    public static List<Card> cardDeckList;
     private GamePlayerService gamePlayerService = new GamePlayerService();
 
     public static HashMap<GamePlayer, Card> lastRewardedCard = new HashMap<>();

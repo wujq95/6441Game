@@ -2,7 +2,6 @@ package service;
 
 import controller.MapController;
 import model.GamePlayer;
-import strategy.CheaterStrategy;
 
 /**
  * Command Service is used to receive the input commands for player actions
@@ -40,7 +39,50 @@ public class CommandService {
         } else if (inputCommand.startsWith("savemap") && GamePlayerService.checkPhase == 0) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = mapEditorService.saveMap(arguments[1]);
-        } else if (inputCommand.startsWith("validatemap") && GamePlayerService.checkPhase == 0) {
+        } else if (inputCommand.startsWith("savegame")) {
+            String[] arguments = inputCommand.split(" ");
+            if (GamePlayerService.checkPhase == 0) {
+                SaveLoadGame saveLoadGame = new SaveLoadGameMapEditorPhase();
+                saveLoadGame.saveGame(arguments[1]);
+            }
+            if (GamePlayerService.checkPhase == 1) {
+                SaveLoadGame saveLoadGame = new SaveLoadGameStartUpPhase();
+                saveLoadGame.saveGame(arguments[1]);
+            }
+            if (GamePlayerService.checkPhase == 2) {
+                SaveLoadGame saveLoadGame = new SaveLoadGameReinforcePhase();
+                saveLoadGame.saveGame(arguments[1]);
+            }
+            if (GamePlayerService.checkPhase == 3) {
+                SaveLoadGame saveLoadGame = new SaveLoadGameAttackPhase();
+                saveLoadGame.saveGame(arguments[1]);
+            }
+            if (GamePlayerService.checkPhase == 4) {
+                SaveLoadGame saveLoadGame = new SaveLoadGameFortificationPhase();
+                saveLoadGame.saveGame(arguments[1]);
+            }
+        } else if (inputCommand.startsWith("loadgame")) {
+            String[] arguments = inputCommand.split(" ");
+            if (GamePlayerService.checkPhase == 0) {
+                SaveLoadGame saveLoadGame = new SaveLoadGameMapEditorPhase();
+                saveLoadGame.loadGame(arguments[1]);
+            }
+            if (GamePlayerService.checkPhase == 1) {
+                SaveLoadGame saveLoadGame = new SaveLoadGameStartUpPhase();
+                saveLoadGame.loadGame(arguments[1]);
+            }
+            if (GamePlayerService.checkPhase == 2) {
+                SaveLoadGame saveLoadGame = new SaveLoadGameReinforcePhase();
+                saveLoadGame.loadGame(arguments[1]);
+            }
+            if (GamePlayerService.checkPhase == 3) {
+                SaveLoadGame saveLoadGame = new SaveLoadGameAttackPhase();
+                saveLoadGame.loadGame(arguments[1]);
+            }
+            if (GamePlayerService.checkPhase == 4) {
+                SaveLoadGame saveLoadGame = new SaveLoadGameFortificationPhase();
+                saveLoadGame.loadGame(arguments[1]);
+            }        } else if (inputCommand.startsWith("validatemap") && GamePlayerService.checkPhase == 0) {
             if (!mapEditorService.validateMap()) {
                 return "the map is not valid";
             } else {
@@ -76,57 +118,57 @@ public class CommandService {
             commandReturnMsg = gamePlayerService.placeAll();
         } else if (inputCommand.startsWith("start") && GamePlayerService.checkPhase == 2) {
             GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
-            if(player.getStrategyName().equals("CheaterStrategy")){
+            if (player.getStrategyName().equals("CheaterStrategy")) {
                 player.reinforce();
                 player.attack();
                 player.fortify();
                 gamePlayerService.changPlayer();
                 attackService.checkStop();
-                if(GamePlayerService.checkPhase==5){
-                    commandReturnMsg="game stop";
-                }else{
+                if (GamePlayerService.checkPhase == 5) {
+                    commandReturnMsg = "game stop";
+                } else {
                     commandReturnMsg = "cheater strategy execution success and enter into the reinforcement phase for the next player";
                 }
-            }else if(player.getStrategyName().equals("RandomStrategy")){
+            } else if (player.getStrategyName().equals("RandomStrategy")) {
                 player.reinforce();
                 player.attack();
                 player.fortify();
                 gamePlayerService.changPlayer();
                 attackService.checkStop();
-                if(GamePlayerService.checkPhase==5){
-                    commandReturnMsg="game stop";
-                }else{
+                if (GamePlayerService.checkPhase == 5) {
+                    commandReturnMsg = "game stop";
+                } else {
                     commandReturnMsg = "random strategy execution success and enter into the reinforcement phase for the next player";
                 }
-            }else if(player.getStrategyName().equals("BenevolentStrategy")){
+            } else if (player.getStrategyName().equals("BenevolentStrategy")) {
                 player.reinforce();
                 player.attack();
                 player.fortify();
                 gamePlayerService.changPlayer();
                 attackService.checkStop();
-                if(GamePlayerService.checkPhase==5){
-                    commandReturnMsg="game stop";
-                }else{
+                if (GamePlayerService.checkPhase == 5) {
+                    commandReturnMsg = "game stop";
+                } else {
                     commandReturnMsg = "benevolent strategy execution success and enter into the reinforcement phase for the next player";
                 }
-            } else if(player.getStrategyName().equals("AggressiveStrategy")){
+            } else if (player.getStrategyName().equals("AggressiveStrategy")) {
                 player.reinforce();
                 player.attack();
                 player.fortify();
                 gamePlayerService.changPlayer();
                 attackService.checkStop();
-                if(GamePlayerService.checkPhase==5){
-                    commandReturnMsg="game stop";
-                }else{
+                if (GamePlayerService.checkPhase == 5) {
+                    commandReturnMsg = "game stop";
+                } else {
                     commandReturnMsg = "aggressiveStrategy strategy execution success and enter into the reinforcement phase for the next player";
                 }
-            }else{
+            } else {
                 commandReturnMsg = gamePlayerService.calReinArmyNum();
             }
         } else if (inputCommand.startsWith("reinforce") && GamePlayerService.checkPhase == 2) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = reinforceService.reinforce(arguments[1], arguments[2]);
-        }else if(inputCommand.startsWith("tournament")&& GamePlayerService.checkPhase == 0){
+        } else if (inputCommand.startsWith("tournament") && GamePlayerService.checkPhase == 0) {
             String[] arguments = inputCommand.split(" ");
             commandReturnMsg = tournamentService.tournament(arguments);
         } else if (inputCommand.startsWith("fortify") && GamePlayerService.checkPhase == 3) {
