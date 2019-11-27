@@ -189,7 +189,7 @@ public class GamePlayerService extends Observable {
 
     /**
      * add one player to the player list by player name
-     *
+     * @param strategy Strategy object
      * @param playerName string
      */
     public void addPlayer(String playerName, Strategy strategy) {

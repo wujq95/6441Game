@@ -243,6 +243,8 @@ public class AggressiveStrategy implements Strategy {
     /**
      * attack the neighbor of country
      * @param country country object
+     * @param countryList country list
+     * @return country list
      */
     public List<Country> attackNeighbor(Country country, List<Country> countryList){
         Integer index = -1;
