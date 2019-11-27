@@ -21,7 +21,7 @@ public class Observable {
                 observer.update(observable);
             }
         } catch (Exception e){
-            System.out.println("No observer");
+
         }
 
     }

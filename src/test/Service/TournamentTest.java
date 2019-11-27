@@ -28,11 +28,19 @@ public class TournamentTest {
 
     @Test
     public void tournamentTest(){
-        String input = "tournament -M /Users/wujiaqi/soen6441/ameroki.map -P Aggressive Benevolent Aggressive Aggressive Random Random -G 5 -D 100";
+        String input = "tournament -M /Users/wujiaqi/soen6441/eurasien.map /Users/wujiaqi/soen6441/risk2.map -P Aggressive Benevolent Aggressive Random -G 50 -D 30";
         String results = tournamentService.tournament(input.split(" "));
-       // String[] resultList = results.split("\n");
-       // Assert.assertEquals(resultList.length,500);
-        String aggResult = "";
+        String[] resultList = results.split("\n");
+        Assert.assertEquals(resultList.length,101);
+        for(int j=1;j<resultList.length;j++){
+           String result = resultList[j];
+           String[] oneResultList = result.split(" ");
+           String oneResult  = oneResultList[3];
+           boolean flag = true;
+           if(!(oneResult.equals("Draw")||oneResult.equals("AggressiveStrategy")||oneResult.equals("RandomStrategy")||oneResult.equals("BenevolentStrategy")||oneResult.equals("CheaterStrategy"))){
+               flag = false;
+           }
+           Assert.assertEquals(flag,true);
+        }
     }
-
 }
