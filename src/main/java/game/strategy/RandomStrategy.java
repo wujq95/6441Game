@@ -43,7 +43,7 @@ public class RandomStrategy implements Strategy{
             }
         }
 
-        Integer attackTimes = (int)(Math.random()*(MapEditorService.mapGraph.getCountryList().get(index2).getArmyValue()-1))+1;
+        Integer attackTimes = (int)(Math.random()*(MapEditorService.mapGraph.getCountryList().get(index2).getArmyValue()-1));
         for(int i=0;i<attackTimes;i++){
             if(MapEditorService.mapGraph.getCountryList().get(enemyIndex).getArmyValue()>0){
                 AttackService.fromDiceNum = attackService.fromCountryMaxdice(MapEditorService.mapGraph.getCountryList().get(index2).getArmyValue());
@@ -110,7 +110,7 @@ public class RandomStrategy implements Strategy{
         if(flag!=-1){
             Country toCountry  =MapEditorService.mapGraph.getCountryList().get(flag);
             Integer fromCountryArmyValue = MapEditorService.mapGraph.getCountryList().get(fromIndex).getArmyValue();
-            Integer armyValueMovement = (int)(Math.random()*(fromCountryArmyValue-1))+1;
+            Integer armyValueMovement = (int)(Math.random()*(fromCountryArmyValue-1));
             MapEditorService.mapGraph.getCountryList().get(fromIndex).setArmyValue(fromCountry.getArmyValue()-armyValueMovement);
             MapEditorService.mapGraph.getCountryList().get(flag).setArmyValue(toCountry.getArmyValue()+armyValueMovement);
 
