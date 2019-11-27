@@ -1,5 +1,6 @@
 package strategy;
 
+import javafx.scene.shape.MoveToBuilder;
 import model.Country;
 import model.GamePlayer;
 import service.AttackService;
@@ -72,9 +73,16 @@ public class AggressiveStrategy implements Strategy {
 
     @Override
     public void reinforce() {
-        countryFlag=0;
-        gamePlayerService.calReinArmyNum();
+        countryFlag=-1;
         GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
+        while(countryFlag==-1){
+            Integer k = (int)Math.random()*(MapEditorService.mapGraph.getCountryList().size());
+            if(MapEditorService.mapGraph.getCountryList().get(k).getPlayer().getPlayerName().equals(player.getPlayerName())){
+                countryFlag = k;
+            }
+        }
+        gamePlayerService.calReinArmyNum();
+
         Integer armyValue = player.getArmyValue();
         Integer armyFlag = MapEditorService.mapGraph.getCountryList().get(0).getArmyValue();
 
