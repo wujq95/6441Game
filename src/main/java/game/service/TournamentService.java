@@ -12,9 +12,6 @@ import java.util.List;
  * tournament service
  */
 public class TournamentService extends Observable {
-    //check if command is right
-    //check String and number are right
-    //检查策略种类个数符合要求,策略拼写正确
 
 
     private Observer observer;
