@@ -75,7 +75,7 @@ public class GamePlayerService extends Observable {
     }
 
     /**
-     * add players to the playerlist and remove players from the playerlist
+     * add players to the player list and remove players from the playerlist
      *
      * @param arguments string
      * @return Message
@@ -320,7 +320,7 @@ public class GamePlayerService extends Observable {
             return "the army value of the player is not enough";
         } else {
             String result = changeIndexPlayer();
-            ;
+
             notifyObservers(this);
             return result;
         }

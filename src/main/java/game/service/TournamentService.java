@@ -8,6 +8,9 @@ import strategy.*;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * tournament service
+ */
 public class TournamentService extends Observable {
     //check if command is right
     //check String and number are right
@@ -16,12 +19,24 @@ public class TournamentService extends Observable {
 
     private Observer observer;
 
+    /**
+     * set Observer
+     * @param obs observer object
+     */
     public void setObserver(Observer obs) {
         observer = obs;
     }
 
+    /**
+     * initial map editor service object
+     */
     MapEditorService mapEditorService = new MapEditorService();
 
+    /**
+     * tournament mode
+     * @param arguments player list
+     * @return result
+     */
     public String tournament(String[] arguments){
         List<String> mapFileList = new LinkedList<>();
         List<String> playerStrategyList = new LinkedList<>();

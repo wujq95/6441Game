@@ -13,8 +13,15 @@ import java.util.*;
 import static service.MapEditorService.findCountryByName;
 import static service.MapEditorService.validateMap;
 
+/**
+ * read file from existed file implementation
+ */
 public class ReadFileFromExistedFileImplement implements ReadFileFromExistedFile {
-
+    /**
+     * read existed file
+     * @param mapFile file name
+     * @return return message
+     */
     @Override
     public String readFileFromExistedFile(String mapFile) {
         String returnMsg = "";

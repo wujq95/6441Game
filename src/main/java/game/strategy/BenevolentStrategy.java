@@ -10,16 +10,27 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Benevolent Strategy
+ */
 public class BenevolentStrategy implements Strategy {
-
+    /**
+     * initial object and variable
+     */
     RandomStrategy randomStrategy = new RandomStrategy();
     Integer fromIndex = 0;
     Integer toIndex = 0;
 
+    /**
+     * attack method
+     */
     @Override
     public void attack() {
     }
 
+    /**
+     * reinforce method
+     */
     @Override
     public void reinforce() {
         GamePlayerService gamePlayerService = new GamePlayerService();
@@ -34,6 +45,9 @@ public class BenevolentStrategy implements Strategy {
         GamePlayerService.playerList.get(GamePlayerService.choosePlayer).setArmyValue(0);
     }
 
+    /**
+     * fortification method
+     */
     @Override
     public void fortify() {
         GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
@@ -127,7 +141,7 @@ public class BenevolentStrategy implements Strategy {
 
     /**
      * look for the country which has the least army value
-     * @return
+     * @return country element of index
      */
     public Integer checkWeakestCountry(List<Country> countryList){
         GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
@@ -144,6 +158,12 @@ public class BenevolentStrategy implements Strategy {
         return countryFlag;
     }
 
+    /**
+     * remove country list
+     * @param countryList country list
+     * @param index integer number
+     * @return new country list
+     */
     public List<Country> removeList(List<Country> countryList,Integer index){
         List<Country> countryList1 = new LinkedList<>();
         for(int i=0;i<countryList.size();i++){

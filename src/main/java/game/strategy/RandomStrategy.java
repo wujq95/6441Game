@@ -8,9 +8,18 @@ import service.MapEditorService;
 
 import java.util.*;
 
+/**
+ * Random Strategy Class
+ */
 public class RandomStrategy implements Strategy{
-
+    /**
+     * Initial cheater Strategy
+     */
     CheaterStrategy cheaterStrategy = new CheaterStrategy();
+
+    /**
+     * Attack Method
+     */
     @Override
     public void attack() {
         GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
@@ -65,6 +74,9 @@ public class RandomStrategy implements Strategy{
         }
     }
 
+    /**
+     * Reinforce Method
+     */
     @Override
     public void reinforce() {
         GamePlayerService gamePlayerService = new GamePlayerService();
@@ -81,6 +93,9 @@ public class RandomStrategy implements Strategy{
         GamePlayerService.playerList.get(GamePlayerService.choosePlayer).setArmyValue(0);
     }
 
+    /**
+     * Fortify Method
+     */
     @Override
     public void fortify() {
         Integer flag = -1;
@@ -123,8 +138,8 @@ public class RandomStrategy implements Strategy{
 
     /**
      * find the index of enemy country
-     * @param country
-     * @return
+     * @param country country object
+     * @return integer
      */
     public Integer findFriend(Country country){
         Integer flag = -1;
@@ -153,8 +168,8 @@ public class RandomStrategy implements Strategy{
 
     /**
      * find the index of enemy country
-     * @param country
-     * @return
+     * @param country country object
+     * @return integer
      */
     public Integer findEnemy(Country country){
         Integer flag = -1;

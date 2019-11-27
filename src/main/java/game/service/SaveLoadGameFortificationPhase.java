@@ -10,7 +10,15 @@ import java.util.*;
 
 import static service.MapEditorService.*;
 
+/**
+ * save and load game during fortification phase
+ */
 public class SaveLoadGameFortificationPhase extends SaveLoadGame {
+    /**
+     * save game
+     * @param fileName file name
+     * @return message
+     */
     @Override
     String saveGame(String fileName) {
         fileName = fileName.trim();
@@ -145,6 +153,11 @@ public class SaveLoadGameFortificationPhase extends SaveLoadGame {
         return returnMsg;
     }
 
+    /**
+     * load game
+     * @param fileName file name
+     * @return message
+     */
     @Override
     public String loadGame(String fileName) {
         if (fileName.endsWith("\n")) {
