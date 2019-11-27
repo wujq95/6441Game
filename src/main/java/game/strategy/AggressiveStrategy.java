@@ -76,7 +76,7 @@ public class AggressiveStrategy implements Strategy {
         countryFlag=-1;
         GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
         while(countryFlag==-1){
-            Integer k = (int)Math.random()*(MapEditorService.mapGraph.getCountryList().size());
+            Integer k = (int)(Math.random()*(MapEditorService.mapGraph.getCountryList().size()));
             if(MapEditorService.mapGraph.getCountryList().get(k).getPlayer().getPlayerName().equals(player.getPlayerName())){
                 countryFlag = k;
             }
