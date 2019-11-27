@@ -110,32 +110,6 @@ public class BenevolentStrategy implements Strategy {
             MapEditorService.mapGraph.getCountryList().get(fromIndex).setArmyValue(1);
             MapEditorService.mapGraph.getCountryList().get(enemyIndex).setArmyValue(oldFromArmyValue-1+oldToArmyValue);
         }
-        /*Integer flag =-1;
-        Integer index =-1;
-        GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
-        List<Country> countryList = player.getCountryList();
-        for(int i=0;i<countryList.size();i++){
-            Country country = countryList.get(i);
-            flag = randomStrategy.findFriend(country);
-            if(flag!=-1){
-                fromIndex = flag;
-                index = i;
-                break;
-            }
-        }
-        if(flag!=-1){
-            Country country  =player.getCountryList().get(index);
-            for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-                if(country.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
-                    toIndex = i;
-                }
-            }
-            Integer formArmyValue = MapEditorService.mapGraph.getCountryList().get(fromIndex).getArmyValue();
-            Integer toArmyValue = MapEditorService.mapGraph.getCountryList().get(toIndex).getArmyValue();
-            Integer armyMovement = formArmyValue-(toArmyValue+formArmyValue)/2;
-            MapEditorService.mapGraph.getCountryList().get(fromIndex).setArmyValue(formArmyValue-armyMovement);
-            MapEditorService.mapGraph.getCountryList().get(toIndex).setArmyValue(toArmyValue+armyMovement);
-        }*/
     }
 
 

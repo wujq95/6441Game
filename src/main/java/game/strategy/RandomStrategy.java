@@ -195,5 +195,4 @@ public class RandomStrategy implements Strategy{
         }
         return  flag;
     }
-
 }

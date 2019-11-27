@@ -141,8 +141,5 @@ public class CheaterStrategy implements Strategy{
                 GamePlayerService.playerList.get(index).getCountryList().remove(i);
             }
         }
-
     }
-
-
 }
