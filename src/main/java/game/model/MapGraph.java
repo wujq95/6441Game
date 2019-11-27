@@ -121,8 +121,6 @@ public class MapGraph extends Observable {
                 country = new Country(countryName, continentName, countryList.get(countryList.size() - 1).getId() + 1);
             }
 
-
-
             MapEditorService.mapGraph.countryList.add(country);
             MapEditorService.mapGraph.adjacentCountries.put(country, new HashSet<>());
             for (int i = 0; i < continentList.size(); i++) {

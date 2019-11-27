@@ -22,6 +22,7 @@ public class TournamentTest {
     public void initial(){
         tournamentService = new TournamentService();
         mapEditorService = new MapEditorService();
+        mapEditorService.editMap("ameroki.map");
 
     }
 
