@@ -14,32 +14,45 @@ public class GamePlayer extends Observable {
 
     private Strategy strategy;
 
+    /**
+     * set the strategy to be used by the player
+     * @param strategy
+     */
     public void setStrategy(Strategy strategy){
         this.strategy = strategy;
     }
 
+    /**
+     * get the name of the player's strategy
+     * @return
+     */
     public String getStrategyName() {
         String strategyName = "HumanStrategy";
-//        if(strategy != null){
-//            strategyName = strategy.getClass().getSimpleName();
-//        }
-//        return strategyName.substring(0, strategyName.length() - 8);
         if(strategy != null){
             strategyName = strategy.getClass().getSimpleName();
         }
         return strategyName;
     }
 
+    /**
+     * the player takes the attacking action
+     */
     public void attack(){
         this.strategy.attack();
         notifyObservers(this);
     }
 
+    /**
+     * the player takes the reinforcement action
+     */
     public void reinforce(){
         this.strategy.reinforce();
         notifyObservers(this);
     }
 
+    /**
+     * the player takes the fortification action
+     */
     public void fortify(){
         this.strategy.fortify();
         notifyObservers(this);
