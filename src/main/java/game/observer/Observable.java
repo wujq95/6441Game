@@ -16,8 +16,13 @@ public class Observable {
     }
 
     public void notifyObservers(Observable observable){
-        for(Observer observer: observersList){
-            observer.update(observable);
+        try{
+            for(Observer observer: observersList){
+                observer.update(observable);
+            }
+        } catch (Exception e){
+            System.out.println("No observer");
         }
+
     }
 }
