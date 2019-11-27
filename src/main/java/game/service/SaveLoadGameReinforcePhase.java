@@ -11,7 +11,7 @@ import static service.MapEditorService.*;
 
 public class SaveLoadGameReinforcePhase extends SaveLoadGame {
     @Override
-    String saveGame(String fileName) {
+    public String saveGame(String fileName) {
         fileName = fileName.trim();
         if (!validateMap()) {
             return "the map is not valid";

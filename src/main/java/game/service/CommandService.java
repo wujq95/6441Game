@@ -83,7 +83,7 @@ public class CommandService {
                 SaveLoadGame saveLoadGame = new SaveLoadGameFortificationPhase();
                 saveLoadGame.loadGame(arguments[1]);
             }        } else if (inputCommand.startsWith("validatemap") && GamePlayerService.checkPhase == 0) {
-            if (!mapEditorService.validateMap()) {
+            if (!MapEditorService.validateMap()) {
                 return "the map is not valid";
             } else {
                 return "the map is valid";

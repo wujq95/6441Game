@@ -1,15 +1,12 @@
-package Service;
+package service;
 
 import model.Continent;
 import model.Country;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import service.GamePlayerService;
-import service.MapEditorService;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.*;
 
 public class MapEditorServiceTest {

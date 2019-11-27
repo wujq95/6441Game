@@ -27,9 +27,9 @@ public abstract class SaveLoadGame {
         gamePlayerService = new GamePlayerService();
     }
 
-    abstract String saveGame(String fileName);
+    public abstract String saveGame(String fileName);
 
-    abstract String loadGame(String fileName);
+    public abstract String loadGame(String fileName);
 
     public List<Integer> StringArrayToIntList(String[] strs) {
         List<Integer> intList = new LinkedList<>();
@@ -67,5 +67,23 @@ public abstract class SaveLoadGame {
         }
 
         return null;
+    }
+
+    public List<String> getCardStringList(List<Card> cardList) {
+        List<String> list = new LinkedList<>();
+        for (Card card : cardList) {
+            list.add(card.name());
+        }
+
+        return list;
+    }
+
+    public List<String> convertIntegerListToStringList(List<Integer> integerList) {
+        List<String> list = new LinkedList<>();
+        for (Integer i: integerList) {
+            list.add(i.toString());
+        }
+
+        return list;
     }
 }

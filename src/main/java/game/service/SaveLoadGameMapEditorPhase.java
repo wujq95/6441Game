@@ -12,7 +12,7 @@ import static service.MapEditorService.*;
 
 public class SaveLoadGameMapEditorPhase extends SaveLoadGame {
     @Override
-    String loadGame(String fileName) {
+    public String loadGame(String fileName) {
         if (fileName.endsWith("\n")) {
             fileName = fileName.trim();
         }

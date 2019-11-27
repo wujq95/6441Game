@@ -11,7 +11,7 @@ import static service.MapEditorService.*;
 
 public class SaveLoadGameAttackPhase extends SaveLoadGame {
     @Override
-    String saveGame(String fileName) {
+    public String saveGame(String fileName) {
         fileName = fileName.trim();
         if (!validateMap()) {
             return "the map is not valid";
@@ -77,12 +77,12 @@ public class SaveLoadGameAttackPhase extends SaveLoadGame {
 
         for (GamePlayer player : GamePlayerService.playerList) {
             lines.add(player.getPlayerName() + " " + StringUtils.join(player.getCountryNameList(), ",") + " " + player.getArmyValue() + " " + StringUtils.join(player.getControlledContinent(), ",")
-                    + " " + player.getStrategyName() + " " + StringUtils.join(player.getCardList(), ","));
+                    + " " + player.getStrategyName() + " " + StringUtils.join(getCardStringList(player.getCardList()), ","));
         }
         lines.add(GamePlayerService.choosePlayer.toString());
 
         lines.add("\n[cards]");
-        lines.add(StringUtils.join(CardService.cardDeckList, ","));
+        lines.add(StringUtils.join(getCardStringList(CardService.cardDeckList), ","));
         lines.add(String.valueOf(CardService.notExchangeCards));
         File mapFile = new File(fileName);
 
@@ -91,8 +91,8 @@ public class SaveLoadGameAttackPhase extends SaveLoadGame {
         lines.add(AttackService.toCountry);
         lines.add(AttackService.fromDiceNum.toString());
         lines.add(AttackService.toDiceNum.toString());
-        lines.add(StringUtils.join(AttackService.fromDiceResultList, ","));
-        lines.add(StringUtils.join(AttackService.toDiceResultList, ","));
+        lines.add(StringUtils.join(convertIntegerListToStringList(AttackService.fromDiceResultList), ","));
+        lines.add(StringUtils.join(convertIntegerListToStringList(AttackService.toDiceResultList), ","));
         lines.add(String.valueOf(AttackService.conqueredAll));
         lines.add(String.valueOf(AttackService.ConqueredAtleastOneIntheturn));
 
@@ -262,8 +262,7 @@ public class SaveLoadGameAttackPhase extends SaveLoadGame {
                         }
 
                     }
-                    String choosePlayer = br.readLine();
-                    GamePlayerService.choosePlayer = Integer.parseInt(choosePlayer);
+
                     if (line.contains("cards")) {
                         String cardLine = "";
                         try {
