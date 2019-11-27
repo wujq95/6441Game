@@ -26,6 +26,9 @@ public class TournamentTest {
 
     }
 
+    /**
+     *tournament mode test
+     */
     @Test
     public void tournamentTest(){
         String input = "tournament -M /Users/wujiaqi/soen6441/eurasien.map /Users/wujiaqi/soen6441/risk2.map -P Aggressive Benevolent Aggressive Random -G 50 -D 30";
