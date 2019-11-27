@@ -474,7 +474,7 @@ public class MapController{
 
             this.tournamentService = tournamentService;
             this.tournamentService.setObserver(this);
-            //this.tournamentService.attach(this);
+            this.tournamentService.attach(this);
 
         }
 

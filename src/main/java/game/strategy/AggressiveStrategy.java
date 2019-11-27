@@ -48,13 +48,6 @@ public class AggressiveStrategy implements Strategy {
                 if(country.getArmyValue()>1){
                     index = i;
                 }
-                /*for(int j=0;j<MapEditorService.mapGraph.getCountryList().size();j++){
-                    if(country.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(j).getCountryName())){
-                        if(MapEditorService.mapGraph.getCountryList().get(j).getArmyValue()>1){
-                            index = i;
-                        }
-                    }
-                }*/
             }
             if(index==-1){
                 flag=false;
@@ -65,13 +58,6 @@ public class AggressiveStrategy implements Strategy {
                     if(country.getArmyValue()>1){
                         flag2=false;
                     }
-                    /*for(int j=0;j<MapEditorService.mapGraph.getCountryList().size();j++){
-                        if(country.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(j).getCountryName())){
-                            if(MapEditorService.mapGraph.getCountryList().get(j).getArmyValue()>1){
-                                flag2 = false;
-                            }
-                        }
-                    }*/
                 }
                 if(flag2){
                     flag = false;
@@ -176,35 +162,6 @@ public class AggressiveStrategy implements Strategy {
             MapEditorService.mapGraph.getCountryList().get(fromIndex).setArmyValue(1);
             MapEditorService.mapGraph.getCountryList().get(enemyIndex).setArmyValue(oldFromArmyValue-1+oldToArmyValue);
         }
-        /*Integer fromCountryIndex = 0;
-        Integer toCountryIndex = 0;
-        Integer maxArmyValue = 0;
-        GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
-        for(int i=0;i<player.getCountryList().size();i++){
-            for(int j=0;j<MapEditorService.mapGraph.getCountryList().size();j++){
-                if(player.getCountryList().get(i).getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(j).getCountryName())){
-                    Set<Country> countrySet = MapEditorService.mapGraph.getCountryList().get(j).getNeighbours();
-                    Iterator it  = countrySet.iterator();
-                    while (it.hasNext()){
-                        Country countryNeighbor = (Country) it.next();
-                        if(countryNeighbor.getPlayer().getPlayerName().equals(player.getPlayerName())){
-                            Integer fromCountryValue = MapEditorService.mapGraph.getCountryList().get(j).getArmyValue();
-                            Integer toCountryValue = countryNeighbor.getArmyValue();
-                            if((fromCountryValue+toCountryValue)>maxArmyValue){
-                                maxArmyValue = fromCountryValue+toCountryValue;
-                                fromCountryIndex = j;
-                                for(int t=0;t<MapEditorService.mapGraph.getCountryList().size();t++){
-                                    if(countryNeighbor.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(t).getCountryName())){
-                                        toCountryIndex = t;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        fortifyArmy(fromCountryIndex,toCountryIndex);*/
     }
 
     /**
