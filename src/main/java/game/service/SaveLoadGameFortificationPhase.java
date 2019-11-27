@@ -3,6 +3,7 @@ package service;
 import com.sun.deploy.util.StringUtils;
 import javafx.scene.paint.Color;
 import model.*;
+import strategy.Strategy;
 
 import java.io.*;
 import java.util.*;
@@ -10,9 +11,9 @@ import java.util.*;
 import static service.MapEditorService.*;
 
 /**
- * Save load game during reinforce phase
+ * save and load game during fortification phase
  */
-public class SaveLoadGameReinforcePhase extends SaveLoadGame {
+public class SaveLoadGameFortificationPhase extends SaveLoadGame {
     /**
      * save game
      * @param fileName file name
@@ -374,3 +375,4 @@ public class SaveLoadGameReinforcePhase extends SaveLoadGame {
         return returnMsg;
     }
 }
+

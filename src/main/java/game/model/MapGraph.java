@@ -338,7 +338,7 @@ public class MapGraph extends Observable {
     /**
      * delete country from adjacentcountryList and connectionlist
      *
-     * @param country
+     * @param country Country Object
      */
     private void deleteCountryfromAdjacentCountries(Country country) {
         MapEditorService.mapGraph.adjacentCountries.remove(country);

@@ -8,7 +8,18 @@ import service.MapEditorService;
 
 import java.util.*;
 
+/**
+ * Random Strategy Class
+ */
 public class RandomStrategy implements Strategy{
+    /**
+     * Initial cheater Strategy
+     */
+    CheaterStrategy cheaterStrategy = new CheaterStrategy();
+
+    /**
+     * Attack Method
+     */
     @Override
     public void attack() {
         GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
@@ -41,7 +52,7 @@ public class RandomStrategy implements Strategy{
             }
         }
 
-        Integer attackTimes = (int)(Math.random()*(MapEditorService.mapGraph.getCountryList().get(index2).getArmyValue()-1))+1;
+        Integer attackTimes = (int)(Math.random()*(MapEditorService.mapGraph.getCountryList().get(index2).getArmyValue()-1));
         for(int i=0;i<attackTimes;i++){
             if(MapEditorService.mapGraph.getCountryList().get(enemyIndex).getArmyValue()>0){
                 AttackService.fromDiceNum = attackService.fromCountryMaxdice(MapEditorService.mapGraph.getCountryList().get(index2).getArmyValue());
@@ -51,7 +62,10 @@ public class RandomStrategy implements Strategy{
                 attackService.attackProcess();
                 boolean flag = attackService.checkConquered();
                 if(flag){
-                    aggressiveStrategy.moveArmy(1,MapEditorService.mapGraph.getCountryList().get(index).getCountryName(),MapEditorService.mapGraph.getCountryList().get(enemyIndex).getCountryName());
+                    cheaterStrategy.removeCountryFromPlayer(MapEditorService.mapGraph.getCountryList().get(enemyIndex));
+                    MapEditorService.mapGraph.getCountryList().get(enemyIndex).setPlayer(player);
+                    GamePlayerService.playerList.get(GamePlayerService.choosePlayer).getCountryList().add(MapEditorService.mapGraph.getCountryList().get(enemyIndex));
+                    aggressiveStrategy.moveArmy(1,MapEditorService.mapGraph.getCountryList().get(index2).getCountryName(),MapEditorService.mapGraph.getCountryList().get(enemyIndex).getCountryName());
                     attackService.dealControllContinent();
                     attackService.deletePlayer();
                     break;
@@ -60,6 +74,9 @@ public class RandomStrategy implements Strategy{
         }
     }
 
+    /**
+     * Reinforce Method
+     */
     @Override
     public void reinforce() {
         GamePlayerService gamePlayerService = new GamePlayerService();
@@ -76,6 +93,9 @@ public class RandomStrategy implements Strategy{
         GamePlayerService.playerList.get(GamePlayerService.choosePlayer).setArmyValue(0);
     }
 
+    /**
+     * Fortify Method
+     */
     @Override
     public void fortify() {
         Integer flag = -1;
@@ -105,7 +125,7 @@ public class RandomStrategy implements Strategy{
         if(flag!=-1){
             Country toCountry  =MapEditorService.mapGraph.getCountryList().get(flag);
             Integer fromCountryArmyValue = MapEditorService.mapGraph.getCountryList().get(fromIndex).getArmyValue();
-            Integer armyValueMovement = (int)(Math.random()*(fromCountryArmyValue-1))+1;
+            Integer armyValueMovement = (int)(Math.random()*(fromCountryArmyValue-1));
             MapEditorService.mapGraph.getCountryList().get(fromIndex).setArmyValue(fromCountry.getArmyValue()-armyValueMovement);
             MapEditorService.mapGraph.getCountryList().get(flag).setArmyValue(toCountry.getArmyValue()+armyValueMovement);
 
@@ -118,8 +138,8 @@ public class RandomStrategy implements Strategy{
 
     /**
      * find the index of enemy country
-     * @param country
-     * @return
+     * @param country country object
+     * @return integer
      */
     public Integer findFriend(Country country){
         Integer flag = -1;
@@ -148,8 +168,8 @@ public class RandomStrategy implements Strategy{
 
     /**
      * find the index of enemy country
-     * @param country
-     * @return
+     * @param country country object
+     * @return integer
      */
     public Integer findEnemy(Country country){
         Integer flag = -1;
