@@ -9,8 +9,13 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Attack Service Test
+ */
 public class AttackServiceTest {
-
+    /**
+     * Initial Required Object
+     */
     private AttackService attackService;
     private MapEditorService mapEditorService;
 
@@ -267,8 +272,8 @@ public class AttackServiceTest {
     }
 
 
-    /*
-    delete one army test
+    /**
+     * Test - Delete Army from Player in Map View
      */
     @Test
     public void deleteArmyTest(){
@@ -324,6 +329,9 @@ public class AttackServiceTest {
         Assert.assertEquals(MapEditorService.mapGraph.getCountryList().get(1).getArmyValue().toString(),"2");
     }
 
+    /**
+     * Test - Delete player from player List
+     */
     @Test
     public void deletePlayerTest(){
         GamePlayer player1 = new GamePlayer();
@@ -379,6 +387,9 @@ public class AttackServiceTest {
         Assert.assertEquals(GamePlayerService.playerList.size(),2);
     }
 
+    /**
+     * Test - Conquered Test
+     */
     @Test
     public  void conquerTest(){
 
@@ -430,12 +441,19 @@ public class AttackServiceTest {
         Assert.assertEquals(attackService.checkConquered(),true);
     }
 
+    /**
+     * Test - Valid Dice Number Test
+     */
     @Test
     public void diceNumberIntegerTest(){
         String input = "attack Alaska North-West-Territory 1.5";
         String result = attackService.attack(input.split(" "));
         Assert.assertEquals(result,"Dice Number must be an integer");
     }
+
+    /**
+     * Test - Positive Dice number
+     */
     @Test
     public void diceNumberPositiveTest(){
         String input = "attack Alaska North-West-Territory -10";
@@ -446,6 +464,9 @@ public class AttackServiceTest {
         Assert.assertEquals(result2,"Dice Number can not be negative or zero");
     }
 
+    /**
+     * Test - From Country name
+     */
     @Test
     public void fromCountryNameTest(){
         GamePlayer player1 = new GamePlayer();
@@ -487,6 +508,9 @@ public class AttackServiceTest {
         Assert.assertEquals(result,"from country name can not be found");
     }
 
+    /**
+     * Test - Attack Target Country Test
+     */
     @Test
     public void toCountryNameTest(){
         GamePlayer player1 = new GamePlayer();
@@ -528,6 +552,9 @@ public class AttackServiceTest {
         Assert.assertEquals(result,"to country name can not be found");
     }
 
+    /**
+     * Test - Check Current Player from Country function
+     */
     @Test
     public void checkFromRealTimePlayerTest(){
         GamePlayer player1 = new GamePlayer();
@@ -572,6 +599,9 @@ public class AttackServiceTest {
         Assert.assertEquals(result,"from country must be from the real time player");
     }
 
+    /**
+     * Test - Check current Player To Country function
+     */
     @Test
     public void checkToRealTimePlayerTest(){
         GamePlayer player1 = new GamePlayer();
@@ -616,6 +646,9 @@ public class AttackServiceTest {
         Assert.assertEquals(result,"from country and to country can not from the same player");
     }
 
+    /**
+     * Test - Check connected country
+     */
     @Test
     public void checkConnectedTest(){
         GamePlayer player1 = new GamePlayer();
@@ -660,6 +693,9 @@ public class AttackServiceTest {
         Assert.assertEquals(result,"from country and to country must be connected");
     }
 
+    /**
+     * Test - End Game function
+     */
     @Test
     public void endOfGameTest(){
         GamePlayer player1 = new GamePlayer();

@@ -8,9 +8,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Save and Load Game Test
+ */
 public class SaveLoadGameTest {
     private MapEditorService mapEditorService;
 
@@ -22,6 +26,9 @@ public class SaveLoadGameTest {
         mapEditorService = new MapEditorService();
     }
 
+    /**
+     * Test - Save Game function
+     */
     @Test
     public void testSaveLoadGame() {
         String fileName = "/Applications/Domination/maps/risk.map";
@@ -86,15 +93,26 @@ public class SaveLoadGameTest {
         arrayList2.add(5);
         AttackService.fromDiceResultList = arrayList1;
         AttackService.toDiceResultList = arrayList2;
+        HashMap<GamePlayer, Card> hashMap1 = new HashMap<>();
+        hashMap1.put(a, Card.infantry);
+        CardService.lastRewardedCard = hashMap1;
 
-        saveLoadGame.saveGame("newfile.map");
+        HashMap<GamePlayer, List<Card>> hashMap2 = new HashMap<>();
+        hashMap2.put(a, cardList);
+        CardService.rewardedCardsAfterDefeatAnotherPlayer = hashMap2;
+
+        String returnMsg = saveLoadGame.saveGame("testsavegame3.map");
+        returnMsg.equals("saveGame success");
     }
 
+    /**
+     * Test - Load Game Function
+     */
     @Test
     public void testLoadGame() {
         SaveLoadGame saveLoadGame = new SaveLoadGameAttackPhase();
 
-        saveLoadGame.loadGame("newfile.map");
+        saveLoadGame.loadGame("testsavegame3.map");
         Assert.assertEquals(GamePlayerService.checkPhase, 3);
         Assert.assertEquals(GamePlayerService.choosePlayer.longValue(), 0L);
 
@@ -102,6 +120,6 @@ public class SaveLoadGameTest {
         Assert.assertEquals(AttackService.fromDiceNum.longValue(), 3L);
         Assert.assertEquals(AttackService.toDiceNum.longValue(), 2L);
         Assert.assertEquals(AttackService.fromCountry, "blue");
-        Assert.assertEquals(AttackService.toCountry,"red");
+        Assert.assertEquals(AttackService.toCountry, "red");
     }
 }

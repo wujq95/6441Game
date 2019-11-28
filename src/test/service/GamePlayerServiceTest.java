@@ -9,8 +9,13 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Game Player Service Test
+ */
 public class GamePlayerServiceTest {
-
+    /**
+     * Initial required service object
+     */
     private MapEditorService mapEditorService;
     private GamePlayerService gamePlayerService;
 

@@ -9,6 +9,9 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Reinforce Service Test
+ */
 public class ReinforceServiceTest {
 
     private MapEditorService mapEditorService;
@@ -75,6 +78,9 @@ public class ReinforceServiceTest {
 
     }
 
+    /**
+     * Test - Reinforce Phase
+     */
     @Test
     public void reinforcePhaseTest(){
 
