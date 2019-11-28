@@ -81,25 +81,25 @@ public class SaveLoadGameReinforcePhase extends SaveLoadGame {
 
         lines.add("\n[phase]");
         lines.add(String.valueOf(GamePlayerService.checkPhase));
+        lines.add(GamePlayerService.choosePlayer.toString());
 
         lines.add("\n[players]");
 
         for (GamePlayer player : GamePlayerService.playerList) {
-            lines.add("\n[playername]");
+            lines.add("[playername]");
             lines.add(player.getPlayerName());
-            lines.add("\n[countryname]");
+            lines.add("[countryname]");
             lines.add(StringUtils.join(player.getCountryNameList(), ","));
-            lines.add("\n[armyvalue]");
+            lines.add("[armyvalue]");
             lines.add(player.getArmyValue().toString());
-            lines.add("\n[controlledcontinent]");
+            lines.add("[controlledcontinent]");
             lines.add(StringUtils.join(player.getControlledContinent(), ","));
-
-            lines.add("\n[strategyname]");
+            lines.add("[strategyname]");
             lines.add(player.getStrategyName());
-            lines.add("\n[cardlist]");
-            lines.add(StringUtils.join(getCardStringList(player.getCardList()), ","));
+            lines.add("[cardlist]");
+            lines.add(StringUtils.join(getCardStringList(player.getCardList()), ",") + "\n");
         }
-        lines.add(GamePlayerService.choosePlayer.toString());
+        lines.add("[end]");
 
         lines.add("\n[cards]");
         lines.add(StringUtils.join(getCardStringList(CardService.cardDeckList), ","));
@@ -260,6 +260,7 @@ public class SaveLoadGameReinforcePhase extends SaveLoadGame {
                         try {
                             phaseLine = br.readLine();
                             GamePlayerService.checkPhase = Integer.parseInt(phaseLine);
+                            GamePlayerService.choosePlayer = Integer.parseInt(br.readLine());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -269,33 +270,42 @@ public class SaveLoadGameReinforcePhase extends SaveLoadGame {
                     if (line.contains("players")) {
                         String playersLine = "";
                         try {
-                            playersLine = br.readLine();
-                            while (!(playersLine = br.readLine()).equals("")) {
+
+                            while (!(playersLine = br.readLine()).equals("end")) {
                                 GamePlayer player = new GamePlayer();
-                                if (line.contains("playername")) {
+                                if (playersLine.contains("end")) {
+                                    break;
+                                }
+                                if (playersLine.contains("playername")) {
                                     player.setPlayerName(br.readLine());
                                 }
-                                if (line.contains("countryname")) {
+                                playersLine = br.readLine();
+                                if (playersLine.contains("countryname")) {
                                     player.setCountryList(findCountryNames(br.readLine().split(",")));
                                 }
-                                if (line.contains("armyvalue")) {
+                                playersLine = br.readLine();
+
+                                if (playersLine.contains("armyvalue")) {
                                     player.setArmyValue(Integer.parseInt(br.readLine()));
                                 }
-                                if (line.contains("controlcontinent")) {
+                                playersLine = br.readLine();
+                                if (playersLine.contains("controlledcontinent")) {
                                     player.setControlledContinent(Arrays.asList(br.readLine().split(",")));
                                 }
-                                if (line.contains("strategyname")) {
+                                playersLine = br.readLine();
+
+                                if (playersLine.contains("strategyname")) {
                                     player.setStrategy(findStrategyByName(br.readLine()));
                                 }
-                                if (line.contains("cardlist")) {
+                                playersLine = br.readLine();
+
+                                if (playersLine.contains("cardlist")) {
                                     player.setCardStringList(Arrays.asList(br.readLine().split(",")));
-                                    GamePlayerService.choosePlayer = Integer.parseInt(br.readLine());
                                 }
 
                                 GamePlayerService.playerList.add(player);
+                                playersLine = br.readLine();
                             }
-
-
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
