@@ -1,10 +1,11 @@
-package service;
+package Service;
 
 import model.Continent;
 import model.Country;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import service.MapEditorService;
 
 import java.io.File;
 import java.util.*;

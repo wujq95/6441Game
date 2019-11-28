@@ -12,12 +12,21 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Aggressive Strategy class
+ */
 public class AggressiveStrategy implements Strategy {
-
+    /**
+     * initial object and variable
+     */
     static Integer countryFlag = 0;
     GamePlayerService gamePlayerService = new GamePlayerService();
     AttackService attackService =new AttackService();
     CheaterStrategy cheaterStrategy = new CheaterStrategy();
+
+    /**
+     * attack method
+     */
     @Override
     public void attack() {
         GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
@@ -39,13 +48,6 @@ public class AggressiveStrategy implements Strategy {
                 if(country.getArmyValue()>1){
                     index = i;
                 }
-                /*for(int j=0;j<MapEditorService.mapGraph.getCountryList().size();j++){
-                    if(country.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(j).getCountryName())){
-                        if(MapEditorService.mapGraph.getCountryList().get(j).getArmyValue()>1){
-                            index = i;
-                        }
-                    }
-                }*/
             }
             if(index==-1){
                 flag=false;
@@ -56,13 +58,6 @@ public class AggressiveStrategy implements Strategy {
                     if(country.getArmyValue()>1){
                         flag2=false;
                     }
-                    /*for(int j=0;j<MapEditorService.mapGraph.getCountryList().size();j++){
-                        if(country.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(j).getCountryName())){
-                            if(MapEditorService.mapGraph.getCountryList().get(j).getArmyValue()>1){
-                                flag2 = false;
-                            }
-                        }
-                    }*/
                 }
                 if(flag2){
                     flag = false;
@@ -71,6 +66,9 @@ public class AggressiveStrategy implements Strategy {
         }
     }
 
+    /**
+     * reinforce method
+     */
     @Override
     public void reinforce() {
         countryFlag=-1;
@@ -98,6 +96,9 @@ public class AggressiveStrategy implements Strategy {
         GamePlayerService.playerList.get(GamePlayerService.choosePlayer).setArmyValue(0);
     }
 
+    /**
+     * fortify method
+     */
     @Override
     public void fortify() {
 
@@ -161,42 +162,13 @@ public class AggressiveStrategy implements Strategy {
             MapEditorService.mapGraph.getCountryList().get(fromIndex).setArmyValue(1);
             MapEditorService.mapGraph.getCountryList().get(enemyIndex).setArmyValue(oldFromArmyValue-1+oldToArmyValue);
         }
-        /*Integer fromCountryIndex = 0;
-        Integer toCountryIndex = 0;
-        Integer maxArmyValue = 0;
-        GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
-        for(int i=0;i<player.getCountryList().size();i++){
-            for(int j=0;j<MapEditorService.mapGraph.getCountryList().size();j++){
-                if(player.getCountryList().get(i).getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(j).getCountryName())){
-                    Set<Country> countrySet = MapEditorService.mapGraph.getCountryList().get(j).getNeighbours();
-                    Iterator it  = countrySet.iterator();
-                    while (it.hasNext()){
-                        Country countryNeighbor = (Country) it.next();
-                        if(countryNeighbor.getPlayer().getPlayerName().equals(player.getPlayerName())){
-                            Integer fromCountryValue = MapEditorService.mapGraph.getCountryList().get(j).getArmyValue();
-                            Integer toCountryValue = countryNeighbor.getArmyValue();
-                            if((fromCountryValue+toCountryValue)>maxArmyValue){
-                                maxArmyValue = fromCountryValue+toCountryValue;
-                                fromCountryIndex = j;
-                                for(int t=0;t<MapEditorService.mapGraph.getCountryList().size();t++){
-                                    if(countryNeighbor.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(t).getCountryName())){
-                                        toCountryIndex = t;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        fortifyArmy(fromCountryIndex,toCountryIndex);*/
     }
 
     /**
      * move one army to new country if having conquered the country
-     * @param armyValue
-     * @param fromCountry
-     * @param toCountry
+     * @param armyValue number of army
+     * @param fromCountry from country
+     * @param toCountry to country
      */
     public void moveArmy(Integer armyValue, String fromCountry, String toCountry){
         for (int i = 0; i < MapEditorService.mapGraph.getCountryList().size(); i++) {
@@ -214,8 +186,8 @@ public class AggressiveStrategy implements Strategy {
 
     /**
      * fortify armies in order to maximize aggregation
-     * @param fromCountryIndex
-     * @param toCountryIndex
+     * @param fromCountryIndex from country index of list
+     * @param toCountryIndex to country index of list
      */
     public void fortifyArmy(Integer fromCountryIndex,Integer toCountryIndex){
         Integer fromArmyValue = MapEditorService.mapGraph.getCountryList().get(fromCountryIndex).getArmyValue();
@@ -227,7 +199,9 @@ public class AggressiveStrategy implements Strategy {
 
     /**
      * attack the neighbor of country
-     * @param country
+     * @param country country object
+     * @param countryList country list
+     * @return country list
      */
     public List<Country> attackNeighbor(Country country, List<Country> countryList){
         Integer index = -1;
@@ -291,6 +265,12 @@ public class AggressiveStrategy implements Strategy {
         return countryList;
     }
 
+    /**
+     * Remove country
+     * @param countryList country list
+     * @param index country element index
+     * @return new country list
+     */
     public List<Country> removeList(List<Country> countryList,Integer index){
         List<Country> countryList1 = new LinkedList<>();
         for(int i=0;i<countryList.size();i++){

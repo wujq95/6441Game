@@ -1,10 +1,13 @@
-package service;
+package Service;
 
 import model.Country;
 import model.GamePlayer;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import service.GamePlayerService;
+import service.MapEditorService;
+import service.ReinforceService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +45,7 @@ public class ReinforceServiceTest {
         player2.setArmyValue(0);
         player3.setArmyValue(0);
 
-        for(int i=GamePlayerService.playerList.size()-1;i>=0;i--){
+        for(int i = GamePlayerService.playerList.size()-1; i>=0; i--){
             GamePlayerService.playerList.remove(i);
         }
 

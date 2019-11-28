@@ -12,10 +12,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-
+/**
+ * Cheater Strategy class
+ */
 public class CheaterStrategy implements Strategy{
-
+    /**
+     * Initial attack service object
+     */
     AttackService attackService = new AttackService();
+
+    /**
+     * Attack Method
+     */
     @Override
     public void attack() {
         GamePlayer player=GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
@@ -38,6 +46,9 @@ public class CheaterStrategy implements Strategy{
         attackService.deletePlayer();
     }
 
+    /**
+     * Reinforce Method
+     */
     @Override
     public void reinforce() {
         GamePlayer  player=GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
@@ -50,6 +61,9 @@ public class CheaterStrategy implements Strategy{
         }
     }
 
+    /**
+     * Fortify method
+     */
     @Override
     public void fortify() {
         GamePlayer  player=GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
@@ -66,7 +80,7 @@ public class CheaterStrategy implements Strategy{
 
     /**
      * check if the country has a neighbor which is from another player
-     * @param country
+     * @param country country object
      * @return boolean
      */
     public boolean checkNeighbor(Country country){
@@ -86,8 +100,8 @@ public class CheaterStrategy implements Strategy{
 
     /**
      * find neighbor index list
-     * @param country
-     * @return
+     * @param country country object
+     * @return index list
      */
     public List<Integer> findEnemy(Country country){
         List<Integer> indexList = new LinkedList<>();
@@ -112,7 +126,7 @@ public class CheaterStrategy implements Strategy{
 
     /**
      * remove the country from his old owner
-     * @param country
+     * @param country country object
      */
     public void removeCountryFromPlayer(Country country){
         Integer index=-1;
@@ -127,8 +141,5 @@ public class CheaterStrategy implements Strategy{
                 GamePlayerService.playerList.get(index).getCountryList().remove(i);
             }
         }
-
     }
-
-
 }

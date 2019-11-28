@@ -1,4 +1,4 @@
-package service;
+package Service;
 
 import model.Card;
 import model.Country;
@@ -6,6 +6,7 @@ import model.GamePlayer;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import service.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

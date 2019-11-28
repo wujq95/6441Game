@@ -3,8 +3,15 @@ package service;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Empty file reading function implementation
+ */
 public class ReadFileFromEmptyImplement implements ReadFileFromEmpty {
-
+    /**
+     * Reading file
+     * @param fileName file name
+     * @return message
+     */
     @Override
     public String readFileFromEmpty(String fileName) {
         File file = new File(fileName);

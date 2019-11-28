@@ -9,7 +9,15 @@ import java.util.*;
 
 import static service.MapEditorService.*;
 
+/**
+ * save load game during start up phase
+ */
 public class SaveLoadGameStartUpPhase extends SaveLoadGame {
+    /**
+     * save game
+     * @param fileName file name
+     * @return message
+     */
     @Override
     public String saveGame(String fileName) {
         fileName = fileName.trim();
@@ -144,6 +152,11 @@ public class SaveLoadGameStartUpPhase extends SaveLoadGame {
         return returnMsg;
     }
 
+    /**
+     * laod game
+     * @param fileName file name
+     * @return message
+     */
     @Override
     public String loadGame(String fileName) {
         if (fileName.endsWith("\n")) {

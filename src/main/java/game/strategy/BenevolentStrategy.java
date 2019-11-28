@@ -10,16 +10,27 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Benevolent Strategy
+ */
 public class BenevolentStrategy implements Strategy {
-
+    /**
+     * initial object and variable
+     */
     RandomStrategy randomStrategy = new RandomStrategy();
     Integer fromIndex = 0;
     Integer toIndex = 0;
 
+    /**
+     * attack method
+     */
     @Override
     public void attack() {
     }
 
+    /**
+     * reinforce method
+     */
     @Override
     public void reinforce() {
         GamePlayerService gamePlayerService = new GamePlayerService();
@@ -34,6 +45,9 @@ public class BenevolentStrategy implements Strategy {
         GamePlayerService.playerList.get(GamePlayerService.choosePlayer).setArmyValue(0);
     }
 
+    /**
+     * fortification method
+     */
     @Override
     public void fortify() {
         GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
@@ -96,38 +110,13 @@ public class BenevolentStrategy implements Strategy {
             MapEditorService.mapGraph.getCountryList().get(fromIndex).setArmyValue(1);
             MapEditorService.mapGraph.getCountryList().get(enemyIndex).setArmyValue(oldFromArmyValue-1+oldToArmyValue);
         }
-        /*Integer flag =-1;
-        Integer index =-1;
-        GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
-        List<Country> countryList = player.getCountryList();
-        for(int i=0;i<countryList.size();i++){
-            Country country = countryList.get(i);
-            flag = randomStrategy.findFriend(country);
-            if(flag!=-1){
-                fromIndex = flag;
-                index = i;
-                break;
-            }
-        }
-        if(flag!=-1){
-            Country country  =player.getCountryList().get(index);
-            for(int i=0;i<MapEditorService.mapGraph.getCountryList().size();i++){
-                if(country.getCountryName().equals(MapEditorService.mapGraph.getCountryList().get(i).getCountryName())){
-                    toIndex = i;
-                }
-            }
-            Integer formArmyValue = MapEditorService.mapGraph.getCountryList().get(fromIndex).getArmyValue();
-            Integer toArmyValue = MapEditorService.mapGraph.getCountryList().get(toIndex).getArmyValue();
-            Integer armyMovement = formArmyValue-(toArmyValue+formArmyValue)/2;
-            MapEditorService.mapGraph.getCountryList().get(fromIndex).setArmyValue(formArmyValue-armyMovement);
-            MapEditorService.mapGraph.getCountryList().get(toIndex).setArmyValue(toArmyValue+armyMovement);
-        }*/
     }
 
 
     /**
      * look for the country which has the least army value
-     * @return
+     * @param countryList Country List
+     * @return country element of index
      */
     public Integer checkWeakestCountry(List<Country> countryList){
         GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
@@ -144,6 +133,12 @@ public class BenevolentStrategy implements Strategy {
         return countryFlag;
     }
 
+    /**
+     * remove country list
+     * @param countryList country list
+     * @param index integer number
+     * @return new country list
+     */
     public List<Country> removeList(List<Country> countryList,Integer index){
         List<Country> countryList1 = new LinkedList<>();
         for(int i=0;i<countryList.size();i++){

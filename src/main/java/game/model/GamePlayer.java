@@ -15,10 +15,19 @@ public class GamePlayer extends Observable {
 
     private Strategy strategy;
 
-    public void setStrategy(Strategy strategy) {
+    /**
+     * set the strategy to be used by the player
+     * @param strategy object
+     */
+    public void setStrategy(Strategy strategy){
         this.strategy = strategy;
     }
 
+    /**
+     * get the name of the player's strategy
+     * @return
+     * @return strategy name
+     */
     public String getStrategyName() {
         String strategyName = "HumanStrategy";
         if(strategy != null){
@@ -27,16 +36,25 @@ public class GamePlayer extends Observable {
         return strategyName;
     }
 
+    /**
+     * the player takes the attacking action
+     */
     public void attack() {
         this.strategy.attack();
         notifyObservers(this);
     }
 
+    /**
+     * the player takes the reinforcement action
+     */
     public void reinforce() {
         this.strategy.reinforce();
         notifyObservers(this);
     }
 
+    /**
+     * the player takes the fortification action
+     */
     public void fortify() {
         this.strategy.fortify();
         notifyObservers(this);

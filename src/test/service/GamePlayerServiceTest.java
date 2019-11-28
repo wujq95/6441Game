@@ -1,10 +1,12 @@
-package service;
+package Service;
 
 import model.Country;
 import model.GamePlayer;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import service.GamePlayerService;
+import service.MapEditorService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +32,12 @@ public class GamePlayerServiceTest {
     @Test
     public void addPlayerTest(){
 
-        String commandMsg01 = "gameplayer -add test01 -add test02";
+        String commandMsg01 = "gameplayer -add test01 cheater -add test02 cheater";
         String[] arguments01 = commandMsg01.split( " ");
         String msg01 = gamePlayerService.gamePlayerAction(arguments01);
         Assert.assertEquals("gameplayer action success",msg01);
 
-        String commandMsg02 = "gameplayer -add test02";
+        String commandMsg02 = "gameplayer -add test02 cheater";
         String[] arguments02 = commandMsg02.split( " ");
         String msg02 = gamePlayerService.gamePlayerAction(arguments02);
         Assert.assertEquals("player name duplicate",msg02);
@@ -47,7 +49,7 @@ public class GamePlayerServiceTest {
      */
     @Test
     public void removePlayerTest(){
-        String commandMsg01 = "gameplayer -add test01 -add test02 -add test03";
+        String commandMsg01 = "gameplayer -add cheater test01 -add test02 cheater -add test03 cheater";
         String[] arguments01 = commandMsg01.split( " ");
         gamePlayerService.gamePlayerAction(arguments01);
 
@@ -56,7 +58,7 @@ public class GamePlayerServiceTest {
         String msg02 = gamePlayerService.gamePlayerAction(arguments02);
         Assert.assertEquals("gameplayer action success",msg02);
 
-        String commandMsg03 = "gameplayer -add test03 -add test04 -remove test01";
+        String commandMsg03 = "gameplayer -add test03 cheater -add test04 cheater -remove test01";
         String[] arguments03 = commandMsg03.split( " ");
         String msg03 = gamePlayerService.gamePlayerAction(arguments03);
         Assert.assertEquals("gameplayer action success",msg02);

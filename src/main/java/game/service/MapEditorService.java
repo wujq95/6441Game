@@ -405,6 +405,12 @@ public class MapEditorService {
         return null;
     }
 
+    /**
+     * Find continent by name
+     * @param name continent name
+     * @param continentList continent list
+     * @return continent id
+     */
     public static int findContinentIdByName(String name, List<Continent> continentList) {
         for (Continent continent : continentList) {
             if (name.equals(continent.getContinentName())) {

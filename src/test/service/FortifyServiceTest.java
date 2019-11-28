@@ -1,10 +1,13 @@
-package service;
+package Service;
 
 import model.Country;
 import model.GamePlayer;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import service.FortifyService;
+import service.GamePlayerService;
+import service.MapEditorService;
 
 import java.util.ArrayList;
 import java.util.List;
