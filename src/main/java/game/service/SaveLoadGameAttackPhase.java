@@ -286,6 +286,7 @@ public class SaveLoadGameAttackPhase extends SaveLoadGame {
                                 if (playersLine.contains("strategyname")) {
                                     player.setStrategy(findStrategyByName(br.readLine()));
                                 }
+
                                 if (playersLine.contains("cardlist")) {
                                     player.setCardStringList(Arrays.asList(br.readLine().split(",")));
                                     GamePlayerService.choosePlayer = Integer.parseInt(br.readLine());
