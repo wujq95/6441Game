@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Save and Load Game Test
+ */
 public class SaveLoadGameTest {
     private MapEditorService mapEditorService;
 
