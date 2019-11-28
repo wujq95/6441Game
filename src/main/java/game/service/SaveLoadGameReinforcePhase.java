@@ -10,11 +10,12 @@ import java.util.*;
 import static service.MapEditorService.*;
 
 /**
- * Save load game during reinforce phase
+ * Save game during attack phase
  */
 public class SaveLoadGameReinforcePhase extends SaveLoadGame {
     /**
-     * save game
+     * Save game
+     *
      * @param fileName file name
      * @return message
      */
@@ -84,13 +85,24 @@ public class SaveLoadGameReinforcePhase extends SaveLoadGame {
         lines.add("\n[players]");
 
         for (GamePlayer player : GamePlayerService.playerList) {
-            lines.add(player.getPlayerName() + " " + StringUtils.join(player.getCountryNameList(), ",") + " " + player.getArmyValue() + " " + StringUtils.join(player.getControlledContinent(), ",")
-                    + " " + player.getStrategyName() + " " + StringUtils.join(player.getCardList(), ","));
+            lines.add("\n[playername]");
+            lines.add(player.getPlayerName());
+            lines.add("\n[countryname]");
+            StringUtils.join(player.getCountryNameList(), ",");
+            lines.add("\n[armyvalue]");
+            lines.add(player.getArmyValue().toString());
+            lines.add("\n[controlledcontinent]");
+            lines.add(StringUtils.join(player.getControlledContinent(), ","));
+
+            lines.add("\n[strategyname]");
+            lines.add(player.getStrategyName());
+            lines.add("\n[cardlist]");
+            lines.add(StringUtils.join(getCardStringList(player.getCardList()), ","));
         }
         lines.add(GamePlayerService.choosePlayer.toString());
 
         lines.add("\n[cards]");
-        lines.add(StringUtils.join(CardService.cardDeckList, ","));
+        lines.add(StringUtils.join(getCardStringList(CardService.cardDeckList), ","));
         lines.add(String.valueOf(CardService.notExchangeCards));
         File mapFile = new File(fileName);
 
@@ -99,8 +111,8 @@ public class SaveLoadGameReinforcePhase extends SaveLoadGame {
         lines.add(AttackService.toCountry);
         lines.add(AttackService.fromDiceNum.toString());
         lines.add(AttackService.toDiceNum.toString());
-        lines.add(StringUtils.join(AttackService.fromDiceResultList, ","));
-        lines.add(StringUtils.join(AttackService.toDiceResultList, ","));
+        lines.add(StringUtils.join(convertIntegerListToStringList(AttackService.fromDiceResultList), ","));
+        lines.add(StringUtils.join(convertIntegerListToStringList(AttackService.toDiceResultList), ","));
         lines.add(String.valueOf(AttackService.conqueredAll));
         lines.add(String.valueOf(AttackService.ConqueredAtleastOneIntheturn));
 
@@ -110,10 +122,10 @@ public class SaveLoadGameReinforcePhase extends SaveLoadGame {
             lines.add(playercard.getKey().getPlayerName() + "," + playercard.getValue());
         }
 
-        lines.add("\n[cardsrewarded]");
+        lines.add("\n[cardlistrewarded]");
 
         for (Map.Entry<GamePlayer, List<Card>> playercard : CardService.rewardedCardsAfterDefeatAnotherPlayer.entrySet()) {
-            lines.add(playercard.getKey().getPlayerName() + "," + StringUtils.join(playercard.getValue(), ","));
+            lines.add(playercard.getKey().getPlayerName() + "," + StringUtils.join(getCardStringList(playercard.getValue()), ","));
         }
 
         if (mapFile.isFile()) {
@@ -127,9 +139,9 @@ public class SaveLoadGameReinforcePhase extends SaveLoadGame {
                 }
                 fileWriter.close();
 
-                returnMsg = "saveMap success";
+                returnMsg = "saveGame success";
             } catch (IOException e) {
-                returnMsg = "saveMap failed";
+                returnMsg = "saveGame failed";
                 return returnMsg;
             }
         } else {
@@ -142,9 +154,9 @@ public class SaveLoadGameReinforcePhase extends SaveLoadGame {
                 }
                 fileWriter.close();
 
-                returnMsg = "saveMap success";
+                returnMsg = "saveGame success";
             } catch (IOException e) {
-                returnMsg = "saveMap failed";
+                returnMsg = "saveGame failed";
                 return returnMsg;
             }
         }
@@ -153,7 +165,8 @@ public class SaveLoadGameReinforcePhase extends SaveLoadGame {
     }
 
     /**
-     * load game
+     * Load game
+     *
      * @param fileName file name
      * @return message
      */
@@ -258,25 +271,37 @@ public class SaveLoadGameReinforcePhase extends SaveLoadGame {
                         try {
                             playersLine = br.readLine();
                             while (!(playersLine = br.readLine()).equals("")) {
-                                String[] playerInfo = playersLine.split(" ");
                                 GamePlayer player = new GamePlayer();
-                                player.setPlayerName(playerInfo[0]);
-                                player.setCountryList(findCountryNames(playerInfo[1].split(",")));
-                                player.setArmyValue(Integer.parseInt(playerInfo[2]));
-                                player.setControlledContinent(Arrays.asList(playerInfo[3].split(",")));
-                                player.setStrategy(findStrategyByName(playerInfo[4]));
-                                player.setCardStringList(Arrays.asList(playerInfo[5].split(",")));
+                                if (line.contains("playername")) {
+                                    player.setPlayerName(br.readLine());
+                                }
+                                if (line.contains("countryname")) {
+                                    player.setCountryList(findCountryNames(br.readLine().split(",")));
+                                }
+                                if (line.contains("armyvalue")) {
+                                    player.setArmyValue(Integer.parseInt(br.readLine()));
+                                }
+                                if (line.contains("controlcontinent")) {
+                                    player.setControlledContinent(Arrays.asList(br.readLine().split(",")));
+                                }
+                                if (line.contains("strategyname")) {
+                                    player.setStrategy(findStrategyByName(br.readLine()));
+                                }
+                                if (line.contains("cardlist")) {
+                                    player.setCardStringList(Arrays.asList(br.readLine().split(",")));
+                                    GamePlayerService.choosePlayer = Integer.parseInt(br.readLine());
+                                }
 
                                 GamePlayerService.playerList.add(player);
                             }
+
 
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
 
                     }
-                    String choosePlayer = br.readLine();
-                    GamePlayerService.choosePlayer = Integer.parseInt(choosePlayer);
+
                     if (line.contains("cards")) {
                         String cardLine = "";
                         try {
@@ -319,22 +344,23 @@ public class SaveLoadGameReinforcePhase extends SaveLoadGame {
                     }
 
                     if (line.contains("cardrewarded")) {
-                        String cardLine = "";
-                        cardLine = br.readLine();
-                        while (!(cardLine = br.readLine()).equals("")) {
+                        String rewardLine = "";
+                        while (!(rewardLine = br.readLine()).equals("")) {
                             HashMap<GamePlayer, Card> hashMap1 = new HashMap();
-                            hashMap1.put(GamePlayerService.findPlayerFromName(cardLine.split(",")[0]), Card.valueOf(cardLine.split(",")[1]));
+                            hashMap1.put(GamePlayerService.findPlayerFromName(rewardLine.split(",")[0]), Card.valueOf(rewardLine.split(",")[1]));
                             CardService.lastRewardedCard = hashMap1;
                         }
                     }
 
-                    if (line.contains("cardsrewarded")) {
+                    if (line.contains("cardlistrewarded")) {
                         String cardLine = "";
                         cardLine = br.readLine();
-                        while (!(cardLine = br.readLine()).equals("")) {
+                        while (cardLine != null && !cardLine.equals("")) {
                             HashMap<GamePlayer, List<Card>> hashMap2 = new HashMap();
                             hashMap2.put(GamePlayerService.findPlayerFromName(cardLine.split(",")[0]), (StringArrayToCardList(cardLine.split(","))));
                             CardService.rewardedCardsAfterDefeatAnotherPlayer = hashMap2;
+
+                            cardLine = br.readLine();
                         }
                     }
 
@@ -354,7 +380,7 @@ public class SaveLoadGameReinforcePhase extends SaveLoadGame {
             }
 
 
-            returnMsg = "load map from file " + mapFile + " success";
+            returnMsg = "load game from file " + mapFile + " success";
         } else {
             File file = new File(fileName);
             try {
