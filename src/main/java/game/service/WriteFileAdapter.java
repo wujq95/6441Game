@@ -32,7 +32,7 @@ public class WriteFileAdapter implements WriteFileToNewFile, WriteFileToExistedF
      * @return message
      */
     public String writeFileToNewFile(String mapFile, List<String> lines) {
-        return writeFileToNewFile.writeFileToNewFile(mapFile, lines);
+        return writeFileToExistedFile.writeFileToExistedFile(mapFile, lines);
     }
 
     /**
@@ -42,6 +42,6 @@ public class WriteFileAdapter implements WriteFileToNewFile, WriteFileToExistedF
      * @return message
      */
     public String writeFileToExistedFile(String mapFile, List<String> lines) {
-        return writeFileToExistedFile.writeFileToExistedFile(mapFile, lines);
+        return writeFileToNewFile.writeFileToNewFile(mapFile, lines);
     }
 }
