@@ -12,6 +12,8 @@ public abstract class Observer {
      */
     protected MapGraph mapGraph;
 
+    protected CommandService commandService;
+
     protected GamePlayerService gamePlayerService;
 
     protected ReinforceService reinforceService;
