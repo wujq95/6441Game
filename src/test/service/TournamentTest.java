@@ -1,5 +1,7 @@
 package service;
 
+import controller.MapController;
+import model.MapGraph;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,10 +30,14 @@ public class TournamentTest {
      */
     @Test
     public void tournamentTest(){
-        String input = "tournament -M /Users/wujiaqi/soen6441/eurasien.map /Users/wujiaqi/soen6441/risk2.map -P Aggressive Benevolent Aggressive Random -G 50 -D 30";
+        for(int i = GamePlayerService.playerList.size()-1;i>=0;i--){
+            GamePlayerService.playerList.remove(i);
+        }
+        MapEditorService.mapGraph = new MapGraph();
+        String input = "tournament -M /Applications/Domination/maps/ameroki.map /Users/siming/Desktop/soen6441/Domination/maps/eurasien.map -P Aggressive Benevolent Aggressive Random -G 5 -D 30";
         String results = tournamentService.tournament(input.split(" "));
         String[] resultList = results.split("\n");
-        Assert.assertEquals(resultList.length,101);
+        Assert.assertEquals(resultList.length,11);
         for(int j=1;j<resultList.length;j++){
            String result = resultList[j];
            String[] oneResultList = result.split(" ");

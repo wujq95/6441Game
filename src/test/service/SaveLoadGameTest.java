@@ -31,7 +31,7 @@ public class SaveLoadGameTest {
      */
     @Test
     public void testSaveLoadGame() {
-        String fileName = "/Applications/Domination/maps/risk.map";
+        String fileName = "/Users/siming/Desktop/soen6441/risk.map";
         mapEditorService.editMap(fileName);
 
         SaveLoadGame saveLoadGame = new SaveLoadGameAttackPhase();

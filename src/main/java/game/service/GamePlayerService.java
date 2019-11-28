@@ -80,7 +80,7 @@ public class GamePlayerService extends Observable {
      * @param arguments string
      * @return Message
      */
-    public String gamePlayerAction(String[] arguments) {
+    public String gamePlayerAction(String[] arguments){
 
         checkPhase = 1;
 
