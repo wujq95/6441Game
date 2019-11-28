@@ -4,6 +4,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Tournament Mode Test
+ */
 public class TournamentTest {
 
     private MapEditorService mapEditorService;

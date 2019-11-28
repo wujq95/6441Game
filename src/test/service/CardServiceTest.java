@@ -9,6 +9,9 @@ import org.junit.Test;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Card Service Test
+ */
 public class CardServiceTest {
 
     private CardService cardService;
@@ -22,6 +25,9 @@ public class CardServiceTest {
         cardService.createCardDeck();
     }
 
+    /**
+     * Test - Exchange Card Function
+     */
     @Test
     public void testExchangeCards() {
         GamePlayer gamePlayer = new GamePlayer();
@@ -45,6 +51,9 @@ public class CardServiceTest {
         Assert.assertEquals("exchange success", success);
     }
 
+    /**
+     * Test - Reward Card
+     */
     @Test
     public void testRewardCard() {
         GamePlayerService.choosePlayer = 0;

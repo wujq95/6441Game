@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Save and Load Game Test
+ */
 public class SaveLoadGameTest {
     private MapEditorService mapEditorService;
 
@@ -23,6 +26,9 @@ public class SaveLoadGameTest {
         mapEditorService = new MapEditorService();
     }
 
+    /**
+     * Test - Save Game function
+     */
     @Test
     public void testSaveLoadGame() {
         String fileName = "/Applications/Domination/maps/risk.map";
@@ -99,6 +105,9 @@ public class SaveLoadGameTest {
         returnMsg.equals("saveGame success");
     }
 
+    /**
+     * Test - Load Game Function
+     */
     @Test
     public void testLoadGame() {
         SaveLoadGame saveLoadGame = new SaveLoadGameAttackPhase();

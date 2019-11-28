@@ -9,8 +9,13 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Fortify service test
+ */
 public class FortifyServiceTest {
-
+    /**
+     * Initial Required Service
+     */
     private MapEditorService mapEditorService;
     private FortifyService fortifyService;
 
