@@ -25,6 +25,9 @@ public class SaveLoadGameTest {
         mapEditorService = new MapEditorService();
     }
 
+    /**
+     * Test - Save Game function
+     */
     @Test
     public void testSaveLoadGame() {
         String fileName = "/Applications/Domination/maps/risk.map";
@@ -93,6 +96,9 @@ public class SaveLoadGameTest {
         saveLoadGame.saveGame("newfile.map");
     }
 
+    /**
+     * Test - Load Game Function
+     */
     @Test
     public void testLoadGame() {
         SaveLoadGame saveLoadGame = new SaveLoadGameAttackPhase();
