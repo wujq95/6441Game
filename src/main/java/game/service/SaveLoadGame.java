@@ -114,6 +114,9 @@ public abstract class SaveLoadGame {
 
     public List<String> getCardStringList(List<Card> cardList) {
         List<String> list = new LinkedList<>();
+        if (cardList == null) {
+            return list;
+        }
         for (Card card : cardList) {
             list.add(card.name());
         }
