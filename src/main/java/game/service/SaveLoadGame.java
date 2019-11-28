@@ -35,6 +35,7 @@ public abstract class SaveLoadGame {
 
     /**
      * abstract save game method
+     *
      * @param fileName file name
      * @return message
      */
@@ -42,6 +43,7 @@ public abstract class SaveLoadGame {
 
     /**
      * abstract load game method
+     *
      * @param fileName file name
      * @return message
      */
@@ -49,6 +51,7 @@ public abstract class SaveLoadGame {
 
     /**
      * Transfer String Array to Integer Array
+     *
      * @param strs String
      * @return Integer List
      */
@@ -63,13 +66,15 @@ public abstract class SaveLoadGame {
 
     /**
      * Transfer Card List to Integer List
+     *
      * @param strs String
      * @return Integer List
      */
     public List<Card> StringArrayToCardList(String[] strs) {
         List<Card> intList = new LinkedList<>();
-        for (String str : strs) {
-            intList.add(Card.valueOf(str));
+
+        for (int i = 1; i < strs.length; i++) {
+            intList.add(Card.valueOf(strs[i]));
         }
 
         return intList;
@@ -77,6 +82,7 @@ public abstract class SaveLoadGame {
 
     /**
      * Find country name
+     *
      * @param strs country name
      * @return Integer list of country
      */
@@ -91,6 +97,7 @@ public abstract class SaveLoadGame {
 
     /**
      * Find strategy by name
+     *
      * @param name strategy name
      * @return strategy class by specified name
      */
@@ -116,7 +123,7 @@ public abstract class SaveLoadGame {
 
     public List<String> convertIntegerListToStringList(List<Integer> integerList) {
         List<String> list = new LinkedList<>();
-        for (Integer i: integerList) {
+        for (Integer i : integerList) {
             list.add(i.toString());
         }
 
