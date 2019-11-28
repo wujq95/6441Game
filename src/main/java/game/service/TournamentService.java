@@ -153,8 +153,8 @@ public class TournamentService extends Observable {
 
     /**
      * check if the number of strategy meets the requirement
-     * @param aList
-     * @return
+     * @param aList Strategy List
+     * @return boolean
      */
     public boolean checkStrategyNumber(List<String> aList){
         boolean flag = true;

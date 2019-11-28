@@ -3,8 +3,13 @@ package observer;
 import model.MapGraph;
 import service.*;
 
+/**
+ * Observer class used to Observer Pattern
+ */
 public abstract class Observer {
-
+    /**
+     * Initial required model
+     */
     protected MapGraph mapGraph;
 
     protected GamePlayerService gamePlayerService;
@@ -19,5 +24,9 @@ public abstract class Observer {
 
     protected TournamentService tournamentService;
 
+    /**
+     * Update info once changed
+     * @param o Observable
+     */
     public abstract void update(Observable o);
 }
