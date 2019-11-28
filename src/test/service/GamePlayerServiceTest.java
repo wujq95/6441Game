@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GamePlayerServiceTest {
-
+    /**
+     * Initial required service object
+     */
     private MapEditorService mapEditorService;
     private GamePlayerService gamePlayerService;
 
