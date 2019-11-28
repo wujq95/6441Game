@@ -7,6 +7,7 @@ import strategy.*;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * tournament service
@@ -110,8 +111,11 @@ public class TournamentService extends Observable {
                                 while (flag3) {
                                     GamePlayer player = GamePlayerService.playerList.get(GamePlayerService.choosePlayer);
                                     player.reinforce();
+                                    Thread.sleep(25);
                                     player.attack();
+                                    Thread.sleep(25);
                                     player.fortify();
+                                    Thread.sleep(25);
                                     boolean flag2 = false;
                                     if (GamePlayerService.choosePlayer >= GamePlayerService.playerList.size() - 1) {
                                         flag2 = true;
