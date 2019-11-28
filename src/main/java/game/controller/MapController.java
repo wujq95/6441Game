@@ -57,6 +57,8 @@ public class MapController{
     /**
      * mapEditorService class contains all edit mapGraph methods
      */
+    public static CommandService commandService;
+
     public static MapEditorService mapEditorService;
 
     public static GamePlayerService gamePlayerService;
@@ -422,7 +424,7 @@ public class MapController{
             String commandStr = commandLine.getText();
             System.out.println("Your command: " + commandStr);
             commandLine.clear();
-            CommandService commandService = new CommandService();
+            //commandService = new CommandService();
             String returnMsg = commandService.processCommand(commandStr);
             infoTextView.setText(returnMsg);
 //            loadMapGraph(MapEditorService.mapGraph);
@@ -442,11 +444,12 @@ public class MapController{
         attackService = new AttackService();
         cardService = new CardService();
         tournamentService = new TournamentService();
+        commandService = new CommandService();
 
         // default empty graph before loaded
         this.mapGraph = new MapGraph();
         this.mapGraphObserver = new MapGraphObserver(MapEditorService.mapGraph);
-        this.gameInfoObserver = new GameInfoObserver(gamePlayerService, attackService, cardService, reinforceService, fortifyService, tournamentService);
+        this.gameInfoObserver = new GameInfoObserver(commandService, gamePlayerService, attackService, cardService, reinforceService, fortifyService, tournamentService);
     }
 
     /**
@@ -454,8 +457,11 @@ public class MapController{
      */
     public class GameInfoObserver extends Observer {
 
-        public GameInfoObserver(GamePlayerService gamePlayerService, AttackService attackService, CardService cardService,
+        public GameInfoObserver(CommandService commandService, GamePlayerService gamePlayerService, AttackService attackService, CardService cardService,
                                 ReinforceService reinforceService, FortifyService fortifyService, TournamentService tournamentService) {
+            this.commandService = commandService;
+            this.commandService.attach(this);
+
             this.gamePlayerService = gamePlayerService;
             this.gamePlayerService.attach(this);
             this.gamePlayerService.setObserver(this);
