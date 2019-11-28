@@ -149,10 +149,10 @@ public class MapEditorService {
         //if the map file exists
         if (mapFile.isFile()) {
             ReadFileFromEmpty readFileFromEmpty = new ReadFileAdapter(readFileFromExistedFileImplement);
-            readFileFromEmpty.readFileFromEmpty(fileName);
+            returnMsg = readFileFromEmpty.readFileFromEmpty(fileName);
         } else {
             ReadFileFromExistedFile readFileFromExistedFile = new ReadFileAdapter(readFileFromEmptyImplement);
-            readFileFromExistedFile.readFileFromExistedFile(fileName);
+            returnMsg = readFileFromExistedFile.readFileFromExistedFile(fileName);
         }
 
         return returnMsg;
@@ -380,11 +380,11 @@ public class MapEditorService {
         if (mapFile.isFile()) {
             WriteFileToNewFileImplement writeFileToNewFileImplement = new WriteFileToNewFileImplement();
             WriteFileToExistedFile writeFileAdapter = new WriteFileAdapter(writeFileToNewFileImplement);
-            writeFileAdapter.writeFileToExistedFile(fileName, lines);
+            returnMsg = writeFileAdapter.writeFileToExistedFile(fileName, lines);
         } else {
             WriteFileToExistedFileImplement writeFileToExistedFile = new WriteFileToExistedFileImplement();
             WriteFileToNewFile writeFileAdapter = new WriteFileAdapter(writeFileToExistedFile);
-            writeFileAdapter.writeFileToNewFile(fileName, lines);
+            returnMsg = writeFileAdapter.writeFileToNewFile(fileName, lines);
         }
 
         return returnMsg;
@@ -407,7 +407,8 @@ public class MapEditorService {
 
     /**
      * Find continent by name
-     * @param name continent name
+     *
+     * @param name          continent name
      * @param continentList continent list
      * @return continent id
      */
