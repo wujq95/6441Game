@@ -25,7 +25,6 @@ public class GamePlayer extends Observable {
 
     /**
      * get the name of the player's strategy
-     * @return
      * @return strategy name
      */
     public String getStrategyName() {
