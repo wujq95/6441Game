@@ -31,6 +31,9 @@ public class SaveLoadGameTest {
      */
     @Test
     public void testSaveLoadGame() {
+        for(int i = GamePlayerService.playerList.size()-1;i>=0;i--){
+            GamePlayerService.playerList.remove(i);
+        }
         String fileName = "/Users/siming/Desktop/soen6441/risk.map";
         mapEditorService.editMap(fileName);
 
@@ -110,6 +113,7 @@ public class SaveLoadGameTest {
      */
     @Test
     public void testLoadGame() {
+
         SaveLoadGame saveLoadGame = new SaveLoadGameAttackPhase();
 
         saveLoadGame.loadGame("testsavegame3.map");
