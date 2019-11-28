@@ -1,12 +1,10 @@
-package Service;
+package service;
 
 import model.Card;
 import model.GamePlayer;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import service.CardService;
-import service.GamePlayerService;
 
 import java.util.LinkedList;
 import java.util.List;

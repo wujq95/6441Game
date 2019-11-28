@@ -1,15 +1,10 @@
-package Service;
+package service;
 
 import model.Country;
 import model.GamePlayer;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import org.omg.CORBA.PUBLIC_MEMBER;
-import service.AttackService;
-import service.GamePlayerService;
-import service.MapEditorService;
 
 import java.util.ArrayList;
 import java.util.List;

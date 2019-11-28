@@ -1,14 +1,8 @@
-package Service;
+package service;
 
-import controller.MapController;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import service.AttackService;
-import service.MapEditorService;
-import service.TournamentService;
-
-import java.util.List;
 
 public class TournamentTest {
 
