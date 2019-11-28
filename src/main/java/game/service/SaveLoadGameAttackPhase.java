@@ -85,18 +85,17 @@ public class SaveLoadGameAttackPhase extends SaveLoadGame {
         lines.add("\n[players]");
 
         for (GamePlayer player : GamePlayerService.playerList) {
-            lines.add("\n[playername]");
+            lines.add("[playername]");
             lines.add(player.getPlayerName());
-            lines.add("\n[countryname]");
+            lines.add("[countryname]");
             lines.add(StringUtils.join(player.getCountryNameList(), ","));
-            lines.add("\n[armyvalue]");
+            lines.add("[armyvalue]");
             lines.add(player.getArmyValue().toString());
-            lines.add("\n[controlledcontinent]");
+            lines.add("[controlledcontinent]");
             lines.add(StringUtils.join(player.getControlledContinent(), ","));
-
-            lines.add("\n[strategyname]");
+            lines.add("[strategyname]");
             lines.add(player.getStrategyName());
-            lines.add("\n[cardlist]");
+            lines.add("[cardlist]");
             lines.add(StringUtils.join(getCardStringList(player.getCardList()), ","));
         }
         lines.add(GamePlayerService.choosePlayer.toString());
@@ -272,22 +271,22 @@ public class SaveLoadGameAttackPhase extends SaveLoadGame {
                             playersLine = br.readLine();
                             while (!(playersLine = br.readLine()).equals("")) {
                                 GamePlayer player = new GamePlayer();
-                                if (line.contains("playername")) {
+                                if (playersLine.contains("playername")) {
                                     player.setPlayerName(br.readLine());
                                 }
-                                if (line.contains("countryname")) {
+                                if (playersLine.contains("countryname")) {
                                     player.setCountryList(findCountryNames(br.readLine().split(",")));
                                 }
-                                if (line.contains("armyvalue")) {
+                                if (playersLine.contains("armyvalue")) {
                                     player.setArmyValue(Integer.parseInt(br.readLine()));
                                 }
-                                if (line.contains("controlcontinent")) {
+                                if (playersLine.contains("controlcontinent")) {
                                     player.setControlledContinent(Arrays.asList(br.readLine().split(",")));
                                 }
-                                if (line.contains("strategyname")) {
+                                if (playersLine.contains("strategyname")) {
                                     player.setStrategy(findStrategyByName(br.readLine()));
                                 }
-                                if (line.contains("cardlist")) {
+                                if (playersLine.contains("cardlist")) {
                                     player.setCardStringList(Arrays.asList(br.readLine().split(",")));
                                     GamePlayerService.choosePlayer = Integer.parseInt(br.readLine());
                                 }
