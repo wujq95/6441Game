@@ -88,7 +88,7 @@ public class SaveLoadGameAttackPhase extends SaveLoadGame {
             lines.add("\n[playername]");
             lines.add(player.getPlayerName());
             lines.add("\n[countryname]");
-            StringUtils.join(player.getCountryNameList(), ",");
+            lines.add(StringUtils.join(player.getCountryNameList(), ","));
             lines.add("\n[armyvalue]");
             lines.add(player.getArmyValue().toString());
             lines.add("\n[controlledcontinent]");
@@ -355,7 +355,7 @@ public class SaveLoadGameAttackPhase extends SaveLoadGame {
                     if (line.contains("cardlistrewarded")) {
                         String cardLine = "";
                         cardLine = br.readLine();
-                        while (cardLine != null&&!cardLine.equals("")) {
+                        while (cardLine != null && !cardLine.equals("")) {
                             HashMap<GamePlayer, List<Card>> hashMap2 = new HashMap();
                             hashMap2.put(GamePlayerService.findPlayerFromName(cardLine.split(",")[0]), (StringArrayToCardList(cardLine.split(","))));
                             CardService.rewardedCardsAfterDefeatAnotherPlayer = hashMap2;

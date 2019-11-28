@@ -88,7 +88,7 @@ public class SaveLoadGameReinforcePhase extends SaveLoadGame {
             lines.add("\n[playername]");
             lines.add(player.getPlayerName());
             lines.add("\n[countryname]");
-            StringUtils.join(player.getCountryNameList(), ",");
+            lines.add(StringUtils.join(player.getCountryNameList(), ","));
             lines.add("\n[armyvalue]");
             lines.add(player.getArmyValue().toString());
             lines.add("\n[controlledcontinent]");

@@ -88,7 +88,7 @@ public class SaveLoadGameStartUpPhase extends SaveLoadGame {
             lines.add("\n[playername]");
             lines.add(player.getPlayerName());
             lines.add("\n[countryname]");
-            StringUtils.join(player.getCountryNameList(), ",");
+            lines.add(StringUtils.join(player.getCountryNameList(), ","));
             lines.add("\n[armyvalue]");
             lines.add(player.getArmyValue().toString());
             lines.add("\n[controlledcontinent]");
@@ -105,28 +105,6 @@ public class SaveLoadGameStartUpPhase extends SaveLoadGame {
         lines.add(StringUtils.join(getCardStringList(CardService.cardDeckList), ","));
         lines.add(String.valueOf(CardService.notExchangeCards));
         File mapFile = new File(fileName);
-
-        lines.add("\n[attack]");
-        lines.add(AttackService.fromCountry);
-        lines.add(AttackService.toCountry);
-        lines.add(AttackService.fromDiceNum.toString());
-        lines.add(AttackService.toDiceNum.toString());
-        lines.add(StringUtils.join(convertIntegerListToStringList(AttackService.fromDiceResultList), ","));
-        lines.add(StringUtils.join(convertIntegerListToStringList(AttackService.toDiceResultList), ","));
-        lines.add(String.valueOf(AttackService.conqueredAll));
-        lines.add(String.valueOf(AttackService.ConqueredAtleastOneIntheturn));
-
-        lines.add("\n[cardrewarded]");
-
-        for (Map.Entry<GamePlayer, Card> playercard : CardService.lastRewardedCard.entrySet()) {
-            lines.add(playercard.getKey().getPlayerName() + "," + playercard.getValue());
-        }
-
-        lines.add("\n[cardlistrewarded]");
-
-        for (Map.Entry<GamePlayer, List<Card>> playercard : CardService.rewardedCardsAfterDefeatAnotherPlayer.entrySet()) {
-            lines.add(playercard.getKey().getPlayerName() + "," + StringUtils.join(getCardStringList(playercard.getValue()), ","));
-        }
 
         if (mapFile.isFile()) {
             mapFile.delete();
@@ -315,55 +293,6 @@ public class SaveLoadGameStartUpPhase extends SaveLoadGame {
                         }
 
                     }
-
-                    if (line.contains("attack")) {
-                        String cardLine = "";
-                        try {
-                            cardLine = br.readLine();
-                            AttackService.fromCountry = cardLine;
-                            cardLine = br.readLine();
-
-                            AttackService.toCountry = cardLine;
-                            cardLine = br.readLine();
-                            AttackService.fromDiceNum = Integer.valueOf(cardLine);
-                            cardLine = br.readLine();
-                            AttackService.toDiceNum = Integer.valueOf(cardLine);
-                            cardLine = br.readLine();
-                            AttackService.fromDiceResultList = StringArrayToIntList(cardLine.split(","));
-                            cardLine = br.readLine();
-                            AttackService.toDiceResultList = StringArrayToIntList(cardLine.split(","));
-                            cardLine = br.readLine();
-                            AttackService.conqueredAll = Boolean.parseBoolean(cardLine);
-                            cardLine = br.readLine();
-                            AttackService.ConqueredAtleastOneIntheturn = Boolean.parseBoolean(cardLine);
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-
-                    if (line.contains("cardrewarded")) {
-                        String rewardLine = "";
-                        while (!(rewardLine = br.readLine()).equals("")) {
-                            HashMap<GamePlayer, Card> hashMap1 = new HashMap();
-                            hashMap1.put(GamePlayerService.findPlayerFromName(rewardLine.split(",")[0]), Card.valueOf(rewardLine.split(",")[1]));
-                            CardService.lastRewardedCard = hashMap1;
-                        }
-                    }
-
-                    if (line.contains("cardlistrewarded")) {
-                        String cardLine = "";
-                        cardLine = br.readLine();
-                        while (cardLine != null && !cardLine.equals("")) {
-                            HashMap<GamePlayer, List<Card>> hashMap2 = new HashMap();
-                            hashMap2.put(GamePlayerService.findPlayerFromName(cardLine.split(",")[0]), (StringArrayToCardList(cardLine.split(","))));
-                            CardService.rewardedCardsAfterDefeatAnotherPlayer = hashMap2;
-
-                            cardLine = br.readLine();
-                        }
-                    }
-
                 }
 
 
