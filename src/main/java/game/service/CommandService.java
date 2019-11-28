@@ -2,11 +2,12 @@ package service;
 
 import controller.MapController;
 import model.GamePlayer;
+import observer.Observable;
 
 /**
  * Command Service is used to receive the input commands for player actions
  */
-public class CommandService {
+public class CommandService extends Observable {
 
     /**
      * Prompt Command into console
@@ -86,6 +87,7 @@ public class CommandService {
             if (!MapEditorService.validateMap()) {
                 return "the map is not valid";
             } else {
+                notifyObservers(this);
                 return "the map is valid";
             }
         } else if (inputCommand.startsWith("editcontinent") && GamePlayerService.checkPhase == 0) {

@@ -11,7 +11,7 @@ import java.util.ServiceLoader;
 /**
  * abstract class for save and load game
  */
-public abstract class SaveLoadGame {
+public abstract class SaveLoadGame{
 
     public static MapEditorService mapEditorService;
 
