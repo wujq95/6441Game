@@ -8,6 +8,6 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({AttackServiceTest.class, service.CardServiceTest.class, FortifyServiceTest.class, GamePlayerServiceTest.class,
-        MapEditorServiceTest.class, ReinforceServiceTest.class})
+        MapEditorServiceTest.class, ReinforceServiceTest.class, SaveLoadGameTest.class, TournamentTest.class})
 public class ServiceTestSuite {
 }
