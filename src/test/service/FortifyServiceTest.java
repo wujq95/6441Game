@@ -26,7 +26,7 @@ public class FortifyServiceTest {
     public void initial(){
         fortifyService = new FortifyService();
         mapEditorService = new MapEditorService();
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
+        mapEditorService.editMap("risk.map");
     }
 
     /**

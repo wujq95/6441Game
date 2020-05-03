@@ -30,15 +30,15 @@ public class MapEditorServiceTest {
      */
     @Test
     public void testEditMap() {
-        String fileName = "/Users/siming/Desktop/soen6441/riskcopy.map";
+        String fileName = "riskcopy.map";
         String returnMsg = mapEditorService.editMap(fileName);
         Assert.assertEquals(returnMsg, "the map is not valid");
 
-        fileName = "/Users/siming/Desktop/soen6441/risk.map";
+        fileName = "risk.map";
         returnMsg = mapEditorService.editMap(fileName);
         Assert.assertEquals(returnMsg, "load map from file /Users/siming/Desktop/soen6441/risk.map success");
 
-        fileName = "/Applications/Domination/maps/empty.map";
+        fileName = "empty.map";
         returnMsg = mapEditorService.editMap(fileName);
         File mapFile = new File(fileName);
         Assert.assertEquals(mapFile.isFile(), true);
@@ -53,7 +53,7 @@ public class MapEditorServiceTest {
      */
     @Test
     public void testSaveMap() throws NoSuchFieldException {
-        String fileName = "/Users/siming/Desktop/soen6441/risk.map";
+        String fileName = "risk.map";
         String returnMsg = mapEditorService.editMap(fileName);
 
         Assert.assertEquals(returnMsg, "load map from file /Users/siming/Desktop/soen6441/risk.map success");
@@ -72,7 +72,7 @@ public class MapEditorServiceTest {
      */
     @Test
     public void testConnectedGraph1() {
-        mapEditorService.editMap("/Applications/Domination/maps/ameroki.map");
+        mapEditorService.editMap("ameroki.map");
         LinkedHashMap<Country, Set<Country>> adjacentCountries = MapEditorService.mapGraph.getAdjacentCountries();
         Assert.assertTrue(mapEditorService.checkIfConnected(adjacentCountries));
     }
@@ -82,7 +82,7 @@ public class MapEditorServiceTest {
      */
     @Test
     public void testConnectedGraph2() {
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/risk2.map");
+        mapEditorService.editMap("risk2.map");
         LinkedHashMap<Country, Set<Country>> adjacentCountries = MapEditorService.mapGraph.getAdjacentCountries();
         Assert.assertFalse(mapEditorService.checkIfConnected(adjacentCountries));
     }
@@ -93,7 +93,7 @@ public class MapEditorServiceTest {
     @Test
     public void testConnectedContinentGraph1() {
         LinkedHashMap<Country, Set<Country>> adjacentCountries = new LinkedHashMap<Country, Set<Country>>();
-        mapEditorService.editMap("/Applications/Domination/maps/risk2t.map");
+        mapEditorService.editMap("risk2t.map");
         Continent continent = MapEditorService.mapGraph.getContinentList().get(0);
         Set<Country> countryList = continent.getCountries().get(3).getNeighbours();
         Iterator<Country> countryItegator = countryList.iterator();
@@ -121,7 +121,7 @@ public class MapEditorServiceTest {
     public void testValidMap() {
         String Result = "";
         try {
-            Result = mapEditorService.editMap("/Applications/Domination/maps/ameroki.map");
+            Result = mapEditorService.editMap("ameroki.map");
 
         } catch (Exception e) {
             Assert.assertEquals("load map from file ameroki success", Result);
@@ -135,7 +135,7 @@ public class MapEditorServiceTest {
     public void testInvalidMap() {
         String Result = "";
         try {
-            Result = mapEditorService.editMap("/Applications/Domination/maps/risk.map");
+            Result = mapEditorService.editMap("risk.map");
 
         } catch (Exception e) {
             Assert.assertEquals("the map is not valid", Result);

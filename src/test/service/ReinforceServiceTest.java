@@ -24,7 +24,7 @@ public class ReinforceServiceTest {
     public void initial(){
         reinforceService = new ReinforceService();
         mapEditorService = new MapEditorService();
-        mapEditorService.editMap("/Users/siming/Desktop/soen6441/Domination/maps/risk.map");
+        mapEditorService.editMap("risk.map");
     }
 
     /**
