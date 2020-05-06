@@ -13,7 +13,7 @@ This is the project of course SOEN6441. The project is to design and implement a
 6. Country fortification
 7. Card acquisition and exchange
 
-### Game Mode
+### Game Modes
 1. Single Game Mode
 2. Tournament Mode
 
